@@ -1,0 +1,6 @@
+framework module Pods_FixedFitTests {
+  umbrella header "Pods-FixedFitTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

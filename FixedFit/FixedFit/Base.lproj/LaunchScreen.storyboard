@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRr-6p-thq">
+                                <rect key="frame" x="166" y="323" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbg" translatesAutoresizingMaskIntoConstraints="NO" id="Xgi-Aj-DsM">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ESe-TL-fYN">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FixedFit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAQ-vU-3oM">
+                                        <rect key="frame" x="74.5" y="297.5" width="227" height="72"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="60"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.80146424459999999" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="DAQ-vU-3oM" firstAttribute="centerX" secondItem="ESe-TL-fYN" secondAttribute="centerX" id="7wg-LU-jYh"/>
+                                    <constraint firstItem="DAQ-vU-3oM" firstAttribute="centerY" secondItem="ESe-TL-fYN" secondAttribute="centerY" id="GKp-pi-m2d"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="ESe-TL-fYN" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="19h-PN-9Dv"/>
+                            <constraint firstAttribute="bottom" secondItem="Xgi-Aj-DsM" secondAttribute="bottom" id="7mZ-z2-fTr"/>
+                            <constraint firstItem="Xgi-Aj-DsM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7rS-ZP-lLg"/>
+                            <constraint firstItem="ESe-TL-fYN" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="L9n-RA-sFl"/>
+                            <constraint firstAttribute="trailing" secondItem="Xgi-Aj-DsM" secondAttribute="trailing" id="PBm-aW-3bB"/>
+                            <constraint firstItem="Xgi-Aj-DsM" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Psc-ht-roI"/>
+                            <constraint firstAttribute="trailing" secondItem="ESe-TL-fYN" secondAttribute="trailing" id="mM0-Qd-Ykr"/>
+                            <constraint firstItem="ESe-TL-fYN" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="y5g-HX-Bmm"/>
+                            <constraint firstItem="ESe-TL-fYN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zn9-0Y-Z38"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="loginbg" width="796" height="1294"/>
+    </resources>
+</document>

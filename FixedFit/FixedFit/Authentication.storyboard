@@ -20,13 +20,13 @@
         <!--LoginVC-->
         <scene sceneID="5u8-tc-pVI">
             <objects>
-                <viewController id="sbL-U9-CXa" customClass="LoginVC" customModule="MyUNLV" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sbL-U9-CXa" customClass="LoginVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5hW-Xb-42z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbg" translatesAutoresizingMaskIntoConstraints="NO" id="w6Z-oZ-IRY">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="epO-ma-GWv">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -123,10 +123,10 @@
                             <constraint firstItem="g5F-Z8-3tE" firstAttribute="bottom" secondItem="w6Z-oZ-IRY" secondAttribute="bottom" id="8wR-vD-BTS"/>
                             <constraint firstItem="epO-ma-GWv" firstAttribute="trailing" secondItem="g5F-Z8-3tE" secondAttribute="trailing" id="A7G-Uu-7YD"/>
                             <constraint firstItem="epO-ma-GWv" firstAttribute="leading" secondItem="g5F-Z8-3tE" secondAttribute="leading" id="DVd-xS-4Xh"/>
-                            <constraint firstItem="w6Z-oZ-IRY" firstAttribute="top" secondItem="g5F-Z8-3tE" secondAttribute="top" id="RjI-FJ-8kx"/>
                             <constraint firstItem="w6Z-oZ-IRY" firstAttribute="leading" secondItem="g5F-Z8-3tE" secondAttribute="leading" id="Xfa-12-1Ll"/>
                             <constraint firstItem="w6Z-oZ-IRY" firstAttribute="trailing" secondItem="g5F-Z8-3tE" secondAttribute="trailing" id="Yxt-TJ-7Bn"/>
                             <constraint firstItem="epO-ma-GWv" firstAttribute="bottom" secondItem="g5F-Z8-3tE" secondAttribute="bottom" id="jEI-rk-0Ls"/>
+                            <constraint firstItem="w6Z-oZ-IRY" firstAttribute="top" secondItem="5hW-Xb-42z" secondAttribute="top" id="sW5-Nv-CBm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="g5F-Z8-3tE"/>
                     </view>

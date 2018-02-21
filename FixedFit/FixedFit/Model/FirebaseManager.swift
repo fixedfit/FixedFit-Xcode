@@ -44,11 +44,9 @@ class FirebaseManager {
     func logout(completion: (FirebaseLogoutError?) -> Void) {
         do {
             try Auth.auth().signOut()
-            print("SIGNED OUT!")
             notificationCenter.post(name: .authStatusChanged, object: nil)
             completion(nil)
         } catch {
-            print("Errro!")
             completion(FirebaseLogoutError.unableToSignOut)
         }
     }

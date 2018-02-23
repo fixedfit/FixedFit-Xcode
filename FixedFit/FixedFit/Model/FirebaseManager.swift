@@ -41,6 +41,13 @@ class FirebaseManager {
         }
     }
 
+    func signUp(email: String, password: String, completion: ((User?, Error?) -> Void)?) {
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            guard let completion = completion else { return }
+            completion(user, error)
+        }
+    }
+
     func logout(completion: (FirebaseLogoutError?) -> Void) {
         do {
             try Auth.auth().signOut()

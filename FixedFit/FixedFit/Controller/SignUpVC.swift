@@ -51,7 +51,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                 }
             })
         } else {
-            showLoginError("Make sure both textfields are filled")
+            showLoginError("Make sure both text fields are filled")
         }
     }
 
@@ -120,7 +120,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
 
 extension SignUpVC {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        touchedSignUp()
         textField.resignFirstResponder()
         return true
     }

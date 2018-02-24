@@ -11,6 +11,11 @@ import UIKit
 
 extension UIStoryboard {
     // Specific VC's from storyboards
-    static let authVC = UIStoryboard(name: "Authentication", bundle: nil).instantiateInitialViewController()
-    static let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+    class var authVC: UIViewController? {
+        return UIStoryboard(name: "Authentication", bundle: nil).instantiateInitialViewController()
+    }
+
+    class var mainVC: UIViewController? {
+        return UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+    }
 }

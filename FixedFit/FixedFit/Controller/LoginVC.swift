@@ -39,26 +39,26 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func touchedSignin() {
-        let nshi = emailTextField.text ?? ""
+        let email = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
 
-        if validInput(nshi, password) {
-            firebaseManager.login(nshi: nshi, password: password, completion: { [weak self] (_, error) in
+        if validInput(email, password) {
+            firebaseManager.login(email: email, password: password, completion: { [weak self] (_, error) in
                 if let firebaseError = error, let authError = AuthErrorCode(rawValue: firebaseError._code) {
                     print("Some error occured!")
-                    self?.showLoginError(authError.description)
+                    self?.showLoginError(authError.localizedDescription)
                 } else {
                     self?.notificationCenter.post(name: .authStatusChanged, object: nil)
                 }
             })
         } else {
-            showLoginError("Make sure both text fields are filled")
+            showLoginError("Make sure all text fields are filled")
         }
     }
 
     // MARK: - Helper methods
-    private func validInput(_ nshi: String, _ password: String) -> Bool {
-        if nshi.isEmpty || password.isEmpty {
+    private func validInput(_ email: String, _ password: String) -> Bool {
+        if email.isEmpty || password.isEmpty {
             return false
         } else {
             return true

@@ -10,7 +10,7 @@ import Foundation
 import FirebaseAuth
 
 extension AuthErrorCode {
-    var description: String {
+    var localizedDescription: String {
         switch self {
         case .invalidCustomToken:
             return "Invalid custom token"

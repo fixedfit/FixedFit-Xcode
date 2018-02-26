@@ -13,18 +13,30 @@
         <!--Home-->
         <scene sceneID="dcN-qe-fJh">
             <objects>
-                <viewController id="JA4-Jd-9m3" sceneMemberID="viewController">
+                <viewController title="Home" id="JA4-Jd-9m3" customClass="HomeVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RbT-Rw-w8o">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dh-bF-FBk">
+                                <rect key="frame" x="164" y="64" width="46" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eD5-vq-5Jd"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="aAc-n5-pwf"/>
+                    <connections>
+                        <outlet property="weatherLabel" destination="9dh-bF-FBk" id="PFc-aO-bE2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U7N-Z8-Pme" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-212" y="-1288"/>
+            <point key="canvasLocation" x="-306.39999999999998" y="-1288.6056971514245"/>
         </scene>
         <!--Home-->
         <scene sceneID="2Tq-j4-Q9h">

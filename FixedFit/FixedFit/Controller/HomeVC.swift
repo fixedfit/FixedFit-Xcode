@@ -52,7 +52,8 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
                             temp=temp*9/5-459.67
                             print("Temperature is \(temp)")
                             DispatchQueue.main.async {
-                                self.weatherLabel.text=String(temp)
+                                self.weatherLabel.text=String(Int(round(temp)))+"°"
+                                self.weatherLabel.fadeIn(duration: 1)
                             }
                         }else{
                             print("Temperature not in Main")

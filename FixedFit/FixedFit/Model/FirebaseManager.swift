@@ -75,7 +75,7 @@ class FirebaseManager {
         }
     }
 
-    func signUp(email: String, username: String, password: String, completion: @escaping AuthResultCallback) {
+    func signUp(firstName: String, lastName: String, email: String, username: String, password: String, completion: @escaping AuthResultCallback) {
         checkUsername(username) { (firebaseError) in
             if firebaseError != nil {
 
@@ -85,10 +85,14 @@ class FirebaseManager {
                     if let user = user {
                         let firstLoginData = self?.createfirstLoginData(user: user, username: username)
                         Nodes.users.child("\(user.uid)").setValue(firstLoginData)
+                        
+                        // following method is to add extra user details
+                        //ref.child("users").child(user.uid).setValue(["Email": email, "Firstname": firstName, "Lastname": lastName])
                     }
 
                     completion(user, error)
                 }
+
             }
         }
     }

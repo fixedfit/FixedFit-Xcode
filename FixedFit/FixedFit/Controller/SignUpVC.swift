@@ -14,6 +14,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var welcomeMessageLabel: UILabel!
     @IBOutlet weak var inputStackView: UIStackView!
     @IBOutlet weak var errorMessageLabel: UILabel!
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -33,6 +35,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     }
 
     private func setupViews() {
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
         emailTextField.delegate = self
         usernameTextField.delegate = self
         passwordTextField.delegate = self
@@ -41,12 +45,14 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func touchedSignUp() {
+        let firstName = firstNameTextField.text ?? ""
+        let lastName = lastNameTextField.text ?? ""
         let email = emailTextField.text ?? ""
         let username = usernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
 
-        if validInput(email, username, password) {
-            firebaseManager.signUp(email: email, username: username, password: password, completion: { [weak self] (_, error) in
+        if validInput(firstName, lastName, email, username, password) {
+            firebaseManager.signUp(firstName: firstName, lastName: lastName, email: email, username: username, password: password, completion: { [weak self] (_, error) in
                 if let firebaseError = error as? FirebaseError {
                     self?.showLoginError(firebaseError.localizedDescription)
                 } else if let firebaseError = error, let authError = AuthErrorCode(rawValue: firebaseError._code) {
@@ -62,8 +68,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - Helper methods
-    private func validInput(_ email: String, _ username: String, _ password: String) -> Bool {
-        if email.isEmpty || username.isEmpty || password.isEmpty {
+    private func validInput(_ firstName: String, _ lastName: String, _ email: String, _ username: String, _ password: String) -> Bool {
+        if firstName.isEmpty || lastName.isEmpty || email.isEmpty || username.isEmpty || password.isEmpty {
             return false
         } else {
             return true
@@ -113,6 +119,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
 
     @objc private func dismissKeyboard() {
         print("Dismissing keyboard!")
+        firstNameTextField.resignFirstResponder()
+        lastNameTextField.resignFirstResponder()
         emailTextField.resignFirstResponder()
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6cj-WP-XRm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EFR-ao-t9h">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,39 +10,23 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Add-->
+        <!--AddVC-->
         <scene sceneID="HcR-L8-KRl">
             <objects>
-                <viewController id="EFR-ao-t9h" sceneMemberID="viewController">
+                <viewController id="EFR-ao-t9h" customClass="AddVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MXk-1Z-78c">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Ay5-aM-Dfj"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Add" id="gza-BN-cCn"/>
+                    <tabBarItem key="tabBarItem" title="" image="add" id="XQO-DL-e9r"/>
+                    <navigationItem key="navigationItem" id="gza-BN-cCn"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGR-hs-YVv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-212" y="-1288"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="ovE-VF-xP7">
-            <objects>
-                <navigationController id="6cj-WP-XRm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="add" id="YFL-Gy-IR3"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qwM-Kw-DJs">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="EFR-ao-t9h" kind="relationship" relationship="rootViewController" id="SBB-SW-3lX"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ByG-Ug-DP9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-969" y="-1287"/>
+            <point key="canvasLocation" x="-212" y="-1288.6056971514245"/>
         </scene>
     </scenes>
     <resources>

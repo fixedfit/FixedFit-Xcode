@@ -11,9 +11,10 @@ import CoreLocation
 import Foundation
 
 class HomeVC: UIViewController, CLLocationManagerDelegate {
-    var locationManager = CLLocationManager()
-    
     @IBOutlet weak var weatherLabel: UILabel!
+
+    var locationManager = CLLocationManager()
+    let notificationCenter = NotificationCenter.default
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,22 +23,15 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-        // Do any additional setup after loading the view.
+        self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    //func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0] as CLLocation
         
         manager.stopUpdatingLocation()
         
         let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
-        print(String(coordinations.latitude)+", "+String(coordinations.longitude))
         
         let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat="+String(coordinations.latitude)+"&lon="+String(coordinations.longitude)+"&APPID=4ebd3596288f474d93915703e0d4058b")
         
@@ -50,7 +44,6 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
                         if var temp = main["temp"] as? Float{
                             //Convert temp from Kelvin to Fahrenheit
                             temp=temp*9/5-459.67
-                            print("Temperature is \(temp)")
                             DispatchQueue.main.async {
                                 self.weatherLabel.text=String(Int(round(temp)))+"°"
                                 self.weatherLabel.fadeIn(duration: 1)
@@ -71,14 +64,4 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         
         task.resume()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

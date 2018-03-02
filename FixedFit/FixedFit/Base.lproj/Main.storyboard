@@ -29,10 +29,10 @@
             </objects>
             <point key="canvasLocation" x="641" y="-1662"/>
         </scene>
-        <!--Notifications-->
+        <!--Feed-->
         <scene sceneID="e4I-rl-CGL">
             <objects>
-                <viewControllerPlaceholder storyboardName="Notifications" id="cMG-E2-vbQ" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Feed" id="cMG-E2-vbQ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="ksi-9a-R58"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3TE-Ge-JG1" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -94,7 +94,7 @@
         <!--Profile Editor-->
         <scene sceneID="gmX-te-T5c">
             <objects>
-                <viewController title="Profile Editor" id="ecu-ms-0me" sceneMemberID="viewController">
+                <viewController title="Profile Editor" id="ecu-ms-0me" customClass="EditorVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="r7C-3Q-SXj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -166,6 +166,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ZAF-PP-DpS"/>
                     </view>
+                    <connections>
+                        <outlet property="UserFirstName" destination="7VO-we-eTU" id="wE7-2D-Uin"/>
+                        <outlet property="UserLabelEditor" destination="9Wh-EO-oXb" id="kgX-yq-G5x"/>
+                        <outlet property="UserLastName" destination="uh2-Ld-bAv" id="Z7a-cc-OJU"/>
+                        <outlet property="UserName" destination="9Wh-EO-oXb" id="Uwg-Yy-lIW"/>
+                        <outlet property="UserNameEditorLabel" destination="9Wh-EO-oXb" id="fYK-je-HKr"/>
+                        <outlet property="UserNameLabel" destination="9Wh-EO-oXb" id="Wbe-1m-qB5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tLM-tv-aX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

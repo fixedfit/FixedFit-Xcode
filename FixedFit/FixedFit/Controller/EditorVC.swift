@@ -13,11 +13,17 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     UINavigationControllerDelegate,
     UIImagePickerControllerDelegate{
 
+    //MARK: Labels for name, user, and bios
+    @IBOutlet weak var UserFirstName: UILabel!
+    @IBOutlet weak var UserLastName: UILabel!
+    @IBOutlet weak var UserNameEditorLabel: UILabel!
+    
+    
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        //Load up image of user and text fields
     }
     
     //Hide keyboard when users touch outside the text boxes

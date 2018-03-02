@@ -18,6 +18,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var stackViewVerticalConstraint: NSLayoutConstraint!
 
+    
     var keyboardShowing = false
     
     private let firebaseManager = FirebaseManager.shared

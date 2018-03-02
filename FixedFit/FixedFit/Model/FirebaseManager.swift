@@ -83,11 +83,9 @@ class FirebaseManager {
             } else {
                 Auth.auth().createUser(withEmail: email, password: password) { [weak self] (user, error) in
                     if let user = user {
-                        let firstLoginData = self?.createfirstLoginData(user: user, username: username)
+                        let firstLoginData = self?.createfirstLoginData(user: user, username: username, firstName: firstName, lastName: lastName)
                         Nodes.users.child("\(user.uid)").setValue(firstLoginData)
                         
-                        // following method is to add extra user details
-                        //ref.child("users").child(user.uid).setValue(["Email": email, "Firstname": firstName, "Lastname": lastName])
                     }
 
                     completion(user, error)
@@ -132,7 +130,7 @@ class FirebaseManager {
         }
     }
 
-    private func createfirstLoginData(user: User, username: String) -> [String: Any] {
-        return ["username": username]
+    private func createfirstLoginData(user: User, username: String, firstName: String, lastName: String) -> [String: Any] {
+        return ["username": username, "firstName": firstName, "lastName": lastName]
     }
 }

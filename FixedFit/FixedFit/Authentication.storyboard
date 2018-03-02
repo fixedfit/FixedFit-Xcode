@@ -195,7 +195,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="7w2-Fp-zpZ">
-                                        <rect key="frame" x="8" y="168" width="359" height="330"/>
+                                        <rect key="frame" x="8" y="168.5" width="359" height="330"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uio-o7-QLr">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="35"/>
@@ -325,7 +325,7 @@
                         <outlet property="lastNameTextField" destination="uOQ-Tx-ugM" id="QFt-Wf-gLP"/>
                         <outlet property="passwordTextField" destination="DbY-Fm-MeQ" id="6bE-v1-Ozh"/>
                         <outlet property="stackViewVerticalConstraint" destination="2hd-Fg-RUD" id="FAC-mC-3mm"/>
-                        <outlet property="usernameTextField" destination="uOQ-Tx-ugM" id="FFQ-sd-siU"/>
+                        <outlet property="usernameTextField" destination="3k5-E8-68e" id="Tus-bE-UUA"/>
                         <outlet property="welcomeMessageLabel" destination="6VH-Pz-ECX" id="H02-wR-3Aj"/>
                     </connections>
                 </viewController>

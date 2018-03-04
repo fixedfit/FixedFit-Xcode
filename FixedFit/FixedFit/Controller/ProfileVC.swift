@@ -16,7 +16,7 @@ class ProfileVC: UIViewController {
     }
 
     @IBAction func tappedLogout(_ sender: Any) {
-        let message = "Are you sure you want to logout"
+        let message = "Are you sure you want to logout?"
         let rightButtonData = ButtonData(title: "Yes, I'm Sure", color: .fixedFitPurple) { [weak self] in
             self?.firebaseManager.logout { _ in }
         }

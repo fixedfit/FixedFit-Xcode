@@ -10,6 +10,7 @@
 		149B5694204286840074285C /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149B5693204286840074285C /* HomeVC.swift */; };
 		1ADAEFB920AF66F1CCF7ED62 /* Pods_FixedFitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */; };
 		4D15C85F6F6A99AF9CFC9791 /* Pods_FixedFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63E3078D420275BA4BF4F39 /* Pods_FixedFit.framework */; };
+		CA18467D204BE5340091B568 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA18467C204BE5340091B568 /* WeatherService.swift */; };
 		CA1EAC8D204A0F0D00CBEB9F /* UserStuffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */; };
 		CA1EAC8F204A140B00CBEB9F /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1EAC8E204A140B00CBEB9F /* TagCell.swift */; };
 		CA2CABC1203D1B6400C62AE1 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA2CABC0203D1B6400C62AE1 /* Home.storyboard */; };
@@ -62,6 +63,7 @@
 		A255FB8D04BF3676A516BF21 /* Pods-FixedFitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B1E4887A8F885FB46347B3B6 /* Pods-FixedFit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit.debug.xcconfig"; sourceTree = "<group>"; };
 		B63E3078D420275BA4BF4F39 /* Pods_FixedFit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA18467C204BE5340091B568 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStuffManager.swift; sourceTree = "<group>"; };
 		CA1EAC8E204A140B00CBEB9F /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		CA2CABC0203D1B6400C62AE1 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			children = (
 				CA2CABCE203D2B8F00C62AE1 /* FirebaseManager.swift */,
 				CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */,
+				CA18467C204BE5340091B568 /* WeatherService.swift */,
 				CAD3C560204BC4B000DE2911 /* View Related */,
 				CA2CABD7203D38D800C62AE1 /* Extensions */,
 			);
@@ -481,6 +484,7 @@
 			files = (
 				CAD3C562204BC50300DE2911 /* UIColor+Extension.swift in Sources */,
 				CAD3C55F204B5D1600DE2911 /* AddTagCell.swift in Sources */,
+				CA18467D204BE5340091B568 /* WeatherService.swift in Sources */,
 				CAD3C55D204B4EE600DE2911 /* TagSectionCell.swift in Sources */,
 				CA4BD42E2049349F002405D8 /* AddVC.swift in Sources */,
 				CA2CABD5203D351600C62AE1 /* ProfileVC.swift in Sources */,

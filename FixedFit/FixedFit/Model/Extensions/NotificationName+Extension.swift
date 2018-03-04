@@ -10,4 +10,5 @@ import Foundation
 
 extension Notification.Name {
     static let authStatusChanged = Notification.Name(rawValue: "authStatusChanged")
+    static let changeTabs = Notification.Name(rawValue: "changeTabs")
 }

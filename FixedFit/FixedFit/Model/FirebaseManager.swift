@@ -49,13 +49,10 @@ struct Nodes {
 }
 
 fileprivate let ref = Database.database().reference()
+fileprivate let storageRef = Storage.storage().reference()
 
 class FirebaseManager {
     static let shared = FirebaseManager()
-    
-    private var storageRef: StorageReference {
-        return Storage.storage().reference()
-    }
 
     private var currentUser: User? {
         return Auth.auth().currentUser
@@ -130,5 +127,38 @@ class FirebaseManager {
 
     private func createfirstLoginData(user: User, username: String) -> [String: Any] {
         return ["username": username]
+    }
+
+    // MARK: Upload methods
+    func upload(imageInfos: [UIImage: String]) {
+        guard let currentUser = currentUser else { return }
+
+        var firebaseData: [[String: Any]] = []
+
+        for imageInfo in imageInfos {
+            let image = imageInfo.key
+            let tag = imageInfo.value
+            let fullUniquePhotoID = ref.childByAutoId().description()
+            let uniquePhotoID = fullUniquePhotoID.replacingOccurrences(of: "https://testfixedfit.firebaseio.com/", with: "")
+            let photoURL = currentUser.uid + "/" + "closetPhotos" + "/" + uniquePhotoID
+
+            firebaseData.append(["url": photoURL, "tag": tag])
+
+            if let resizedImage = image.resized(toWidth: 700),
+                let imageData = UIImagePNGRepresentation(resizedImage) {
+                storageRef.child(photoURL).putData(imageData, metadata: nil)
+            } else {
+                print("Bro not good!")
+            }
+        }
+
+        ref.child(currentUser.uid).child("closet").observeSingleEvent(of: .value) { (snapshot) in
+            if var clothes = snapshot.value as? [[String: Any]] {
+                clothes.append(contentsOf: firebaseData)
+                ref.child(currentUser.uid).child("closet").setValue(clothes)
+            } else {
+                ref.child(currentUser.uid).child("closet").setValue(firebaseData)
+            }
+        }
     }
 }

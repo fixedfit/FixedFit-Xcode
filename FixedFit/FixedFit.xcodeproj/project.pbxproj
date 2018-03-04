@@ -40,6 +40,7 @@
 		CA66928C203D0B0C000069B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA66928B203D0B0C000069B5 /* Assets.xcassets */; };
 		CA66928F203D0B0C000069B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA66928D203D0B0C000069B5 /* LaunchScreen.storyboard */; };
 		CA66929A203D0B0C000069B5 /* FixedFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA669299203D0B0C000069B5 /* FixedFitTests.swift */; };
+		CA83C300204C00CB007B8A6D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA83C2FF204C00CB007B8A6D /* UIImage+Extension.swift */; };
 		CABA7927203F988600EABAA1 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABA7926203F988600EABAA1 /* SignUpVC.swift */; };
 		CAD3C55D204B4EE600DE2911 /* TagSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C55C204B4EE600DE2911 /* TagSectionCell.swift */; };
 		CAD3C55F204B5D1600DE2911 /* AddTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C55E204B5D1600DE2911 /* AddTagCell.swift */; };
@@ -97,6 +98,7 @@
 		CA669295203D0B0C000069B5 /* FixedFitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FixedFitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA669299203D0B0C000069B5 /* FixedFitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedFitTests.swift; sourceTree = "<group>"; };
 		CA66929B203D0B0C000069B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA83C2FF204C00CB007B8A6D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CABA7926203F988600EABAA1 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CAD3C55C204B4EE600DE2911 /* TagSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSectionCell.swift; sourceTree = "<group>"; };
 		CAD3C55E204B5D1600DE2911 /* AddTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagCell.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */,
 				CA2CABDC203D393C00C62AE1 /* NotificationName+Extension.swift */,
 				CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */,
+				CA83C2FF204C00CB007B8A6D /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */,
 				CA2CABCF203D2B8F00C62AE1 /* FirebaseManager.swift in Sources */,
 				CA669282203D0B0C000069B5 /* AppDelegate.swift in Sources */,
+				CA83C300204C00CB007B8A6D /* UIImage+Extension.swift in Sources */,
 				CA4BD4322049E44F002405D8 /* InformationVC.swift in Sources */,
 				CA66928A203D0B0C000069B5 /* FixedFit.xcdatamodeld in Sources */,
 				CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */,

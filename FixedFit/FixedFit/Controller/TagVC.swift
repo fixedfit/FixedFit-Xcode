@@ -23,6 +23,7 @@ class TagVC: UIViewController {
     }
 
     let userStuffManager = UserStuffManager.shared
+    let firebaseManager = FirebaseManager.shared
 
     let numberOfColumns = 2
     let edgeInsets = UIEdgeInsets(top: 2, left: 5, bottom: 5, right: 5)
@@ -80,6 +81,8 @@ class TagVC: UIViewController {
 
     @objc private func touchedDone() {
         // Pass on to save to firebase
+        firebaseManager.upload(imageInfos: imageTags)
+        dismiss(animated: true, completion: nil)
     }
 
     @objc func presentAddNewTagAlert() {

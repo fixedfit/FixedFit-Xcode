@@ -38,6 +38,8 @@ class TagVC: UIViewController {
 
     private func setupViews() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(touchedCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(touchedDone))
+        navigationItem.rightBarButtonItem?.isEnabled = false
 
         imagesScrollView.delegate = self
         imagesScrollView.isPagingEnabled = true
@@ -117,7 +119,9 @@ class TagVC: UIViewController {
 
     private func checkTagsCompletion() {
         if imageTags.count == images.count {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(touchedDone))
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = false
         }
     }
 }

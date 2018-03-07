@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,18 +14,69 @@
         <!--Closet-->
         <scene sceneID="OJN-TU-1f7">
             <objects>
-                <viewController id="Qgf-qN-Pbb" sceneMemberID="viewController">
+                <viewController id="Qgf-qN-Pbb" customClass="ClosetVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="07M-sL-sLY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Rfb-Bj-aFL">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tagSectionCell" rowHeight="89" id="v0W-fu-Wqr" customClass="TagSectionCell" customModule="FixedFit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="89"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v0W-fu-Wqr" id="4qG-Jo-Ayj">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="88.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVu-ev-DFB">
+                                                    <rect key="frame" x="15" y="32.5" width="48" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbg" translatesAutoresizingMaskIntoConstraints="NO" id="Flu-IY-v3h">
+                                                    <rect key="frame" x="310" y="19.5" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="PLU-Av-PfF"/>
+                                                        <constraint firstAttribute="height" constant="50" id="axu-JR-hyz"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="HVu-ev-DFB" firstAttribute="leading" secondItem="4qG-Jo-Ayj" secondAttribute="leadingMargin" id="3z8-kC-hUp"/>
+                                                <constraint firstItem="Flu-IY-v3h" firstAttribute="trailing" secondItem="4qG-Jo-Ayj" secondAttribute="trailingMargin" id="iUo-VB-Cr5"/>
+                                                <constraint firstItem="Flu-IY-v3h" firstAttribute="centerY" secondItem="4qG-Jo-Ayj" secondAttribute="centerY" id="myq-z5-fNg"/>
+                                                <constraint firstItem="HVu-ev-DFB" firstAttribute="centerY" secondItem="4qG-Jo-Ayj" secondAttribute="centerY" id="xU5-hg-bn9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="selectedItemImageView" destination="Flu-IY-v3h" id="j9I-Fs-MOe"/>
+                                            <outlet property="tagNameLabel" destination="HVu-ev-DFB" id="W2i-5a-cRy"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Rfb-Bj-aFL" firstAttribute="top" secondItem="2F6-e4-ni9" secondAttribute="top" id="Blp-eN-qGy"/>
+                            <constraint firstItem="Rfb-Bj-aFL" firstAttribute="trailing" secondItem="2F6-e4-ni9" secondAttribute="trailing" id="Qpz-Wc-lco"/>
+                            <constraint firstItem="Rfb-Bj-aFL" firstAttribute="bottom" secondItem="2F6-e4-ni9" secondAttribute="bottom" id="gR2-jJ-v1l"/>
+                            <constraint firstItem="Rfb-Bj-aFL" firstAttribute="leading" secondItem="2F6-e4-ni9" secondAttribute="leading" id="uag-C1-qTI"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="2F6-e4-ni9"/>
                     </view>
                     <navigationItem key="navigationItem" title="Closet" id="w6x-oW-oHS"/>
+                    <connections>
+                        <outlet property="tagsTableView" destination="Rfb-Bj-aFL" id="9GM-3Q-3VG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ln-Z7-fwm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-212" y="-1288"/>
+            <point key="canvasLocation" x="-212" y="-1288.6056971514245"/>
         </scene>
         <!--Closet-->
         <scene sceneID="IfX-y9-wkp">
@@ -47,5 +99,6 @@
     </scenes>
     <resources>
         <image name="closet" width="30" height="30"/>
+        <image name="loginbg" width="796" height="1294"/>
     </resources>
 </document>

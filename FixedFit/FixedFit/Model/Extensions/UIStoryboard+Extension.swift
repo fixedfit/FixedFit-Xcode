@@ -18,4 +18,12 @@ extension UIStoryboard {
     class var mainVC: UIViewController? {
         return UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
     }
+
+    class var addVC: UIViewController? {
+        return UIStoryboard(name: "Add", bundle: nil).instantiateInitialViewController()
+    }
+
+    class var tagVC: UIViewController? {
+        return UIStoryboard(name: "Tag", bundle: nil).instantiateInitialViewController()
+    }
 }

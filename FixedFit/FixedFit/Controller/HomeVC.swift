@@ -19,6 +19,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
 
     var locationManager = CLLocationManager()
     let formatter = DateFormatter()
+    let firebaseManager = FirebaseManager.shared
     let weatherService = WeatherService()
     
     override func viewDidLoad() {
@@ -59,7 +60,6 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
-        print("Hey im configuring \n\n\n")
         formatter.dateFormat = "yyyy MM dd"
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale

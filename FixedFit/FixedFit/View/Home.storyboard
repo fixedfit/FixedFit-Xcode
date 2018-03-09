@@ -147,7 +147,6 @@
                                     <constraint firstItem="g2Y-L6-2rJ" firstAttribute="top" secondItem="KEX-pG-pux" secondAttribute="bottom" id="J2x-i8-YJX"/>
                                     <constraint firstItem="Frb-1z-35o" firstAttribute="top" secondItem="Yr1-Eb-Dqs" secondAttribute="top" id="N1z-Pv-gPK"/>
                                     <constraint firstAttribute="bottom" secondItem="g2Y-L6-2rJ" secondAttribute="bottom" constant="216" id="Pa8-ai-7VW"/>
-                                    <constraint firstAttribute="height" constant="292" id="Vqm-ed-2QK"/>
                                     <constraint firstItem="KEX-pG-pux" firstAttribute="top" secondItem="Frb-1z-35o" secondAttribute="bottom" id="elX-x0-Igc"/>
                                     <constraint firstItem="g2Y-L6-2rJ" firstAttribute="top" secondItem="KEX-pG-pux" secondAttribute="bottom" id="iRQ-Fq-zL5"/>
                                     <constraint firstItem="uvH-WT-Tez" firstAttribute="top" secondItem="g2Y-L6-2rJ" secondAttribute="bottom" id="jpL-0n-etJ"/>
@@ -159,9 +158,9 @@
                         <constraints>
                             <constraint firstItem="9dh-bF-FBk" firstAttribute="centerX" secondItem="RbT-Rw-w8o" secondAttribute="centerX" id="8jn-N9-bPH"/>
                             <constraint firstItem="9dh-bF-FBk" firstAttribute="top" secondItem="eD5-vq-5Jd" secondAttribute="top" constant="10" id="VEs-Qv-Xvz"/>
-                            <constraint firstItem="eD5-vq-5Jd" firstAttribute="bottom" secondItem="Yr1-Eb-Dqs" secondAttribute="bottom" constant="206" id="kv2-uN-LBr"/>
                             <constraint firstItem="eD5-vq-5Jd" firstAttribute="trailing" secondItem="Yr1-Eb-Dqs" secondAttribute="trailing" id="nFL-fz-zAu"/>
                             <constraint firstItem="Yr1-Eb-Dqs" firstAttribute="leading" secondItem="RbT-Rw-w8o" secondAttribute="leading" id="ohL-og-s3N"/>
+                            <constraint firstItem="Yr1-Eb-Dqs" firstAttribute="top" secondItem="eD5-vq-5Jd" secondAttribute="top" constant="56" id="s78-YF-rfv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eD5-vq-5Jd"/>
                     </view>

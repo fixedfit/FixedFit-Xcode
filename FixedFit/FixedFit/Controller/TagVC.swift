@@ -8,12 +8,21 @@
 
 import UIKit
 
+struct Item {
+    var tag: String?
+    var image: UIImage
+
+    init(image: UIImage) {
+        self.image = image
+    }
+}
+
 class TagVC: UIViewController {
     @IBOutlet weak var imagesScrollView: UIScrollView!
     @IBOutlet weak var tagsCollectionView: UICollectionView!
 
-    var images: [UIImage] = []
-    var imageTags: [UIImage: String] = [:] {
+    var items: [UIImage] = []
+    var itemTagsDict: [UIImage: String] = [:] {
         didSet {
             checkTagsCompletion()
         }
@@ -22,7 +31,9 @@ class TagVC: UIViewController {
         return Int(imagesScrollView.contentOffset.x / imagesScrollView.bounds.width)
     }
 
+    let firebaseManager = FirebaseManager.shared
     let userStuffManager = UserStuffManager.shared
+    let notificationCenter = NotificationCenter.default
 
     let numberOfColumns = 2
     let edgeInsets = UIEdgeInsets(top: 2, left: 5, bottom: 5, right: 5)
@@ -49,11 +60,11 @@ class TagVC: UIViewController {
     }
 
     private func setScrollViewImages() {
-        let scrollViewWidth = CGFloat(images.count) * imagesScrollView.bounds.width
+        let scrollViewWidth = CGFloat(items.count) * imagesScrollView.bounds.width
 
         imagesScrollView.contentSize = CGSize(width: scrollViewWidth, height: imagesScrollView.bounds.height)
 
-        for (index,image) in images.enumerated() {
+        for (index,image) in items.enumerated() {
             let imageXPoint = CGFloat(index) * imagesScrollView.bounds.width
             let imageViewRect = CGRect(x: imageXPoint, y: 0, width: imagesScrollView.bounds.width, height: imagesScrollView.bounds.height)
             let imageView = UIImageView(frame: imageViewRect)
@@ -68,6 +79,7 @@ class TagVC: UIViewController {
         let message = "Are you sure you want to cancel?"
         let subtitleMessage = "Your items won't be saved!"
         let rightButtonData = ButtonData(title: "Yes, I'm Sure", color: .fixedFitPurple) { [weak self] in
+            self?.userStuffManager.removeTemporaryTags(insertToUserTags: false)
             self?.dismiss(animated: true, completion: nil)
         }
         let leftButtonData = ButtonData(title: "Nevermind", color: .fixedFitBlue, action: nil)
@@ -77,7 +89,10 @@ class TagVC: UIViewController {
     }
 
     @objc private func touchedDone() {
-        // Pass on to save to firebase
+        firebaseManager.uploadClosetItems(itemTagsDict)
+        userStuffManager.removeTemporaryTags(insertToUserTags: true)
+        notificationCenter.post(name: .tagsUpdated, object: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     @objc func presentAddNewTagAlert() {
@@ -116,7 +131,7 @@ class TagVC: UIViewController {
     }
 
     private func checkTagsCompletion() {
-        if imageTags.count == images.count {
+        if itemTagsDict.count == items.count {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(touchedDone))
         }
     }
@@ -126,7 +141,6 @@ extension TagVC: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard scrollView == self.imagesScrollView else { return }
         tagsCollectionView.reloadData()
-        print(imageTags)
     }
 }
 
@@ -138,13 +152,13 @@ extension TagVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row < userStuffManager.tags.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.identifier, for: indexPath) as! TagCell
-            let tag = userStuffManager.tags[indexPath.row]
-            let currentImage = images[indexOfCurrentImage]
+            let tag = Array(userStuffManager.tags)[indexPath.row]
+            let currentImage = items[indexOfCurrentImage]
 
             cell.tagCellLabel.text = tag
             cell.gestureRecognizers?.removeAll()
 
-            if imageTags.contains(where: { (image,foundTag) -> Bool in return currentImage == image && tag == foundTag }) {
+            if itemTagsDict.contains(where: { (image,foundTag) -> Bool in return currentImage == image && tag == foundTag }) {
                 cell.isSelected = true
                 collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
                 cell.tagCellLabel.backgroundColor = .fixedFitPurple
@@ -179,11 +193,11 @@ extension TagVC: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! TagCell
-        let image = images[indexOfCurrentImage]
+        let image = items[indexOfCurrentImage]
 
         cell.tagCellLabel.backgroundColor = .fixedFitPurple
         cell.tagCellLabel.textColor = .white
-        imageTags[image] = cell.tagCellLabel.text ?? ""
+        itemTagsDict[image] = cell.tagCellLabel.text ?? ""
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

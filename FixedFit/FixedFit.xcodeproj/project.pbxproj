@@ -22,7 +22,6 @@
 		CA2CABCD203D2AA800C62AE1 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABCC203D2AA800C62AE1 /* LoginVC.swift */; };
 		CA2CABCF203D2B8F00C62AE1 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABCE203D2B8F00C62AE1 /* FirebaseManager.swift */; };
 		CA2CABD1203D2C0100C62AE1 /* AuthErrorCode+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABD0203D2C0100C62AE1 /* AuthErrorCode+Extension.swift */; };
-		CA2CABD3203D2CED00C62AE1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA2CABD2203D2CEC00C62AE1 /* GoogleService-Info.plist */; };
 		CA2CABD5203D351600C62AE1 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABD4203D351600C62AE1 /* ProfileVC.swift */; };
 		CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABD8203D390200C62AE1 /* UIView+Extension.swift */; };
 		CA2CABDB203D392700C62AE1 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */; };
@@ -44,7 +43,10 @@
 		CAD3C55D204B4EE600DE2911 /* TagSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C55C204B4EE600DE2911 /* TagSectionCell.swift */; };
 		CAD3C55F204B5D1600DE2911 /* AddTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C55E204B5D1600DE2911 /* AddTagCell.swift */; };
 		CAD3C562204BC50300DE2911 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */; };
+		CAED629E20533EE200181975 /* ItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED629D20533EE200181975 /* ItemsVC.swift */; };
+		CAF5F36220549ACA009D362B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAF5F36120549ACA009D362B /* GoogleService-Info.plist */; };
 		CAFEE176205258D100701ED2 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE175205258D100701ED2 /* CustomCell.swift */; };
+		CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +78,6 @@
 		CA2CABCC203D2AA800C62AE1 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		CA2CABCE203D2B8F00C62AE1 /* FirebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		CA2CABD0203D2C0100C62AE1 /* AuthErrorCode+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AuthErrorCode+Extension.swift"; sourceTree = "<group>"; };
-		CA2CABD2203D2CEC00C62AE1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA2CABD4203D351600C62AE1 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CA2CABD8203D390200C62AE1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
@@ -102,7 +103,10 @@
 		CAD3C55C204B4EE600DE2911 /* TagSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSectionCell.swift; sourceTree = "<group>"; };
 		CAD3C55E204B5D1600DE2911 /* AddTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagCell.swift; sourceTree = "<group>"; };
 		CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		CAED629D20533EE200181975 /* ItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsVC.swift; sourceTree = "<group>"; };
+		CAF5F36120549ACA009D362B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CAFEE175205258D100701ED2 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		F28EA6771080022F180D3C4F /* Pods-FixedFitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,6 +184,7 @@
 				CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */,
 				CA2CABDC203D393C00C62AE1 /* NotificationName+Extension.swift */,
 				CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */,
+				CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -242,7 +247,7 @@
 			children = (
 				CA66928B203D0B0C000069B5 /* Assets.xcassets */,
 				CA669290203D0B0C000069B5 /* Info.plist */,
-				CA2CABD2203D2CEC00C62AE1 /* GoogleService-Info.plist */,
+				CAF5F36120549ACA009D362B /* GoogleService-Info.plist */,
 				CA669288203D0B0C000069B5 /* FixedFit.xcdatamodeld */,
 			);
 			path = "Supporting Files";
@@ -254,6 +259,7 @@
 				CA4BD43B2049FBA4002405D8 /* Authentication */,
 				149B5693204286840074285C /* HomeVC.swift */,
 				CA4BD42F2049E13B002405D8 /* ClosetVC.swift */,
+				CAED629D20533EE200181975 /* ItemsVC.swift */,
 				CA4BD42D2049349F002405D8 /* AddVC.swift */,
 				CA4BD4392049EBD7002405D8 /* TagVC.swift */,
 				CA2CABD4203D351600C62AE1 /* ProfileVC.swift */,
@@ -368,11 +374,11 @@
 				CA66928C203D0B0C000069B5 /* Assets.xcassets in Resources */,
 				CA2CABC9203D1B9D00C62AE1 /* Profile.storyboard in Resources */,
 				CA4BD4342049E494002405D8 /* InformationVC.xib in Resources */,
+				CAF5F36220549ACA009D362B /* GoogleService-Info.plist in Resources */,
 				CA669287203D0B0C000069B5 /* Main.storyboard in Resources */,
 				CA2CABC1203D1B6400C62AE1 /* Home.storyboard in Resources */,
 				CA2CABC7203D1B8E00C62AE1 /* Feed.storyboard in Resources */,
 				CA2CABCB203D2A1000C62AE1 /* Authentication.storyboard in Resources */,
-				CA2CABD3203D2CED00C62AE1 /* GoogleService-Info.plist in Resources */,
 				CA2CABC5203D1B7E00C62AE1 /* Add.storyboard in Resources */,
 				CA2CABC3203D1B7200C62AE1 /* Closet.storyboard in Resources */,
 			);
@@ -488,10 +494,12 @@
 				CAFEE176205258D100701ED2 /* CustomCell.swift in Sources */,
 				CAD3C562204BC50300DE2911 /* UIColor+Extension.swift in Sources */,
 				CAD3C55F204B5D1600DE2911 /* AddTagCell.swift in Sources */,
+				CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */,
 				CA18467D204BE5340091B568 /* WeatherService.swift in Sources */,
 				CAD3C55D204B4EE600DE2911 /* TagSectionCell.swift in Sources */,
 				CA4BD42E2049349F002405D8 /* AddVC.swift in Sources */,
 				CA2CABD5203D351600C62AE1 /* ProfileVC.swift in Sources */,
+				CAED629E20533EE200181975 /* ItemsVC.swift in Sources */,
 				CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */,
 				CA2CABCF203D2B8F00C62AE1 /* FirebaseManager.swift in Sources */,
 				CA669282203D0B0C000069B5 /* AppDelegate.swift in Sources */,
@@ -661,13 +669,16 @@
 			baseConfigurationReference = B1E4887A8F885FB46347B3B6 /* Pods-FixedFit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6Z5EK2Z6N5;
+				DEVELOPMENT_TEAM = WYET37TU46;
 				INFOPLIST_FILE = "FixedFit/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.unlv.keteboa.FixedFit;
+				PRODUCT_BUNDLE_IDENTIFIER = unlv.keteboa.FixedFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -678,13 +689,15 @@
 			baseConfigurationReference = 7C2DCC6D9D821E733876CA8D /* Pods-FixedFit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6Z5EK2Z6N5;
+				DEVELOPMENT_TEAM = WYET37TU46;
 				INFOPLIST_FILE = "FixedFit/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = edu.unlv.keteboa.FixedFit;
+				PRODUCT_BUNDLE_IDENTIFIER = unlv.keteboa.FixedFit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -41,7 +41,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         self.UserFirstNameField.delegate = self
         self.UserLastNameField.delegate = self
         
-        //Temporarily store the previous texts and user photo from fiebase before any changes are made
+        //Temporarily store the previous texts and user photo from firebase before any changes are made
         
     }
     
@@ -71,10 +71,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         UserFirstNameField.resignFirstResponder()
         UserLastNameField.resignFirstResponder()
         
-        //Perform any error checks in this section
-        
-        //Otherwise, store the newly updated information into firebase
-        
         return true
     }
     
@@ -96,6 +92,18 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     }
     
-    
+    //perform any last minute error checks
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(<#T##animated: Bool##Bool#>)
+        
+        //Determine if the current view is being popped of the navigation stack
+        if self.isMovingFromParentViewController{
+            
+            //Perform any error checks in this section
+            
+            //Otherwise, store the newly updated information into firebase
+            
+        }
+    }
     
 }

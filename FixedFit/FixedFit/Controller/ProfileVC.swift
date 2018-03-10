@@ -13,7 +13,7 @@ import UIKit
 class ProfileVC: UIViewController {
     let firebaseManager = FirebaseManager.shared
 
-    //MARK: Default string messages for buttons
+    //MARK: Default string messages for buttons and names
     var FollowersMessage = "Follwers"
     var FollowingMessage = "Following"
     var imageName = "profile"

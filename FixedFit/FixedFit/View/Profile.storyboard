@@ -230,6 +230,7 @@
                     </view>
                     <connections>
                         <outlet property="CurrentViewStatus" destination="bbI-3L-6Ch" id="L3m-cM-ZsS"/>
+                        <outlet property="EditingPhoto" destination="zup-hn-gzp" id="lUp-rX-kw8"/>
                         <outlet property="UserBiosTextField" destination="Xb9-l3-roF" id="wEv-aT-MFk"/>
                         <outlet property="UserFirstNameField" destination="S51-Uw-o5r" id="Hvy-BZ-fTe"/>
                         <outlet property="UserLastNameField" destination="I08-e2-rYr" id="syK-gQ-DUv"/>

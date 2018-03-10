@@ -13,7 +13,10 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     UITextViewDelegate,
     UINavigationControllerDelegate,
     UIImagePickerControllerDelegate{
-
+    
+    //MARK: Reference for editing photo
+    @IBOutlet weak var EditingPhoto: UIImageView!
+    
     //MARK: Button for current view status of profile
     @IBOutlet weak var CurrentViewStatus: UIButton!
     
@@ -30,6 +33,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     var PreviousUserLastName: String!
     weak var PreviousUserPhoto: UIImage!
     
+    //Initialize an image name to a default image
+    var ImageName = ""
     
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
@@ -48,11 +53,24 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     override func viewDidAppear(_ animated: Bool) {
         //Load up image of user and text fields from data base
         
+        //Determine if the user has already set up a photo
+        if true{
+            ImageName = "profile"
+        }
+        
+        //Add the image onto the UIImaveView and scale it
+        let image = UIImage(named: ImageName)
+        EditingPhoto.contentMode = UIViewContentMode.scaleAspectFit
+        EditingPhoto.image = image
+        
+        //Store the reference of the UIImage that appear before it gets overwritten
+        PreviousUserPhoto = image
+        
         //update current viewing status from firebase field into the button field
         if true{
-            self.CurrentViewStatus.setTitle("Public", for: <#T##UIControlState#>)
+            self.CurrentViewStatus.setTitle("Public", for: [])
         } else {
-            self.CurrentViewStatus.setTitle("Private", for: <#T##UIControlState#>)
+            self.CurrentViewStatus.setTitle("Private", for: [])
         }
         
     }
@@ -79,12 +97,12 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
         //Determine if the status was public or private before the switching of the view status
         if true{
-            self.CurrentViewStatus.setTitle("Private", for: <#T##UIControlState#>)
+            self.CurrentViewStatus.setTitle("Private", for: [])
             
             //Update switch of view status to private in data base
             
         } else {
-            self.CurrentViewStatus.setTitle("Public", for: <#T##UIControlState#>)
+            self.CurrentViewStatus.setTitle("Public", for: [])
             
             //Update switch of view status to private in data base
             
@@ -94,7 +112,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     //perform any last minute error checks
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(<#T##animated: Bool##Bool#>)
+        super.viewWillDisappear(true)
         
         //Determine if the current view is being popped of the navigation stack
         if self.isMovingFromParentViewController{

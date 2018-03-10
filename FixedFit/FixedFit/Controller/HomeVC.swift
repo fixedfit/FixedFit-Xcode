@@ -9,11 +9,17 @@
 import UIKit
 import CoreLocation
 import Foundation
+import JTAppleCalendar
 
 class HomeVC: UIViewController, CLLocationManagerDelegate {
-    var locationManager = CLLocationManager()
-    
     @IBOutlet weak var weatherLabel: UILabel!
+    @IBOutlet weak var year: UILabel!
+    @IBOutlet weak var month: UILabel!
+    @IBOutlet weak var calendarView: JTAppleCalendarView!
+
+    var locationManager = CLLocationManager()
+    let formatter = DateFormatter()
+    let weatherService = WeatherService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,63 +28,74 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+
+        setupCalendarView()
         
-        // Do any additional setup after loading the view.
+        self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    //func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let userLocation:CLLocation = locations[0] as CLLocation
+        let userLocation = locations[0]
         
         manager.stopUpdatingLocation()
         
         let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
-        print(String(coordinations.latitude)+", "+String(coordinations.longitude))
-        
-        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat="+String(coordinations.latitude)+"&lon="+String(coordinations.longitude)+"&APPID=4ebd3596288f474d93915703e0d4058b")
-        
-        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if let data = data {
-                do {
-                    // Convert the data to JSON
-                    let jsonSerialized = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
-                    if let json = jsonSerialized, let main = json["main"] as? [String: Any]{
-                        if var temp = main["temp"] as? Float{
-                            //Convert temp from Kelvin to Fahrenheit
-                            temp=temp*9/5-459.67
-                            print("Temperature is \(temp)")
-                            DispatchQueue.main.async {
-                                self.weatherLabel.text=String(Int(round(temp)))+"°"
-                                self.weatherLabel.fadeIn(duration: 1)
-                            }
-                        }else{
-                            print("Temperature not in Main")
-                        }
-                    }else{
-                        print("Main couldn't be set")
-                    }
-                } catch let error as NSError {
-                    print(error.localizedDescription)
-                }
-            } else if let error = error {
-                print(error.localizedDescription)
-            }
+
+        weatherService.fetchWeather(latitude: coordinations.latitude, longitude: coordinations.longitude) { [weak self] (temperature) in
+            self?.weatherLabel.text = temperature
+            self?.weatherLabel.fadeIn(duration: 1)
         }
-        
-        task.resume()
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func setupCalendarView() {
+        //show today's date in calendar
+        calendarView.calendarDelegate = self
+        calendarView.calendarDataSource = self
+        calendarView.scrollToDate(Date(), animateScroll: false)
+        calendarView.minimumLineSpacing = 0
+        calendarView.minimumInteritemSpacing = 0
     }
-    */
+}
 
+extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
+    func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
+        print("Hey im configuring \n\n\n")
+        formatter.dateFormat = "yyyy MM dd"
+        formatter.timeZone = Calendar.current.timeZone
+        formatter.locale = Calendar.current.locale
+
+        let startDate = Date(timeIntervalSinceReferenceDate: 0)
+        let endDate = Date(timeIntervalSinceNow: 15552000)
+
+        let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate)
+        return parameters
+    }
+
+    func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
+        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        cell.dateLabel.text = cellState.text
+
+        if cellState.dateBelongsTo == .thisMonth {
+            cell.dateLabel.textColor = UIColor.black
+        } else {
+            cell.dateLabel.textColor = UIColor.gray
+        }
+
+        return cell
+    }
+
+    func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
+        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        cell.dateLabel.text = cellState.text
+    }
+
+    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+        let date = visibleDates.monthDates.first!.date
+
+        formatter.dateFormat = "yyyy"
+        year.text = formatter.string(from: date)
+
+        formatter.dateFormat = "MMMM"
+        month.text = formatter.string(from: date)
+    }
 }

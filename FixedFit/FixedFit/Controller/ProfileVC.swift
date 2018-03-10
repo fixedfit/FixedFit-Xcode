@@ -39,6 +39,7 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+<<<<<<< HEAD
     
     //MARK: Update profile page once view appears.
     override func viewDidAppear(_ animated: Bool) {
@@ -91,6 +92,18 @@ class ProfileVC: UIViewController {
     @IBAction func FollowersButton(_ sender: Any) {
     }
     @IBAction func FollowingButton(_ sender: UIButton) {
+=======
+
+    @IBAction func tappedLogout(_ sender: Any) {
+        let message = "Are you sure you want to logout?"
+        let rightButtonData = ButtonData(title: "Yes, I'm Sure", color: .fixedFitPurple) { [weak self] in
+            self?.firebaseManager.logout { _ in }
+        }
+        let leftButtonData = ButtonData(title: "Nevermind", color: .fixedFitBlue, action: nil)
+        let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButtonData, rightButtonData: rightButtonData)
+
+        present(informationVC, animated: true, completion: nil)
+>>>>>>> master
     }
     
     

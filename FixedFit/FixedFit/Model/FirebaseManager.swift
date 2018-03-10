@@ -75,7 +75,7 @@ class FirebaseManager {
         }
     }
 
-    func signUp(email: String, username: String, password: String, completion: @escaping AuthResultCallback) {
+    func signUp(firstName: String, lastName: String, email: String, username: String, password: String, completion: @escaping AuthResultCallback) {
         checkUsername(username) { (firebaseError) in
             if firebaseError != nil {
 
@@ -83,12 +83,14 @@ class FirebaseManager {
             } else {
                 Auth.auth().createUser(withEmail: email, password: password) { [weak self] (user, error) in
                     if let user = user {
-                        let firstLoginData = self?.createfirstLoginData(user: user, username: username)
+                        let firstLoginData = self?.createfirstLoginData(user: user, username: username, firstName: firstName, lastName: lastName)
                         Nodes.users.child("\(user.uid)").setValue(firstLoginData)
+                        
                     }
 
                     completion(user, error)
                 }
+
             }
         }
     }
@@ -128,7 +130,7 @@ class FirebaseManager {
         }
     }
 
-    private func createfirstLoginData(user: User, username: String) -> [String: Any] {
-        return ["username": username]
+    private func createfirstLoginData(user: User, username: String, firstName: String, lastName: String) -> [String: Any] {
+        return ["username": username, "firstName": firstName, "lastName": lastName]
     }
 }

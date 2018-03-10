@@ -12,19 +12,29 @@ import Firebase
 import FirebaseAuth
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
     var window: UIWindow?
     let firebaseManager = FirebaseManager.shared
     let notificationCenter = NotificationCenter.default
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         notificationCenter.addObserver(self, selector: #selector(setupRootVC), name: .authStatusChanged, object: nil)
-
         FirebaseApp.configure()
+        setupAppearance()
         setupRootVC()
 
         return true
+    }
+
+    private func setupAppearance() {
+        let navigationbar = UINavigationBar.appearance()
+        let tabbar = UITabBar.appearance()
+
+        navigationbar.barStyle = .black
+        navigationbar.tintColor = .white
+        navigationbar.barTintColor = .fixedFitBlue
+
+        tabbar.tintColor = .fixedFitBlue
     }
 
     @objc private func setupRootVC() {
@@ -42,6 +52,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
+    }
+
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is AddVC {
+            if let newVC = UIStoryboard.addVC, let addVC = newVC as? AddVC {
+                addVC.currentTabBarController = tabBarController
+                tabBarController.present(newVC, animated: true)
+                return false
+            }
+        }
+
+        return true
     }
 
     // MARK: - Core Data stack

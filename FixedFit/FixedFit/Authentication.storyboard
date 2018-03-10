@@ -175,13 +175,27 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6VH-Pz-ECX">
-                                        <rect key="frame" x="79.5" y="100" width="216" height="72"/>
+                                        <rect key="frame" x="79" y="100" width="216" height="72"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="60"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTr-ta-ECo">
+                                        <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                        <color key="backgroundColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="5Fi-XY-5gN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                        <state key="normal" title="Already have an account? Sign in.">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="touchedAlreadyHaveAccount" destination="Ixz-4x-QhC" eventType="touchUpInside" id="fwu-PV-mwj"/>
+                                        </connections>
+                                    </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="7w2-Fp-zpZ">
-                                        <rect key="frame" x="8" y="218.5" width="359" height="230"/>
+                                        <rect key="frame" x="8" y="168.5" width="359" height="330"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uio-o7-QLr">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="35"/>
@@ -201,13 +215,31 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gmh-F6-2iF">
-                                                <rect key="frame" x="0.0" y="40" width="359" height="190"/>
+                                                <rect key="frame" x="0.0" y="40" width="359" height="290"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="q2X-VR-yTf">
-                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="190"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="290"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jfq-KJ-LkR" userLabel="Email Text Field">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g2Y-sd-pyp" userLabel="First Name Text Field">
                                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="40"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="40" id="BuT-Xy-QDQ"/>
+                                                                </constraints>
+                                                                <nil key="textColor"/>
+                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="yes" smartQuotesType="no"/>
+                                                            </textField>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uOQ-Tx-ugM" userLabel="Last Name Text Field">
+                                                                <rect key="frame" x="0.0" y="50" width="359" height="40"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="40" id="Xdy-xt-mG7"/>
+                                                                </constraints>
+                                                                <nil key="textColor"/>
+                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="yes" smartQuotesType="no"/>
+                                                            </textField>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jfq-KJ-LkR" userLabel="Email Text Field">
+                                                                <rect key="frame" x="0.0" y="100" width="359" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="40" id="7BX-0y-PES"/>
                                                                 </constraints>
@@ -215,8 +247,8 @@
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="yes" smartQuotesType="no"/>
                                                             </textField>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3k5-E8-68e" userLabel="Email Text Field">
-                                                                <rect key="frame" x="0.0" y="50" width="359" height="40"/>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3k5-E8-68e" userLabel="Username Text Field">
+                                                                <rect key="frame" x="0.0" y="150" width="359" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="40" id="mYX-EH-vgV"/>
                                                                 </constraints>
@@ -225,7 +257,7 @@
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="yes" smartQuotesType="no"/>
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DbY-Fm-MeQ" userLabel="Password Text Field">
-                                                                <rect key="frame" x="0.0" y="100" width="359" height="40"/>
+                                                                <rect key="frame" x="0.0" y="200" width="359" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="40" id="QSc-op-3V7"/>
                                                                 </constraints>
@@ -234,7 +266,7 @@
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="yes" smartQuotesType="no"/>
                                                             </textField>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lmi-Tg-kXQ">
-                                                                <rect key="frame" x="0.0" y="150" width="359" height="40"/>
+                                                                <rect key="frame" x="0.0" y="250" width="359" height="40"/>
                                                                 <color key="backgroundColor" red="0.0" green="0.32220523309999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="40" id="IUC-5x-cQb"/>
@@ -258,20 +290,6 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTr-ta-ECo">
-                                        <rect key="frame" x="0.0" y="617" width="375" height="50"/>
-                                        <color key="backgroundColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="5Fi-XY-5gN"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                        <state key="normal" title="Already have an account? Sign in.">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="touchedAlreadyHaveAccount" destination="Ixz-4x-QhC" eventType="touchUpInside" id="fwu-PV-mwj"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.80146424459999999" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -302,10 +320,12 @@
                     <connections>
                         <outlet property="emailTextField" destination="Jfq-KJ-LkR" id="8c8-Wp-EI1"/>
                         <outlet property="errorMessageLabel" destination="8IK-gE-jMg" id="dba-II-F4M"/>
+                        <outlet property="firstNameTextField" destination="g2Y-sd-pyp" id="Jpg-f2-S6Q"/>
                         <outlet property="inputStackView" destination="7w2-Fp-zpZ" id="xWv-hj-fnp"/>
+                        <outlet property="lastNameTextField" destination="uOQ-Tx-ugM" id="QFt-Wf-gLP"/>
                         <outlet property="passwordTextField" destination="DbY-Fm-MeQ" id="6bE-v1-Ozh"/>
                         <outlet property="stackViewVerticalConstraint" destination="2hd-Fg-RUD" id="FAC-mC-3mm"/>
-                        <outlet property="usernameTextField" destination="3k5-E8-68e" id="HpS-5D-0w4"/>
+                        <outlet property="usernameTextField" destination="3k5-E8-68e" id="Tus-bE-UUA"/>
                         <outlet property="welcomeMessageLabel" destination="6VH-Pz-ECX" id="H02-wR-3Aj"/>
                     </connections>
                 </viewController>

@@ -10,17 +10,17 @@ import UIKit
 import FirebaseAuth
 import SafariServices
 
-class SignUpVC: UIViewController, UITextFieldDelegate {
+class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var welcomeMessageLabel: UILabel!
     @IBOutlet weak var inputStackView: UIStackView!
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var stackViewVerticalConstraint: NSLayoutConstraint!
 
+    
     var keyboardShowing = false
-
+    
     private let firebaseManager = FirebaseManager.shared
     private let notificationCenter = NotificationCenter.default
 
@@ -28,31 +28,27 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-
+        
         setupViews()
     }
 
     private func setupViews() {
         emailTextField.delegate = self
-        usernameTextField.delegate = self
         passwordTextField.delegate = self
         errorMessageLabel.alpha = 0
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
     }
 
-    @IBAction func touchedSignUp() {
+    @IBAction func touchedSignin() {
         let email = emailTextField.text ?? ""
-        let username = usernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
 
-        if validInput(email, username, password) {
-            firebaseManager.signUp(email: email, username: username, password: password, completion: { [weak self] (_, error) in
-                if let firebaseError = error as? FirebaseError {
-                    self?.showLoginError(firebaseError.localizedDescription)
-                } else if let firebaseError = error, let authError = AuthErrorCode(rawValue: firebaseError._code) {
+        if validInput(email, password) {
+            firebaseManager.login(email: email, password: password, completion: { [weak self] (_, error) in
+                if let firebaseError = error, let authError = AuthErrorCode(rawValue: firebaseError._code) {
+                    print("Some error occured!")
                     self?.showLoginError(authError.localizedDescription)
                 } else {
-                    self?.dismissKeyboard()
                     self?.notificationCenter.post(name: .authStatusChanged, object: nil)
                 }
             })
@@ -62,8 +58,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - Helper methods
-    private func validInput(_ email: String, _ username: String, _ password: String) -> Bool {
-        if email.isEmpty || username.isEmpty || password.isEmpty {
+    private func validInput(_ email: String, _ password: String) -> Bool {
+        if email.isEmpty || password.isEmpty {
             return false
         } else {
             return true
@@ -72,8 +68,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
 
     private func showLoginError(_ message: String) {
         errorMessageLabel.text = message
-        errorMessageLabel.alpha = 0
-        errorMessageLabel.fadeIn(duration: 0.3)
+        errorMessageLabel.fadeIn(duration: 0.1)
     }
 
     private func hideLoginError() {
@@ -112,22 +107,16 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     }
 
     @objc private func dismissKeyboard() {
-        print("Dismissing keyboard!")
         emailTextField.resignFirstResponder()
-        usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
     }
     
-    @IBAction func touchedAlreadyHaveAccount() {
-        dismiss(animated: true, completion: nil)
-    }
-
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 }
 
-extension SignUpVC {
+extension LoginVC {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

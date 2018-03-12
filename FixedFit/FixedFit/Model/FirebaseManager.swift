@@ -42,13 +42,14 @@ struct SignUpInfo {
 
 struct FirebaseKeys {
     static let users = "users"
-    static let username = "username"
-    static let closet = "closet"
-    static let tag = "tag"
-    static let tags = "tags"
-    static let url = "url"
     static let firstName = "firstName"
     static let lastName = "lastName"
+    static let username = "username"
+    static let closet = "closet"
+    static let items = "items"
+    static let tag = "tag"
+    static let url = "url"
+    static let tags = "tags"
 }
 
 class FirebaseManager {
@@ -147,7 +148,7 @@ class FirebaseManager {
     func fetchCloset(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
         guard let _ = currentUser else { return }
         
-        ref.child(userStuffManager.username).child(FirebaseKeys.closet).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child(userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.items).observeSingleEvent(of: .value, with: { (snapshot) in
             if let closetItems = snapshot.value as? [[String: Any]] {
                 completion(closetItems, nil)
             }
@@ -159,9 +160,11 @@ class FirebaseManager {
     func fetchTags(for username: String, completion: @escaping (Set<String>?, Error?) -> Void) {
         guard let _ = currentUser else { return }
 
-        ref.child(userStuffManager.username).child(FirebaseKeys.tags).observeSingleEvent(of: .value, with: { (snasphot) in
+        ref.child(userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.tags).observeSingleEvent(of: .value, with: { (snasphot) in
             if let foundTags = snasphot.value as? [String] {
                 completion(Set(foundTags), nil)
+            } else {
+                completion(Set<String>(), nil)
             }
         }) { (error) in
             completion(nil, error)
@@ -207,9 +210,9 @@ class FirebaseManager {
 
             if var closetArray = snapshot.value as? [[String: Any]] {
                 closetArray.append(contentsOf: newItems)
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).setValue(closetArray)
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.items).setValue(closetArray)
             } else {
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).setValue(newItems)
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.items).setValue(newItems)
             }
         }) { (error) in
             print(error.localizedDescription)
@@ -227,9 +230,9 @@ class FirebaseManager {
                     }
                 }
 
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.tags).setValue(foundTags)
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.tags).setValue(foundTags)
             } else {
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.tags).setValue(tags)
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.tags).setValue(tags)
             }
         }) { (error) in
             print(error.localizedDescription)

@@ -11,21 +11,27 @@ import UIKit
 class ClosetVC: UIViewController {
     @IBOutlet weak var tagsTableView: UITableView!
 
-    var tags: Set<String> = [] {
-        didSet {
-            if tags.count == 0 {
+    var tags: Set<String> {
+        get {
+            return userStuffManager.closet.allTags
+        }
+
+        set {
+            if newValue.count == 0 {
                 presentEmptyState()
             } else {
                 hideEmptyState()
             }
         }
     }
+
     let firebaseManager = FirebaseManager.shared
     let userStuffManager = UserStuffManager.shared
     let notificationCenter = NotificationCenter.default
 
     lazy var emptyStateLabel: UILabel = {
         let label = UILabel()
+
         label.text = "No items in your closet"
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.60)
@@ -36,20 +42,27 @@ class ClosetVC: UIViewController {
 
         return label
     }()
+    lazy var tableRefreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+
+        refreshControl.addTarget(self, action: #selector(fetchCloset), for: .valueChanged)
+
+        return refreshControl
+    }()
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         notificationCenter.addObserver(self, selector: #selector(tagsUpdated), name: .tagsUpdated, object: nil)
         setupViews()
-        firebaseManager.fetchTags(for: userStuffManager.username) { [weak self] (foundTags, error) in
-            if let _ = error {
-                print("Trouble fetching tags")
-            } else if let foundTags = foundTags {
-                self?.tags = foundTags
-                self?.tagsTableView.reloadData()
-                self?.activityIndicator.stopAnimating()
-            }
+        fetchCloset()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        let indexPath = tagsTableView.indexPathForSelectedRow
+
+        if let indexPath = indexPath {
+            tagsTableView.deselectRow(at: indexPath, animated: true)
         }
     }
 
@@ -57,6 +70,7 @@ class ClosetVC: UIViewController {
         tagsTableView.dataSource = self
         tagsTableView.delegate = self
         tagsTableView.tableFooterView = UIView()
+        tagsTableView.refreshControl = tableRefreshControl
 
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(activityIndicator)
@@ -74,8 +88,23 @@ class ClosetVC: UIViewController {
     }
 
     @objc private func tagsUpdated() {
-        tags = userStuffManager.tags
-        tagsTableView.reloadData()
+        fetchCloset()
+    }
+
+    @objc private func fetchCloset() {
+        firebaseManager.fetchCloset { [weak self] (closet, error) in
+            guard let strongSelf = self else { return }
+
+            if let _ = error {
+                print("Trouble fetching closet")
+            } else if let closet = closet {
+                self?.userStuffManager.updateCloset(closet: closet)
+                self?.tags = strongSelf.userStuffManager.closet.allTags
+                self?.tagsTableView.reloadData()
+                self?.activityIndicator.stopAnimating()
+                self?.tagsTableView.refreshControl?.endRefreshing()
+            }
+        }
     }
 
     private func presentEmptyState() {
@@ -88,7 +117,7 @@ class ClosetVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let _ = segue.destination as? ItemsVC {
-            print("Yay we about to segue")
+            print("About to segue to ItemsVC")
         }
     }
 }
@@ -101,8 +130,18 @@ extension ClosetVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagSectionCell.identifier, for: indexPath) as! TagSectionCell
         let tag = Array(tags)[indexPath.row]
+        let imageStoragePath = userStuffManager.closet.imageStoragePath(for: tag)
 
         cell.tagNameLabel.text = tag
+        cell.tag = indexPath.row
+
+        if let imageStoragePath = imageStoragePath {
+            firebaseManager.fetchImage(storageURL: imageStoragePath, completion: { (image, error) in
+                if cell.tag == indexPath.row {
+                    cell.selectedItemImageView.image = image
+                }
+            })
+        }
 
         return cell
     }
@@ -114,6 +153,6 @@ extension ClosetVC: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "itemsSegue", sender: nil)
+        performSegue(withIdentifier: UIStoryboard.itemsSegue, sender: nil)
     }
 }

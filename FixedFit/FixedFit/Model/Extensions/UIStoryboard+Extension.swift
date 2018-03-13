@@ -26,4 +26,7 @@ extension UIStoryboard {
     class var tagVC: UIViewController? {
         return UIStoryboard(name: "Tag", bundle: nil).instantiateInitialViewController()
     }
+
+    // Segues
+    static let itemsSegue = "itemsSegue"
 }

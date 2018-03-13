@@ -12,10 +12,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InformationVC" customModule="FixedFit" customModuleProvider="target">
             <connections>
-                <outlet property="buttonStackView" destination="peu-Ch-Ayb" id="5je-iX-0tP"/>
+                <outlet property="buttonStackView" destination="peu-Ch-Ayb" id="iUP-1X-527"/>
                 <outlet property="imageView" destination="FOg-0p-3zK" id="Fzv-in-8iL"/>
                 <outlet property="informationView" destination="cqs-8H-c7j" id="9P3-Xv-mwS"/>
                 <outlet property="messageLabel" destination="z9F-dg-cGe" id="NSe-Su-soE"/>
+                <outlet property="seperatorView" destination="HEs-WN-6Vx" id="jf0-S6-ryq"/>
                 <outlet property="subtitleLabel" destination="8n4-Yf-cnn" id="cLq-Dv-MRz"/>
                 <outlet property="view" destination="uMa-cQ-suC" id="cKh-Np-qg1"/>
             </connections>

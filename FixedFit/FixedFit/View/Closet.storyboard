@@ -37,8 +37,9 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbg" translatesAutoresizingMaskIntoConstraints="NO" id="Flu-IY-v3h">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Flu-IY-v3h">
                                                     <rect key="frame" x="310" y="19.5" width="50" height="50"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="PLU-Av-PfF"/>
                                                         <constraint firstAttribute="height" constant="50" id="axu-JR-hyz"/>
@@ -157,7 +158,6 @@
     </scenes>
     <resources>
         <image name="closet" width="30" height="30"/>
-        <image name="loginbg" width="796" height="1294"/>
         <image name="question" width="1600" height="1600"/>
     </resources>
 </document>

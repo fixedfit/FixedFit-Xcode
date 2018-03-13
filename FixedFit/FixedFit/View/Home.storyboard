@@ -164,7 +164,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eD5-vq-5Jd"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="aAc-n5-pwf"/>
+                    <navigationItem key="navigationItem" title="Home" id="aAc-n5-pwf">
+                        <barButtonItem key="rightBarButtonItem" title="settings" id="TSD-d1-hFJ">
+                            <connections>
+                                <segue destination="jJh-YQ-lti" kind="show" id="5x9-cz-pCf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="uvH-WT-Tez" id="Bg2-I1-HBA"/>
                         <outlet property="month" destination="KEX-pG-pux" id="ZRP-jh-CNq"/>
@@ -175,6 +181,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U7N-Z8-Pme" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-306.39999999999998" y="-1288.6056971514245"/>
+        </scene>
+        <!--SettingsVC-->
+        <scene sceneID="XxZ-rY-wjg">
+            <objects>
+                <viewController id="jJh-YQ-lti" customClass="SettingsVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vC4-jn-VEP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qg-fE-fon">
+                                <rect key="frame" x="15" y="82" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="log out"/>
+                                <connections>
+                                    <action selector="tappedLogout:" destination="jJh-YQ-lti" eventType="touchUpInside" id="yFT-lq-qMx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="3ZU-mU-ByT"/>
+                    </view>
+                    <connections>
+                        <outlet property="tappedLogout" destination="0Qg-fE-fon" id="pAp-cE-ebg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jyc-4e-lcp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="415" y="-1289"/>
         </scene>
         <!--Home-->
         <scene sceneID="2Tq-j4-Q9h">

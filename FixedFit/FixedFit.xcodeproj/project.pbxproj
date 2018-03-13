@@ -45,6 +45,7 @@
 		CAD3C562204BC50300DE2911 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */; };
 		CAED629E20533EE200181975 /* ItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED629D20533EE200181975 /* ItemsVC.swift */; };
 		CAF5F36220549ACA009D362B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAF5F36120549ACA009D362B /* GoogleService-Info.plist */; };
+		CAFBF10D20572B9C007D425A /* Closet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFBF10C20572B9C007D425A /* Closet.swift */; };
 		CAFEE176205258D100701ED2 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE175205258D100701ED2 /* CustomCell.swift */; };
 		CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */; };
 /* End PBXBuildFile section */
@@ -105,6 +106,7 @@
 		CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CAED629D20533EE200181975 /* ItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsVC.swift; sourceTree = "<group>"; };
 		CAF5F36120549ACA009D362B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CAFBF10C20572B9C007D425A /* Closet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Closet.swift; sourceTree = "<group>"; };
 		CAFEE175205258D100701ED2 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		F28EA6771080022F180D3C4F /* Pods-FixedFitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 		CA2CABD6203D38CC00C62AE1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CAFBF10C20572B9C007D425A /* Closet.swift */,
 				CA2CABCE203D2B8F00C62AE1 /* FirebaseManager.swift */,
 				CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */,
 				CA18467C204BE5340091B568 /* WeatherService.swift */,
@@ -504,6 +507,7 @@
 				CA2CABCF203D2B8F00C62AE1 /* FirebaseManager.swift in Sources */,
 				CA669282203D0B0C000069B5 /* AppDelegate.swift in Sources */,
 				CA4BD4322049E44F002405D8 /* InformationVC.swift in Sources */,
+				CAFBF10D20572B9C007D425A /* Closet.swift in Sources */,
 				CA66928A203D0B0C000069B5 /* FixedFit.xcdatamodeld in Sources */,
 				CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */,
 				CA4BD4382049EAF5002405D8 /* BorderButton.swift in Sources */,

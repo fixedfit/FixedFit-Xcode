@@ -79,7 +79,7 @@ class TagVC: UIViewController {
         let message = "Are you sure you want to cancel?"
         let subtitleMessage = "Your items won't be saved!"
         let rightButtonData = ButtonData(title: "Yes, I'm Sure", color: .fixedFitPurple) { [weak self] in
-            self?.userStuffManager.removeTemporaryTags(insertToUserTags: false)
+            self?.userStuffManager.closet.removeTemporaryTags(insertToUserTags: false)
             self?.dismiss(animated: true, completion: nil)
         }
         let leftButtonData = ButtonData(title: "Nevermind", color: .fixedFitBlue, action: nil)
@@ -89,10 +89,19 @@ class TagVC: UIViewController {
     }
 
     @objc private func touchedDone() {
-        firebaseManager.uploadClosetItems(itemTagsDict)
-        userStuffManager.removeTemporaryTags(insertToUserTags: true)
-        notificationCenter.post(name: .tagsUpdated, object: nil)
-        dismiss(animated: true, completion: nil)
+        let message = "Uploading..."
+        let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addtag"), leftButtonData: nil, rightButtonData: nil)
+
+        present(informationVC, animated: true, completion: nil)
+
+        firebaseManager.uploadClosetItems(itemTagsDict) { [weak self] (error) in
+            if let _ = error {
+                print("We got into some weird error!")
+            } else {
+                informationVC.dismiss(animated: true, completion: nil)
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 
     @objc func presentAddNewTagAlert() {
@@ -102,7 +111,7 @@ class TagVC: UIViewController {
             let newTag = alertController.textFields?[0].text ?? ""
 
             if !newTag.isEmpty {
-                self?.userStuffManager.addNewTag(newTag)
+                self?.userStuffManager.closet.addNewTag(newTag)
                 self?.tagsCollectionView.reloadData()
             }
         })
@@ -127,7 +136,7 @@ class TagVC: UIViewController {
         let alert = responder as! UIAlertController
 
         alert.actions[1].isEnabled = textField.text != ""
-        alert.actions[1].isEnabled = !userStuffManager.tags.contains(textField.text ?? "")
+        alert.actions[1].isEnabled = !userStuffManager.closet.allTags.contains(textField.text ?? "")
     }
 
     private func checkTagsCompletion() {
@@ -146,13 +155,13 @@ extension TagVC: UIScrollViewDelegate {
 
 extension TagVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userStuffManager.tags.count + 1
+        return userStuffManager.closet.allTags.count + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row < userStuffManager.tags.count {
+        if indexPath.row < userStuffManager.closet.allTags.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.identifier, for: indexPath) as! TagCell
-            let tag = Array(userStuffManager.tags)[indexPath.row]
+            let tag = Array(userStuffManager.closet.allTags)[indexPath.row]
             let currentImage = items[indexOfCurrentImage]
 
             cell.tagCellLabel.text = tag

@@ -16,5 +16,7 @@ class TagSectionCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        selectedItemImageView.clipsToBounds = true
+        selectedItemImageView.layer.cornerRadius = 5
     }
 }

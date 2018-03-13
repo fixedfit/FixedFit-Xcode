@@ -22,7 +22,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     //MARK: TextFields for name, username, and bios
     @IBOutlet weak var UserNameTextField: UITextField!
-    @IBOutlet weak var UserBiosTextField: UITextView!
+
+    @IBOutlet weak var UserBioTextField: UITextView!
     @IBOutlet weak var UserFirstNameField: UITextField!
     @IBOutlet weak var UserLastNameField: UITextField!
     
@@ -42,7 +43,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         //Assign the local variables with the corresponding Image and text
         self.UserNameTextField.delegate = self
-        self.UserBiosTextField.delegate = self
+        self.UserBioTextField.delegate = self
         self.UserFirstNameField.delegate = self
         self.UserLastNameField.delegate = self
         
@@ -85,7 +86,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         //Resign the Text Field from being the first responder
         UserNameTextField.resignFirstResponder()
-        UserBiosTextField.resignFirstResponder()
+        UserBioTextField.resignFirstResponder()
         UserFirstNameField.resignFirstResponder()
         UserLastNameField.resignFirstResponder()
         
@@ -118,7 +119,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         if self.isMovingFromParentViewController{
             
             //Perform any error checks in this section
-            
+            print("leaving editor")
             //Otherwise, store the newly updated information into firebase
             
         }

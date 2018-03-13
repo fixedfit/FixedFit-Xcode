@@ -25,31 +25,36 @@ class ProfileVC: UIViewController {
     //label for the user's first and last name, user's bio, and viewing status
     @IBOutlet weak var UserFirstName: UILabel!
     @IBOutlet weak var UserLastName: UILabel!
-    
-    @IBOutlet weak var UserNameBios: UILabel!
+    @IBOutlet weak var UserBio: UILabel!
     @IBOutlet weak var StatusLabel: UILabel!
+  
     
     //References to the buttons followers and following for updating the text field
     @IBOutlet weak var FollowersButton: UIButton!
     @IBOutlet weak var FollowingButton: UIButton!
     
     //Reference to the UIImageVIew
-    @IBOutlet weak var UserProfileImage: UIImageView!
+    //@IBOutlet weak var UserProfileImage: UIImageView!
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
-<<<<<<< HEAD
+
     
     //MARK: Update profile page once view appears.
     override func viewDidAppear(_ animated: Bool) {
+        
         //Update the title of the navigation bar with the user name of the user
         self.navigationItem.title = "Future UserName"
+        
         
         //Update labels of profile if user has edited them
         self.UserFirstName.text = "Hello"
         self.UserLastName.text = "World"
-        self.UserNameBios.text = "Bio"
+        self.UserBio.text = ""
+        
         
         //If the user has signed up, default viewing status would be set to public and update/create status in firebase if it does not exist
         if(self.StatusLabel.text == "Status"){
@@ -63,6 +68,13 @@ class ProfileVC: UIViewController {
             print("placeholder")
         }
         
+        ////Update Followers and Following Counters from firebase
+        
+        //Update button titles
+        self.FollowersButton.setTitle("\(FollowersCounter)\n" + FollowersMessage, for: UIControlState.normal)
+        self.FollowingButton.setTitle("\(FollowingCounter)\n" + FollowingMessage, for: UIControlState.normal)
+        
+        /*
         ////Load the User's profile photo into the UIImageView
         //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
         
@@ -74,26 +86,26 @@ class ProfileVC: UIViewController {
         let image = UIImage(named: imageName)
         UserProfileImage.image = image
         
-        ////Update Followers and Following Counters from firebase
-        
-        ////Update button titles
-        self.FollowersButton.setTitle("\(FollowersCounter)\n" + FollowersMessage, for: UIControlState.normal)
-        self.FollowingButton.setTitle("\(FollowingCounter)\n" + FollowersMessage, for: UIControlState.normal)
-        
+
+    */
     }
     
     //Transition to the editor view controller
-    @IBAction func tappedEditProfile(_ sender: UIButton) {
-        performSegue(withIdentifier: "EditTransition", sender: self)
+    @IBAction func tappedEditorButton(_ sender: UIBarButtonItem) {
+          performSegue(withIdentifier: "EditTransition", sender: self)
+        
     }
+    
+    
     
     //Functions to the buttons involved in the profile section
     //Execute with transitional view animations
-    @IBAction func FollowersButton(_ sender: Any) {
-    }
-    @IBAction func FollowingButton(_ sender: UIButton) {
-=======
+    //@IBAction func FollowersButton(_ sender: Any) {
+    //}
+    //@IBAction func FollowingButton(_ sender: UIButton) {
 
+    //}
+    /* place in setting
     @IBAction func tappedLogout(_ sender: Any) {
         let message = "Are you sure you want to logout?"
         let rightButtonData = ButtonData(title: "Yes, I'm Sure", color: .fixedFitPurple) { [weak self] in
@@ -103,9 +115,9 @@ class ProfileVC: UIViewController {
         let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButtonData, rightButtonData: rightButtonData)
 
         present(informationVC, animated: true, completion: nil)
->>>>>>> master
+
     }
-    
+    */
     
     //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
     

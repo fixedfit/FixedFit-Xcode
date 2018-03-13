@@ -157,7 +157,6 @@
 				CA2CABC4203D1B7E00C62AE1 /* Add.storyboard */,
 				CA2CABC6203D1B8E00C62AE1 /* Feed.storyboard */,
 				CA2CABC8203D1B9D00C62AE1 /* Profile.storyboard */,
-				5C5B4E462053A34100479FC9 /* EditorVC.swift */,
 				CA4BD4332049E494002405D8 /* InformationVC.xib */,
 			);
 			path = View;
@@ -258,6 +257,7 @@
 				149B5693204286840074285C /* HomeVC.swift */,
 				CA4BD42F2049E13B002405D8 /* ClosetVC.swift */,
 				CA4BD42D2049349F002405D8 /* AddVC.swift */,
+				5C5B4E462053A34100479FC9 /* EditorVC.swift */,
 				CA4BD4392049EBD7002405D8 /* TagVC.swift */,
 				CA2CABD4203D351600C62AE1 /* ProfileVC.swift */,
 				CA4BD4312049E44F002405D8 /* InformationVC.swift */,

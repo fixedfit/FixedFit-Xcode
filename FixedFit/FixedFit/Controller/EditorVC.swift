@@ -56,7 +56,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         //Determine if the user has already set up a photo
         if true{
-            ImageName = "profile"
+            ImageName = "defaultProfile"
         }
         
         //Add the image onto the UIImaveView and scale it

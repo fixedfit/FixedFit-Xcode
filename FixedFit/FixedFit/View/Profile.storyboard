@@ -108,6 +108,7 @@
                         <outlet property="UserBio" destination="ylq-IS-eGR" id="q0n-zQ-paZ"/>
                         <outlet property="UserFirstName" destination="zVL-BL-gl0" id="591-oo-jGA"/>
                         <outlet property="UserLastName" destination="v7P-aE-r7K" id="RZg-5q-Ysx"/>
+                        <outlet property="UserProfileImage" destination="fPb-sr-2tq" id="sDG-BJ-WZ4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lKX-t0-9va" userLabel="First Responder" sceneMemberID="firstResponder"/>

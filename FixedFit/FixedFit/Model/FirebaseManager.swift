@@ -52,6 +52,7 @@ struct FirebaseKeys {
     static let closet = "closet"
     static let items = "items"
     static let tag = "tag"
+    static let uniqueID = "uniqueID"
     static let url = "url"
     static let tags = "tags"
 }
@@ -219,7 +220,8 @@ class FirebaseManager {
         for (index, itemTagDict) in itemTagsDict.enumerated() {
             let itemImage = itemTagDict.key
             let itemTag = itemTagDict.value
-            let newItemStoragePath = storageImageURLReference() ?? ""
+            let imageUniqueID = uniqueID()
+            let newItemStoragePath = storageImageURLReference(uniqueID: imageUniqueID) ?? ""
 
             if let resizedImage = itemImage.resized(toWidth: 700), let imageData = UIImagePNGRepresentation(resizedImage) {
                 if index + 1 == itemTagsDict.count {
@@ -237,7 +239,7 @@ class FirebaseManager {
                 completion(FirebaseError.unableToUploadCloset)
             }
 
-            itemInfos.append([FirebaseKeys.tag: itemTag, FirebaseKeys.url: newItemStoragePath])
+            itemInfos.append([FirebaseKeys.tag: itemTag, FirebaseKeys.url: newItemStoragePath, FirebaseKeys.uniqueID: imageUniqueID])
             itemTags.append(itemTag)
         }
 

@@ -16,7 +16,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Tags-->
+        <!--Add Categories-->
         <scene sceneID="4Rn-k7-oEC">
             <objects>
                 <viewController id="oDj-IJ-LJw" customClass="TagVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
@@ -90,7 +90,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a tag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DK6-Ke-GRe">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DK6-Ke-GRe">
                                 <rect key="frame" x="8" y="362" width="367" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="SgP-bi-iEN"/>
@@ -115,7 +115,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HHR-96-ggI"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Tags" id="kJw-1L-00u"/>
+                    <navigationItem key="navigationItem" title="Add Categories" id="kJw-1L-00u"/>
                     <connections>
                         <outlet property="imagesScrollView" destination="qCV-Vi-EpP" id="LQ2-nP-zhc"/>
                         <outlet property="tagsCollectionView" destination="FIq-x9-xo2" id="7Wu-k6-EMG"/>

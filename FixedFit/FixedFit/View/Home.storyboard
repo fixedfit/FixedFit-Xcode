@@ -164,7 +164,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eD5-vq-5Jd"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="aAc-n5-pwf">
+                    <navigationItem key="navigationItem" title="Fixed Fit" id="aAc-n5-pwf">
                         <barButtonItem key="rightBarButtonItem" title="settings" id="TSD-d1-hFJ">
                             <connections>
                                 <segue destination="jJh-YQ-lti" kind="show" id="5x9-cz-pCf"/>

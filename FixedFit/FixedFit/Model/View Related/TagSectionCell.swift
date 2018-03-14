@@ -1,5 +1,5 @@
 //
-//  TagSectionCell.swift
+//  CategorySectionCell.swift
 //  FixedFit
 //
 //  Created by Amanuel Ketebo on 3/3/18.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class TagSectionCell: UITableViewCell {
-    @IBOutlet weak var tagNameLabel: UILabel!
+class CategorySectionCell: UITableViewCell {
+    @IBOutlet weak var categoryNameLabel: UILabel!
     @IBOutlet weak var selectedItemImageView: UIImageView!
 
-    static let identifier = "tagSectionCell"
+    static let identifier = "categorySectionCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -10,46 +10,50 @@ import Foundation
 
 struct ClosetItem {
     var storagePath: String
-    var tag: String
+    var category: String
 
-    init(storagePath: String, tag: String) {
+    init(storagePath: String, category: String) {
         self.storagePath = storagePath
-        self.tag = tag
+        self.category = category
     }
 }
 
 class Closet {
     var items: [ClosetItem] = []
-    private var tags: Set<String> = []
-    var temporaryTags: Set<String> = []
+    private var categories: Set<String> = []
+    var temporaryCategories: Set<String> = []
 
-    var allTags: Set<String> {
-        return tags.union(temporaryTags)
+    var allCategories: Set<String> {
+        return categories.union(temporaryCategories)
     }
 
-    func addNewTag(_ tag: String) {
-        temporaryTags.insert(tag)
+    func addNewCategory(_ category: String) {
+        temporaryCategories.insert(category)
     }
 
-    func setTags(tags: Set<String>) {
-        self.tags = tags
+    func setCategories(categories: Set<String>) {
+        self.categories = categories
     }
 
-    func removeTemporaryTags(insertToUserTags: Bool) {
-        if insertToUserTags {
-            tags = tags.union(temporaryTags)
+    func removeTemporaryCategories(insertToUserCategories: Bool) {
+        if insertToUserCategories {
+            categories = categories.union(temporaryCategories)
         } else {
-            temporaryTags.removeAll()
+            temporaryCategories.removeAll()
         }
     }
 
-    func imageStoragePath(for tag: String) -> String? {
+    func imageStoragePath(for category: String) -> String? {
         for item in items {
-            if item.tag == tag {
+            if item.category == category {
                 return item.storagePath
             }
         }
 
         return nil
+    }
+
+    func closetItems(matching category: String) -> [ClosetItem] {
+        return items.filter { return $0.category == category ? true : false }
     }
 }

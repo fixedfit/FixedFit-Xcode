@@ -31,7 +31,7 @@ class UserStuffManager {
                 self?.firstName = firstName
                 self?.lastName = lastName
                 self?.username = username
-                self?.fetchTags()
+                self?.fetchCategories()
 
                 if let completion = completion {
                     completion(nil)
@@ -40,16 +40,16 @@ class UserStuffManager {
         }
     }
 
-    func fetchTags() {
+    func fetchCategories() {
         let firebaseManager = FirebaseManager.shared
 
-        firebaseManager.fetchTags(for: username) { [weak self] (foundTags, error) in
+        firebaseManager.fetchCategories(for: username) { [weak self] (foundCategories, error) in
             guard let strongSelf = self else { return }
 
             if let _ = error {
-                print("Problem fetching tags")
-            } else if let foundTags = foundTags {
-                strongSelf.closet.setTags(tags: strongSelf.closet.allTags.union(foundTags))
+                print("Problem fetching categories")
+            } else if let foundCategories = foundCategories {
+                strongSelf.closet.setCategories(categories: strongSelf.closet.allCategories.union(foundCategories))
             }
         }
     }
@@ -57,18 +57,22 @@ class UserStuffManager {
     func updateCloset(closet: [String: Any]) {
         if let newClosetItems = closet[FirebaseKeys.items] as? [[String:Any]] {
             var createdClosetItems: [ClosetItem] = []
+            var createdCategories: Set<String> = []
 
             for newClosetItem in newClosetItems {
                 if let url = newClosetItem[FirebaseKeys.url] as? String,
-                    let tag = newClosetItem[FirebaseKeys.tag] as? String {
-                    let createdClosetItem = ClosetItem(storagePath: url, tag: tag)
+                    let category = newClosetItem[FirebaseKeys.category] as? String {
+                    let createdClosetItem = ClosetItem(storagePath: url, category: category)
+
                     createdClosetItems.append(createdClosetItem)
+                    createdCategories.insert(category)
                 }
             }
 
             self.closet.items = createdClosetItems
-        } else if let newClosetTags = closet[FirebaseKeys.tags] as? [String] {
-            self.closet.setTags(tags: Set(newClosetTags))
+            self.closet.setCategories(categories: createdCategories)
+        } else if let newClosetCategories = closet[FirebaseKeys.categories] as? [String] {
+            self.closet.setCategories(categories: Set(newClosetCategories))
         }
     }
 }

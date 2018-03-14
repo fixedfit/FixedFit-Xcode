@@ -1,5 +1,5 @@
 //
-//  TagVC.swift
+//  AddCategory.swift
 //  FixedFit
 //
 //  Created by Amanuel Ketebo on 3/2/18.
@@ -9,7 +9,7 @@
 import UIKit
 
 struct Item {
-    var tag: String?
+    var category: String?
     var image: UIImage
 
     init(image: UIImage) {
@@ -17,14 +17,14 @@ struct Item {
     }
 }
 
-class TagVC: UIViewController {
+class AddCategoryVC: UIViewController {
     @IBOutlet weak var imagesScrollView: UIScrollView!
-    @IBOutlet weak var tagsCollectionView: UICollectionView!
+    @IBOutlet weak var categoriesCollectionView: UICollectionView!
 
     var items: [UIImage] = []
-    var itemTagsDict: [UIImage: String] = [:] {
+    var itemCategoriesDict: [UIImage: String] = [:] {
         didSet {
-            checkTagsCompletion()
+            checkCategoriesCompletion()
         }
     }
     var indexOfCurrentImage: Int {
@@ -53,10 +53,10 @@ class TagVC: UIViewController {
         imagesScrollView.delegate = self
         imagesScrollView.isPagingEnabled = true
 
-        tagsCollectionView.dataSource = self
-        tagsCollectionView.delegate = self
-        tagsCollectionView.allowsSelection = true
-        tagsCollectionView.allowsMultipleSelection = false
+        categoriesCollectionView.dataSource = self
+        categoriesCollectionView.delegate = self
+        categoriesCollectionView.allowsSelection = true
+        categoriesCollectionView.allowsMultipleSelection = false
     }
 
     private func setScrollViewImages() {
@@ -79,7 +79,7 @@ class TagVC: UIViewController {
         let message = "Are you sure you want to cancel?"
         let subtitleMessage = "Your items won't be saved!"
         let rightButtonData = ButtonData(title: "Yes, I'm Sure", color: .fixedFitPurple) { [weak self] in
-            self?.userStuffManager.closet.removeTemporaryTags(insertToUserTags: false)
+            self?.userStuffManager.closet.removeTemporaryCategories(insertToUserCategories: false)
             self?.dismiss(animated: true, completion: nil)
         }
         let leftButtonData = ButtonData(title: "Nevermind", color: .fixedFitBlue, action: nil)
@@ -90,42 +90,44 @@ class TagVC: UIViewController {
 
     @objc private func touchedDone() {
         let message = "Uploading..."
-        let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addtag"), leftButtonData: nil, rightButtonData: nil)
+        let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addCategory"), leftButtonData: nil, rightButtonData: nil)
 
         present(informationVC, animated: true, completion: nil)
 
-        firebaseManager.uploadClosetItems(itemTagsDict) { [weak self] (error) in
+        firebaseManager.uploadClosetItems(itemCategoriesDict) { [weak self] (error) in
             if let _ = error {
                 print("We got into some weird error!")
             } else {
+                self?.userStuffManager.closet.removeTemporaryCategories(insertToUserCategories: false)
+                self?.notificationCenter.post(name: .categoriesUpdated, object: nil)
                 informationVC.dismiss(animated: true, completion: nil)
                 self?.dismiss(animated: true, completion: nil)
             }
         }
     }
 
-    @objc func presentAddNewTagAlert() {
-        let alertController = UIAlertController(title: "Add tag", message: "Enter the name of the tag", preferredStyle: .alert)
+    @objc func presentAddNewcategoryAlert() {
+        let alertController = UIAlertController(title: "Add category", message: "Enter the name of the category", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         let enterAction = UIAlertAction(title: "Enter", style: .default, handler: { [weak self] _ in
-            let newTag = alertController.textFields?[0].text ?? ""
+            let newcategory = alertController.textFields?[0].text ?? ""
 
-            if !newTag.isEmpty {
-                self?.userStuffManager.closet.addNewTag(newTag)
-                self?.tagsCollectionView.reloadData()
+            if !newcategory.isEmpty {
+                self?.userStuffManager.closet.addNewCategory(newcategory)
+                self?.categoriesCollectionView.reloadData()
             }
         })
 
         enterAction.isEnabled = false
         alertController.addTextField(configurationHandler: { [weak self] (textField) in
-            textField.addTarget(self, action: #selector(self?.editedNewTagTextField), for: .editingChanged)
+            textField.addTarget(self, action: #selector(self?.editedNewcategoryTextField), for: .editingChanged)
         })
         alertController.addAction(cancelAction)
         alertController.addAction(enterAction)
         present(alertController, animated: true, completion: nil)
     }
 
-    @objc private func editedNewTagTextField(_ sender: Any) {
+    @objc private func editedNewcategoryTextField(_ sender: Any) {
         let textField = sender as! UITextField
         var responder: UIResponder! = textField
 
@@ -136,54 +138,54 @@ class TagVC: UIViewController {
         let alert = responder as! UIAlertController
 
         alert.actions[1].isEnabled = textField.text != ""
-        alert.actions[1].isEnabled = !userStuffManager.closet.allTags.contains(textField.text ?? "")
+        alert.actions[1].isEnabled = !userStuffManager.closet.allCategories.contains(textField.text ?? "")
     }
 
-    private func checkTagsCompletion() {
-        if itemTagsDict.count == items.count {
+    private func checkCategoriesCompletion() {
+        if itemCategoriesDict.count == items.count {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(touchedDone))
         }
     }
 }
 
-extension TagVC: UIScrollViewDelegate {
+extension AddCategoryVC: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard scrollView == self.imagesScrollView else { return }
-        tagsCollectionView.reloadData()
+        categoriesCollectionView.reloadData()
     }
 }
 
-extension TagVC: UICollectionViewDataSource {
+extension AddCategoryVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userStuffManager.closet.allTags.count + 1
+        return userStuffManager.closet.allCategories.count + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row < userStuffManager.closet.allTags.count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.identifier, for: indexPath) as! TagCell
-            let tag = Array(userStuffManager.closet.allTags)[indexPath.row]
+        if indexPath.row < userStuffManager.closet.allCategories.count {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: categoryCell.identifier, for: indexPath) as! categoryCell
+            let category = Array(userStuffManager.closet.allCategories)[indexPath.row]
             let currentImage = items[indexOfCurrentImage]
 
-            cell.tagCellLabel.text = tag
+            cell.categoryCellLabel.text = category
             cell.gestureRecognizers?.removeAll()
 
-            if itemTagsDict.contains(where: { (image,foundTag) -> Bool in return currentImage == image && tag == foundTag }) {
+            if itemCategoriesDict.contains(where: { (image,foundcategory) -> Bool in return currentImage == image && category == foundcategory }) {
                 cell.isSelected = true
                 collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .top)
-                cell.tagCellLabel.backgroundColor = .fixedFitPurple
-                cell.tagCellLabel.textColor = .white
+                cell.categoryCellLabel.backgroundColor = .fixedFitPurple
+                cell.categoryCellLabel.textColor = .white
             } else {
                 cell.isSelected = false
                 collectionView.deselectItem(at: indexPath, animated: true)
-                cell.tagCellLabel.backgroundColor = .fixedFitGray
-                cell.tagCellLabel.textColor = .black
+                cell.categoryCellLabel.backgroundColor = .fixedFitGray
+                cell.categoryCellLabel.textColor = .black
             }
 
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddTagCell.identifier, for: indexPath) as! AddTagCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddcategoryCell.identifier, for: indexPath) as! AddcategoryCell
 
-            cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentAddNewTagAlert)))
+            cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentAddNewcategoryAlert)))
             cell.backgroundColor = UIColor.fixedFitGray
             cell.layer.borderColor = nil
             cell.layer.borderWidth = 0
@@ -193,31 +195,31 @@ extension TagVC: UICollectionViewDataSource {
     }
 }
 
-extension TagVC: UICollectionViewDelegate {
+extension AddCategoryVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard let _ = collectionView.cellForItem(at: indexPath) as? TagCell else { return false }
+        guard let _ = collectionView.cellForItem(at: indexPath) as? categoryCell else { return false }
 
         return true
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TagCell
+        let cell = collectionView.cellForItem(at: indexPath) as! categoryCell
         let image = items[indexOfCurrentImage]
 
-        cell.tagCellLabel.backgroundColor = .fixedFitPurple
-        cell.tagCellLabel.textColor = .white
-        itemTagsDict[image] = cell.tagCellLabel.text ?? ""
+        cell.categoryCellLabel.backgroundColor = .fixedFitPurple
+        cell.categoryCellLabel.textColor = .white
+        itemCategoriesDict[image] = cell.categoryCellLabel.text ?? ""
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! TagCell
+        let cell = collectionView.cellForItem(at: indexPath) as! categoryCell
 
-        cell.tagCellLabel.backgroundColor = UIColor.fixedFitGray
-        cell.tagCellLabel.textColor = .black
+        cell.categoryCellLabel.backgroundColor = UIColor.fixedFitGray
+        cell.categoryCellLabel.textColor = .black
     }
 }
 
-extension TagVC: UICollectionViewDelegateFlowLayout {
+extension AddCategoryVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let availableSpace = collectionView.bounds.width - (edgeInsets.left * CGFloat(numberOfColumns + 1))
         let cellWidth = availableSpace / CGFloat(numberOfColumns)

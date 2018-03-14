@@ -51,10 +51,10 @@ struct FirebaseKeys {
     static let username = "username"
     static let closet = "closet"
     static let items = "items"
-    static let tag = "tag"
+    static let category = "category"
     static let uniqueID = "uniqueID"
     static let url = "url"
-    static let tags = "tags"
+    static let categories = "categories"
 }
 
 class FirebaseManager {
@@ -157,7 +157,7 @@ class FirebaseManager {
             userStuffManager.fetchUserInformation(completion: { [weak self] (error) in
                 guard let strongSelf = self else { return }
 
-                if let error = error {
+                if let _ = error {
                     completion(nil, FirebaseError.unableToFetchUserInformation)
                 } else {
                     strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -184,12 +184,12 @@ class FirebaseManager {
         }
     }
 
-    func fetchTags(for username: String, completion: @escaping (Set<String>?, Error?) -> Void) {
+    func fetchCategories(for username: String, completion: @escaping (Set<String>?, Error?) -> Void) {
         guard let _ = currentUser else { return }
 
-        ref.child(userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.tags).observeSingleEvent(of: .value, with: { (snasphot) in
-            if let foundTags = snasphot.value as? [String] {
-                completion(Set(foundTags), nil)
+        ref.child(userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.categories).observeSingleEvent(of: .value, with: { (snasphot) in
+            if let foundcategories = snasphot.value as? [String] {
+                completion(Set(foundcategories), nil)
             } else {
                 completion(Set<String>(), nil)
             }
@@ -211,20 +211,20 @@ class FirebaseManager {
 
     // MARK: - Upload methods
 
-    func uploadClosetItems(_ itemTagsDict: [UIImage: String], completion: @escaping (Error?) -> Void) {
+    func uploadClosetItems(_ itemCategoriesDict: [UIImage: String], completion: @escaping (Error?) -> Void) {
         guard let _ = currentUser else { return }
 
         var itemInfos: [[String: Any]] = []
-        var itemTags: [String] = []
+        var itemCategories: [String] = []
 
-        for (index, itemTagDict) in itemTagsDict.enumerated() {
-            let itemImage = itemTagDict.key
-            let itemTag = itemTagDict.value
+        for (index, itemcategoryDict) in itemCategoriesDict.enumerated() {
+            let itemImage = itemcategoryDict.key
+            let itemcategory = itemcategoryDict.value
             let imageUniqueID = uniqueID()
             let newItemStoragePath = storageImageURLReference(uniqueID: imageUniqueID) ?? ""
 
             if let resizedImage = itemImage.resized(toWidth: 700), let imageData = UIImagePNGRepresentation(resizedImage) {
-                if index + 1 == itemTagsDict.count {
+                if index + 1 == itemCategoriesDict.count {
                     saveItemImage(path: newItemStoragePath, imageData: imageData, completion: { (error) in
                         if let error = error {
                             completion(error)
@@ -239,12 +239,12 @@ class FirebaseManager {
                 completion(FirebaseError.unableToUploadCloset)
             }
 
-            itemInfos.append([FirebaseKeys.tag: itemTag, FirebaseKeys.url: newItemStoragePath, FirebaseKeys.uniqueID: imageUniqueID])
-            itemTags.append(itemTag)
+            itemInfos.append([FirebaseKeys.category: itemcategory, FirebaseKeys.url: newItemStoragePath, FirebaseKeys.uniqueID: imageUniqueID])
+            itemCategories.append(itemcategory)
         }
 
         saveClosetItems(newItems: itemInfos)
-        saveNewTags(tags: itemTags)
+        saveNewCategories(categories: itemCategories)
     }
 
     private func saveItemImage(path: String, imageData: Data, completion: ((Error?) -> Void)?) {
@@ -277,20 +277,20 @@ class FirebaseManager {
         }
     }
 
-    private func saveNewTags(tags: [String]) {
-        ref.child(userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.tags).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+    private func saveNewCategories(categories: [String]) {
+        ref.child(userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.categories).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             guard let strongSelf = self else { return }
 
-            if var foundTags = snapshot.value as? [String] {
-                for tag in tags {
-                    if !foundTags.contains(tag) {
-                        foundTags.append(tag)
+            if var foundCategories = snapshot.value as? [String] {
+                for category in categories {
+                    if !foundCategories.contains(category) {
+                        foundCategories.append(category)
                     }
                 }
 
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.tags).setValue(foundTags)
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.categories).setValue(foundCategories)
             } else {
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.tags).setValue(tags)
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.categories).setValue(categories)
             }
         }) { (error) in
             print(error.localizedDescription)

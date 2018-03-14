@@ -40,7 +40,7 @@ extension AddVC: ImagePickerDelegate {
         guard let navVC = currentTabBarController?.viewControllers![1] as? UINavigationController else { return }
         guard let closetVC = navVC.topViewController as? ClosetVC else { return }
 
-        closetVC.presentTagVC(images: images)
+        closetVC.presentAddCategoryVC(images: images)
     }
 
     func cancelButtonDidPress(_ imagePicker: ImagePickerController) {

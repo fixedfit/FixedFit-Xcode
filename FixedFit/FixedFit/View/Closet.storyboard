@@ -24,7 +24,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tagSectionCell" rowHeight="89" id="v0W-fu-Wqr" customClass="TagSectionCell" customModule="FixedFit" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="categorySectionCell" rowHeight="89" id="v0W-fu-Wqr" customClass="CategorySectionCell" customModule="FixedFit" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="89"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v0W-fu-Wqr" id="4qG-Jo-Ayj">
@@ -54,8 +54,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="categoryNameLabel" destination="HVu-ev-DFB" id="W2i-5a-cRy"/>
                                             <outlet property="selectedItemImageView" destination="Flu-IY-v3h" id="j9I-Fs-MOe"/>
-                                            <outlet property="tagNameLabel" destination="HVu-ev-DFB" id="W2i-5a-cRy"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -72,7 +72,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Closet" id="w6x-oW-oHS"/>
                     <connections>
-                        <outlet property="tagsTableView" destination="Rfb-Bj-aFL" id="9GM-3Q-3VG"/>
+                        <outlet property="categoriesTableView" destination="Rfb-Bj-aFL" id="g2e-fV-ASZ"/>
                         <segue destination="LwA-nr-0T6" kind="show" identifier="itemsSegue" id="ml7-VU-WCG"/>
                     </connections>
                 </viewController>
@@ -98,15 +98,16 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="itemCell" id="gZc-ed-eI1">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="itemCell" id="gZc-ed-eI1" customClass="ItemCell" customModule="FixedFit" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="132" height="143"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="132" height="143"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="question" translatesAutoresizingMaskIntoConstraints="NO" id="BLT-DX-C3i">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BLT-DX-C3i">
                                                     <rect key="frame" x="0.0" y="0.0" width="132" height="143"/>
+                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -116,6 +117,9 @@
                                             <constraint firstAttribute="bottom" secondItem="BLT-DX-C3i" secondAttribute="bottom" id="UKk-Wz-mAR"/>
                                             <constraint firstItem="BLT-DX-C3i" firstAttribute="leading" secondItem="gZc-ed-eI1" secondAttribute="leading" id="bOi-Va-7Ih"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="BLT-DX-C3i" id="AyZ-Xs-h2m"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -158,6 +162,5 @@
     </scenes>
     <resources>
         <image name="closet" width="30" height="30"/>
-        <image name="question" width="1600" height="1600"/>
     </resources>
 </document>

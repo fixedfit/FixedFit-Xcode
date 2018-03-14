@@ -11,7 +11,10 @@ import UIKit
 class ItemsVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
-    var imagesInfos: [String] = []
+    var closetItems: [ClosetItem] = []
+
+    let firebaseManager = FirebaseManager.shared
+
     let numberOfColumns = 3
     let edgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
 
@@ -30,11 +33,25 @@ class ItemsVC: UIViewController {
 
 extension ItemsVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return closetItems.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemCell
+        let closetItem = closetItems[indexPath.row]
+        let url = closetItem.storagePath
+
+        cell.tag = indexPath.row
+
+        firebaseManager.fetchImage(storageURL: url) { (image, error) in
+            if let _ = error {
+                print("Error fetching image")
+            } else if let image = image {
+                if cell.tag == indexPath.row {
+                    cell.imageView.image = image
+                }
+            }
+        }
 
         return cell
     }
@@ -45,7 +62,7 @@ extension ItemsVC: UICollectionViewDelegateFlowLayout {
         let availableSpace = collectionView.bounds.width - (edgeInsets.left * CGFloat(numberOfColumns + 1))
         let cellWidth = availableSpace / CGFloat(numberOfColumns)
 
-        return CGSize(width: cellWidth, height: 70)
+        return CGSize(width: cellWidth, height: cellWidth)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

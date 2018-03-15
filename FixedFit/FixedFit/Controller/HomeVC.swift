@@ -53,8 +53,8 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.calendarDelegate = self
         calendarView.calendarDataSource = self
         calendarView.scrollToDate(Date(), animateScroll: false)
-        calendarView.minimumLineSpacing = 0
-        calendarView.minimumInteritemSpacing = 0
+        calendarView.minimumLineSpacing = 1
+        calendarView.minimumInteritemSpacing = 1
     }
 }
 

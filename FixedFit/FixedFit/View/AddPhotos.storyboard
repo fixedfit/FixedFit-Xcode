@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--AddVC-->
+        <!--Add PhotosVC-->
         <scene sceneID="HcR-L8-KRl">
             <objects>
-                <viewController id="EFR-ao-t9h" customClass="AddVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="EFR-ao-t9h" customClass="AddPhotosVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MXk-1Z-78c">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

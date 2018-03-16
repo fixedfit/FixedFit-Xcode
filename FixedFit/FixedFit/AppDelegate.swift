@@ -57,9 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     }
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if viewController is AddVC {
-            if let newVC = UIStoryboard.addVC, let addVC = newVC as? AddVC {
-                addVC.currentTabBarController = tabBarController
+        if viewController is AddPhotosVC {
+            if let newVC = UIStoryboard.addPhotosVC, let addPhotosVC = newVC as? AddPhotosVC {
+                addPhotosVC.currentTabBarController = tabBarController
                 tabBarController.present(newVC, animated: true)
                 return false
             }

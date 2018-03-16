@@ -52,6 +52,7 @@ struct FirebaseKeys {
     static let closet = "closet"
     static let items = "items"
     static let category = "category"
+    static let subcategory = "subcategory"
     static let uniqueID = "uniqueID"
     static let url = "url"
     static let categories = "categories"
@@ -199,7 +200,7 @@ class FirebaseManager {
     }
 
     func fetchImage(storageURL: String, completion: @escaping (UIImage?, Error?) -> Void) {
-        storageRef.child(storageURL).getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+        storageRef.child(storageURL).getData(maxSize: 3 * 1024 * 1024) { (data, error) in
             if let data = data,
                 let image = UIImage(data: data) {
                 completion(image, nil)
@@ -211,7 +212,7 @@ class FirebaseManager {
 
     // MARK: - Upload methods
 
-    func uploadClosetItems(_ itemCategoriesDict: [UIImage: String], completion: @escaping (Error?) -> Void) {
+    func uploadClosetItems(_ itemCategoriesDict: [UIImage: CategorySubcategory], completion: @escaping (Error?) -> Void) {
         guard let _ = currentUser else { return }
 
         var itemInfos: [[String: Any]] = []
@@ -219,7 +220,9 @@ class FirebaseManager {
 
         for (index, itemcategoryDict) in itemCategoriesDict.enumerated() {
             let itemImage = itemcategoryDict.key
-            let itemcategory = itemcategoryDict.value
+            let itemCategoryInfo = itemcategoryDict.value
+            let category = itemCategoryInfo.category!
+            let subcategory = itemCategoryInfo.subcategory!
             let imageUniqueID = uniqueID()
             let newItemStoragePath = storageImageURLReference(uniqueID: imageUniqueID) ?? ""
 
@@ -239,8 +242,8 @@ class FirebaseManager {
                 completion(FirebaseError.unableToUploadCloset)
             }
 
-            itemInfos.append([FirebaseKeys.category: itemcategory, FirebaseKeys.url: newItemStoragePath, FirebaseKeys.uniqueID: imageUniqueID])
-            itemCategories.append(itemcategory)
+            itemInfos.append([FirebaseKeys.category: category, FirebaseKeys.subcategory: subcategory, FirebaseKeys.url: newItemStoragePath, FirebaseKeys.uniqueID: imageUniqueID])
+            itemCategories.append(category)
         }
 
         saveClosetItems(newItems: itemInfos)

@@ -1,5 +1,5 @@
 //
-//  CategorySectionCell.swift
+//  CategoryCategoryCell.swift
 //  FixedFit
 //
 //  Created by Amanuel Ketebo on 3/3/18.
@@ -8,14 +8,15 @@
 
 import UIKit
 
-class CategorySectionCell: UITableViewCell {
+class ClosetCategoryCell: UITableViewCell {
     @IBOutlet weak var categoryNameLabel: UILabel!
     @IBOutlet weak var selectedItemImageView: UIImageView!
 
-    static let identifier = "categorySectionCell"
+    static let identifier = "closetCategoryCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        selectedItemImageView.contentMode = .scaleAspectFill
         selectedItemImageView.clipsToBounds = true
         selectedItemImageView.layer.cornerRadius = 5
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class categoryCell: UICollectionViewCell {
+class CategoryCell: UICollectionViewCell {
     @IBOutlet weak var categoryCellLabel: UILabel!
 
     static let identifier = "categoryCell"
@@ -16,5 +16,4 @@ class categoryCell: UICollectionViewCell {
     override func awakeFromNib() {
         cornerRadius = 5
     }
-
 }

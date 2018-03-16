@@ -8,8 +8,8 @@
 
 import UIKit
 
-class AddcategoryCell: UICollectionViewCell {
-    static let identifier = "addcategoryCell"
+class AddCategoryCell: UICollectionViewCell {
+    static let identifier = "addCategoryCell"
 
     override func awakeFromNib() {
         cornerRadius = 5

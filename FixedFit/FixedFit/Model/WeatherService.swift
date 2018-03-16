@@ -13,7 +13,7 @@ class WeatherService {
     private let baseURL = "https://api.openweathermap.org/data/2.5/weather"
     private let appID = "4ebd3596288f474d93915703e0d4058b"
 
-    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping (String) -> Void) {
+    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping (String, String, String) -> Void) {
         let urlString = baseURL + "?lat=" + String(latitude) + "&lon=" + String(longitude) + "&APPID=" + appID
         let url = URL(string: urlString)
         let task = URLSession.shared.dataTask(with: url!) { [weak self] (data, response, error) in
@@ -25,9 +25,12 @@ class WeatherService {
                 if let jsonWeatherData = try? JSONSerialization.jsonObject(with: weatherData, options: []) as? [String : Any] {
                     if let kelvinTemperature = (jsonWeatherData?["main"] as? [String: Any])?["temp"] as? Float {
                         let fahrenheitTemperature = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinTemperature))
-
+                        let kelvinLo = (jsonWeatherData?["main"] as? [String: Any])?["temp_min"] as! Float
+                        let kelvinHi = (jsonWeatherData?["main"] as? [String: Any])?["temp_max"] as! Float
+                        let loTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinLo))
+                        let hiTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinHi))
                         DispatchQueue.main.async {
-                            completion(fahrenheitTemperature + "°")
+                            completion(fahrenheitTemperature + "°",loTemp + "°",hiTemp + "°")
                         }
                     } else {
                         print("Trouble parsing weather JSON")

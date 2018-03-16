@@ -11,9 +11,9 @@ import UIKit
 class ClosetVC: UIViewController {
     @IBOutlet weak var categoriesTableView: UITableView!
 
-    var categories: Set<String> {
+    var categories: [String] {
         get {
-            return userStuffManager.closet.allCategories
+            return userStuffManager.closet.categorySubcategoryStore.allCategories
         }
 
         set {
@@ -82,7 +82,7 @@ class ClosetVC: UIViewController {
     func presentAddCategoryVC(images: [UIImage]) {
         if let navVC = UIStoryboard.addCategoryVC as? UINavigationController,
             let addCategoryVC = navVC.topViewController as? AddCategoryVC {
-            addCategoryVC.items = images
+            addCategoryVC.photos = images
             present(navVC, animated: true, completion: nil)
         }
     }
@@ -98,8 +98,10 @@ class ClosetVC: UIViewController {
             if let _ = error {
                 print("Trouble fetching closet")
             } else if let closet = closet {
+                // If the second line isn't included the empty state won't show
+                // Def change this later
                 self?.userStuffManager.updateCloset(closet: closet)
-                self?.categories = strongSelf.userStuffManager.closet.allCategories
+                self?.categories = strongSelf.userStuffManager.closet.categorySubcategoryStore.allCategories
                 self?.categoriesTableView.reloadData()
                 self?.activityIndicator.stopAnimating()
                 self?.categoriesTableView.refreshControl?.endRefreshing()
@@ -118,7 +120,6 @@ class ClosetVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let itemsVC = segue.destination as? ItemsVC,
             let category = sender as? String {
-
             itemsVC.closetItems = userStuffManager.closet.closetItems(matching: category)
         }
     }
@@ -130,8 +131,8 @@ extension ClosetVC: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CategorySectionCell.identifier, for: indexPath) as! CategorySectionCell
-        let category = Array(categories)[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: ClosetCategoryCell.identifier, for: indexPath) as! ClosetCategoryCell
+        let category = categories[indexPath.row]
         let imageStoragePath = userStuffManager.closet.imageStoragePath(for: category)
 
         cell.categoryNameLabel.text = category
@@ -155,7 +156,7 @@ extension ClosetVC: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = categoriesTableView.cellForRow(at: indexPath) as? CategorySectionCell
+        let cell = categoriesTableView.cellForRow(at: indexPath) as? ClosetCategoryCell
         let category = cell?.categoryNameLabel.text
 
         performSegue(withIdentifier: UIStoryboard.itemsSegue, sender: category)

@@ -13,6 +13,8 @@ import JTAppleCalendar
 
 class HomeVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var weatherLabel: UILabel!
+    @IBOutlet weak var hiLabel: UILabel!
+    @IBOutlet weak var loLabel: UILabel!
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -22,33 +24,37 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     let firebaseManager = FirebaseManager.shared
     let weatherService = WeatherService()
     let currentDate = Date()
-    
+
     //mock dictionary of events
     var firebaseEvents: [String:String] = [:]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
 
         setupCalendarView()
-        
+
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation = locations[0]
-        
+
         manager.stopUpdatingLocation()
-        
+
         let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
 
-        weatherService.fetchWeather(latitude: coordinations.latitude, longitude: coordinations.longitude) { [weak self] (temperature) in
+        weatherService.fetchWeather(latitude: coordinations.latitude, longitude: coordinations.longitude) { [weak self] (temperature, loTemp, hiTemp) in
             self?.weatherLabel.text = temperature
             self?.weatherLabel.fadeIn(duration: 1)
+            self?.loLabel.text = loTemp
+            self?.loLabel.fadeIn(duration: 2)
+            self?.hiLabel.text = hiTemp
+            self?.hiLabel.fadeIn(duration: 3)
         }
     }
 
@@ -59,14 +65,14 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.scrollToDate(Date(), animateScroll: false)
         calendarView.minimumLineSpacing = 1
         calendarView.minimumInteritemSpacing = 1
-        
+
         //get calendar events
         firebaseEvents = getServerEvents()
     }
-    
+
     //mock firebase event pull
     func getServerEvents() -> [String:String] {
-        
+
         return [
             "2018 03 05":"Outfit 1",
             "2018 03 10":"Outfit 2",
@@ -93,15 +99,14 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     }
 
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
-        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
-        
+        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as! CalendarCell
         cell.dateLabel.text = cellState.text
         formatter.dateFormat = "yyyy MM dd"
         cell.closetEvent.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
-        
+
         let currentDateString = formatter.string(from: currentDate)
         let calendarDateString = formatter.string(from: cellState.date)
-        
+
         if currentDateString == calendarDateString {
             cell.dateLabel.textColor = UIColor.fixedFitBlue
         } else if cellState.dateBelongsTo == .thisMonth {
@@ -109,13 +114,13 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         } else {
             cell.dateLabel.textColor = UIColor.gray
         }
-        
+
 
         return cell
     }
-		
+
     func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
-        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as! CalendarCell
         cell.dateLabel.text = cellState.text
     }
 

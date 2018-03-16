@@ -13,7 +13,6 @@ class ClosetVC: UIViewController {
 
     var categories: [String] {
         get {
-            print(userStuffManager.closet.categorySubcategoryStore.allCategories)
             return userStuffManager.closet.categorySubcategoryStore.allCategories
         }
 
@@ -94,10 +93,15 @@ class ClosetVC: UIViewController {
 
     @objc private func fetchCloset() {
         firebaseManager.fetchCloset { [weak self] (closet, error) in
+            guard let strongSelf = self else { return }
+
             if let _ = error {
                 print("Trouble fetching closet")
             } else if let closet = closet {
+                // If the second line isn't included the empty state won't show
+                // Def change this later
                 self?.userStuffManager.updateCloset(closet: closet)
+                self?.categories = strongSelf.userStuffManager.closet.categorySubcategoryStore.allCategories
                 self?.categoriesTableView.reloadData()
                 self?.activityIndicator.stopAnimating()
                 self?.categoriesTableView.refreshControl?.endRefreshing()

@@ -38,7 +38,6 @@ class Closet {
     func imageStoragePath(for category: String) -> String? {
         for item in items {
             if item.categorySubcategory.category == category {
-                print(item.storagePath)
                 return item.storagePath
             }
         }

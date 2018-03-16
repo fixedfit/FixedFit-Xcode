@@ -23,25 +23,29 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     let formatter = DateFormatter()
     let firebaseManager = FirebaseManager.shared
     let weatherService = WeatherService()
-    
+    let currentDate = Date()
+
+    //mock dictionary of events
+    var firebaseEvents: [String:String] = [:]
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
 
         setupCalendarView()
-        
+
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation = locations[0]
-        
+
         manager.stopUpdatingLocation()
-        
+
         let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
 
         weatherService.fetchWeather(latitude: coordinations.latitude, longitude: coordinations.longitude) { [weak self] (temperature, loTemp, hiTemp) in
@@ -61,6 +65,23 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.scrollToDate(Date(), animateScroll: false)
         calendarView.minimumLineSpacing = 1
         calendarView.minimumInteritemSpacing = 1
+
+        //get calendar events
+        firebaseEvents = getServerEvents()
+    }
+
+    //mock firebase event pull
+    func getServerEvents() -> [String:String] {
+
+        return [
+            "2018 03 05":"Outfit 1",
+            "2018 03 10":"Outfit 2",
+            "2018 03 16":"Outfit 3",
+            "2018 03 20":"Outfit 4",
+            "2018 03 22":"Outfit 5",
+            "2018 03 25":"Outfit 6",
+            "2018 03 28":"Outfit 7"
+        ]
     }
 }
 
@@ -80,12 +101,20 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as! CalendarCell
         cell.dateLabel.text = cellState.text
+        formatter.dateFormat = "yyyy MM dd"
+        cell.closetEvent.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
 
-        if cellState.dateBelongsTo == .thisMonth {
-            cell.dateLabel.textColor = UIColor.black
+        let currentDateString = formatter.string(from: currentDate)
+        let calendarDateString = formatter.string(from: cellState.date)
+
+        if currentDateString == calendarDateString {
+            cell.dateLabel.textColor = UIColor.fixedFitBlue
+        } else if cellState.dateBelongsTo == .thisMonth {
+            cell.dateLabel.textColor = UIColor.fixedFitPurple
         } else {
             cell.dateLabel.textColor = UIColor.gray
         }
+
 
         return cell
     }
@@ -101,7 +130,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "yyyy"
         year.text = formatter.string(from: date)
 
-        formatter.dateFormat = "MMMM"
+        formatter.dateFormat = "MMM"
         month.text = formatter.string(from: date)
     }
 }

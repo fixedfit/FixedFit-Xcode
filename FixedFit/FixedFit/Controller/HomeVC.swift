@@ -13,6 +13,8 @@ import JTAppleCalendar
 
 class HomeVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var weatherLabel: UILabel!
+    @IBOutlet weak var hiLabel: UILabel!
+    @IBOutlet weak var loLabel: UILabel!
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -42,9 +44,13 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         
         let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
 
-        weatherService.fetchWeather(latitude: coordinations.latitude, longitude: coordinations.longitude) { [weak self] (temperature) in
+        weatherService.fetchWeather(latitude: coordinations.latitude, longitude: coordinations.longitude) { [weak self] (temperature, loTemp, hiTemp) in
             self?.weatherLabel.text = temperature
             self?.weatherLabel.fadeIn(duration: 1)
+            self?.loLabel.text = loTemp
+            self?.loLabel.fadeIn(duration: 2)
+            self?.hiLabel.text = hiTemp
+            self?.hiLabel.fadeIn(duration: 3)
         }
     }
 
@@ -53,8 +59,8 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.calendarDelegate = self
         calendarView.calendarDataSource = self
         calendarView.scrollToDate(Date(), animateScroll: false)
-        calendarView.minimumLineSpacing = 0
-        calendarView.minimumInteritemSpacing = 0
+        calendarView.minimumLineSpacing = 1
+        calendarView.minimumInteritemSpacing = 1
     }
 }
 

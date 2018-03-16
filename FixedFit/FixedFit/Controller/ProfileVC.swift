@@ -65,7 +65,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         //Update labels of profile if user has edited them
         self.UserFirstName.text = "First Name"
         self.UserLastName.text = "Last name"
-        self.UserBio.text = ""
+        self.UserBio.text = "No Bio"
         
         
         ////Update Followers and Following Counters from firebase
@@ -90,11 +90,11 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         print("profile appeared")
     }
     
-    //Transition to the editor view controller
-    @IBAction func tappedEditorButton(_ sender: UIBarButtonItem) {
-          performSegue(withIdentifier: "EditTransition", sender: self)
-        
+    @IBAction func EditTransition(_ sender: UIBarButtonItem) {
+        print("moving to editor")
+        performSegue(withIdentifier: "EditTransition", sender: self)
     }
+    
     
     
     

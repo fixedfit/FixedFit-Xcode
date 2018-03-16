@@ -168,7 +168,8 @@
                     <navigationItem key="navigationItem" title="Home" id="aAc-n5-pwf">
                         <barButtonItem key="leftBarButtonItem" title="settings" id="TSD-d1-hFJ">
                             <connections>
-                                <segue destination="I6j-N8-YVI" kind="show" id="hLT-GG-M0U"/>
+                                <action selector="SettingsTransition:" destination="JA4-Jd-9m3" id="DMQ-U5-Oh1"/>
+                                <segue destination="I6j-N8-YVI" kind="show" identifier="SettingTransition" id="WW9-Nr-gdk"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

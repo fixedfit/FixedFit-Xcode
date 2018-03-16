@@ -130,6 +130,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     //perform any last minute error checks and Exit editor view if needed
     @IBAction func ExitEditor(_ sender: UIButton) {
+        
+        //Use informationVC object to select decision
         self.dismiss(animated: true, completion: nil)
         print("leaving")
         

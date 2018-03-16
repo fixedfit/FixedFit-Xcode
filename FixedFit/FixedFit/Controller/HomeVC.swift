@@ -56,6 +56,11 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.minimumLineSpacing = 0
         calendarView.minimumInteritemSpacing = 0
     }
+    
+    @IBAction func SettingsTransition(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: "SettingTransition", sender: self)
+    }
+    
 }
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {

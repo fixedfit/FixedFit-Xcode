@@ -21,6 +21,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     let formatter = DateFormatter()
     let firebaseManager = FirebaseManager.shared
     let weatherService = WeatherService()
+    let todaysDate = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +61,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
-        formatter.dateFormat = "yyyy MM dd"
+        formatter.dateFormat = "yyyy MMM dd"
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
 
@@ -74,16 +75,17 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
         cell.dateLabel.text = cellState.text
-
+        
         if cellState.dateBelongsTo == .thisMonth {
-            cell.dateLabel.textColor = UIColor.black
+            cell.dateLabel.textColor = UIColor.fixedFitPurple
         } else {
             cell.dateLabel.textColor = UIColor.gray
         }
+        
 
         return cell
     }
-
+		
     func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
         cell.dateLabel.text = cellState.text
@@ -95,7 +97,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "yyyy"
         year.text = formatter.string(from: date)
 
-        formatter.dateFormat = "MMMM"
+        formatter.dateFormat = "MMM"
         month.text = formatter.string(from: date)
     }
 }

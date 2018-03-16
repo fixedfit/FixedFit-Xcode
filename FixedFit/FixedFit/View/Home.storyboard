@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -117,16 +118,23 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmu-o4-Sze" userLabel="Date Label">
-                                                            <rect key="frame" x="2" y="2" width="28.5" height="13.5"/>
+                                                            <rect key="frame" x="2" y="2" width="29" height="14"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="generic_outfit" translatesAutoresizingMaskIntoConstraints="NO" id="EwZ-kd-AeA">
+                                                            <rect key="frame" x="12" y="16" width="57" height="53"/>
+                                                        </imageView>
                                                     </subviews>
                                                 </view>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
+                                                    <constraint firstItem="EwZ-kd-AeA" firstAttribute="top" secondItem="bmu-o4-Sze" secondAttribute="bottom" id="2tC-uc-ey0"/>
                                                     <constraint firstItem="bmu-o4-Sze" firstAttribute="top" secondItem="Rcm-jH-p1y" secondAttribute="top" constant="2" id="DZh-ZN-lIh"/>
+                                                    <constraint firstItem="EwZ-kd-AeA" firstAttribute="leading" secondItem="Rcm-jH-p1y" secondAttribute="leadingMargin" constant="4" id="Wrg-sT-9LG"/>
+                                                    <constraint firstAttribute="bottom" secondItem="EwZ-kd-AeA" secondAttribute="bottom" constant="2" id="bGH-6J-tOU"/>
+                                                    <constraint firstAttribute="trailing" secondItem="EwZ-kd-AeA" secondAttribute="trailing" constant="2" id="q6u-tU-74U"/>
                                                     <constraint firstItem="bmu-o4-Sze" firstAttribute="leading" secondItem="Rcm-jH-p1y" secondAttribute="leading" constant="2" id="rzD-mY-H0n"/>
                                                 </constraints>
                                                 <connections>
@@ -219,6 +227,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="generic_outfit" width="640" height="962"/>
         <image name="home" width="30" height="30"/>
     </resources>
 </document>

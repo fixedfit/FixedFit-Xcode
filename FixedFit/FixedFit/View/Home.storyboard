@@ -166,9 +166,9 @@
                         <viewLayoutGuide key="safeArea" id="eD5-vq-5Jd"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="aAc-n5-pwf">
-                        <barButtonItem key="rightBarButtonItem" title="settings" id="TSD-d1-hFJ">
+                        <barButtonItem key="leftBarButtonItem" title="settings" id="TSD-d1-hFJ">
                             <connections>
-                                <segue destination="jJh-YQ-lti" kind="show" id="5x9-cz-pCf"/>
+                                <segue destination="I6j-N8-YVI" kind="show" id="hLT-GG-M0U"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -181,35 +181,32 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U7N-Z8-Pme" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-306.39999999999998" y="-1288.6056971514245"/>
+            <point key="canvasLocation" x="-252" y="-1288"/>
         </scene>
         <!--SettingsVC-->
-        <scene sceneID="XxZ-rY-wjg">
+        <scene sceneID="7ql-ny-QeJ">
             <objects>
-                <viewController id="jJh-YQ-lti" customClass="SettingsVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="vC4-jn-VEP">
+                <viewController id="I6j-N8-YVI" customClass="SettingsVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RB1-if-nJf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qg-fE-fon">
-                                <rect key="frame" x="15" y="82" width="48" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ehq-ag-F5V">
+                                <rect key="frame" x="160" y="414" width="55" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="log out"/>
+                                <state key="normal" title="Log Out"/>
                                 <connections>
-                                    <action selector="tappedLogout:" destination="jJh-YQ-lti" eventType="touchUpInside" id="yFT-lq-qMx"/>
+                                    <action selector="tappedLogout:" destination="I6j-N8-YVI" eventType="touchUpInside" id="P56-tC-Dgi"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="3ZU-mU-ByT"/>
+                        <viewLayoutGuide key="safeArea" id="oyW-7M-wWu"/>
                     </view>
-                    <connections>
-                        <outlet property="tappedLogout" destination="0Qg-fE-fon" id="pAp-cE-ebg"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jyc-4e-lcp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zku-pg-aLV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="415" y="-1289"/>
+            <point key="canvasLocation" x="484" y="-1285.9070464767617"/>
         </scene>
         <!--Home-->
         <scene sceneID="2Tq-j4-Q9h">

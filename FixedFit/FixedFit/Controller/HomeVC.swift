@@ -47,6 +47,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         }
     }
 
+
     func setupCalendarView() {
         //show today's date in calendar
         calendarView.calendarDelegate = self
@@ -98,4 +99,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "MMMM"
         month.text = formatter.string(from: date)
     }
+    
+    
+    
 }

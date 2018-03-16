@@ -12,7 +12,8 @@ import UIKit
 class EditorVC: UIViewController, UITextFieldDelegate,
     UITextViewDelegate,
     UINavigationControllerDelegate,
-    UIImagePickerControllerDelegate{
+    UIImagePickerControllerDelegate,
+    UIGestureRecognizerDelegate{
     
     //MARK: Reference for editing photo
     @IBOutlet weak var EditingPhoto: UIImageView!
@@ -34,9 +35,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     var PreviousUserLastName: String!
     weak var PreviousUserPhoto: UIImage!
     
-    //Initialize an image name to a default image
-    var ImageName = ""
-    
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,20 +45,39 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         self.UserFirstNameField.delegate = self
         self.UserLastNameField.delegate = self
         
+        self.navigationItem.title = "Edit Profile"
+        
         //Temporarily store the previous texts and user photo from firebase before any changes are made
+        
+        //Add UITapGesture to the UIImage
+        let tapped = UITapGestureRecognizer(target:self, action: #selector(EditorVC.tappedPhoto))
+        tapped.delegate = self
+        EditingPhoto.isUserInteractionEnabled = true
+        EditingPhoto.addGestureRecognizer(tapped)
+    }
+    
+    //Allow UIImage to have touch gesture
+    @objc func tappedPhoto(sender: UITapGestureRecognizer?){
+        print("tapped photo")
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         //Load up image of user and text fields from data base
         
-        //Determine if the user has already set up a photo
+        //Initialize a weak reference to a variable called "Image" to hold the UIImage reference
+        weak var Image:UIImage?
+        
+        //Determine if the user has already set up a photo or if it needs to use the default profile pic
         if true{
-            ImageName = "defaultProfile"
+            Image = UIImage(named:"defaultProfile")
+        } else {
+            print("data from firebase")
         }
         
+        
         //Add the image onto the UIImaveView and scale it
-        let image = UIImage(named: ImageName)
+        let image = Image
         EditingPhoto.contentMode = UIViewContentMode.scaleAspectFit
         EditingPhoto.image = image
         
@@ -111,18 +128,13 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     }
     
-    //perform any last minute error checks
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+    //perform any last minute error checks and Exit editor view if needed
+    @IBAction func ExitEditor(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+        print("leaving")
         
-        //Determine if the current view is being popped of the navigation stack
-        if self.isMovingFromParentViewController{
-            
-            //Perform any error checks in this section
-            print("leaving editor")
-            //Otherwise, store the newly updated information into firebase
-            
-        }
     }
+    
+
     
 }

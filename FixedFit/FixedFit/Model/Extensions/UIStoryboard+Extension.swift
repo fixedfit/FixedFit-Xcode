@@ -19,8 +19,8 @@ extension UIStoryboard {
         return UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
     }
 
-    class var addVC: UIViewController? {
-        return UIStoryboard(name: "Add", bundle: nil).instantiateInitialViewController()
+    class var addPhotosVC: UIViewController? {
+        return UIStoryboard(name: "AddPhotos", bundle: nil).instantiateInitialViewController()
     }
 
     class var addCategoryVC: UIViewController? {

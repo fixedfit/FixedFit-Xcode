@@ -9,7 +9,7 @@
 import UIKit
 import ImagePicker
 
-class AddVC: UIViewController {
+class AddPhotosVC: UIViewController {
     var imagePicker = ImagePickerController()
     var currentTabBarController: UITabBarController?
 
@@ -27,7 +27,7 @@ class AddVC: UIViewController {
     }
 }
 
-extension AddVC: ImagePickerDelegate {
+extension AddPhotosVC: ImagePickerDelegate {
     func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         dismiss(animated: true, completion: nil)
     }

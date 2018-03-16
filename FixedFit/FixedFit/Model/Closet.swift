@@ -8,44 +8,37 @@
 
 import Foundation
 
-struct ClosetItem {
-    var storagePath: String
-    var category: String
+struct CategorySubcategory {
+    var category: String?
+    var subcategory: String?
 
-    init(storagePath: String, category: String) {
+    func allFieldsSet() -> Bool {
+        if category != nil && subcategory != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+struct ClosetItem {
+    var categorySubcategory: CategorySubcategory
+    var storagePath: String
+
+    init(categorySubcategory: CategorySubcategory, storagePath: String) {
         self.storagePath = storagePath
-        self.category = category
+        self.categorySubcategory = categorySubcategory
     }
 }
 
 class Closet {
     var items: [ClosetItem] = []
-    private var categories: Set<String> = []
-    var temporaryCategories: Set<String> = []
-
-    var allCategories: Set<String> {
-        return categories.union(temporaryCategories)
-    }
-
-    func addNewCategory(_ category: String) {
-        temporaryCategories.insert(category)
-    }
-
-    func setCategories(categories: Set<String>) {
-        self.categories = categories
-    }
-
-    func removeTemporaryCategories(insertToUserCategories: Bool) {
-        if insertToUserCategories {
-            categories = categories.union(temporaryCategories)
-        } else {
-            temporaryCategories.removeAll()
-        }
-    }
+    var categorySubcategoryStore = CategorySubcategoryStore()
 
     func imageStoragePath(for category: String) -> String? {
         for item in items {
-            if item.category == category {
+            if item.categorySubcategory.category == category {
+                print(item.storagePath)
                 return item.storagePath
             }
         }
@@ -54,6 +47,19 @@ class Closet {
     }
 
     func closetItems(matching category: String) -> [ClosetItem] {
-        return items.filter { return $0.category == category ? true : false }
+        return items.filter { return $0.categorySubcategory.category ?? "" == category ? true : false }
+    }
+}
+
+func ==(_ a: CategorySubcategory, _ b: CategorySubcategory) -> Bool {
+    guard let aCategory = a.category, let aSubcategory = a.subcategory,
+        let bCategory = b.category, let bSubcategory = b.subcategory else {
+            return false
+    }
+
+    if aCategory == bCategory && aSubcategory == bSubcategory {
+        return true
+    } else {
+        return false
     }
 }

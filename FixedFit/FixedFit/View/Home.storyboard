@@ -107,7 +107,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CustomCell" id="Rcm-jH-p1y" customClass="CustomCell" customModule="FixedFit" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="calendarCell" id="Rcm-jH-p1y" customClass="CalendarCell" customModule="FixedFit" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="71" height="71"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -132,7 +132,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <outlet property="dateLabel" destination="bmu-o4-Sze" id="ebi-SC-cbQ"/>
+                                                    <outlet property="dateLabel" destination="bmu-o4-Sze" id="UCS-YO-uGi"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>

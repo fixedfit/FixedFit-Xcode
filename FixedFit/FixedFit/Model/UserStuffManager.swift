@@ -31,7 +31,6 @@ class UserStuffManager {
                 self?.firstName = firstName
                 self?.lastName = lastName
                 self?.username = username
-                self?.fetchCategories()
 
                 if let completion = completion {
                     completion(nil)
@@ -40,39 +39,28 @@ class UserStuffManager {
         }
     }
 
-    func fetchCategories() {
-        let firebaseManager = FirebaseManager.shared
-
-        firebaseManager.fetchCategories(for: username) { [weak self] (foundCategories, error) in
-            guard let strongSelf = self else { return }
-
-            if let _ = error {
-                print("Problem fetching categories")
-            } else if let foundCategories = foundCategories {
-                strongSelf.closet.setCategories(categories: strongSelf.closet.allCategories.union(foundCategories))
-            }
-        }
-    }
-
     func updateCloset(closet: [String: Any]) {
         if let newClosetItems = closet[FirebaseKeys.items] as? [[String:Any]] {
             var createdClosetItems: [ClosetItem] = []
-            var createdCategories: Set<String> = []
 
             for newClosetItem in newClosetItems {
                 if let url = newClosetItem[FirebaseKeys.url] as? String,
-                    let category = newClosetItem[FirebaseKeys.category] as? String {
-                    let createdClosetItem = ClosetItem(storagePath: url, category: category)
+                    let category = newClosetItem[FirebaseKeys.category] as? String,
+                    let subcategory = newClosetItem[FirebaseKeys.subcategory] as? String {
+                    let categorySubcategory = CategorySubcategory(category: category, subcategory: subcategory)
+                    let createdClosetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url)
 
                     createdClosetItems.append(createdClosetItem)
-                    createdCategories.insert(category)
+                    self.closet.categorySubcategoryStore.addCategory(category: category)
+                    self.closet.categorySubcategoryStore.addSubcategory(category: category, subcategory: subcategory)
                 }
             }
 
             self.closet.items = createdClosetItems
-            self.closet.setCategories(categories: createdCategories)
         } else if let newClosetCategories = closet[FirebaseKeys.categories] as? [String] {
-            self.closet.setCategories(categories: Set(newClosetCategories))
+            for newClosetCategory in newClosetCategories {
+                self.closet.categorySubcategoryStore.addCategory(category: newClosetCategory)
+            }
         }
     }
 }

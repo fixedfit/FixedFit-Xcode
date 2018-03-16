@@ -8,8 +8,10 @@
 
 import UIKit
 
-class ItemCell: UICollectionViewCell {
+class PhotoCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
+
+    static let identifier = "photoCell"
 
     override func awakeFromNib() {
         imageView.contentMode = .scaleAspectFill

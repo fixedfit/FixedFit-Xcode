@@ -21,7 +21,10 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     let formatter = DateFormatter()
     let firebaseManager = FirebaseManager.shared
     let weatherService = WeatherService()
-    let todaysDate = Date()
+    let currentDate = Date()
+    
+    //mock dictionary of events
+    var firebaseEvents: [String:String] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,12 +59,29 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.scrollToDate(Date(), animateScroll: false)
         calendarView.minimumLineSpacing = 1
         calendarView.minimumInteritemSpacing = 1
+        
+        //get calendar events
+        firebaseEvents = getServerEvents()
+    }
+    
+    //mock firebase event pull
+    func getServerEvents() -> [String:String] {
+        
+        return [
+            "2018 03 05":"Outfit 1",
+            "2018 03 10":"Outfit 2",
+            "2018 03 16":"Outfit 3",
+            "2018 03 20":"Outfit 4",
+            "2018 03 22":"Outfit 5",
+            "2018 03 25":"Outfit 6",
+            "2018 03 28":"Outfit 7"
+        ]
     }
 }
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
-        formatter.dateFormat = "yyyy MMM dd"
+        formatter.dateFormat = "yyyy MM dd"
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
 
@@ -74,9 +94,17 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
 
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
-        cell.dateLabel.text = cellState.text
         
-        if cellState.dateBelongsTo == .thisMonth {
+        cell.dateLabel.text = cellState.text
+        formatter.dateFormat = "yyyy MM dd"
+        cell.closetEvent.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
+        
+        let currentDateString = formatter.string(from: currentDate)
+        let calendarDateString = formatter.string(from: cellState.date)
+        
+        if currentDateString == calendarDateString {
+            cell.dateLabel.textColor = UIColor.fixedFitBlue
+        } else if cellState.dateBelongsTo == .thisMonth {
             cell.dateLabel.textColor = UIColor.fixedFitPurple
         } else {
             cell.dateLabel.textColor = UIColor.gray

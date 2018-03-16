@@ -138,22 +138,22 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Qac-nE-TAk">
-                                <rect key="frame" x="174" y="82" width="27.5" height="20.5"/>
+                                <rect key="frame" x="160" y="82" width="55" height="20.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dh-bF-FBk">
-                                        <rect key="frame" x="0.0" y="0.0" width="18" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dh-bF-FBk">
+                                        <rect key="frame" x="0.0" y="0.0" width="45.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kyl-EM-fwd">
-                                        <rect key="frame" x="18" y="0.5" width="9.5" height="20"/>
+                                        <rect key="frame" x="45.5" y="0.5" width="9.5" height="20"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Cp-kg-YS0">
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Cp-kg-YS0">
                                                 <rect key="frame" x="0.0" y="0.0" width="9.5" height="10"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RpD-UX-71z">
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RpD-UX-71z">
                                                 <rect key="frame" x="0.0" y="10" width="9.5" height="10"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                 <nil key="highlightedColor"/>
@@ -165,12 +165,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="eD5-vq-5Jd" firstAttribute="trailing" secondItem="Qac-nE-TAk" secondAttribute="trailing" constant="173.5" id="7k3-n7-7u9"/>
-                            <constraint firstItem="Qac-nE-TAk" firstAttribute="top" secondItem="eD5-vq-5Jd" secondAttribute="top" constant="18" id="fJm-Nm-NRJ"/>
+                            <constraint firstItem="Qac-nE-TAk" firstAttribute="top" secondItem="eD5-vq-5Jd" secondAttribute="top" constant="18" id="5pK-Lc-h1b"/>
+                            <constraint firstItem="eD5-vq-5Jd" firstAttribute="trailing" secondItem="Qac-nE-TAk" secondAttribute="trailing" constant="160" id="Kbu-3r-L4h"/>
                             <constraint firstItem="eD5-vq-5Jd" firstAttribute="trailing" secondItem="Yr1-Eb-Dqs" secondAttribute="trailing" id="nFL-fz-zAu"/>
                             <constraint firstItem="Yr1-Eb-Dqs" firstAttribute="leading" secondItem="RbT-Rw-w8o" secondAttribute="leading" id="ohL-og-s3N"/>
                             <constraint firstItem="Yr1-Eb-Dqs" firstAttribute="top" secondItem="eD5-vq-5Jd" secondAttribute="top" constant="56" id="s78-YF-rfv"/>
-                            <constraint firstItem="Qac-nE-TAk" firstAttribute="leading" secondItem="eD5-vq-5Jd" secondAttribute="leading" constant="174" id="ykN-eG-lIx"/>
+                            <constraint firstItem="Qac-nE-TAk" firstAttribute="leading" secondItem="eD5-vq-5Jd" secondAttribute="leading" constant="160" id="xzo-d1-Pj3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eD5-vq-5Jd"/>
                     </view>

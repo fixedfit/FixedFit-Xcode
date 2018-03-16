@@ -138,6 +138,7 @@
                                                     <constraint firstItem="bmu-o4-Sze" firstAttribute="leading" secondItem="Rcm-jH-p1y" secondAttribute="leading" constant="2" id="rzD-mY-H0n"/>
                                                 </constraints>
                                                 <connections>
+                                                    <outlet property="closetEvent" destination="EwZ-kd-AeA" id="ohI-yJ-bkO"/>
                                                     <outlet property="dateLabel" destination="bmu-o4-Sze" id="ebi-SC-cbQ"/>
                                                 </connections>
                                             </collectionViewCell>

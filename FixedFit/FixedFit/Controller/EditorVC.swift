@@ -129,10 +129,47 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     }
     
     //perform any last minute error checks and Exit editor view if needed
-    @IBAction func ExitEditor(_ sender: UIButton) {
+    @IBAction func ExitEditor(_ sender: UIBarButtonItem) {
+        
+        //Error message used to be concatenated to let the user know what to do
+        var errorMsg = ""
+        let err = "Error:"
         
         //Use informationVC object to select decision
         self.dismiss(animated: true, completion: nil)
+        
+        //Determine if UserName crietria is satisfied
+        if UserNameTextField.text == ""{
+            errorMsg = errorMsg + err + "User Name is empty." + "\n"
+           print("user name")
+        
+        } else if(false){
+            
+        //Check if user name already exists
+        } else if(false){
+            
+            
+        }
+        
+        if(UserFirstNameField.text == ""){
+            print("user first name")
+        } else if(false){
+            
+        }
+        
+        if(UserLastNameField.text == ""){
+            print("last name")
+            
+        } else if(false){
+            
+        }
+        
+        if(UserBioTextField.text == ""){
+            print("bio empty")
+        } else if(false){
+            
+        }
+        
         print("leaving")
         
     }

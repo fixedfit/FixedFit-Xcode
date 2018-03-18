@@ -56,10 +56,10 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         EditingPhoto.addGestureRecognizer(tapped)
     }
     
-    //Allow UIImage to have touch gesture
+    //Allow UIImageView to have touch gesture
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
-        print("tapped photo")
         
+        print("switch photos")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -132,45 +132,50 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     @IBAction func ExitEditor(_ sender: UIBarButtonItem) {
         
         //Error message used to be concatenated to let the user know what to do
-        var errorMsg = ""
-        let err = "Error:"
-        
-        //Use informationVC object to select decision
-        self.dismiss(animated: true, completion: nil)
+        var errorMsg = "Error Status:\n"
         
         //Determine if UserName crietria is satisfied
         if UserNameTextField.text == ""{
-            errorMsg = errorMsg + err + "User Name is empty." + "\n"
-           print("user name")
+            errorMsg = errorMsg + "User Name Field is empty.\n"
+           
         
         } else if(false){
+            
+            print("max character limit reached")
             
         //Check if user name already exists
         } else if(false){
             
-            
+            errorMsg = errorMsg + "User Name already exists.\n"
         }
         
         if(UserFirstNameField.text == ""){
             print("user first name")
-        } else if(false){
+            errorMsg = errorMsg + "First Name Field is empty.\n"
             
+        } else if(false){
+            print("max character limit reached")
         }
         
         if(UserLastNameField.text == ""){
-            print("last name")
+            errorMsg = errorMsg + "Last Name Field is empty.\n"
             
         } else if(false){
-            
+            print("max character limit reached")
         }
         
         if(UserBioTextField.text == ""){
-            print("bio empty")
-        } else if(false){
+            UserBioTextField.text = "No Bio Set."
             
+        } else if(false){
+            print("max character limit reached")
         }
         
-        print("leaving")
+        //Use informationVC object to select decision
+        self.dismiss(animated: true, completion: nil)
+        
+        print(errorMsg)
+       
         
     }
     

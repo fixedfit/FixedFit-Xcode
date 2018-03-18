@@ -13,14 +13,12 @@ import UIKit
 class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     let firebaseManager = FirebaseManager.shared
 
-    //MARK: Default string messages for buttons and names
-    var FollowersMessage = "Follwers"
-    var FollowingMessage = "Following"
+    //Initialize default image name
     var imageName = "defaultProfile"
     
     //MARK: Initialize integer counters to count the number of followers and followings the user currently has.
-    var FollowersCounter = "0"
-    var FollowingCounter = "0"
+    var FollowersCounter = 0
+    var FollowingCounter = 0
     
     //label for the user's first and last name, user's bio, and viewing status
     @IBOutlet weak var UserFirstName: UILabel!
@@ -59,6 +57,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     //MARK: Update profile page once view appears.
     override func viewWillAppear(_ animated: Bool) {
         
+        weak var Image: UIImage!
+        
         //Update the title of the navigation bar with the user name of the user
         self.navigationItem.title = "Future UserName"
         
@@ -67,12 +67,12 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         self.UserLastName.text = "Last name"
         self.UserBio.text = "No Bio"
         
-        
+    
         ////Update Followers and Following Counters from firebase
         
         //Update button titles/view counters
-        self.FollowingCount.text = FollowingCounter
-        self.FollowersCount.text = FollowersCounter
+        self.FollowingCount.text = String(FollowingCounter)
+        self.FollowersCount.text = String(FollowersCounter)
         
         
         ////Load the User's profile photo into the UIImageView
@@ -80,13 +80,18 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         
         //Only obtain a single photo under the term: "userphoto" as a parameter which will be used to determine what to look for
         
+        if true {
+            Image = UIImage(named: imageName)
+        } else {
+            print("if it does exist, then just assign it.")
+        }
+        
         //Generate a UIImage from the user's photo
         //ContentMode is used to scale images
         UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
-        let image = UIImage(named: imageName)
+        let image = Image
         UserProfileImage.image = image
         
-
         print("profile appeared")
     }
     

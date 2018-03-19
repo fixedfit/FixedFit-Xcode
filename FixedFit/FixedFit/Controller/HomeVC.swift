@@ -18,7 +18,8 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
-
+    @IBOutlet weak var eventView: UITableView!
+    
     var locationManager = CLLocationManager()
     let formatter = DateFormatter()
     let firebaseManager = FirebaseManager.shared
@@ -39,6 +40,8 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         setupCalendarView()
 
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
+        
+        eventView.dataSource = self
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -65,6 +68,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.scrollToDate(Date(), animateScroll: false)
         calendarView.minimumLineSpacing = 1
         calendarView.minimumInteritemSpacing = 1
+        calendarView.backgroundColor = UIColor.fixedFitPurple
 
         //get calendar events
         firebaseEvents = getServerEvents()
@@ -110,7 +114,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         if currentDateString == calendarDateString {
             cell.dateLabel.textColor = UIColor.fixedFitBlue
         } else if cellState.dateBelongsTo == .thisMonth {
-            cell.dateLabel.textColor = UIColor.fixedFitPurple
+            cell.dateLabel.textColor = UIColor.black
         } else {
             cell.dateLabel.textColor = UIColor.gray
         }
@@ -133,4 +137,20 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "MMM"
         month.text = formatter.string(from: date)
     }
+}
+
+extension HomeVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return firebaseEvents.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = eventView.dequeueReusableCell(withIdentifier: "eventCell")
+        
+        cell?.textLabel?.text = firebaseEvents.first?.value
+        
+        return cell!
+    }
+    
 }

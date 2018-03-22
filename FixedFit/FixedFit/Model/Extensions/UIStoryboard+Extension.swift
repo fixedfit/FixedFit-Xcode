@@ -29,4 +29,5 @@ extension UIStoryboard {
 
     // Segues
     static let itemsSegue = "itemsSegue"
+    static let filtersSegue = "filtersSegue"
 }

@@ -57,10 +57,10 @@ class UserStuffManager {
             }
 
             self.closet.items = createdClosetItems
-        } else if let newClosetCategories = closet[FirebaseKeys.categories] as? [String] {
-            for newClosetCategory in newClosetCategories {
-                self.closet.categorySubcategoryStore.addCategory(category: newClosetCategory)
-            }
+        }
+
+        if let filters = closet[FirebaseKeys.filters] as? [String: String] {
+            self.closet.filters = filters
         }
     }
 }

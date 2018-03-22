@@ -56,6 +56,7 @@ struct FirebaseKeys {
     static let uniqueID = "uniqueID"
     static let url = "url"
     static let categories = "categories"
+    static let filters = "filters"
 }
 
 class FirebaseManager {
@@ -294,6 +295,21 @@ class FirebaseManager {
                 strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.categories).setValue(foundCategories)
             } else {
                 strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.categories).setValue(categories)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+
+    func saveSubcategoryFilter(subcategoryFilter: String, category: String) {
+        ref.child(userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.filters).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            guard let strongSelf = self else { return }
+
+            if var filtersDict = snapshot.value as? [String: String] {
+                filtersDict[category] = subcategoryFilter
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.filters).setValue(filtersDict)
+            } else {
+                strongSelf.ref.child(strongSelf.userStuffManager.username).child(FirebaseKeys.closet).child(FirebaseKeys.filters).setValue([category: subcategoryFilter])
             }
         }) { (error) in
             print(error.localizedDescription)

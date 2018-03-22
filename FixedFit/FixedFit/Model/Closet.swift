@@ -34,6 +34,7 @@ struct ClosetItem {
 class Closet {
     var items: [ClosetItem] = []
     var categorySubcategoryStore = CategorySubcategoryStore()
+    var filters: [String: String] = [:]
 
     func imageStoragePath(for category: String) -> String? {
         for item in items {
@@ -43,6 +44,14 @@ class Closet {
         }
 
         return nil
+    }
+
+    func filterForCategory(category: String) -> String {
+        if let filter = filters[category] {
+            return filter
+        } else {
+            return "show all"
+        }
     }
 
     func closetItems(matching category: String) -> [ClosetItem] {

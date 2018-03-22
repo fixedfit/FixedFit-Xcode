@@ -20,6 +20,18 @@ extension UIView {
         }
     }
 
+    func fillSuperView() {
+        if let superView = self.superview {
+            self.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                self.leftAnchor.constraint(equalTo: superView.leftAnchor),
+                self.rightAnchor.constraint(equalTo: superView.rightAnchor),
+                self.topAnchor.constraint(equalTo: superView.topAnchor),
+                self.bottomAnchor.constraint(equalTo: superView.bottomAnchor)
+                ])
+        }
+    }
+
     func fadeIn(duration: TimeInterval) {
         UIView.animate(withDuration: duration) {
             self.alpha = 1

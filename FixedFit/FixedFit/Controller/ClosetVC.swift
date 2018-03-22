@@ -29,6 +29,13 @@ class ClosetVC: UIViewController {
     let userStuffManager = UserStuffManager.shared
     let notificationCenter = NotificationCenter.default
 
+    lazy var tableRefreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+
+        refreshControl.addTarget(self, action: #selector(fetchCloset), for: .valueChanged)
+
+        return refreshControl
+    }()
     lazy var emptyStateLabel: UILabel = {
         let label = UILabel()
 
@@ -41,13 +48,6 @@ class ClosetVC: UIViewController {
         label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 
         return label
-    }()
-    lazy var tableRefreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-
-        refreshControl.addTarget(self, action: #selector(fetchCloset), for: .valueChanged)
-
-        return refreshControl
     }()
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
@@ -120,7 +120,9 @@ class ClosetVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let itemsVC = segue.destination as? ItemsVC,
             let category = sender as? String {
+            itemsVC.category = category
             itemsVC.closetItems = userStuffManager.closet.closetItems(matching: category)
+            itemsVC.filterSubcategory = userStuffManager.closet.filterForCategory(category: category)
         }
     }
 }

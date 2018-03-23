@@ -45,14 +45,17 @@ class UserStuffManager {
 
             for newClosetItem in newClosetItems {
                 if let url = newClosetItem[FirebaseKeys.url] as? String,
-                    let category = newClosetItem[FirebaseKeys.category] as? String,
-                    let subcategory = newClosetItem[FirebaseKeys.subcategory] as? String {
+                    let category = newClosetItem[FirebaseKeys.category] as? String {
+                    let subcategory = newClosetItem[FirebaseKeys.subcategory] as? String
                     let categorySubcategory = CategorySubcategory(category: category, subcategory: subcategory)
                     let createdClosetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url)
 
                     createdClosetItems.append(createdClosetItem)
                     self.closet.categorySubcategoryStore.addCategory(category: category)
-                    self.closet.categorySubcategoryStore.addSubcategory(category: category, subcategory: subcategory)
+
+                    if subcategory != nil {
+                        self.closet.categorySubcategoryStore.addSubcategory(category: category, subcategory: subcategory!)
+                    }
                 }
             }
 

@@ -162,7 +162,7 @@ class AddCategoryVC: UIViewController {
         var allPhotosCategorized = true
 
         for photoCategoryDict in photoCategorySubcategoryDict {
-            if !photoCategoryDict.value.allFieldsSet() {
+            if photoCategoryDict.value.category == nil {
                 allPhotosCategorized = false
             }
         }

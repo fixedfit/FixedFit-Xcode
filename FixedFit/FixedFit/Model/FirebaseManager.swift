@@ -223,7 +223,6 @@ class FirebaseManager {
             let itemImage = itemcategoryDict.key
             let itemCategoryInfo = itemcategoryDict.value
             let category = itemCategoryInfo.category!
-            let subcategory = itemCategoryInfo.subcategory!
             let imageUniqueID = uniqueID()
             let newItemStoragePath = storageImageURLReference(uniqueID: imageUniqueID) ?? ""
 
@@ -243,7 +242,12 @@ class FirebaseManager {
                 completion(FirebaseError.unableToUploadCloset)
             }
 
-            itemInfos.append([FirebaseKeys.category: category, FirebaseKeys.subcategory: subcategory, FirebaseKeys.url: newItemStoragePath, FirebaseKeys.uniqueID: imageUniqueID])
+            var itemDict = [FirebaseKeys.category: category, FirebaseKeys.url: newItemStoragePath, FirebaseKeys.uniqueID: imageUniqueID]
+            if let subcategory = itemCategoryInfo.subcategory {
+                itemDict[FirebaseKeys.subcategory] = subcategory
+            }
+
+            itemInfos.append(itemDict)
             itemCategories.append(category)
         }
 

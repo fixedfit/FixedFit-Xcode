@@ -149,11 +149,11 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         var errorMsg = "Error Status:\n"
         
         //Determine if UserName crietria is satisfied
-        if UserNameTextField.text == ""{
+        if (UserNameTextField.text!.isEmpty){
             errorMsg = errorMsg + "User Name Field is empty.\n"
            
-        
-        } else if(false){
+        //Check if username has too many characters
+        } else if( (UserNameTextField.text!.count) > 35){
             
             print("max character limit reached")
             
@@ -163,25 +163,25 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             errorMsg = errorMsg + "User Name already exists.\n"
         }
         
-        if(UserFirstNameField.text == ""){
+        if(UserFirstNameField.text!.isEmpty){
             print("user first name")
             errorMsg = errorMsg + "First Name Field is empty.\n"
             
-        } else if(false){
+        } else if(( (UserFirstNameField.text!.count) > 35)){
             print("max character limit reached")
         }
         
-        if(UserLastNameField.text == ""){
+        if(UserLastNameField.text!.isEmpty){
             errorMsg = errorMsg + "Last Name Field is empty.\n"
             
-        } else if(false){
+        } else if(( (UserLastNameField.text!.count) > 35)){
             print("max character limit reached")
         }
         
-        if(UserBioTextField.text == ""){
+        if(UserBioTextField.text!.isEmpty){
             UserBioTextField.text = "No Bio Set."
             
-        } else if(false){
+        } else if(( (UserBioTextField.text!.count) > 35)){
             print("max character limit reached")
         }
         

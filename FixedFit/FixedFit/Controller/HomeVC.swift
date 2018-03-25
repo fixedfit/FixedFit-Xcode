@@ -58,6 +58,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         }
     }
 
+
     func setupCalendarView() {
         //show today's date in calendar
         calendarView.calendarDelegate = self
@@ -83,6 +84,11 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
             "2018 03 28":"Outfit 7"
         ]
     }
+    
+    @IBAction func SettingsTransition(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: "SettingTransition", sender: self)
+    }
+    
 }
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
@@ -133,4 +139,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "MMM"
         month.text = formatter.string(from: date)
     }
+    
+    
+    
 }

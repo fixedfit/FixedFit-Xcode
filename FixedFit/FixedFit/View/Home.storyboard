@@ -186,7 +186,8 @@
                     <navigationItem key="navigationItem" title="Fixed Fit" id="aAc-n5-pwf">
                         <barButtonItem key="rightBarButtonItem" title="settings" id="TSD-d1-hFJ">
                             <connections>
-                                <segue destination="jJh-YQ-lti" kind="show" id="5x9-cz-pCf"/>
+                                <action selector="SettingsTransition:" destination="JA4-Jd-9m3" id="AcQ-b3-ZkH"/>
+                                <segue destination="jJh-YQ-lti" kind="show" identifier="SettingTransition" id="5x9-cz-pCf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -211,21 +212,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qg-fE-fon">
-                                <rect key="frame" x="15" y="82" width="48" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sqq-2Z-G8F">
+                                <rect key="frame" x="163" y="439" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="log out"/>
+                                <state key="normal" title="Logout"/>
                                 <connections>
-                                    <action selector="tappedLogout:" destination="jJh-YQ-lti" eventType="touchUpInside" id="yFT-lq-qMx"/>
+                                    <action selector="tappedLogout:" destination="jJh-YQ-lti" eventType="touchUpInside" id="7gZ-KF-ipe"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="3ZU-mU-ByT"/>
                     </view>
-                    <connections>
-                        <outlet property="tappedLogout" destination="0Qg-fE-fon" id="pAp-cE-ebg"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jyc-4e-lcp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

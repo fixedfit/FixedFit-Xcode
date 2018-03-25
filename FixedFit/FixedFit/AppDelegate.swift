@@ -14,6 +14,7 @@ import FirebaseAuth
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
     var window: UIWindow?
+    let userStuffManager = UserStuffManager.shared
     let firebaseManager = FirebaseManager.shared
     let notificationCenter = NotificationCenter.default
 
@@ -44,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
             let mainVC = UIStoryboard.mainVC
 
             rootVC = mainVC
+            userStuffManager.fetchUserInformation()
         } else {
             let authVC = UIStoryboard.authVC
 
@@ -55,9 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     }
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if viewController is AddVC {
-            if let newVC = UIStoryboard.addVC, let addVC = newVC as? AddVC {
-                addVC.currentTabBarController = tabBarController
+        if viewController is AddPhotosVC {
+            if let newVC = UIStoryboard.addPhotosVC, let addPhotosVC = newVC as? AddPhotosVC {
+                addPhotosVC.currentTabBarController = tabBarController
                 tabBarController.present(newVC, animated: true)
                 return false
             }
@@ -67,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     }
 
     // MARK: - Core Data stack
+
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -95,6 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     }()
 
     // MARK: - Core Data Saving support
+
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {

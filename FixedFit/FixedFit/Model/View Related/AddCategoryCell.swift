@@ -1,5 +1,5 @@
 //
-//  AddTagCell.swift
+//  AddcategoryCell.swift
 //  FixedFit
 //
 //  Created by Amanuel Ketebo on 3/3/18.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class AddTagCell: UICollectionViewCell {
-    static let identifier = "addTagCell"
+class AddCategoryCell: UICollectionViewCell {
+    static let identifier = "addCategoryCell"
 
     override func awakeFromNib() {
         cornerRadius = 5

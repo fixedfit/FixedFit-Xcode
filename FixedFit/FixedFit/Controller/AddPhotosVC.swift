@@ -9,7 +9,7 @@
 import UIKit
 import ImagePicker
 
-class AddVC: UIViewController {
+class AddPhotosVC: UIViewController {
     var imagePicker = ImagePickerController()
     var currentTabBarController: UITabBarController?
 
@@ -27,7 +27,7 @@ class AddVC: UIViewController {
     }
 }
 
-extension AddVC: ImagePickerDelegate {
+extension AddPhotosVC: ImagePickerDelegate {
     func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         dismiss(animated: true, completion: nil)
     }
@@ -40,7 +40,7 @@ extension AddVC: ImagePickerDelegate {
         guard let navVC = currentTabBarController?.viewControllers![1] as? UINavigationController else { return }
         guard let closetVC = navVC.topViewController as? ClosetVC else { return }
 
-        closetVC.presentTagVC(images: images)
+        closetVC.presentAddCategoryVC(images: images)
     }
 
     func cancelButtonDidPress(_ imagePicker: ImagePickerController) {

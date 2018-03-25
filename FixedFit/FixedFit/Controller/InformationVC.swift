@@ -19,6 +19,7 @@ class InformationVC: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var seperatorView: UIView!
     @IBOutlet weak var buttonStackView: UIStackView!
     
     private var image: UIImage?
@@ -65,6 +66,14 @@ class InformationVC: UIViewController {
     }
     
     private func setupStackView() {
+        if leftButtonData == nil && rightButtonData == nil {
+            seperatorView.removeFromSuperview()
+            buttonStackView.removeFromSuperview()
+            subtitleLabel.bottomAnchor.constraint(equalTo: informationView.bottomAnchor, constant: -30).isActive = true
+            
+            return
+        }
+
         var buttons: [UIView] = []
         let buttonFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         

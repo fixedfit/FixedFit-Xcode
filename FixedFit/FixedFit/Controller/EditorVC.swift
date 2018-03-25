@@ -15,6 +15,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     UIImagePickerControllerDelegate,
     UIGestureRecognizerDelegate{
     
+    let usermanager = UserStuffManager.shared
+    
     //MARK: Reference for editing photo
     @IBOutlet weak var EditingPhoto: UIImageView!
     
@@ -24,16 +26,16 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     //MARK: TextFields for name, username, and bios
     @IBOutlet weak var UserNameTextField: UITextField!
 
-    @IBOutlet weak var UserBioTextField: UITextView!
+    @IBOutlet weak var UserBioTextField: UITextField!
     @IBOutlet weak var UserFirstNameField: UITextField!
     @IBOutlet weak var UserLastNameField: UITextField!
     
     //MARK: Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
     var PreviousUserName: String!
-    var PreviousUserBios: String!
+    var PreviousUserBio: String?
     var PreviousUserFirstName: String!
     var PreviousUserLastName: String!
-    weak var PreviousUserPhoto: UIImage!
+    weak var PreviousUserPhoto: UIImage?
     
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
@@ -63,7 +65,19 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //Load up image of user and text fields from data base
+        
+        //Store the previous user stats
+        self.PreviousUserName = usermanager.username
+        self.PreviousUserBio = ""
+        self.PreviousUserFirstName = usermanager.firstName
+        self.PreviousUserLastName = usermanager.lastName
+        
+        //Load up image of user and text fields from previous user stats for user modification
+        self.UserNameTextField.text = PreviousUserName
+        self.UserBioTextField.text = PreviousUserBio
+        self.UserFirstNameField.text = PreviousUserFirstName
+        self.UserLastNameField.text = PreviousUserLastName
+        
         
         //Initialize a weak reference to a variable called "Image" to hold the UIImage reference
         weak var Image:UIImage?
@@ -174,6 +188,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         //Use informationVC object to select decision
         self.dismiss(animated: true, completion: nil)
         
+        //debug message
         print(errorMsg)
        
         

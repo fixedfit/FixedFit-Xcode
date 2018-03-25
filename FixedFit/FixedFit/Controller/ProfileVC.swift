@@ -12,7 +12,8 @@ import UIKit
 
 class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     let firebaseManager = FirebaseManager.shared
-
+    let usermanager = UserStuffManager.shared
+    
     //Initialize default image name
     var imageName = "defaultProfile"
     
@@ -57,14 +58,18 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     //MARK: Update profile page once view appears.
     override func viewWillAppear(_ animated: Bool) {
         
+        //Fetch the user's Information from the UserStuffManager
+        usermanager.fetchUserInformation()
+        
+        //Initial UIImage variable used to select the image to output to the screen
         weak var Image: UIImage!
         
         //Update the title of the navigation bar with the user name of the user
-        self.navigationItem.title = "Future UserName"
+        self.navigationItem.title = usermanager.username
         
         //Update labels of profile if user has edited them
-        self.UserFirstName.text = "First Name"
-        self.UserLastName.text = "Last name"
+        self.UserFirstName.text = usermanager.firstName
+        self.UserLastName.text = usermanager.lastName
         self.UserBio.text = "No Bio"
         
     
@@ -96,7 +101,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {
-        print("moving to editor")
         performSegue(withIdentifier: "EditTransition", sender: self)
     }
     

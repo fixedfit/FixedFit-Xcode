@@ -12,7 +12,12 @@ import UIKit
 class SettingsVC: UIViewController, UITableViewDelegate{
     
     let firebaseManager = FirebaseManager.shared
-    
+    //MARK: Management of Categories
+    //MARK: Management of blocked users
+    //MARK: Change user email and password
+    //MARK: Push Notification Settings
+    //MARK: Support Center - FAQ and Contacts
+    //MARK: log out of user account
     @IBAction func tappedLogout(_ sender: UIButton) {
         let message = "Are you sure you want to logout?"
         let rightButtonData = ButtonData(title: "Yes, I'm Sure", color: .fixedFitPurple) { [weak self] in
@@ -25,4 +30,6 @@ class SettingsVC: UIViewController, UITableViewDelegate{
         
     }
 
+    //MARK: Delete Account
+    
 }

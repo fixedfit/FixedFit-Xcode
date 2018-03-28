@@ -159,27 +159,28 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         ////Perform error checking
         //Determine if UserName crietria is satisfied
-        if UserNameTextField.text == ""{
+        if (UserNameTextField.text == ""){
             errorMsg = errorMsg + "User Name Field is empty.\n"
            
-        
         } else if(false){
             
-            print("max character limit reached")
+            //Determine if string length has reached a limit
+            
             
         //Check if user name already exists
         } else if(false){
-            
             errorMsg = errorMsg + "User Name already exists.\n"
+            
         }
         
         //Check first name
         if(UserFirstNameField.text == ""){
-            print("user first name")
             errorMsg = errorMsg + "First Name Field is empty.\n"
             
         } else if(false){
-            print("max character limit reached")
+            
+            //Determine if string length has reached a limit
+            
         }
         
         //Check last name
@@ -187,15 +188,19 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             errorMsg = errorMsg + "Last Name Field is empty.\n"
             
         } else if(false){
-            print("max character limit reached")
+            
+            //Determine if string length has reached a limit
+            
         }
         
         //Check bio
         if(UserBioTextField.text == ""){
-            UserBioTextField.text = "No Bio Set"
+            self.UserBioTextField.text = "No Bio Set"
             
         } else if(false){
-            print("max character limit reached")
+            
+            //Determine if string length has reached a limit
+            
         }
         
         //if the error message is the same, then changes are successful

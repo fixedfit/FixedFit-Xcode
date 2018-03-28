@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class UserStuffManager {
     static let shared = UserStuffManager()
@@ -14,6 +15,9 @@ class UserStuffManager {
     var firstName = ""
     var lastName = ""
     var username = ""
+    var userbio = ""
+    var userstatus = "Public"
+    var userphoto:UIImage? = nil
 
     var closet = Closet()
 
@@ -66,4 +70,14 @@ class UserStuffManager {
             self.closet.filters = filters
         }
     }
+    
+    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){
+        //Update user information in firebase
+        
+    }
+    
+    func toggleUserStatus(newStatus: String){
+        self.userstatus = newStatus
+    }
+    
 }

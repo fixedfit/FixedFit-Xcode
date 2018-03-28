@@ -85,7 +85,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         
         //Only obtain a single photo under the term: "userphoto" as a parameter which will be used to determine what to look for
         
-        if true {
+        if usermanager.userphoto == nil {
             Image = UIImage(named: imageName)
         } else {
             print("if it does exist, then just assign it.")

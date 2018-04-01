@@ -31,11 +31,12 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     @IBOutlet weak var UserLastNameField: UITextField!
     
     //MARK: Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
-    var PreviousUserName: String!
-    var PreviousUserBio: String?
-    var PreviousUserFirstName: String!
-    var PreviousUserLastName: String!
     weak var PreviousUserPhoto: UIImage?
+    var PreviousUserFirstName = ""
+    var PreviousUserLastName = ""
+    var PreviousUserName = ""
+    var PreviousUserBio = ""
+    var PreviousUserStatus = ""
     
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
@@ -49,8 +50,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         self.navigationItem.title = "Edit Profile"
         
-        //Temporarily store the previous texts and user photo from firebase before any changes are made
-        
         //Add UITapGesture to the UIImage
         let tapped = UITapGestureRecognizer(target:self, action: #selector(EditorVC.tappedPhoto))
         tapped.delegate = self
@@ -58,7 +57,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         EditingPhoto.addGestureRecognizer(tapped)
     }
     
-    //Allow UIImageView to have touch gesture
+    //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
         
         print("switch photos")
@@ -66,40 +65,33 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     override func viewWillAppear(_ animated: Bool) {
         
-        //Store the previous user stats
-        self.PreviousUserName = usermanager.username
-        self.PreviousUserBio = ""
-        self.PreviousUserFirstName = usermanager.firstName
-        self.PreviousUserLastName = usermanager.lastName
-        
         //Load up image of user and text fields from previous user stats for user modification
-        self.UserNameTextField.text = PreviousUserName
-        self.UserBioTextField.text = PreviousUserBio
-        self.UserFirstNameField.text = PreviousUserFirstName
-        self.UserLastNameField.text = PreviousUserLastName
+        self.UserNameTextField.text = usermanager.username
+        self.UserBioTextField.text = ""
+        self.UserFirstNameField.text = usermanager.firstName
+        self.UserLastNameField.text = usermanager.lastName
         
-        
-        //Initialize a weak reference to a variable called "Image" to hold the UIImage reference
-        weak var Image:UIImage?
+        //store previous values into temporary variables for fast exit
+        PreviousUserName = self.UserNameTextField.text!
+        PreviousUserBio = self.UserBioTextField.text!
+        PreviousUserFirstName = self.UserFirstNameField.text!
+        PreviousUserLastName = self.UserLastNameField.text!
+        PreviousUserStatus = usermanager.userstatus
         
         //Determine if the user has already set up a photo or if it needs to use the default profile pic
-        if true{
-            Image = UIImage(named:"defaultProfile")
+        if usermanager.userphoto == nil{
+            self.PreviousUserPhoto = UIImage(named:"defaultProfile")
         } else {
             print("data from firebase")
         }
         
-        
         //Add the image onto the UIImaveView and scale it
-        let image = Image
+        let image = self.PreviousUserPhoto
         EditingPhoto.contentMode = UIViewContentMode.scaleAspectFit
         EditingPhoto.image = image
         
-        //Store the reference of the UIImage that appear before it gets overwritten
-        PreviousUserPhoto = image
-        
         //update current viewing status from firebase field into the button field
-        if true{
+        if (usermanager.userstatus == "Public"){
             self.CurrentViewStatus.setTitle("Public", for: [])
         } else {
             self.CurrentViewStatus.setTitle("Private", for: [])
@@ -128,16 +120,18 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     @IBAction func changeStatus(_ sender: UIButton) {
     
         //Determine if the status was public or private before the switching of the view status
-        if true{
+        if usermanager.userstatus == "Public"{
             self.CurrentViewStatus.setTitle("Private", for: [])
             
-            //Update switch of view status to private in data base
+            //Update switch of view status to private
+            usermanager.toggleUserStatus(newStatus: "Private")
             
         } else {
             self.CurrentViewStatus.setTitle("Public", for: [])
             
-            //Update switch of view status to private in data base
-            
+            //Update switch of view status to public
+            usermanager.toggleUserStatus(newStatus: "Public")
+
         }
     
     }
@@ -148,21 +142,46 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         //Error message used to be concatenated to let the user know what to do
         var errorMsg = "Error Status:\n"
         
+        //store original error message to confirm if any errors were found
+        let oldErrorMsg = errorMsg
+        
+        //Initialize button message to empty
+        var leftMessage = ""
+        var rightMessage = ""
+        var leftButton:ButtonData!
+        var rightButton:ButtonData!
+        
+        //if there was no changes, then just return without asking the user to save or not
+        if((self.UserFirstNameField.text == PreviousUserFirstName) && (self.UserLastNameField.text == PreviousUserLastName) && (self.UserBioTextField.text == PreviousUserBio) && (self.UserNameTextField.text == PreviousUserName) && /*(EditingPhoto.image != PreviousUserPhoto) &&*/ (usermanager.userstatus == PreviousUserStatus)){
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        
+        ////Perform error checking
         //Determine if UserName crietria is satisfied
+<<<<<<< HEAD
         if (UserNameTextField.text!.isEmpty){
             errorMsg = errorMsg + "User Name Field is empty.\n"
            
         //Check if username has too many characters
         } else if( (UserNameTextField.text!.count) > 35){
+=======
+        if (UserNameTextField.text == ""){
+            errorMsg = errorMsg + "User Name Field is empty.\n"
+           
+        } else if(false){
+>>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
             
-            print("max character limit reached")
+            //Determine if string length has reached a limit
+            
             
         //Check if user name already exists
         } else if(false){
-            
             errorMsg = errorMsg + "User Name already exists.\n"
+            
         }
         
+<<<<<<< HEAD
         if(UserFirstNameField.text!.isEmpty){
             print("user first name")
             errorMsg = errorMsg + "First Name Field is empty.\n"
@@ -183,17 +202,65 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             
         } else if(( (UserBioTextField.text!.count) > 35)){
             print("max character limit reached")
+=======
+        //Check first name
+        if(UserFirstNameField.text == ""){
+            errorMsg = errorMsg + "First Name Field is empty.\n"
+            
+        } else if(false){
+            
+            //Determine if string length has reached a limit
+            
         }
         
-        //Use informationVC object to select decision
-        self.dismiss(animated: true, completion: nil)
+        //Check last name
+        if(UserLastNameField.text == ""){
+            errorMsg = errorMsg + "Last Name Field is empty.\n"
+            
+        } else if(false){
+            
+            //Determine if string length has reached a limit
+            
+        }
         
-        //debug message
-        print(errorMsg)
+        //Check bio
+        if(UserBioTextField.text == ""){
+            self.UserBioTextField.text = "No Bio Set"
+            
+        } else if(false){
+            
+            //Determine if string length has reached a limit
+            
+        }
+        
+        //if the error message is the same, then changes are successful
+        if(oldErrorMsg == errorMsg){
+            leftMessage = "make more changes"
+            rightMessage = "save changes"
+            errorMsg = "Would you like to save changes?"
+            
+            //Update previous user information with the new content
+            usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, photo: EditingPhoto.image)
+        } else {
+            leftMessage = "fix issues"
+            rightMessage = "discard changes"
+            errorMsg = errorMsg + "Would you like to discard changes and go to profile?\n"
+        }
+        
+        //Set button messages
+        leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
+        rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
+            self.dismiss(animated: true, completion: nil)
+>>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
+        }
+        
+        
+        //Generate the informationVC and present it to the user
+        let informationVC = InformationVC(message: errorMsg, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButton, rightButtonData: rightButton)
+        
+        present(informationVC, animated: true, completion: nil)
        
         
     }
-    
-
     
 }

@@ -8,6 +8,9 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
+import FirebaseStorage
 
 class EditorVC: UIViewController, UITextFieldDelegate,
     UITextViewDelegate,
@@ -29,14 +32,25 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     @IBOutlet weak var UserBioTextField: UITextField!
     @IBOutlet weak var UserFirstNameField: UITextField!
     @IBOutlet weak var UserLastNameField: UITextField!
+
+    
     
     //MARK: Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
+    var PreviousUserName: String!
+    var PreviousUserBio: String?
+    var PreviousUserFirstName: String!
+    var PreviousUserLastName: String!
     weak var PreviousUserPhoto: UIImage?
-    var PreviousUserFirstName = ""
-    var PreviousUserLastName = ""
-    var PreviousUserName = ""
-    var PreviousUserBio = ""
+//    var PreviousUserFirstName = ""
+//    var PreviousUserLastName = ""
+//    var PreviousUserName = ""
+//    var PreviousUserBio = ""
     var PreviousUserStatus = ""
+    
+    // Firebase Database Reference
+    var ref: DatabaseReference {
+        return Database.database().reference()
+    }
     
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
@@ -157,80 +171,66 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             return
         }
         
-        ////Perform error checking
+        //Perform error checking
         //Determine if UserName crietria is satisfied
-<<<<<<< HEAD
+
         if (UserNameTextField.text!.isEmpty){
-            errorMsg = errorMsg + "User Name Field is empty.\n"
-           
-        //Check if username has too many characters
+            errorMsg += "User Name Field is empty.\n"
         } else if( (UserNameTextField.text!.count) > 35){
-=======
-        if (UserNameTextField.text == ""){
-            errorMsg = errorMsg + "User Name Field is empty.\n"
-           
-        } else if(false){
->>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
-            
-            //Determine if string length has reached a limit
-            
             
         //Check if user name already exists
-        } else if(false){
-            errorMsg = errorMsg + "User Name already exists.\n"
-            
+        } else {
+        
+        // Check if user name already exists
+            let newUsername = UserNameTextField.text!
+
+                ref.child(FirebaseKeys.users).observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let allUsersInfo = snapshot.value as? [String: [String: Any]] {
+                        var goodNewUsername = true
+                        
+                        for (_, userInfo) in allUsersInfo {
+                            if let takenUsername = userInfo[FirebaseKeys.username] as? String {
+                                if takenUsername == newUsername {
+                                    goodNewUsername = false
+                                }
+                            }
+                        }
+
+                        if (!goodNewUsername) {
+                            print("User Name already exists.\n")
+                        }
+                        else{
+                            //save new username
+                        }
+
+                    }
+                })
+
         }
         
-<<<<<<< HEAD
         if(UserFirstNameField.text!.isEmpty){
-            print("user first name")
-            errorMsg = errorMsg + "First Name Field is empty.\n"
-            
+            errorMsg += "First Name Field is empty.\n"
         } else if(( (UserFirstNameField.text!.count) > 35)){
-            print("max character limit reached")
+            errorMsg = errorMsg + "max character limit reached.\n"
+            //print("max character limit reached")
+        } else {
+            //set new
         }
         
         if(UserLastNameField.text!.isEmpty){
             errorMsg = errorMsg + "Last Name Field is empty.\n"
-            
         } else if(( (UserLastNameField.text!.count) > 35)){
-            print("max character limit reached")
+            errorMsg = errorMsg + "max character limit reached.\n"
+            //print("max character limit reached")
         }
         
         if(UserBioTextField.text!.isEmpty){
+            errorMsg = errorMsg + "No Bio Set.\n"
             UserBioTextField.text = "No Bio Set."
             
-        } else if(( (UserBioTextField.text!.count) > 35)){
+        } else if(( (UserBioTextField.text!.count) > 100)){
             print("max character limit reached")
-=======
-        //Check first name
-        if(UserFirstNameField.text == ""){
-            errorMsg = errorMsg + "First Name Field is empty.\n"
-            
-        } else if(false){
-            
-            //Determine if string length has reached a limit
-            
-        }
-        
-        //Check last name
-        if(UserLastNameField.text == ""){
-            errorMsg = errorMsg + "Last Name Field is empty.\n"
-            
-        } else if(false){
-            
-            //Determine if string length has reached a limit
-            
-        }
-        
-        //Check bio
-        if(UserBioTextField.text == ""){
-            self.UserBioTextField.text = "No Bio Set"
-            
-        } else if(false){
-            
-            //Determine if string length has reached a limit
-            
+            errorMsg = errorMsg + "max character limit reached.\n"
         }
         
         //if the error message is the same, then changes are successful
@@ -251,7 +251,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
         rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
             self.dismiss(animated: true, completion: nil)
->>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
         }
         
         
@@ -259,6 +258,14 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         let informationVC = InformationVC(message: errorMsg, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButton, rightButtonData: rightButton)
         
         present(informationVC, animated: true, completion: nil)
+
+
+        //debug message
+        print(errorMsg)
+        
+//        //Use informationVC object to select decision
+//        self.dismiss(animated: true, completion: nil)
+
        
         
     }

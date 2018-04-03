@@ -30,6 +30,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     override func viewDidLoad() {
         
+        //Assign setting title with string
+        self.navigationItem.title = "Settings"
+        
         ////Add tap gesture to views
         //Category
         let categoryTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedCategory))
@@ -109,7 +112,17 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     //MARK: Management of blocked users
     @objc func tappedBlockUsers(_ sender: UITapGestureRecognizer){
-        print("tapped4")
+        
+        //Transition to the UserFinder storyboard where you would want to look for Blocked Users
+        let storyboard = UIStoryboard(name: "UserFinder", bundle: nil)
+        let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
+        
+        //Modify any variables in UserFinderVC that is needed to distinguish operations that need to be performed
+        vc.viewTitle = "Blocked Users"
+        vc.mode = "blocked"
+        
+        //Push View Controller onto Navigation Stack
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK: Change user email and password

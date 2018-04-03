@@ -348,4 +348,98 @@ class FirebaseManager {
             return referenceNeeded
         }
     }
+    
+    //Function needed for reauthentication of user
+    //User should already be prompted with email/username and password
+    func reautheticateUser(currentUserEmail: String, currentUserPassword: String) -> Int{
+        guard let user = currentUser else {return 0}
+        var credential: AuthCredential
+        var returnVal:Int!
+        
+        // Determine if either user input and password is filled correctly
+        if(currentUserEmail == "" || currentUserPassword == ""){
+            returnVal = -1
+        } else if(currentUserEmail != user.email){
+            returnVal = -2
+        }
+        
+        //Accept sing-in credentials
+        credential = EmailAuthProvider.credential(withEmail: currentUserEmail, password: currentUserPassword)
+     
+        //Attempt to reauthenticate user
+        user.reauthenticate(with: credential) { (error) in
+            if error != nil {
+                // An error happened.
+                print("reauthentication failed")
+                returnVal = 0
+            } else {
+                // User re-authenticated.
+                print("User re-authenticated")
+                returnVal = 1
+            }
+        }
+        
+        return returnVal
+        
+    }
+ 
+    
+    //Function used to modify user's email, password, and manage deletion of user account
+    //When function returns 1, it means that the particular operation was a success.
+    func manageUserAccount(commandString: String, updateString: String) -> Int?{
+        guard let user = currentUser else {return 0}
+        
+        //Integer value used to represent error codes for calling funciton
+        var returnVal:Int!
+        
+        if(commandString == "change email" && updateString != ""){
+            
+            //update email
+            user.updateEmail(to: updateString) { (error) in
+                if error != nil{
+                    //An error occured
+                    print("Failed to update email")
+                    returnVal = 0
+                } else {
+                    //Email successfully updated
+                    returnVal = 1
+                }
+            }
+            
+        } else if(commandString == "change password" && updateString != ""){
+            
+            //update password
+            user.updatePassword(to: updateString) { (error) in
+                if error != nil{
+                    //An error occured
+                    print("Failed to update email")
+                    returnVal = 0
+                } else {
+                    //Password successfully updated
+                    returnVal = 1
+                }
+            }
+            
+        } else if(commandString == "delete account"){
+            
+            //delete user's account
+            user.delete { (error) in
+                if error != nil{
+                    //An error occured
+                    print("Failed to update email")
+                    returnVal = 0
+                } else {
+                    //Account Deleted
+                    returnVal = 1
+                    self.notificationCenter.post(name: .authStatusChanged, object: nil)
+                }
+            }
+            
+        } else {
+            //No other user modification needed so it will just be ignored and return
+            returnVal = 0
+        }
+        return returnVal
+    }
+
 }

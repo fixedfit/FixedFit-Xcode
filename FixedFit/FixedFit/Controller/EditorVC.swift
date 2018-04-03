@@ -168,7 +168,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             
             
         //Check if user name already exists
-        } else if(false){
+        } else {
+            
             errorMsg = errorMsg + "User Name already exists.\n"
             
         }
@@ -223,12 +224,10 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             self.dismiss(animated: true, completion: nil)
         }
         
-        
         //Generate the informationVC and present it to the user
         let informationVC = InformationVC(message: errorMsg, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButton, rightButtonData: rightButton)
         
         present(informationVC, animated: true, completion: nil)
-       
         
     }
     

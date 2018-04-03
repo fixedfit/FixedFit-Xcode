@@ -17,6 +17,7 @@ class UserStuffManager {
     var username = ""
     var userbio = ""
     var userstatus = "Public"
+    var userPushNotification = "On"
     var userphoto:UIImage? = nil
 
     var closet = Closet()
@@ -72,12 +73,42 @@ class UserStuffManager {
     }
     
     func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){
+        
+        let firebaseManager = FirebaseManager.shared
+        
         //Update user information in firebase
+        
+        
+        //Save current userstatus into firebase
         
     }
     
+    //Function used to modify user's status
     func toggleUserStatus(newStatus: String){
         self.userstatus = newStatus
     }
     
+    func checkUsername(user: String) -> Bool{
+        
+        //Check if firebase already contains the user name
+        /*let firebaseManager = FirebaseManager.shared
+        firebaseManager.checkUsername(user) {(firebaseError) in
+            if firebaseError != nil {
+                
+            }
+        }*/
+        return false
+    }
+    
+    //Function user to update the push notification status in firebase through UserStuffManager
+    func toggelUserPushNotification(newStatus: String){
+        
+        let firebaseManager = FirebaseManager.shared
+        
+        //Update current UserStuffManager variables
+        self.userPushNotification = newStatus
+        
+        //Update firebase push notification status
+        
+    }
 }

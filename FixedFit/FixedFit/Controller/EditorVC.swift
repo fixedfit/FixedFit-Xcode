@@ -159,10 +159,18 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         ////Perform error checking
         //Determine if UserName crietria is satisfied
+<<<<<<< HEAD
+        if (UserNameTextField.text!.isEmpty){
+            errorMsg = errorMsg + "User Name Field is empty.\n"
+           
+        //Check if username has too many characters
+        } else if( (UserNameTextField.text!.count) > 35){
+=======
         if (UserNameTextField.text == ""){
             errorMsg = errorMsg + "User Name Field is empty.\n"
            
         } else if(false){
+>>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
             
             //Determine if string length has reached a limit
             
@@ -174,6 +182,28 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             
         }
         
+<<<<<<< HEAD
+        if(UserFirstNameField.text!.isEmpty){
+            print("user first name")
+            errorMsg = errorMsg + "First Name Field is empty.\n"
+            
+        } else if(( (UserFirstNameField.text!.count) > 35)){
+            print("max character limit reached")
+        }
+        
+        if(UserLastNameField.text!.isEmpty){
+            errorMsg = errorMsg + "Last Name Field is empty.\n"
+            
+        } else if(( (UserLastNameField.text!.count) > 35)){
+            print("max character limit reached")
+        }
+        
+        if(UserBioTextField.text!.isEmpty){
+            UserBioTextField.text = "No Bio Set."
+            
+        } else if(( (UserBioTextField.text!.count) > 35)){
+            print("max character limit reached")
+=======
         //Check first name
         if(UserFirstNameField.text == ""){
             errorMsg = errorMsg + "First Name Field is empty.\n"
@@ -222,6 +252,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
         rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
             self.dismiss(animated: true, completion: nil)
+>>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
         }
         
         //Generate the informationVC and present it to the user

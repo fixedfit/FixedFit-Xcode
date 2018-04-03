@@ -145,6 +145,9 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         //store original error message to confirm if any errors were found
         let oldErrorMsg = errorMsg
         
+        //Initialize character limiter for text fields
+        let characterLimiter = 35
+        
         //Initialize button message to empty
         var leftMessage = ""
         var rightMessage = ""
@@ -152,86 +155,48 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         var rightButton:ButtonData!
         
         //if there was no changes, then just return without asking the user to save or not
-        if((self.UserFirstNameField.text == PreviousUserFirstName) && (self.UserLastNameField.text == PreviousUserLastName) && (self.UserBioTextField.text == PreviousUserBio) && (self.UserNameTextField.text == PreviousUserName) && /*(EditingPhoto.image != PreviousUserPhoto) &&*/ (usermanager.userstatus == PreviousUserStatus)){
+        if((self.UserFirstNameField.text! == PreviousUserFirstName) && (self.UserLastNameField.text! == PreviousUserLastName) && (self.UserBioTextField.text! == PreviousUserBio) && (self.UserNameTextField.text! == PreviousUserName) && (self.EditingPhoto.image != PreviousUserPhoto) && (usermanager.userstatus == PreviousUserStatus)){
             self.dismiss(animated: true, completion: nil)
             return
         }
         
         ////Perform error checking
         //Determine if UserName crietria is satisfied
-<<<<<<< HEAD
         if (UserNameTextField.text!.isEmpty){
             errorMsg = errorMsg + "User Name Field is empty.\n"
            
         //Check if username has too many characters
-        } else if( (UserNameTextField.text!.count) > 35){
-=======
-        if (UserNameTextField.text == ""){
-            errorMsg = errorMsg + "User Name Field is empty.\n"
-           
-        } else if(false){
->>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
-            
-            //Determine if string length has reached a limit
-            
+        } else if( (UserNameTextField.text!.count) > characterLimiter){
+            errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
             
         //Check if user name already exists
-        } else {
+        } else if(usermanager.checkUsername(username: self.UserNameTextField.text!)){
             
             errorMsg = errorMsg + "User Name already exists.\n"
             
         }
         
-<<<<<<< HEAD
+
         if(UserFirstNameField.text!.isEmpty){
-            print("user first name")
             errorMsg = errorMsg + "First Name Field is empty.\n"
             
-        } else if(( (UserFirstNameField.text!.count) > 35)){
-            print("max character limit reached")
+        } else if(( (UserFirstNameField.text!.count) > characterLimiter)){
+            errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            
         }
         
         if(UserLastNameField.text!.isEmpty){
             errorMsg = errorMsg + "Last Name Field is empty.\n"
             
-        } else if(( (UserLastNameField.text!.count) > 35)){
-            print("max character limit reached")
+        } else if(( (UserLastNameField.text!.count) > characterLimiter)){
+            errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
         }
         
         if(UserBioTextField.text!.isEmpty){
             UserBioTextField.text = "No Bio Set."
             
-        } else if(( (UserBioTextField.text!.count) > 35)){
-            print("max character limit reached")
-=======
-        //Check first name
-        if(UserFirstNameField.text == ""){
-            errorMsg = errorMsg + "First Name Field is empty.\n"
-            
-        } else if(false){
-            
-            //Determine if string length has reached a limit
-            
-        }
-        
-        //Check last name
-        if(UserLastNameField.text == ""){
-            errorMsg = errorMsg + "Last Name Field is empty.\n"
-            
-        } else if(false){
-            
-            //Determine if string length has reached a limit
-            
-        }
-        
-        //Check bio
-        if(UserBioTextField.text == ""){
-            self.UserBioTextField.text = "No Bio Set"
-            
-        } else if(false){
-            
-            //Determine if string length has reached a limit
-            
+        } else if(( (UserBioTextField.text!.count) > characterLimiter)){
+            errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
         }
         
         //if the error message is the same, then changes are successful
@@ -241,7 +206,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             errorMsg = "Would you like to save changes?"
             
             //Update previous user information with the new content
-            usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, photo: EditingPhoto.image)
+            usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, photo: self.EditingPhoto.image)
         } else {
             leftMessage = "fix issues"
             rightMessage = "discard changes"
@@ -252,7 +217,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
         rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
             self.dismiss(animated: true, completion: nil)
->>>>>>> 96d661bfb9cb66b5fae7204ecbb9ccd0790c3bcb
+
         }
         
         //Generate the informationVC and present it to the user

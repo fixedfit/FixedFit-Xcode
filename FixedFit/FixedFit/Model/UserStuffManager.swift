@@ -88,16 +88,21 @@ class UserStuffManager {
         self.userstatus = newStatus
     }
     
-    func checkUsername(user: String) -> Bool{
+    func checkUsername(username: String) -> Bool{
+        
+        //Variable used to determine if the user's selected username already exists
+        var sameUserName: Bool!
         
         //Check if firebase already contains the user name
-        /*let firebaseManager = FirebaseManager.shared
-        firebaseManager.checkUsername(user) {(firebaseError) in
+        let firebaseManager = FirebaseManager.shared
+        firebaseManager.checkUsername(username) {(firebaseError) in
             if firebaseError != nil {
-                
+                sameUserName = true
+            } else {
+                sameUserName = false
             }
-        }*/
-        return false
+        }
+        return sameUserName
     }
     
     //Function user to update the push notification status in firebase through UserStuffManager

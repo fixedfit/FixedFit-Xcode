@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
+class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate {
     
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
@@ -188,12 +188,16 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             var nextMessage = ""
             
             //Generate a view controller to obtain the email and password
+            let reauthVC = ReauthenticateVC()
+            reauthVC.delegate = self
+            self?.present(reauthVC, animated: true, completion: nil)
+
             
             
             //The user must be reauthenticated in order to be able to delete the account
             //reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password))!
             
-            if(reauthenticationCode == 0){
+            if reauthenticationCode == 0 {
                 nextMessage = "Reauthentication Failed"
                 
             } else {
@@ -217,5 +221,10 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButtonData, rightButtonData: rightButtonData)
         
         present(informationVC, animated: true, completion: nil)
+    }
+
+    func didPressDone(email: String, password: String) {
+        print(email)
+        print(password)
     }
 }

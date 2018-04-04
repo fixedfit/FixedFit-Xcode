@@ -88,32 +88,18 @@ class UserStuffManager {
         self.userstatus = newStatus
     }
     
-    func checkUsername(username: String) -> Bool{
-        
-        //Variable used to determine if the user's selected username already exists
-        var sameUserName: Bool!
+    //Function used to check if user name already exist by calling firebase checkUsername()
+    func checkUsername(username: String, completion: @escaping (Bool)->Void){
         
         //Check if firebase already contains the user name
+        //if true, the completion function will contain the parameter as a boolean value
         let firebaseManager = FirebaseManager.shared
         firebaseManager.checkUsername(username) {(firebaseError) in
             if firebaseError != nil {
-                sameUserName = true
+                completion(true)
             } else {
-                sameUserName = false
+                completion(false)
             }
         }
-        return sameUserName
-    }
-    
-    //Function user to update the push notification status in firebase through UserStuffManager
-    func toggelUserPushNotification(newStatus: String){
-        
-        let firebaseManager = FirebaseManager.shared
-        
-        //Update current UserStuffManager variables
-        self.userPushNotification = newStatus
-        
-        //Update firebase push notification status
-        
     }
 }

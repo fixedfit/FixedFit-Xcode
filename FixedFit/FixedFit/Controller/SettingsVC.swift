@@ -14,9 +14,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
     
-    //Label reference for push notification label
-    @IBOutlet weak var PushStatus: UILabel!
-    
     //View references for tap gestures for particular actions
     @IBOutlet weak var CategoryView: UIView!
     @IBOutlet weak var BlockUserView: UIView!
@@ -58,12 +55,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         ChangePasswordView.isUserInteractionEnabled = true
         ChangePasswordView.addGestureRecognizer(changePasswordTap)
         
-        //Push Notifications
-        let pushNotificationTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedPushNotificationView))
-        pushNotificationTap.delegate = self
-        PushNotificationView.isUserInteractionEnabled = true
-        PushNotificationView.addGestureRecognizer(pushNotificationTap)
-        
         //Help Center FAQ
         let helpcenterTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedHelpCenter))
         helpcenterTap.delegate = self
@@ -94,15 +85,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         //fetch user info
         usermanager.fetchUserInformation()
         
-        //Change label of push notification status
-        if (usermanager.userPushNotification == "On"){
-            PushStatus.textColor = .fixedFitBlue
-            PushStatus.text = "On"
-        } else {
-            PushStatus.textColor = .fixedFitPurple
-            PushStatus.text = "Off"
-        }
-        
     }
     
     //MARK: Management of Categories
@@ -131,24 +113,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     }
     @objc func tappedChangePassword(_ sender: UITapGestureRecognizer){
         print("tapped6")
-    }
-    
-    //MARK: Push Notification Settings
-    @objc func tappedPushNotificationView(_ sender: UITapGestureRecognizer){
-        if(PushStatus.text == "On"){
-            PushStatus.textColor = .fixedFitPurple
-            PushStatus.text = "Off"
-            
-            //Update user's push notifications in firebase
-            usermanager.toggelUserPushNotification(newStatus: "Off")
-            
-        } else {
-            PushStatus.textColor = .fixedFitBlue
-            PushStatus.text = "On"
-            
-            //Update user's push notifications in firebase
-            usermanager.toggelUserPushNotification(newStatus: "On")
-        }
     }
     
     //MARK: Support - Help Center(FAQ) and Contacts

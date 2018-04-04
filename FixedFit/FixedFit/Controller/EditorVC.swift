@@ -147,6 +147,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         //Initialize character limiter for text fields
         let characterLimiter = 35
+        let bioCharacterLimiter = 100
         
         //Initialize button message to empty
         var leftMessage = ""
@@ -170,24 +171,27 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             } else if( (UserNameTextField.text!.count) > characterLimiter){
                 errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
             
-            //Check if user name already exists
-            } else if(usermanager.checkUsername(username: self.UserNameTextField.text!)){
-            
-                errorMsg = errorMsg + "User Name already exists.\n"
-            
+            //Check if user name already exists in list of users in firebase
+            } else {
+                usermanager.checkUsername(username: self.UserNameTextField.text!){(truthValue) in
+                    if(truthValue == true){
+                        errorMsg = errorMsg + "User Name already exists.\n"
+                    }
+                }
             }
         }
-
+        
+        //Determine if First name crietria is satisfied
         if(self.UserFirstNameField.text! != PreviousUserFirstName){
             if(UserFirstNameField.text!.isEmpty){
                 errorMsg = errorMsg + "First Name Field is empty.\n"
             
             } else if(( (UserFirstNameField.text!.count) > characterLimiter)){
                 errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
-            
             }
         }
         
+        //Determine if Last name crietria is satisfied
         if(self.UserLastNameField.text! != PreviousUserLastName){
             if(UserLastNameField.text!.isEmpty){
                 errorMsg = errorMsg + "Last Name Field is empty.\n"
@@ -197,16 +201,17 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             }
         }
         
+        //Determine if bio crietria is satisfied
         if(self.UserBioTextField.text! != PreviousUserBio){
             if(UserBioTextField.text!.isEmpty){
                 UserBioTextField.text = "No Bio Set."
             
-            } else if(( (UserBioTextField.text!.count) > characterLimiter)){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            } else if(( (UserBioTextField.text!.count) > bioCharacterLimiter)){
+                errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
             }
         }
             
-        //if the error message is the same, then changes are successful
+        //if the error message is the same, then changes are successful so update them
         if(oldErrorMsg == errorMsg){
             leftMessage = "make more changes"
             rightMessage = "save changes"

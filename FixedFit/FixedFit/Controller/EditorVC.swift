@@ -34,23 +34,21 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     @IBOutlet weak var UserLastNameField: UITextField!
 
     
-    
     //MARK: Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
     var PreviousUserName: String!
     var PreviousUserBio: String?
     var PreviousUserFirstName: String!
     var PreviousUserLastName: String!
     weak var PreviousUserPhoto: UIImage?
-//    var PreviousUserFirstName = ""
-//    var PreviousUserLastName = ""
-//    var PreviousUserName = ""
-//    var PreviousUserBio = ""
     var PreviousUserStatus = ""
     
     // Firebase Database Reference
     var ref: DatabaseReference {
         return Database.database().reference()
     }
+    
+    // Reference to current user
+    let user = Auth.auth().currentUser
     
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
@@ -180,8 +178,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             
         //Check if user name already exists
         } else {
-        
-        // Check if user name already exists
             let newUsername = UserNameTextField.text!
 
                 ref.child(FirebaseKeys.users).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -195,14 +191,12 @@ class EditorVC: UIViewController, UITextFieldDelegate,
                                 }
                             }
                         }
-
                         if (!goodNewUsername) {
                             print("User Name already exists.\n")
                         }
                         else{
                             //save new username
                         }
-
                     }
                 })
 
@@ -213,8 +207,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         } else if(( (UserFirstNameField.text!.count) > 35)){
             errorMsg = errorMsg + "max character limit reached.\n"
             //print("max character limit reached")
-        } else {
-            //set new
         }
         
         if(UserLastNameField.text!.isEmpty){
@@ -258,15 +250,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         let informationVC = InformationVC(message: errorMsg, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButton, rightButtonData: rightButton)
         
         present(informationVC, animated: true, completion: nil)
-
-
-        //debug message
-        print(errorMsg)
-        
-//        //Use informationVC object to select decision
-//        self.dismiss(animated: true, completion: nil)
-
-       
         
     }
     

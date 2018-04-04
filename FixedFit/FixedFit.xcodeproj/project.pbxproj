@@ -32,6 +32,7 @@
 		CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABD8203D390200C62AE1 /* UIView+Extension.swift */; };
 		CA2CABDB203D392700C62AE1 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */; };
 		CA2CABDD203D393C00C62AE1 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABDC203D393C00C62AE1 /* NotificationName+Extension.swift */; };
+		CA469C9820746AAC0098F684 /* CreateOutfitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA469C9720746AAC0098F684 /* CreateOutfitVC.swift */; };
 		CA4BD42E2049349F002405D8 /* AddPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD42D2049349F002405D8 /* AddPhotosVC.swift */; };
 		CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD42F2049E13B002405D8 /* ClosetVC.swift */; };
 		CA4BD4322049E44F002405D8 /* InformationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD4312049E44F002405D8 /* InformationVC.swift */; };
@@ -55,6 +56,7 @@
 		CAED629E20533EE200181975 /* ItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED629D20533EE200181975 /* ItemsVC.swift */; };
 		CAF5F36220549ACA009D362B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAF5F36120549ACA009D362B /* GoogleService-Info.plist */; };
 		CAFBF10D20572B9C007D425A /* Closet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFBF10C20572B9C007D425A /* Closet.swift */; };
+		CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFCDBDD2074BD3D00E87E9B /* PhotosVC.swift */; };
 		CAFEE176205258D100701ED2 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE175205258D100701ED2 /* CalendarCell.swift */; };
 		CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */; };
 /* End PBXBuildFile section */
@@ -98,6 +100,7 @@
 		CA2CABD8203D390200C62AE1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		CA2CABDC203D393C00C62AE1 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		CA469C9720746AAC0098F684 /* CreateOutfitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOutfitVC.swift; sourceTree = "<group>"; };
 		CA4BD42D2049349F002405D8 /* AddPhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotosVC.swift; sourceTree = "<group>"; };
 		CA4BD42F2049E13B002405D8 /* ClosetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetVC.swift; sourceTree = "<group>"; };
 		CA4BD4312049E44F002405D8 /* InformationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationVC.swift; sourceTree = "<group>"; };
@@ -125,6 +128,7 @@
 		CAED629D20533EE200181975 /* ItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsVC.swift; sourceTree = "<group>"; };
 		CAF5F36120549ACA009D362B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CAFBF10C20572B9C007D425A /* Closet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Closet.swift; sourceTree = "<group>"; };
+		CAFCDBDD2074BD3D00E87E9B /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		CAFEE175205258D100701ED2 /* CalendarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		F28EA6771080022F180D3C4F /* Pods-FixedFitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -292,6 +296,8 @@
 				CA4BD4312049E44F002405D8 /* InformationVC.swift */,
 				CA843C4520602CCF005672D5 /* FiltersVC.swift */,
 				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
+				CA469C9720746AAC0098F684 /* CreateOutfitVC.swift */,
+				CAFCDBDF2074BE1A00E87E9B /* Parents */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -308,6 +314,14 @@
 				CA843C4720602FE4005672D5 /* SubcategoryCell.swift */,
 			);
 			path = "View Related";
+			sourceTree = "<group>";
+		};
+		CAFCDBDF2074BE1A00E87E9B /* Parents */ = {
+			isa = PBXGroup;
+			children = (
+				CAFCDBDD2074BD3D00E87E9B /* PhotosVC.swift */,
+			);
+			path = Parents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -541,6 +555,7 @@
 				CA843C4820602FE4005672D5 /* SubcategoryCell.swift in Sources */,
 				CAFBF10D20572B9C007D425A /* Closet.swift in Sources */,
 				CA66928A203D0B0C000069B5 /* FixedFit.xcdatamodeld in Sources */,
+				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,
 				CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */,
@@ -550,6 +565,7 @@
 				5C5B4E472053A34100479FC9 /* EditorVC.swift in Sources */,
 				CA1EAC8D204A0F0D00CBEB9F /* UserStuffManager.swift in Sources */,
 				CA2CABDB203D392700C62AE1 /* UIStoryboard+Extension.swift in Sources */,
+				CA469C9820746AAC0098F684 /* CreateOutfitVC.swift in Sources */,
 				CA1EAC8F204A140B00CBEB9F /* CategoryCell.swift in Sources */,
 				CABA7927203F988600EABAA1 /* SignUpVC.swift in Sources */,
 				149B5694204286840074285C /* HomeVC.swift in Sources */,

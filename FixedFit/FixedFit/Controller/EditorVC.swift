@@ -16,6 +16,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     UIGestureRecognizerDelegate{
     
     let usermanager = UserStuffManager.shared
+    var imagePicker = UIImagePickerController()
     
     //MARK: Reference for editing photo
     @IBOutlet weak var EditingPhoto: UIImageView!
@@ -31,12 +32,12 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     @IBOutlet weak var UserLastNameField: UITextField!
     
     //MARK: Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
-    weak var PreviousUserPhoto: UIImage?
     var PreviousUserFirstName = ""
     var PreviousUserLastName = ""
     var PreviousUserName = ""
     var PreviousUserBio = ""
     var PreviousUserStatus = ""
+    weak var PreviousUserPhoto: UIImage?
     
     //MARK: Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
@@ -60,7 +61,23 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
         
-        print("switch photos")
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+            print("Button capture")
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum;
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+        
+        func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+            self.dismiss(animated: true, completion: { () -> Void in
+                
+            })
+            
+            EditingPhoto.image = image
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -139,6 +156,9 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     //perform any last minute error checks and Exit editor view if needed
     @IBAction func ExitEditor(_ sender: UIBarButtonItem) {
         
+        //Initialize dispatch group to ensure that the error messages are accurate
+        let dispatch = DispatchGroup()
+        
         //Error message used to be concatenated to let the user know what to do
         var errorMsg = "Error Status:\n"
         
@@ -146,8 +166,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         let oldErrorMsg = errorMsg
         
         //Initialize character limiter for text fields
-        let characterLimiter = 35
-        let bioCharacterLimiter = 100
+        let nameCharacterLimiter = 35
+        let bioCharacterLimiter = 150
         
         //Initialize button message to empty
         var leftMessage = ""
@@ -168,71 +188,82 @@ class EditorVC: UIViewController, UITextFieldDelegate,
                 errorMsg = errorMsg + "User Name Field is empty.\n"
            
             //Check if username has too many characters
-            } else if( (UserNameTextField.text!.count) > characterLimiter){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            } else if( (UserNameTextField.text!.count) > nameCharacterLimiter){
+                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
             
             //Check if user name already exists in list of users in firebase
-            } else if(usermanager.checkUsername(username: self.UserNameTextField.text!)){
-                errorMsg = errorMsg + "User Name already exists.\n"
+            } else {
+                
+                dispatch.enter()
+                usermanager.checkUsername(username: self.UserNameTextField.text!){ (takenUserName) in
+                
+                    if(takenUserName == true){
+                        errorMsg = errorMsg + "User Name already exists.\n"
+                    }
+                    dispatch.leave()
+                }
             }
         }
         
-        //Determine if First name crietria is satisfied
-        if(self.UserFirstNameField.text! != PreviousUserFirstName){
-            if(UserFirstNameField.text!.isEmpty){
-                errorMsg = errorMsg + "First Name Field is empty.\n"
-            
-            } else if(( (UserFirstNameField.text!.count) > characterLimiter)){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
-            }
-        }
+        //Make main wait for checkusername closure to be executed
+        dispatch.notify(queue: .main){
         
-        //Determine if Last name crietria is satisfied
-        if(self.UserLastNameField.text! != PreviousUserLastName){
-            if(UserLastNameField.text!.isEmpty){
-                errorMsg = errorMsg + "Last Name Field is empty.\n"
-            
-            } else if(( (UserLastNameField.text!.count) > characterLimiter)){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            //Determine if First name crietria is satisfied
+            if(self.UserFirstNameField.text! != self.PreviousUserFirstName){
+                if(self.UserFirstNameField.text!.isEmpty){
+                    errorMsg = errorMsg + "First Name Field is empty.\n"
+                
+                } else if(( (self.UserFirstNameField.text!.count) > nameCharacterLimiter)){
+                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                }
             }
-        }
         
-        //Determine if bio crietria is satisfied
-        if(self.UserBioTextField.text! != PreviousUserBio){
-            if(UserBioTextField.text!.isEmpty){
-                UserBioTextField.text = "No Bio Set."
-            
-            } else if(( (UserBioTextField.text!.count) > bioCharacterLimiter)){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
+            //Determine if Last name crietria is satisfied
+            if(self.UserLastNameField.text! != self.PreviousUserLastName){
+                if(self.UserLastNameField.text!.isEmpty){
+                    errorMsg = errorMsg + "Last Name Field is empty.\n"
+                
+                } else if(( (self.UserLastNameField.text!.count) > nameCharacterLimiter)){
+                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                }
             }
-        }
-            
-        //if the error message is the same, then changes are successful so update them
-        if(oldErrorMsg == errorMsg){
-            leftMessage = "make more changes"
-            rightMessage = "save changes"
-            errorMsg = "Would you like to save changes?"
-            
-            //Update previous user information with the new content
-            usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, photo: self.EditingPhoto.image)
-        } else {
-            leftMessage = "fix issues"
-            rightMessage = "discard changes"
-            errorMsg = errorMsg + "Would you like to discard changes and go to profile?\n"
-        }
         
-        //Set button messages
-        leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
-        rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
-            self.dismiss(animated: true, completion: nil)
+            //Determine if bio crietria is satisfied
+            if(self.UserBioTextField.text! != self.PreviousUserBio){
+                if(self.UserBioTextField.text!.isEmpty){
+                    self.UserBioTextField.text = "No Bio Set."
+                
+                } else if(( (self.UserBioTextField.text!.count) > bioCharacterLimiter)){
+                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
+                }
+            }
+        
+            //if the error message is the same, then changes are successful so update them
+            if(oldErrorMsg == errorMsg){
+                leftMessage = "make more changes"
+                rightMessage = "save changes"
+                errorMsg = "Would you like to save changes?\n"
+                
+                //Update previous user information with the new content
+                self.usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, photo: self.EditingPhoto.image)
+            } else {
+                leftMessage = "fix issues"
+                rightMessage = "discard changes"
+                errorMsg = errorMsg + "Would you like to discard changes and go to profile?"
+            }
+        
+            //Set button messages
+            leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
+            rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
+                self.dismiss(animated: true, completion: nil)
 
+            }
+        
+            //Generate the informationVC and present it to the user
+            let informationVC = InformationVC(message: errorMsg, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButton, rightButtonData: rightButton)
+        
+            self.present(informationVC, animated: true, completion: nil)
         }
-        
-        //Generate the informationVC and present it to the user
-        let informationVC = InformationVC(message: errorMsg, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButton, rightButtonData: rightButton)
-        
-        present(informationVC, animated: true, completion: nil)
-        
     }
     
 }

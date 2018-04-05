@@ -89,37 +89,22 @@ class UserStuffManager {
     }
     
     //Function used to check if user name already exist by calling firebase checkUsername()
-    func checkUsername(username: String) -> Bool{
-        
-        //Initial variable used to return boolean value
-        var takenUserName:Bool?
-        
-        //Use dispatch group to wait for checkUsername to finish executing before returning
-        let myGroup = DispatchGroup()
+    func checkUsername(username: String, completed: @escaping (Bool?)->Void){
         
         //Check if firebase already contains the user name
         //if true, the completion function will contain the parameter as a boolean value
         let firebaseManager = FirebaseManager.shared
-        myGroup.enter()
         
         //Check username
         firebaseManager.checkUsername(username) {(firebaseError) in
+            print("D")
             if firebaseError != nil {
-                takenUserName = true
+                completed(true)
             } else {
-                takenUserName = false
+                completed(false)
             }
         }
-        myGroup.leave()
-        myGroup.wait()
         
-        //debug
-        if(takenUserName == nil){
-            print("bool is nil")
-        } else {
-            print(takenUserName!)
-        }
-
-        return false//takenUserName!
+        print("A")
     }
 }

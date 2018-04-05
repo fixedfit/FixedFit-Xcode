@@ -19,6 +19,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     UIGestureRecognizerDelegate{
     
     let usermanager = UserStuffManager.shared
+    var imagePicker = UIImagePickerController()
     
     //MARK: Reference for editing photo
     @IBOutlet weak var EditingPhoto: UIImageView!
@@ -71,8 +72,24 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
+
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+            print("Button capture")
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum;
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        }
         
-        print("switch photos")
+        func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+            self.dismiss(animated: true, completion: { () -> Void in
+                
+            })
+            
+            EditingPhoto.image = image
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -158,7 +175,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         let oldErrorMsg = errorMsg
         
         //Initialize character limiter for text fields
-        let characterLimiter = 35
+        let nameCharacterLimiter = 35
+        let bioCharacterLimiter = 150
         
         //Initialize button message to empty
         var leftMessage = ""
@@ -174,69 +192,13 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         //Perform error checking
         //Determine if UserName crietria is satisfied
-
-
-        if (UserNameTextField.text!.isEmpty){
-            errorMsg += "User Name Field is empty.\n"
-        } else if( (UserNameTextField.text!.count) > 35){
-            
-        //Check if user name already exists
-        } else {
-            let newUsername = UserNameTextField.text!
-
-                ref.child(FirebaseKeys.users).observeSingleEvent(of: .value, with: { (snapshot) in
-                    if let allUsersInfo = snapshot.value as? [String: [String: Any]] {
-                        var goodNewUsername = true
-                        
-                        for (_, userInfo) in allUsersInfo {
-                            if let takenUsername = userInfo[FirebaseKeys.username] as? String {
-                                if takenUsername == newUsername {
-                                    goodNewUsername = false
-                                }
-                            }
-                        }
-                        if (!goodNewUsername) {
-                            print("User Name already exists.\n")
-                        }
-                        else{
-                            //save new username
-                        }
-                    }
-                })
-
-        }
-        
-        if(UserFirstNameField.text!.isEmpty){
-            errorMsg += "First Name Field is empty.\n"
-        } else if(( (UserFirstNameField.text!.count) > 35)){
-            errorMsg = errorMsg + "max character limit reached.\n"
-            //print("max character limit reached")
-        }
-        
-        if(UserLastNameField.text!.isEmpty){
-            errorMsg = errorMsg + "Last Name Field is empty.\n"
-        } else if(( (UserLastNameField.text!.count) > 35)){
-            errorMsg = errorMsg + "max character limit reached.\n"
-            //print("max character limit reached")
-        }
-        
-        if(UserBioTextField.text!.isEmpty){
-            errorMsg = errorMsg + "No Bio Set.\n"
-            UserBioTextField.text = "No Bio Set."
-            
-        } else if(( (UserBioTextField.text!.count) > 100)){
-            print("max character limit reached")
-            errorMsg = errorMsg + "max character limit reached.\n"
-        }
-        
-
         if(self.UserNameTextField.text! != PreviousUserName){
             if (UserNameTextField.text!.isEmpty){
                 errorMsg = errorMsg + "User Name Field is empty.\n"
            
             //Check if username has too many characters
-            } else if( (UserNameTextField.text!.count) > characterLimiter){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            } else if( (UserNameTextField.text!.count) > nameCharacterLimiter){
+                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
             
             //Check if user name already exists
             } else if(usermanager.checkUsername(username: self.UserNameTextField.text!)){
@@ -250,8 +212,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             if(UserFirstNameField.text!.isEmpty){
                 errorMsg = errorMsg + "First Name Field is empty.\n"
             
-            } else if(( (UserFirstNameField.text!.count) > characterLimiter)){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            } else if(( (UserFirstNameField.text!.count) > nameCharacterLimiter)){
+                errorMsg = errorMsg + "User First Name has exceeded the character limit of \(nameCharacterLimiter)"
             
             }
         }
@@ -260,8 +222,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             if(UserLastNameField.text!.isEmpty){
                 errorMsg = errorMsg + "Last Name Field is empty.\n"
             
-            } else if(( (UserLastNameField.text!.count) > characterLimiter)){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            } else if(( (UserLastNameField.text!.count) > nameCharacterLimiter)){
+                errorMsg = errorMsg + "User Last Name has exceeded the character limit of \(nameCharacterLimiter)"
             }
         }
         
@@ -269,8 +231,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             if(UserBioTextField.text!.isEmpty){
                 UserBioTextField.text = "No Bio Set."
             
-            } else if(( (UserBioTextField.text!.count) > characterLimiter)){
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
+            } else if(( (UserBioTextField.text!.count) > bioCharacterLimiter)){
+                errorMsg = errorMsg + "User Bio has exceeded the character limit of \(bioCharacterLimiter)"
             }
         }
             

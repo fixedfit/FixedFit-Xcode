@@ -15,6 +15,7 @@ class WeatherService {
 
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping (String, String, String) -> Void) {
         let urlString = baseURL + "?lat=" + String(latitude) + "&lon=" + String(longitude) + "&APPID=" + appID
+        print(urlString)
         let url = URL(string: urlString)
         let task = URLSession.shared.dataTask(with: url!) { [weak self] (data, response, error) in
             guard let strongSelf = self else { return }
@@ -25,10 +26,10 @@ class WeatherService {
                 if let jsonWeatherData = try? JSONSerialization.jsonObject(with: weatherData, options: []) as? [String : Any] {
                     if let kelvinTemperature = (jsonWeatherData?["main"] as? [String: Any])?["temp"] as? Float {
                         let fahrenheitTemperature = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinTemperature))
-                        let kelvinLo = (jsonWeatherData?["main"] as? [String: Any])?["temp_min"] as! Float
-                        let kelvinHi = (jsonWeatherData?["main"] as? [String: Any])?["temp_max"] as! Float
-                        let loTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinLo))
-                        let hiTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinHi))
+                        let kelvinLo = (jsonWeatherData?["main"] as? [String: Any])?["temp_min"] as? Float
+                        let kelvinHi = (jsonWeatherData?["main"] as? [String: Any])?["temp_max"] as? Float
+                        let loTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinLo ?? 0))
+                        let hiTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinHi ?? 0))
                         DispatchQueue.main.async {
                             completion(fahrenheitTemperature + "°",loTemp + "°",hiTemp + "°")
                         }

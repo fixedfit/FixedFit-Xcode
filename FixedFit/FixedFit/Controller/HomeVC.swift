@@ -78,20 +78,20 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     func getServerEvents() -> [String:String] {
 
         return [
-            "2018 03 05":"Outfit 1",
-            "2018 03 10":"Outfit 2",
-            "2018 03 16":"Outfit 3",
-            "2018 03 20":"Outfit 4",
-            "2018 03 22":"Outfit 5",
-            "2018 03 25":"Outfit 6",
-            "2018 03 28":"Outfit 7"
+            "20180405":"Outfit 1",
+            "20180410":"Outfit 2",
+            "20180414":"Outfit 3",
+            "20180416":"Outfit 4",
+            "20180420":"Outfit 5",
+            "20180422":"Outfit 6",
+            "20180425":"Outfit 7"
         ]
     }
 }
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
-        formatter.dateFormat = "yyyy MM dd"
+        formatter.dateFormat = "yyyyMMdd"
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
 
@@ -105,9 +105,10 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as! CalendarCell
         cell.dateLabel.text = cellState.text
-        formatter.dateFormat = "yyyy MM dd"
+        formatter.dateFormat = "yyyyMMdd"
         cell.closetEvent.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
-
+        cell.outfitImage.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
+        
         let currentDateString = formatter.string(from: currentDate)
         let calendarDateString = formatter.string(from: cellState.date)
 
@@ -148,7 +149,7 @@ extension HomeVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = eventView.dequeueReusableCell(withIdentifier: "eventCell")
         
-        cell?.textLabel?.text = firebaseEvents.first?.value
+        cell?.textLabel?.text = Array(firebaseEvents.keys)[indexPath.row] + " " + Array(firebaseEvents.values)[indexPath.row]
         
         return cell!
     }

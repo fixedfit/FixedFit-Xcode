@@ -88,6 +88,10 @@ class UserStuffManager {
         self.userstatus = newStatus
     }
     
+    func toggelUserPushNotification(newStatus: String){
+        self.userPushNotification = newStatus
+    }
+    
     //Function used to check if user name already exist by calling firebase checkUsername()
     func checkUsername(username: String, completed: @escaping (Bool?)->Void){
         
@@ -97,14 +101,11 @@ class UserStuffManager {
         
         //Check username
         firebaseManager.checkUsername(username) {(firebaseError) in
-            print("D")
             if firebaseError != nil {
                 completed(true)
             } else {
                 completed(false)
             }
         }
-        
-        print("A")
     }
 }

@@ -32,11 +32,11 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     @IBOutlet weak var UserLastNameField: UITextField!
     
     //MARK: Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
-    var PreviousUserFirstName = ""
-    var PreviousUserLastName = ""
-    var PreviousUserName = ""
-    var PreviousUserBio = ""
-    var PreviousUserStatus = ""
+    var PreviousUserFirstName: String!
+    var PreviousUserLastName: String!
+    var PreviousUserName: String!
+    var PreviousUserBio: String?
+    var PreviousUserStatus: String!
     weak var PreviousUserPhoto: UIImage?
     
     //MARK: Update current view with relevant information regarding the user's profile

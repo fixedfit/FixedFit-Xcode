@@ -14,6 +14,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
     
+    //Label reference for push notification label
+    @IBOutlet weak var PushStatus: UILabel!
+    
     //View references for tap gestures for particular actions
     @IBOutlet weak var CategoryView: UIView!
     @IBOutlet weak var BlockUserView: UIView!
@@ -26,9 +29,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     @IBOutlet weak var DeleteAccountView: UIView!
     
     override func viewDidLoad() {
-        
-        //Assign setting title with string
-        self.navigationItem.title = "Settings"
         
         ////Add tap gesture to views
         //Category
@@ -54,6 +54,12 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         changePasswordTap.delegate = self
         ChangePasswordView.isUserInteractionEnabled = true
         ChangePasswordView.addGestureRecognizer(changePasswordTap)
+        
+        //Push Notifications
+        let pushNotificationTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedPushNotificationView))
+        pushNotificationTap.delegate = self
+        PushNotificationView.isUserInteractionEnabled = true
+        PushNotificationView.addGestureRecognizer(pushNotificationTap)
         
         //Help Center FAQ
         let helpcenterTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedHelpCenter))
@@ -85,6 +91,15 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         //fetch user info
         usermanager.fetchUserInformation()
         
+        //Change label of push notification status
+        if (usermanager.userPushNotification == "On"){
+            PushStatus.textColor = .fixedFitBlue
+            PushStatus.text = "On"
+        } else {
+            PushStatus.textColor = .fixedFitPurple
+            PushStatus.text = "Off"
+        }
+        
     }
     
     //MARK: Management of Categories
@@ -94,17 +109,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     //MARK: Management of blocked users
     @objc func tappedBlockUsers(_ sender: UITapGestureRecognizer){
-        
-        //Transition to the UserFinder storyboard where you would want to look for Blocked Users
-        let storyboard = UIStoryboard(name: "UserFinder", bundle: nil)
-        let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
-        
-        //Modify any variables in UserFinderVC that is needed to distinguish operations that need to be performed
-        vc.viewTitle = "Blocked Users"
-        vc.mode = "blocked"
-        
-        //Push View Controller onto Navigation Stack
-        navigationController?.pushViewController(vc, animated: true)
+        print("tapped4")
     }
     
     //MARK: Change user email and password
@@ -113,6 +118,24 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     }
     @objc func tappedChangePassword(_ sender: UITapGestureRecognizer){
         print("tapped6")
+    }
+    
+    //MARK: Push Notification Settings
+    @objc func tappedPushNotificationView(_ sender: UITapGestureRecognizer){
+        if(PushStatus.text == "On"){
+            PushStatus.textColor = .fixedFitPurple
+            PushStatus.text = "Off"
+            
+            //Update user's push notifications in firebase
+            usermanager.toggelUserPushNotification(newStatus: "Off")
+            
+        } else {
+            PushStatus.textColor = .fixedFitBlue
+            PushStatus.text = "On"
+            
+            //Update user's push notifications in firebase
+            usermanager.toggelUserPushNotification(newStatus: "On")
+        }
     }
     
     //MARK: Support - Help Center(FAQ) and Contacts
@@ -145,6 +168,8 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
+            var email:String!
+            var password:String!
             var errorCode = 0
             var reauthenticationCode = 0
             var nextMessage = ""
@@ -160,7 +185,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
                 
             } else {
                 //Delete the account
-                errorCode = (self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
+                //errorCode = (self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
                 if(errorCode == 0){
                     nextMessage = "Deletion of Account Failed"
                 }

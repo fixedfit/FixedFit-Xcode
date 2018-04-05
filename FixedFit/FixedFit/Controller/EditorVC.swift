@@ -172,12 +172,8 @@ class EditorVC: UIViewController, UITextFieldDelegate,
                 errorMsg = errorMsg + "User Name has exceeded the character limit of \(characterLimiter)"
             
             //Check if user name already exists in list of users in firebase
-            } else {
-                usermanager.checkUsername(username: self.UserNameTextField.text!){(truthValue) in
-                    if(truthValue == true){
-                        errorMsg = errorMsg + "User Name already exists.\n"
-                    }
-                }
+            } else if(usermanager.checkUsername(username: self.UserNameTextField.text!)){
+                errorMsg = errorMsg + "User Name already exists.\n"
             }
         }
         

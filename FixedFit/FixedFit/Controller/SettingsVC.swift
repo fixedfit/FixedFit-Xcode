@@ -145,8 +145,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
-            var email:String!
-            var password:String!
             var errorCode = 0
             var reauthenticationCode = 0
             var nextMessage = ""
@@ -162,7 +160,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
                 
             } else {
                 //Delete the account
-                //errorCode = (self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
+                errorCode = (self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
                 if(errorCode == 0){
                     nextMessage = "Deletion of Account Failed"
                 }

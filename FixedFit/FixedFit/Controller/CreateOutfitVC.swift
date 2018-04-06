@@ -10,8 +10,13 @@ import UIKit
 
 class CreateOutfitVC: PhotosVC {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
 
-    var pickedOutfitPhotos: Set<UIImage> = Set()
+    var pickedOutfitItems: [ClosetItem] = [] {
+        didSet {
+            setDoneButton()
+        }
+    }
     var allClosetItems: [[ClosetItem]] = []
 
     let firebaseManager = FirebaseManager.shared
@@ -26,6 +31,7 @@ class CreateOutfitVC: PhotosVC {
     private func setupViews() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        setDoneButton()
     }
 
     private func setupAllItems() {
@@ -37,8 +43,38 @@ class CreateOutfitVC: PhotosVC {
         collectionView.reloadData()
     }
 
-    @IBAction func touchedDone(_ sender: UIBarButtonItem) {
+    private func setDoneButton() {
+        navigationItem.rightBarButtonItem?.isEnabled = !pickedOutfitItems.isEmpty
+    }
+
+    @IBAction func touchedCancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func touchedDone(_ sender: UIBarButtonItem) {
+        let message = "Uploading..."
+        let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addCategory"), leftButtonData: nil, rightButtonData: nil)
+
+        present(informationVC, animated: true, completion: nil)
+        firebaseManager.saveOutfit(outfitItems: pickedOutfitItems) { [weak self] error in
+            informationVC.dismiss(animated: true) { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+
+    private func addToPickedOutfitItems(closetItem: ClosetItem) {
+        if let index = pickedOutfitItems.index(where: { $0.uniqueID == closetItem.uniqueID }) {
+            pickedOutfitItems.remove(at: index)
+        }
+
+        pickedOutfitItems.append(closetItem)
+    }
+
+    private func removeFromPickedOutfitItems(closetItem: ClosetItem) {
+        if let index = pickedOutfitItems.index(where: { $0.uniqueID == closetItem.uniqueID }) {
+            pickedOutfitItems.remove(at: index)
+        }
     }
 }
 
@@ -83,13 +119,14 @@ extension CreateOutfitVC: UICollectionViewDataSource {
 extension CreateOutfitVC {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+        let closetItem = allClosetItems[indexPath.section][indexPath.row]
 
         cell.toggleCheckmark()
 
         if cell.isPicked {
-            pickedOutfitPhotos.insert(cell.imageView.image!)
+            addToPickedOutfitItems(closetItem: closetItem)
         } else {
-            pickedOutfitPhotos.remove(cell.imageView.image!)
+            removeFromPickedOutfitItems(closetItem: closetItem)
         }
     }
 }

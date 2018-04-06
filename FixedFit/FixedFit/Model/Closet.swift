@@ -24,10 +24,12 @@ struct CategorySubcategory {
 struct ClosetItem {
     var categorySubcategory: CategorySubcategory
     var storagePath: String
+    var uniqueID: String
 
-    init(categorySubcategory: CategorySubcategory, storagePath: String) {
+    init(categorySubcategory: CategorySubcategory, storagePath: String, uniqueID: String) {
         self.storagePath = storagePath
         self.categorySubcategory = categorySubcategory
+        self.uniqueID = uniqueID
     }
 }
 

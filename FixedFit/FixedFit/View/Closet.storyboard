@@ -76,7 +76,7 @@
                         <viewLayoutGuide key="safeArea" id="2F6-e4-ni9"/>
                     </view>
                     <navigationItem key="navigationItem" title="Closet" id="w6x-oW-oHS">
-                        <barButtonItem key="leftBarButtonItem" title="Create Outfit" id="cc3-HN-fWA">
+                        <barButtonItem key="leftBarButtonItem" title="Create" id="cc3-HN-fWA">
                             <connections>
                                 <segue destination="qv0-e9-QZd" kind="presentation" id="5Oh-25-Edm"/>
                             </connections>
@@ -164,14 +164,20 @@
                         <viewLayoutGuide key="safeArea" id="aEz-qq-DP8"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Outfit" id="pUf-2w-LGj">
-                        <barButtonItem key="leftBarButtonItem" title="Done" id="cp6-4J-23N">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="cp6-4J-23N">
                             <connections>
-                                <action selector="touchedDone:" destination="gwG-cI-Lfn" id="AhY-rl-dww"/>
+                                <action selector="touchedCancel:" destination="gwG-cI-Lfn" id="zMJ-xw-VTK"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="MfP-Ta-V6B">
+                            <connections>
+                                <action selector="touchedDone:" destination="gwG-cI-Lfn" id="dUf-WQ-OSa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="clT-q8-2Ho" id="IKW-N6-Eie"/>
+                        <outlet property="doneButton" destination="MfP-Ta-V6B" id="YsA-un-una"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5B-ho-oQU" userLabel="First Responder" sceneMemberID="firstResponder"/>

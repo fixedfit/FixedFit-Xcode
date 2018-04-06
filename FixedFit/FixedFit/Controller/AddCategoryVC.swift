@@ -33,6 +33,7 @@ class AddCategoryVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Ayeyooooo!")
         setupViews()
         closet = userStuffManager.closet
     }
@@ -126,8 +127,9 @@ class AddCategoryVC: UIViewController {
                 print("We got into some weird error!")
             } else {
                 self?.notificationCenter.post(name: .categoriesUpdated, object: nil)
-                informationVC.dismiss(animated: true, completion: nil)
-                self?.dismiss(animated: true, completion: nil)
+                informationVC.dismiss(animated: true) { [weak self] in
+                    self?.dismiss(animated: true, completion: nil)
+                }
             }
         }
     }
@@ -361,7 +363,7 @@ extension AddCategoryVC: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
-
+        
         cell.categoryCellLabel.backgroundColor = UIColor.fixedFitGray
         cell.categoryCellLabel.textColor = .black
     }

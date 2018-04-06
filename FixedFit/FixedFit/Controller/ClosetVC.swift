@@ -17,6 +17,8 @@ class ClosetVC: UIViewController {
         }
 
         set {
+            setCreateButton()
+
             if newValue.count == 0 {
                 presentEmptyState()
             } else {
@@ -115,6 +117,10 @@ class ClosetVC: UIViewController {
 
     private func hideEmptyState() {
         emptyStateLabel.alpha = 0
+    }
+
+    private func setCreateButton() {
+        navigationItem.leftBarButtonItem?.isEnabled = !categories.isEmpty
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

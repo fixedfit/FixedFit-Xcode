@@ -31,8 +31,8 @@ class UserStuffManager {
                 if let completion = completion {
                     completion(error)
                 }
-            } else if let userInfo = userInfo, let username = userInfo[FirebaseKeys.username] as? String,
-                let firstName = userInfo[FirebaseKeys.firstName] as? String, let lastName = userInfo[FirebaseKeys.lastName] as? String {
+            } else if let userInfo = userInfo, let username = userInfo[FirebaseKeys.username.rawValue] as? String,
+                let firstName = userInfo[FirebaseKeys.firstName.rawValue] as? String, let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String {
                 self?.firstName = firstName
                 self?.lastName = lastName
                 self?.username = username
@@ -45,15 +45,16 @@ class UserStuffManager {
     }
 
     func updateCloset(closet: [String: Any]) {
-        if let newClosetItems = closet[FirebaseKeys.items] as? [[String:Any]] {
+        if let newClosetItems = closet[FirebaseKeys.items.rawValue] as? [String: [String:Any]] {
             var createdClosetItems: [ClosetItem] = []
 
-            for newClosetItem in newClosetItems {
-                if let url = newClosetItem[FirebaseKeys.url] as? String,
-                    let category = newClosetItem[FirebaseKeys.category] as? String {
-                    let subcategory = newClosetItem[FirebaseKeys.subcategory] as? String
+            for newClosetItemInfo in newClosetItems {
+                if let url = newClosetItemInfo.value[FirebaseKeys.url.rawValue] as? String,
+                    let category = newClosetItemInfo.value[FirebaseKeys.category.rawValue] as? String {
+                    let uniqueID = newClosetItemInfo.value[FirebaseKeys.uniqueID.rawValue] as? String
+                    let subcategory = newClosetItemInfo.value[FirebaseKeys.subcategory.rawValue] as? String
                     let categorySubcategory = CategorySubcategory(category: category, subcategory: subcategory)
-                    let createdClosetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url)
+                    let createdClosetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url, uniqueID: uniqueID!)
 
                     createdClosetItems.append(createdClosetItem)
                     self.closet.categorySubcategoryStore.addCategory(category: category)
@@ -67,14 +68,14 @@ class UserStuffManager {
             self.closet.items = createdClosetItems
         }
 
-        if let filters = closet[FirebaseKeys.filters] as? [String: String] {
+        if let filters = closet[FirebaseKeys.filters.rawValue] as? [String: String] {
             self.closet.filters = filters
         }
     }
     
     func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){
         
-        let firebaseManager = FirebaseManager.shared
+        //let firebaseManager = FirebaseManager.shared
         
         //Update user information in firebase
         
@@ -108,7 +109,7 @@ class UserStuffManager {
     //Function user to update the push notification status in firebase through UserStuffManager
     func toggelUserPushNotification(newStatus: String){
         
-        let firebaseManager = FirebaseManager.shared
+        //let firebaseManager = FirebaseManager.shared
         
         //Update current UserStuffManager variables
         self.userPushNotification = newStatus

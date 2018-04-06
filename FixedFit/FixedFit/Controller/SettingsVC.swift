@@ -17,6 +17,10 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     //Label reference for push notification label
     @IBOutlet weak var PushStatus: UILabel!
     
+    //Variables used to obtain the email and password for reauthentication
+    var email:String!
+    var password:String!
+    
     //View references for tap gestures for particular actions
     @IBOutlet weak var CategoryView: UIView!
     @IBOutlet weak var BlockUserView: UIView!
@@ -118,8 +122,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
         
         //Modify any variables in UserFinderVC that is needed to distinguish operations that need to be performed
-        vc.viewTitle = "Blocked Users"
-        vc.mode = "blocked"
+        vc.viewTitle = FirebaseUserFinderTitle.blocked
+        vc.mode = FirebaseUserFinderMode.blocked
+        
         
         //Push View Controller onto Navigation Stack
         navigationController?.pushViewController(vc, animated: true)
@@ -181,8 +186,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
-            var email:String!
-            var password:String!
             var errorCode = 0
             var reauthenticationCode = 0
             var nextMessage = ""

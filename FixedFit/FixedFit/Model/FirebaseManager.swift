@@ -66,6 +66,20 @@ enum FirebaseKeys: String {
     case outfits = "outfits"
 }
 
+//structs for UserFinder title and mode
+struct FirebaseUserFinderTitle{
+    static let blocked = "Blocked Users"
+    static let search = "Search for Users"
+    static let follower = "Followers"
+    static let following = "Following"
+}
+struct FirebaseUserFinderMode{
+    static let blocked = "blocked"
+    static let search = "search"
+    static let follower = "follower"
+    static let following = "following"
+}
+
 class FirebaseManager {
     static let shared = FirebaseManager()
 

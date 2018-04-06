@@ -72,49 +72,41 @@ class UserStuffManager {
             self.closet.filters = filters
         }
     }
-    
+
     func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){
-        
+
         //let firebaseManager = FirebaseManager.shared
-        
+
         //Update user information in firebase
-        
-        
+
+
         //Save current userstatus into firebase
-        
+
     }
-    
+
     //Function used to modify user's status
     func toggleUserStatus(newStatus: String){
         self.userstatus = newStatus
     }
-    
-    func checkUsername(username: String) -> Bool{
-        
-        //Variable used to determine if the user's selected username already exists
-        var sameUserName: Bool!
-        
+
+    func toggelUserPushNotification(newStatus: String){
+        self.userPushNotification = newStatus
+    }
+
+    //Function used to check if user name already exist by calling firebase checkUsername()
+    func checkUsername(username: String, completed: @escaping (Bool?)->Void){
+
         //Check if firebase already contains the user name
+        //if true, the completion function will contain the parameter as a boolean value
         let firebaseManager = FirebaseManager.shared
+
+        //Check username
         firebaseManager.checkUsername(username) {(firebaseError) in
             if firebaseError != nil {
-                sameUserName = true
+                completed(true)
             } else {
-                sameUserName = false
+                completed(false)
             }
         }
-        return sameUserName
-    }
-    
-    //Function user to update the push notification status in firebase through UserStuffManager
-    func toggelUserPushNotification(newStatus: String){
-        
-        //let firebaseManager = FirebaseManager.shared
-        
-        //Update current UserStuffManager variables
-        self.userPushNotification = newStatus
-        
-        //Update firebase push notification status
-        
     }
 }

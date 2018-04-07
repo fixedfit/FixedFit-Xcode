@@ -88,7 +88,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         
         //Load up image of user and text fields from previous user stats for user modification
         self.UserNameTextField.text = usermanager.username
-        self.UserBioTextField.text = ""
+        self.UserBioTextField.text = usermanager.userbio
         self.UserFirstNameField.text = usermanager.firstName
         self.UserLastNameField.text = usermanager.lastName
         
@@ -249,7 +249,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
                 errorMsg = "Would you like to save changes?\n"
                 
                 //Update previous user information with the new content
-                self.usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, photo: self.EditingPhoto.image)
+                self.usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, status: self.CurrentViewStatus.titleLabel!.text!, photo: self.EditingPhoto.image)
             } else {
                 leftMessage = "fix issues"
                 rightMessage = "discard changes"

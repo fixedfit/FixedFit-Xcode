@@ -8,10 +8,23 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
+import FirebaseStorage
 
 class UserStuffManager {
     static let shared = UserStuffManager()
 
+    var ref: DatabaseReference {
+        return Database.database().reference()
+    }
+    var storageRef: StorageReference {
+        return Storage.storage().reference()
+    }
+    private var currentUser: User? {
+        return Auth.auth().currentUser
+    }
+    
     var firstName = ""
     var lastName = ""
     var username = ""
@@ -32,11 +45,12 @@ class UserStuffManager {
                     completion(error)
                 }
             } else if let userInfo = userInfo, let username = userInfo[FirebaseKeys.username] as? String,
-                let firstName = userInfo[FirebaseKeys.firstName] as? String, let lastName = userInfo[FirebaseKeys.lastName] as? String {
+                let firstName = userInfo[FirebaseKeys.firstName] as? String, let lastName = userInfo[FirebaseKeys.lastName] as? String, let userbio = userInfo[FirebaseKeys.bio] as? String {
                 self?.firstName = firstName
                 self?.lastName = lastName
                 self?.username = username
-
+                self?.userbio = userbio
+                
                 if let completion = completion {
                     completion(nil)
                 }
@@ -72,14 +86,25 @@ class UserStuffManager {
         }
     }
     
-    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){
+    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String,status: String,
+                        photo: UIImage? = nil){
         
-        let firebaseManager = FirebaseManager.shared
+        //let firebaseManager = FirebaseManager.shared
         
-        //Update user information in firebase
+        //Update user first & last name in firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["firstName" : firstname])
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["lastName" : lastname])
         
+        //Save current bio into firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["bio" : bio])
+        
+        //Save current username into firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["username" : name_of_user])
         
         //Save current userstatus into firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["status" : status])
+        
+
         
     }
     

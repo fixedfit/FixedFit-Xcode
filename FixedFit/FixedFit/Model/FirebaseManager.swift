@@ -34,13 +34,18 @@ struct SignUpInfo {
     let email: String
     let username: String
     let password: String
+    let status: String
+    let bio: String
+    
 
-    init(firstName: String, lastName: String, email: String, username: String, password: String) {
+    init(firstName: String, lastName: String, email: String, username: String, password: String, status: String, bio: String) {
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
         self.username = username
         self.password = password
+        self.status = status
+        self.bio = bio
     }
 }
 
@@ -49,6 +54,8 @@ struct FirebaseKeys {
     static let firstName = "firstName"
     static let lastName = "lastName"
     static let username = "username"
+    static let bio = "bio"
+    static let status = "status"
     static let closet = "closet"
     static let items = "items"
     static let category = "category"
@@ -337,7 +344,7 @@ class FirebaseManager {
     // MARK: - Helper methods
 
     private func createfirstLoginData(user: User, signUpInfo: SignUpInfo) -> [String: Any] {
-        return [FirebaseKeys.username: signUpInfo.username, FirebaseKeys.firstName: signUpInfo.firstName, FirebaseKeys.lastName: signUpInfo.lastName]
+        return [FirebaseKeys.username: signUpInfo.username, FirebaseKeys.firstName: signUpInfo.firstName, FirebaseKeys.lastName: signUpInfo.lastName, FirebaseKeys.status: signUpInfo.status, FirebaseKeys.bio: signUpInfo.bio]
     }
 
     private func uniqueID() -> String {

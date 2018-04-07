@@ -37,7 +37,6 @@ class UserStuffManager {
 
     func fetchUserInformation(completion: ((Error?) -> Void)? = nil) {
         let firebaseManager = FirebaseManager.shared
-
         firebaseManager.fetchUserInfo { [weak self] (userInfo, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -45,11 +44,13 @@ class UserStuffManager {
                     completion(error)
                 }
             } else if let userInfo = userInfo, let username = userInfo[FirebaseKeys.username] as? String,
-                let firstName = userInfo[FirebaseKeys.firstName] as? String, let lastName = userInfo[FirebaseKeys.lastName] as? String, let userbio = userInfo[FirebaseKeys.bio] as? String {
+                let firstName = userInfo[FirebaseKeys.firstName] as? String, let lastName = userInfo[FirebaseKeys.lastName] as? String, let userbio = userInfo[FirebaseKeys.bio] as? String, let userstatus = userInfo[FirebaseKeys.status] as? String{
+                
                 self?.firstName = firstName
                 self?.lastName = lastName
                 self?.username = username
                 self?.userbio = userbio
+                self?.userstatus = userstatus
                 
                 if let completion = completion {
                     completion(nil)
@@ -86,10 +87,9 @@ class UserStuffManager {
         }
     }
     
-    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String,status: String,
-                        photo: UIImage? = nil){
+    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String,status: String, photo: UIImage? = nil){
         
-        //let firebaseManager = FirebaseManager.shared
+        print("updating")//
         
         //Update user first & last name in firebase
         self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["firstName" : firstname])

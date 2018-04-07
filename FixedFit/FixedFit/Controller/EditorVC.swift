@@ -72,16 +72,13 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
-        self.dismiss(animated: true, completion: { () -> Void in
-            
-        })
+        
+        self.dismiss(animated: true, completion: nil)
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
             EditingPhoto.contentMode = .scaleAspectFit
             EditingPhoto.image = image
-            }
-        
-
         }
+    }
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -235,7 +232,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             //Determine if bio crietria is satisfied
             if(self.UserBioTextField.text! != self.PreviousUserBio){
                 if(self.UserBioTextField.text!.isEmpty){
-                    self.UserBioTextField.text = "No Bio Set."
+                    self.UserBioTextField.text = "No Bio Set"
                 
                 } else if(( (self.UserBioTextField.text!.count) > bioCharacterLimiter)){
                     errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
@@ -250,6 +247,10 @@ class EditorVC: UIViewController, UITextFieldDelegate,
                 
                 //Update previous user information with the new content
                 self.usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, status: self.CurrentViewStatus.titleLabel!.text!, photo: self.EditingPhoto.image)
+                
+                //After the variables are updated, the UserStuffManager needs to update again
+                //Fetch the user's Information from the UserStuffManager
+                self.usermanager.fetchUserInformation()
             } else {
                 leftMessage = "fix issues"
                 rightMessage = "discard changes"

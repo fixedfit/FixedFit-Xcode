@@ -73,24 +73,30 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
 
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             print("Button capture")
             
             imagePicker.delegate = self
-            imagePicker.sourceType = .savedPhotosAlbum;
+            imagePicker.sourceType = .photoLibrary;
             imagePicker.allowsEditing = false
-            
+            print("FIRST")
             self.present(imagePicker, animated: true, completion: nil)
         }
-        
-        func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
-            self.dismiss(animated: true, completion: { () -> Void in
-                
-            })
-            
-            EditingPhoto.image = image
-        }
     }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
+        
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
+            EditingPhoto.contentMode = .scaleAspectFit
+            EditingPhoto.image = image
+            }
+        
+        self.dismiss(animated: true, completion: { () -> Void in
+            
+        })
+            print("THIRD")
+        }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         

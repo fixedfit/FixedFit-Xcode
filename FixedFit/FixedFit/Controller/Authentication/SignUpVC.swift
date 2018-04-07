@@ -49,7 +49,9 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                     lastName: lastNameTextField.text ?? "",
                                     email: emailTextField.text ?? "",
                                     username: usernameTextField.text ?? "",
-                                    password: passwordTextField.text ?? ""
+                                    password: passwordTextField.text ?? "",
+                                    status: "Public",
+                                    bio: "No Bio Set"
         )
 
         if validInput(signUpInfo) {

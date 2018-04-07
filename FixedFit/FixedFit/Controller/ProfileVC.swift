@@ -52,14 +52,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
-
-
-    
     //MARK: Update profile page once view appears.
     override func viewWillAppear(_ animated: Bool) {
-        
-        //Fetch the user's Information from the UserStuffManager
-        usermanager.fetchUserInformation()
         
         //Initial UIImage variable used to select the image to output to the screen
         weak var Image: UIImage!
@@ -70,11 +64,9 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         //Update labels of profile if user has edited them
         self.UserFirstName.text = usermanager.firstName
         self.UserLastName.text = usermanager.lastName
-        self.UserBio.text = "No Bio"
-        
+        self.UserBio.text = usermanager.userbio
     
         ////Update Followers and Following Counters from firebase
-        
         //Update button titles/view counters
         self.FollowingCount.text = String(FollowingCounter)
         self.FollowersCount.text = String(FollowersCounter)
@@ -96,16 +88,11 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
         let image = Image
         UserProfileImage.image = image
-        
-        print("profile appeared")
     }
     
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "EditTransition", sender: self)
     }
-    
-    
-    
     
     //Functions to the buttons involved in the profile section
     //Execute with transitional view animations

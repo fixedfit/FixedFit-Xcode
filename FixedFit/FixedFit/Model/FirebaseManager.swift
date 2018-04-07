@@ -36,13 +36,18 @@ struct SignUpInfo {
     let email: String
     let username: String
     let password: String
+    let status: String
+    let bio: String
+    
 
-    init(firstName: String, lastName: String, email: String, username: String, password: String) {
+    init(firstName: String, lastName: String, email: String, username: String, password: String, status: String, bio: String) {
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
         self.username = username
         self.password = password
+        self.status = status
+        self.bio = bio
     }
 }
 
@@ -52,6 +57,8 @@ enum FirebaseKeys: String {
     case firstName = "firstName"
     case lastName = "lastName"
     case username = "username"
+    case bio = "bio"
+    case status = "status"
     // Closet
     case closet = "closet"
     case items = "items"

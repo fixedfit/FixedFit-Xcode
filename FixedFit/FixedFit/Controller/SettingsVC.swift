@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+enum SettingErrors: Error{
+    case invalidStoryboardName
+    case invalidVCName
+}
+
 class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     let firebaseManager = FirebaseManager.shared
@@ -109,6 +114,80 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         
     }
     
+    //Function used to execute transitions from a view to a new view that needs to be instantiated on the navigation
+    //The Function needs:
+    //(view controller name, storyboard name, title for navigation item, mode if view controller contains that variable as a member)
+    func executeTransition(vcName: String, storyboardName: String, newTitle:String, newMode:String?){
+        
+        //Message used to monitor if cases are correct
+        var errorMessage = ""
+        
+        if(vcName.isEmpty || storyboardName.isEmpty || newTitle.isEmpty){
+            
+            //Modify errorMessage vairable to produce correct error message
+            errorMessage = "Error: Invalid String Parameters"
+            
+        } else {
+            
+            if(vcName == "UserFinderVC"){
+                
+                let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
+                let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
+                
+                //Initialize the title of the ViewController and mode if needed
+                if(newMode != nil){
+                    vc.mode = newMode!
+                }
+                vc.viewTitle = newTitle
+                
+                //Push View Controller onto Navigation Stack
+                navigationController?.pushViewController(vc, animated: true)
+                
+            } else if(vcName == "SupportVC" || vcName == "UserViewVC" || vcName == "CategoriesVC"){
+                var vc: UIViewController!
+                let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
+                
+                if(vcName == "SupportVC"){
+                    vc = storyboard.instantiateViewController(withIdentifier: "")  as! SupportVC
+                    
+                    //Initialize the title of the ViewController
+                    if let currentVC = vc as? SupportVC{
+                        currentVC.viewTitle = newTitle
+                    }
+                    
+                } else if(vcName == "UserViewVC"){
+                    //vc = storyboard.instantiateViewController(withIdentifier: "") as! UserViewVC
+                    
+                    //Initialize the title of the ViewController
+                    /*if let currentVC = vc as? CategoriesVC{
+                     currentVC.viewTitle = newTitle
+                     }*/
+                    
+                } else if(vcName == "CategoriesVC"){
+                    vc = storyboard.instantiateViewController(withIdentifier: "") as! CategoriesVC
+                    
+                    //Initialize the title of the ViewController
+                    if let currentVC = vc as? CategoriesVC{
+                        currentVC.viewTitle = newTitle
+                    }
+                }
+                
+                //Push View Controller onto Navigation Stack
+                navigationController?.pushViewController(vc, animated: true)
+                
+            } else {
+                errorMessage = "Error: Unknown view controller name"
+            }
+        }
+        
+        if(!(errorMessage.isEmpty)){
+            //Generate informationVC to let user know that there was an error in transition
+            let rightButtonData = ButtonData(title: "Ok", color: .fixedFitBlue, action: nil)
+            let informationVC = InformationVC(message: errorMessage, image: nil, leftButtonData: nil, rightButtonData: rightButtonData)
+            self.present(informationVC, animated: true, completion: nil)
+        }
+    }
+    
     //MARK: Management of Categories
     @objc func tappedCategory(_ sender: UITapGestureRecognizer){
         print("tapped1")
@@ -118,16 +197,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     @objc func tappedBlockUsers(_ sender: UITapGestureRecognizer){
         
         //Transition to the UserFinder storyboard where you would want to look for Blocked Users
-        let storyboard = UIStoryboard(name: "UserFinder", bundle: nil)
-        let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
-        
-        //Modify any variables in UserFinderVC that is needed to distinguish operations that need to be performed
-        vc.viewTitle = FirebaseUserFinderTitle.blocked
-        vc.mode = FirebaseUserFinderMode.blocked
-        
-        
-        //Push View Controller onto Navigation Stack
-        navigationController?.pushViewController(vc, animated: true)
+        executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked)
     }
     
     //MARK: Change user email and password
@@ -186,7 +256,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
-            var errorCode = 0
             var reauthenticationCode = 0
             var nextMessage = ""
             
@@ -201,14 +270,15 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
                 
             } else {
                 //Delete the account
-                //errorCode = (self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
-                if(errorCode == 0){
-                    nextMessage = "Deletion of Account Failed"
-                }
+                //(self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
+                
+                //If message is reached then deletion of account was unsuccessful.
+                nextMessage = "Deletion of Account Failed"
+                
             }
             
             //Determine if informationVC must be generated for error message
-            if(errorCode != 1 || reauthenticationCode != 1){
+            if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
                 //Generate second informationVC and present it
                 let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
                 let secondInformationVC = InformationVC(message: nextMessage, image: self?.usermanager.userphoto, leftButtonData: nil, rightButtonData: buttonDataRight)

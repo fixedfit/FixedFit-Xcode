@@ -80,6 +80,12 @@ struct FirebaseUserFinderMode{
     static let following = "following"
 }
 
+//struct for Support title and mode combined
+struct FirebaseSupportVCTitleAndMode{
+    static let helpCenter = "Help Center(FAQ)"
+    static let contactUs = "Contact Us"
+}
+
 class FirebaseManager {
     static let shared = FirebaseManager()
 

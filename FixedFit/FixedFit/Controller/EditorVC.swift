@@ -73,11 +73,11 @@ class EditorVC: UIViewController, UITextFieldDelegate,
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
         
-        self.dismiss(animated: true, completion: nil)
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
             EditingPhoto.contentMode = .scaleAspectFit
             EditingPhoto.image = image
         }
+        self.dismiss(animated: true, completion: nil)
     }
     
     

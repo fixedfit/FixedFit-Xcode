@@ -10,12 +10,15 @@
 		149B5694204286840074285C /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149B5693204286840074285C /* HomeVC.swift */; };
 		1ADAEFB920AF66F1CCF7ED62 /* Pods_FixedFitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */; };
 		4D15C85F6F6A99AF9CFC9791 /* Pods_FixedFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63E3078D420275BA4BF4F39 /* Pods_FixedFit.framework */; };
+		5C2F1DAC20789FA500ADF58E /* SupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F1DAB20789FA500ADF58E /* SupportVC.swift */; };
+		5C2F1DAE2078B9F800ADF58E /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F1DAD2078B9F800ADF58E /* CategoriesVC.swift */; };
 		5C5B4E472053A34100479FC9 /* EditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B4E462053A34100479FC9 /* EditorVC.swift */; };
 		5C633467205858CC0035F00A /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C633466205858CC0035F00A /* SettingsVC.swift */; };
 		5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */; };
 		5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */; };
 		CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */; };
 		CA18467D204BE5340091B568 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA18467C204BE5340091B568 /* WeatherService.swift */; };
+		CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1970612077369C006D7B89 /* Reference+Extension.swift */; };
 		CA1DA7592058D29E00DE3897 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1DA7582058D29E00DE3897 /* PhotoCell.swift */; };
 		CA1EAC8D204A0F0D00CBEB9F /* UserStuffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */; };
 		CA1EAC8F204A140B00CBEB9F /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1EAC8E204A140B00CBEB9F /* CategoryCell.swift */; };
@@ -32,6 +35,7 @@
 		CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABD8203D390200C62AE1 /* UIView+Extension.swift */; };
 		CA2CABDB203D392700C62AE1 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */; };
 		CA2CABDD203D393C00C62AE1 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2CABDC203D393C00C62AE1 /* NotificationName+Extension.swift */; };
+		CA469C9820746AAC0098F684 /* CreateOutfitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA469C9720746AAC0098F684 /* CreateOutfitVC.swift */; };
 		CA4BD42E2049349F002405D8 /* AddPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD42D2049349F002405D8 /* AddPhotosVC.swift */; };
 		CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD42F2049E13B002405D8 /* ClosetVC.swift */; };
 		CA4BD4322049E44F002405D8 /* InformationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD4312049E44F002405D8 /* InformationVC.swift */; };
@@ -55,6 +59,7 @@
 		CAED629E20533EE200181975 /* ItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED629D20533EE200181975 /* ItemsVC.swift */; };
 		CAF5F36220549ACA009D362B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAF5F36120549ACA009D362B /* GoogleService-Info.plist */; };
 		CAFBF10D20572B9C007D425A /* Closet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFBF10C20572B9C007D425A /* Closet.swift */; };
+		CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFCDBDD2074BD3D00E87E9B /* PhotosVC.swift */; };
 		CAFEE176205258D100701ED2 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE175205258D100701ED2 /* CalendarCell.swift */; };
 		CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */; };
 /* End PBXBuildFile section */
@@ -71,6 +76,8 @@
 
 /* Begin PBXFileReference section */
 		149B5693204286840074285C /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		5C2F1DAB20789FA500ADF58E /* SupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportVC.swift; sourceTree = "<group>"; };
+		5C2F1DAD2078B9F800ADF58E /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
 		5C5B4E462053A34100479FC9 /* EditorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditorVC.swift; path = FixedFit/Controller/EditorVC.swift; sourceTree = SOURCE_ROOT; };
 		5C633466205858CC0035F00A /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserFinder.storyboard; sourceTree = "<group>"; };
@@ -82,6 +89,7 @@
 		B63E3078D420275BA4BF4F39 /* Pods_FixedFit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		CA18467C204BE5340091B568 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		CA1970612077369C006D7B89 /* Reference+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reference+Extension.swift"; sourceTree = "<group>"; };
 		CA1DA7582058D29E00DE3897 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStuffManager.swift; sourceTree = "<group>"; };
 		CA1EAC8E204A140B00CBEB9F /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
@@ -98,6 +106,7 @@
 		CA2CABD8203D390200C62AE1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		CA2CABDA203D392700C62AE1 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		CA2CABDC203D393C00C62AE1 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		CA469C9720746AAC0098F684 /* CreateOutfitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOutfitVC.swift; sourceTree = "<group>"; };
 		CA4BD42D2049349F002405D8 /* AddPhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotosVC.swift; sourceTree = "<group>"; };
 		CA4BD42F2049E13B002405D8 /* ClosetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetVC.swift; sourceTree = "<group>"; };
 		CA4BD4312049E44F002405D8 /* InformationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationVC.swift; sourceTree = "<group>"; };
@@ -125,6 +134,7 @@
 		CAED629D20533EE200181975 /* ItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsVC.swift; sourceTree = "<group>"; };
 		CAF5F36120549ACA009D362B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CAFBF10C20572B9C007D425A /* Closet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Closet.swift; sourceTree = "<group>"; };
+		CAFCDBDD2074BD3D00E87E9B /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		CAFEE175205258D100701ED2 /* CalendarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		F28EA6771080022F180D3C4F /* Pods-FixedFitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -209,6 +219,7 @@
 				CA2CABDC203D393C00C62AE1 /* NotificationName+Extension.swift */,
 				CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */,
 				CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */,
+				CA1970612077369C006D7B89 /* Reference+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -292,6 +303,10 @@
 				CA4BD4312049E44F002405D8 /* InformationVC.swift */,
 				CA843C4520602CCF005672D5 /* FiltersVC.swift */,
 				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
+				CA469C9720746AAC0098F684 /* CreateOutfitVC.swift */,
+				CAFCDBDF2074BE1A00E87E9B /* Parents */,
+				5C2F1DAB20789FA500ADF58E /* SupportVC.swift */,
+				5C2F1DAD2078B9F800ADF58E /* CategoriesVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -308,6 +323,14 @@
 				CA843C4720602FE4005672D5 /* SubcategoryCell.swift */,
 			);
 			path = "View Related";
+			sourceTree = "<group>";
+		};
+		CAFCDBDF2074BE1A00E87E9B /* Parents */ = {
+			isa = PBXGroup;
+			children = (
+				CAFCDBDD2074BD3D00E87E9B /* PhotosVC.swift */,
+			);
+			path = Parents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -361,7 +384,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = UNLV;
 				TargetAttributes = {
 					CA66927D203D0B0C000069B5 = {
@@ -526,6 +549,7 @@
 				CAD3C562204BC50300DE2911 /* UIColor+Extension.swift in Sources */,
 				CAD3C55F204B5D1600DE2911 /* AddCategoryCell.swift in Sources */,
 				CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */,
+				5C2F1DAC20789FA500ADF58E /* SupportVC.swift in Sources */,
 				CA8C48E6205B734F007A74F5 /* CategorySubcategoryStore.swift in Sources */,
 				CA18467D204BE5340091B568 /* WeatherService.swift in Sources */,
 				CAD3C55D204B4EE600DE2911 /* ClosetCategoryCell.swift in Sources */,
@@ -536,11 +560,14 @@
 				CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */,
 				CA2CABCF203D2B8F00C62AE1 /* FirebaseManager.swift in Sources */,
 				5C633467205858CC0035F00A /* SettingsVC.swift in Sources */,
+				5C2F1DAE2078B9F800ADF58E /* CategoriesVC.swift in Sources */,
 				CA669282203D0B0C000069B5 /* AppDelegate.swift in Sources */,
 				CA4BD4322049E44F002405D8 /* InformationVC.swift in Sources */,
 				CA843C4820602FE4005672D5 /* SubcategoryCell.swift in Sources */,
 				CAFBF10D20572B9C007D425A /* Closet.swift in Sources */,
 				CA66928A203D0B0C000069B5 /* FixedFit.xcdatamodeld in Sources */,
+				CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */,
+				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,
 				CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */,
@@ -550,6 +577,7 @@
 				5C5B4E472053A34100479FC9 /* EditorVC.swift in Sources */,
 				CA1EAC8D204A0F0D00CBEB9F /* UserStuffManager.swift in Sources */,
 				CA2CABDB203D392700C62AE1 /* UIStoryboard+Extension.swift in Sources */,
+				CA469C9820746AAC0098F684 /* CreateOutfitVC.swift in Sources */,
 				CA1EAC8F204A140B00CBEB9F /* CategoryCell.swift in Sources */,
 				CABA7927203F988600EABAA1 /* SignUpVC.swift in Sources */,
 				149B5694204286840074285C /* HomeVC.swift in Sources */,
@@ -611,6 +639,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -618,6 +647,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -668,6 +698,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -675,6 +706,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

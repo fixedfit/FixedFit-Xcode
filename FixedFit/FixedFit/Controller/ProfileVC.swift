@@ -88,16 +88,11 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
         let image = Image
         UserProfileImage.image = image
-        
-        print("profile appeared")
     }
     
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "EditTransition", sender: self)
     }
-    
-    
-    
     
     //Functions to the buttons involved in the profile section
     //Execute with transitional view animations

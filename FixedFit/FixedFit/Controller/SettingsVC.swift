@@ -9,13 +9,17 @@
 import Foundation
 import UIKit
 
-class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate {
+class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
     
     //Label reference for push notification label
     @IBOutlet weak var PushStatus: UILabel!
+    
+    //Variables used to obtain the email and password for reauthentication
+    var email:String!
+    var password:String!
     
     //View references for tap gestures for particular actions
     @IBOutlet weak var CategoryView: UIView!
@@ -118,8 +122,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
         
         //Modify any variables in UserFinderVC that is needed to distinguish operations that need to be performed
-        vc.viewTitle = "Blocked Users"
-        vc.mode = "blocked"
+        vc.viewTitle = FirebaseUserFinderTitle.blocked
+        vc.mode = FirebaseUserFinderMode.blocked
+        
         
         //Push View Controller onto Navigation Stack
         navigationController?.pushViewController(vc, animated: true)
@@ -181,23 +186,17 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
-            var email:String!
-            var password:String!
             var errorCode = 0
             var reauthenticationCode = 0
             var nextMessage = ""
             
             //Generate a view controller to obtain the email and password
-            let reauthVC = ReauthenticateVC()
-            reauthVC.delegate = self
-            self?.present(reauthVC, animated: true, completion: nil)
-
             
             
             //The user must be reauthenticated in order to be able to delete the account
             //reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password))!
             
-            if reauthenticationCode == 0 {
+            if(reauthenticationCode == 0){
                 nextMessage = "Reauthentication Failed"
                 
             } else {
@@ -221,10 +220,5 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButtonData, rightButtonData: rightButtonData)
         
         present(informationVC, animated: true, completion: nil)
-    }
-
-    func didPressDone(email: String, password: String) {
-        print(email)
-        print(password)
     }
 }

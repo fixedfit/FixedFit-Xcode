@@ -79,22 +79,20 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary;
             imagePicker.allowsEditing = false
-            print("FIRST")
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
-        
+        self.dismiss(animated: true, completion: { () -> Void in
+            
+        })
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
             EditingPhoto.contentMode = .scaleAspectFit
             EditingPhoto.image = image
             }
         
-        self.dismiss(animated: true, completion: { () -> Void in
-            
-        })
-            print("THIRD")
+
         }
     
     

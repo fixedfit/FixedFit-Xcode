@@ -28,6 +28,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
 
     //mock dictionary of events
     var firebaseEvents: [String:String] = [:]
+    var firebaseEventsKeys = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
 
         setupCalendarView()
+        setupTableView()
 
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
         
@@ -69,17 +71,28 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.minimumLineSpacing = 1
         calendarView.minimumInteritemSpacing = 1
         calendarView.backgroundColor = UIColor.fixedFitPurple
-
+    }
+    
+    func setupTableView() {
         //get calendar events
         firebaseEvents = getServerEvents()
+        formatter.dateFormat = "yyyyMMdd"
+        //dictionaries are unordered, so create an array of dates after today
+        for key in firebaseEvents.keys {
+            if key > formatter.string(from: Date()) {
+                firebaseEventsKeys.append(key)
+            }
+        }
+        //sort them for use in table view
+        firebaseEventsKeys.sort(by: <)
     }
 
     //mock firebase event pull
     func getServerEvents() -> [String:String] {
 
         return [
-            "20180405":"Outfit 1",
-            "20180410":"Outfit 2",
+            "20180402":"Outfit 1",
+            "20180411":"Outfit 2",
             "20180414":"Outfit 3",
             "20180416":"Outfit 4",
             "20180420":"Outfit 5",
@@ -87,6 +100,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
             "20180425":"Outfit 7"
         ]
     }
+    
 }
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
@@ -138,18 +152,29 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "MMM"
         month.text = formatter.string(from: date)
     }
+    
+    func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
+        formatter.dateFormat = "EEEE MMMM dd, yyyy"
+        let sb = UIStoryboard(name: "DatePopUpVC", bundle: nil)
+        let popUp = sb.instantiateInitialViewController()! as! DatePopUpVC
+        popUp.dateString = formatter.string(from: cellState.date)
+        self.present(popUp, animated: true)
+    }
+    
 }
 
 extension HomeVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return firebaseEvents.count
+        return firebaseEventsKeys.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = eventView.dequeueReusableCell(withIdentifier: "eventCell")
-        
-        cell?.textLabel?.text = Array(firebaseEvents.keys)[indexPath.row] + " " + Array(firebaseEvents.values)[indexPath.row]
+        formatter.dateFormat = "yyyyMMdd"
+        let eventDate = formatter.date(from: firebaseEventsKeys[indexPath.row])
+        formatter.dateFormat = "EEEE MMMM dd, yyyy"
+        cell?.textLabel?.text = formatter.string(from: eventDate!) + " " + firebaseEvents[firebaseEventsKeys[indexPath.row]]!
         
         return cell!
     }

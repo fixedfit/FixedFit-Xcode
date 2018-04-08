@@ -14,9 +14,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
 
-    //Initialize default image name
-    var imageName = "defaultProfile"
-
     //MARK: Initialize integer counters to count the number of followers and followings the user currently has.
     var FollowersCounter = 0
     var FollowingCounter = 0
@@ -91,13 +88,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
 
         //Only obtain a single photo under the term: "userphoto" as a parameter which will be used to determine what to look for
-
-        if usermanager.userphoto == nil {
-            Image = UIImage(named: imageName)
-        } else {
-            print("if it does exist, then just assign it.")
-        }
-
+        Image = usermanager.userphoto
+        
         //Generate a UIImage from the user's photo
         //ContentMode is used to scale images
         UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit

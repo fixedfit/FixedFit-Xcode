@@ -56,30 +56,55 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         tapped.delegate = self
         EditingPhoto.isUserInteractionEnabled = true
         EditingPhoto.addGestureRecognizer(tapped)
+        
+        //Initialize image field of EditingPhoto to nil to identify this view being presented by the profileVC
+        EditingPhoto.image = nil
     }
     
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
+        
+        //Initialize variable used to determine where the users would like to retrieve the photo for the user profile
+        var selectionStatus:String!
+        
+        //Present PhotoSelector ViewController to ask user how they want to edit user photo
+        
+        
+        selectionStatus = "Libray"//debug purposes
+        
+        if(selectionStatus == "Libray"){
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+                imagePicker.delegate = self
+                imagePicker.sourceType = .photoLibrary;
+                imagePicker.allowsEditing = false
 
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            print("Button capture")
-            
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary;
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
+            }
+        } else if(selectionStatus == "Camera"){
+        
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                imagePicker.delegate = self
+                imagePicker.sourceType = .camera
+                imagePicker.allowsEditing = false
+            }
+        
+        } else {
+            //If users select the default profile image to be displayed on their profile, then just assigned it and return
+            EditingPhoto.image = UIImage(named: "defaultProfile")
+            return
         }
+        self.present(imagePicker, animated: true, completion: nil)
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
         
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
+        //need to unwrap info's value entry when retrieving image since it is wrapped in a optional
+        if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             EditingPhoto.contentMode = .scaleAspectFit
             EditingPhoto.image = image
         }
         self.dismiss(animated: true, completion: nil)
     }
-    
+ 
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -96,17 +121,11 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         PreviousUserLastName = self.UserLastNameField.text!
         PreviousUserStatus = usermanager.userstatus
         
-        //Determine if the user has already set up a photo or if it needs to use the default profile pic
-        if usermanager.userphoto == nil{
-            self.PreviousUserPhoto = UIImage(named:"defaultProfile")
-        } else {
-            print("data from firebase")
+        if(self.EditingPhoto.image == nil){
+            self.PreviousUserPhoto = usermanager.userphoto
+            self.EditingPhoto.contentMode = UIViewContentMode.scaleAspectFit
+            self.EditingPhoto.image = usermanager.userphoto
         }
-        
-        //Add the image onto the UIImaveView and scale it
-        let image = self.PreviousUserPhoto
-        EditingPhoto.contentMode = UIViewContentMode.scaleAspectFit
-        EditingPhoto.image = image
         
         //update current viewing status from firebase field into the button field
         if (usermanager.userstatus == "Public"){
@@ -114,7 +133,6 @@ class EditorVC: UIViewController, UITextFieldDelegate,
         } else {
             self.CurrentViewStatus.setTitle("Private", for: [])
         }
-        
     }
     
     //Hide keyboard when users touch outside the text boxes
@@ -156,7 +174,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     //perform any last minute error checks and Exit editor view if needed
     @IBAction func ExitEditor(_ sender: UIBarButtonItem) {
-        
+
         //Initialize dispatch group to ensure that the error messages are accurate
         let dispatch = DispatchGroup()
         
@@ -251,6 +269,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
                 //After the variables are updated, the UserStuffManager needs to update again
                 //Fetch the user's Information from the UserStuffManager
                 self.usermanager.fetchUserInformation()
+                
             } else {
                 leftMessage = "fix issues"
                 rightMessage = "discard changes"
@@ -260,6 +279,10 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             //Set button messages
             leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
             rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
+                
+                //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
+                self.EditingPhoto.image = nil
+                
                 self.dismiss(animated: true, completion: nil)
 
             }

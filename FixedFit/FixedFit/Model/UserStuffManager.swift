@@ -57,6 +57,16 @@ class UserStuffManager {
                     completion(nil)
                 }
             }
+            
+            if(false){
+                //Future fetching of UIImage
+                
+                if let completion = completion {
+                    completion(nil)
+                }
+            } else {
+                self?.userphoto = UIImage(named: "defaultProfile")
+            }
         }
     }
 

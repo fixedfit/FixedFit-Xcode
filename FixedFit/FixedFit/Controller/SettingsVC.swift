@@ -14,7 +14,7 @@ enum SettingErrors: Error{
     case invalidVCName
 }
 
-class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
+class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate{
     
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
@@ -23,8 +23,8 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     @IBOutlet weak var PushStatus: UILabel!
     
     //Variables used to obtain the email and password for reauthentication
-    var email:String!
-    var password:String!
+    var userEmail:String!
+    var userPassword:String!
     
     //View references for tap gestures for particular actions
     @IBOutlet weak var CategoryView: UIView!
@@ -193,10 +193,12 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             var nextMessage = ""
             
             //Generate a view controller to obtain the email and password
-            
+            let reauthVC = ReauthenticateVC()
+            reauthVC.delegate = self
+            self?.present(reauthVC, animated: true, completion: nil)
             
             //The user must be reauthenticated in order to be able to delete the account
-            //reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password))!
+            //reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: self?.userEmail, currentUserPassword: self?.userPassword))!
             
             if(reauthenticationCode == 0){
                 nextMessage = "Reauthentication Failed"
@@ -228,4 +230,19 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         
         present(informationVC, animated: true, completion: nil)
     }
+    
+    //Functions from delegates that are implemented by the SettingsVC class
+    //ReauthenticationVC function:
+    /*
+     Function takes in two strings for the ReauthenticationVC.hib file that contains the email and password of the user
+    */
+    func didAcceptCredentials(email: String, password: String) {
+        self.userEmail = email
+        self.userPassword = password
+        print(self.userEmail)
+        print(self.userPassword)
+    }
+    
+    //
+    
 }

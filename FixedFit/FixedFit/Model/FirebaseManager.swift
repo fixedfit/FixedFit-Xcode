@@ -233,6 +233,7 @@ class FirebaseManager {
             let category = itemCategoryInfo.category!
             let imageUniqueID = uniqueID()
             let newItemStoragePath = storageImageURLReference(uniqueID: imageUniqueID) ?? ""
+            print(newItemStoragePath)
 
             // Save images to storage
             if let resizedImage = itemImage.resized(toWidth: 700), let imageData = UIImagePNGRepresentation(resizedImage) {
@@ -345,7 +346,8 @@ class FirebaseManager {
 
         newOutfit[FirebaseKeys.items.rawValue] = outfitItemsInfos
         newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
-        
+
+        print(userStuffManager.username)
         ref.child(userStuffManager.username).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
             if let error = error {
                 print(error.localizedDescription)
@@ -452,7 +454,7 @@ class FirebaseManager {
     // MARK: - Helper methods
 
     private func createfirstLoginData(user: User, signUpInfo: SignUpInfo) -> [String: Any] {
-        return [FirebaseKeys.username.rawValue: signUpInfo.username, FirebaseKeys.firstName.rawValue: signUpInfo.firstName, FirebaseKeys.lastName.rawValue: signUpInfo.lastName]
+        return [FirebaseKeys.username.rawValue: signUpInfo.username, FirebaseKeys.firstName.rawValue: signUpInfo.firstName, FirebaseKeys.lastName.rawValue: signUpInfo.lastName, FirebaseKeys.status.rawValue: signUpInfo.status, FirebaseKeys.bio.rawValue: signUpInfo.bio]
     }
 
     private func checkUsername(_ username: String, in allUsersInfo: [String: [String: Any]]) -> Bool {
@@ -469,7 +471,7 @@ class FirebaseManager {
 
     private func uniqueID() -> String {
         let fullRandomIDReference = ref.childByAutoId().description()
-        let uniqueID = fullRandomIDReference.replacingOccurrences(of: "https://testfixedfit2.firebaseio.com/", with: "")
+        let uniqueID = fullRandomIDReference.replacingOccurrences(of: "https://testfixedfit3.firebaseio.com/", with: "")
 
         return uniqueID
     }
@@ -479,12 +481,12 @@ class FirebaseManager {
 
         if let uniqueID = uniqueID {
             let fullStorageReference = storageRef.child(userStuffManager.username).child(.closet).child(uniqueID).description
-            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit2.appspot.com", with: "")
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit3.appspot.com", with: "")
 
             return referenceNeeded
         } else {
             let fullStorageReference = storageRef.child(userStuffManager.username).child(.closet).child(self.uniqueID()).description
-            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit2.appspot.com", with: "")
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit3.appspot.com", with: "")
 
             return referenceNeeded
         }

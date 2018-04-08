@@ -62,11 +62,9 @@ class CreateOutfitVC: PhotosVC {
         present(informationVC, animated: true, completion: nil)
         firebaseManager.saveOutfit(outfitItems: pickedOutfitItems) { [weak self] (uniqueID, error) in
             guard let strongSelf = self else { return }
-
+            let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems)
+            strongSelf.userStuffManager.closet.outfits.insert(outfit, at: 0)
             informationVC.dismiss(animated: true) { [weak self] in
-                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems)
-
-                strongSelf.userStuffManager.closet.outfits.append(outfit)
                 self?.dismiss(animated: true, completion: nil)
             }
         }

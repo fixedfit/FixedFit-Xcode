@@ -11,8 +11,12 @@ import UIKit
 class OutfitVC: PhotosVC {
     @IBOutlet weak var collectionView: UICollectionView!
 
-    var outfits: [Outfit] = [] {
-        didSet {
+    var outfits: [Outfit] {
+        get {
+            return UserStuffManager.shared.closet.outfits
+        }
+
+        set {
             collectionView.reloadData()
         }
     }
@@ -25,6 +29,7 @@ class OutfitVC: PhotosVC {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        print(outfits.count)
         collectionView.reloadData()
     }
 

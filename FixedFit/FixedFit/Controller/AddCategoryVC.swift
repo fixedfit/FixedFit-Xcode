@@ -123,7 +123,8 @@ class AddCategoryVC: UIViewController {
         present(informationVC, animated: true, completion: nil)
 
         firebaseManager.uploadClosetItems(photoCategorySubcategoryDict) { [weak self] (error) in
-            if let _ = error {
+            if let error = error {
+                print(error.localizedDescription)
                 print("We got into some weird error!")
             } else {
                 self?.notificationCenter.post(name: .categoriesUpdated, object: nil)

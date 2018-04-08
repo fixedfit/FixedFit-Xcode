@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+enum SettingErrors: Error{
+    case invalidStoryboardName
+    case invalidVCName
+}
+
 class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     let firebaseManager = FirebaseManager.shared
@@ -106,7 +111,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             PushStatus.textColor = .fixedFitPurple
             PushStatus.text = "Off"
         }
-        
     }
     
     //MARK: Management of Categories
@@ -118,16 +122,15 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     @objc func tappedBlockUsers(_ sender: UITapGestureRecognizer){
         
         //Transition to the UserFinder storyboard where you would want to look for Blocked Users
-        let storyboard = UIStoryboard(name: "UserFinder", bundle: nil)
-        let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
-        
-        //Modify any variables in UserFinderVC that is needed to distinguish operations that need to be performed
-        vc.viewTitle = FirebaseUserFinderTitle.blocked
-        vc.mode = FirebaseUserFinderMode.blocked
-        
-        
-        //Push View Controller onto Navigation Stack
-        navigationController?.pushViewController(vc, animated: true)
+        guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
+
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     //MARK: Change user email and password
@@ -186,7 +189,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
-            var errorCode = 0
             var reauthenticationCode = 0
             var nextMessage = ""
             
@@ -199,16 +201,21 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             if(reauthenticationCode == 0){
                 nextMessage = "Reauthentication Failed"
                 
+            } else if(reauthenticationCode == -1){
+                nextMessage = "Error: Empty Email or Password Entry"
+            } else if(reauthenticationCode == -2){
+                nextMessage = "Error: Incorrect Email"
             } else {
                 //Delete the account
-                //errorCode = (self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
-                if(errorCode == 0){
-                    nextMessage = "Deletion of Account Failed"
-                }
+                //(self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
+                
+                //If message is reached then deletion of account was unsuccessful.
+                nextMessage = "Deletion of Account Failed"
+                
             }
             
             //Determine if informationVC must be generated for error message
-            if(errorCode != 1 || reauthenticationCode != 1){
+            if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
                 //Generate second informationVC and present it
                 let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
                 let secondInformationVC = InformationVC(message: nextMessage, image: self?.usermanager.userphoto, leftButtonData: nil, rightButtonData: buttonDataRight)

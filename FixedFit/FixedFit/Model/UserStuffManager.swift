@@ -8,10 +8,23 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
+import FirebaseStorage
 
 class UserStuffManager {
     static let shared = UserStuffManager()
 
+    var ref: DatabaseReference {
+        return Database.database().reference()
+    }
+    var storageRef: StorageReference {
+        return Storage.storage().reference()
+    }
+    private var currentUser: User? {
+        return Auth.auth().currentUser
+    }
+    
     var firstName = ""
     var lastName = ""
     var username = ""
@@ -24,19 +37,22 @@ class UserStuffManager {
 
     func fetchUserInformation(completion: ((Error?) -> Void)? = nil) {
         let firebaseManager = FirebaseManager.shared
-
         firebaseManager.fetchUserInfo { [weak self] (userInfo, error) in
             if let error = error {
                 print(error.localizedDescription)
                 if let completion = completion {
                     completion(error)
                 }
+
             } else if let userInfo = userInfo, let username = userInfo[FirebaseKeys.username.rawValue] as? String,
-                let firstName = userInfo[FirebaseKeys.firstName.rawValue] as? String, let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String {
+                let firstName = userInfo[FirebaseKeys.firstName.rawValue] as? String, let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String, let userbio = userInfo[FirebaseKeys.bio.rawValue] as? String, let userstatus = userInfo[FirebaseKeys.status.rawValue] as? String{
+                
                 self?.firstName = firstName
                 self?.lastName = lastName
                 self?.username = username
-
+                self?.userbio = userbio
+                self?.userstatus = userstatus
+                
                 if let completion = completion {
                     completion(nil)
                 }
@@ -99,16 +115,25 @@ class UserStuffManager {
             self.closet.outfits = foundOutfits
         }
     }
-
-    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){
-
-        //let firebaseManager = FirebaseManager.shared
-
-        //Update user information in firebase
-
-
+    
+    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String,status: String, photo: UIImage? = nil){
+        
+        print("updating")//
+        
+        //Update user first & last name in firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["firstName" : firstname])
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["lastName" : lastname])
+        
+        //Save current bio into firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["bio" : bio])
+        
+        //Save current username into firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["username" : name_of_user])
+        
         //Save current userstatus into firebase
+        self.ref.child("users").child((currentUser?.uid)!).updateChildValues(["status" : status])
 
+        //Save current userphoto into firebase
     }
 
     //Function used to modify user's status

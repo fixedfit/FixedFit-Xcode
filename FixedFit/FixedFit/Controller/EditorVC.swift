@@ -60,31 +60,32 @@ class EditorVC: UIViewController, UITextFieldDelegate,
     
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
-        
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             print("Button capture")
             
             imagePicker.delegate = self
-            imagePicker.sourceType = .savedPhotosAlbum;
+            imagePicker.sourceType = .photoLibrary;
             imagePicker.allowsEditing = false
-            
             self.present(imagePicker, animated: true, completion: nil)
         }
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
         
-        func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
-            self.dismiss(animated: true, completion: { () -> Void in
-                
-            })
-            
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
+            EditingPhoto.contentMode = .scaleAspectFit
             EditingPhoto.image = image
         }
+        self.dismiss(animated: true, completion: nil)
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         
         //Load up image of user and text fields from previous user stats for user modification
         self.UserNameTextField.text = usermanager.username
-        self.UserBioTextField.text = ""
+        self.UserBioTextField.text = usermanager.userbio
         self.UserFirstNameField.text = usermanager.firstName
         self.UserLastNameField.text = usermanager.lastName
         
@@ -231,7 +232,7 @@ class EditorVC: UIViewController, UITextFieldDelegate,
             //Determine if bio crietria is satisfied
             if(self.UserBioTextField.text! != self.PreviousUserBio){
                 if(self.UserBioTextField.text!.isEmpty){
-                    self.UserBioTextField.text = "No Bio Set."
+                    self.UserBioTextField.text = "No Bio Set"
                 
                 } else if(( (self.UserBioTextField.text!.count) > bioCharacterLimiter)){
                     errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
@@ -245,7 +246,11 @@ class EditorVC: UIViewController, UITextFieldDelegate,
                 errorMsg = "Would you like to save changes?\n"
                 
                 //Update previous user information with the new content
-                self.usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, photo: self.EditingPhoto.image)
+                self.usermanager.updateUserInfo(firstname: self.UserFirstNameField.text!, lastname: self.UserLastNameField.text!, bio: self.UserBioTextField.text!, name_of_user: self.UserNameTextField.text!, status: self.CurrentViewStatus.titleLabel!.text!, photo: self.EditingPhoto.image)
+                
+                //After the variables are updated, the UserStuffManager needs to update again
+                //Fetch the user's Information from the UserStuffManager
+                self.usermanager.fetchUserInformation()
             } else {
                 leftMessage = "fix issues"
                 rightMessage = "discard changes"

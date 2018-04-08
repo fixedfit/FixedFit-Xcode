@@ -63,15 +63,15 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         self.addChildViewController(outfitVC)
     }
     
-
-
-    
     //MARK: Update profile page once view appears.
     override func viewWillAppear(_ animated: Bool) {
+<<<<<<< HEAD
         outfitVC.viewWillAppear(true)
 
         //Fetch the user's Information from the UserStuffManager
         usermanager.fetchUserInformation()
+=======
+>>>>>>> 872115c619d0881ade080bf7ff86a9cb3f1fee96
         
         //Initial UIImage variable used to select the image to output to the screen
         weak var Image: UIImage!
@@ -82,11 +82,9 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         //Update labels of profile if user has edited them
         self.UserFirstName.text = usermanager.firstName
         self.UserLastName.text = usermanager.lastName
-        self.UserBio.text = "No Bio"
-        
+        self.UserBio.text = usermanager.userbio
     
         ////Update Followers and Following Counters from firebase
-        
         //Update button titles/view counters
         self.FollowingCount.text = String(FollowingCounter)
         self.FollowersCount.text = String(FollowersCounter)
@@ -108,25 +106,38 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
         let image = Image
         UserProfileImage.image = image
-        
-        print("profile appeared")
     }
     
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "EditTransition", sender: self)
     }
     
-    
-    
-    
     //Functions to the buttons involved in the profile section
     //Execute with transitional view animations
     //perform action when following and followers button are clicked
     @objc func tappedFollowing(sender: UITapGestureRecognizer){
-        print("following pressed")
+        guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.following, newMode:FirebaseUserFinderMode.following) else {return}
+        
+        //Check if the View Controller is of a certain View Controller type
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     @objc func tappedFollowers(sender: UITapGestureRecognizer){
-        print("followers pressed")
+        guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.follower, newMode:FirebaseUserFinderMode.follower) else {return}
+        
+        //Check if the View Controller is of a certain View Controller type
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 
     @IBAction func tappedOutfits(_ sender: UITapGestureRecognizer) {

@@ -71,6 +71,33 @@ class UserStuffManager {
         if let filters = closet[FirebaseKeys.filters.rawValue] as? [String: String] {
             self.closet.filters = filters
         }
+
+        if let outfits = closet[FirebaseKeys.outfits.rawValue] as? [String: [String: Any]] {
+            var foundOutfits: [Outfit] = []
+
+            for key in outfits.keys {
+                var outfit = Outfit(uniqueID: key, items: [])
+                var outfitInfo = outfits[key]
+
+                if let items = outfitInfo?[FirebaseKeys.items.rawValue] as? [[String: String]] {
+                    for closetItem in items {
+                        if let url = closetItem[FirebaseKeys.url.rawValue],
+                            let category = closetItem[FirebaseKeys.category.rawValue],
+                            let uniqueID = closetItem[FirebaseKeys.uniqueID.rawValue] {
+                            let categorySubcategory = CategorySubcategory(category: category, subcategory: closetItem[FirebaseKeys.subcategory.rawValue])
+                            let closetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url, uniqueID: uniqueID)
+
+                            outfit.items.append(closetItem)
+                        }
+                    }
+
+                }
+
+                foundOutfits.append(outfit)
+            }
+
+            self.closet.outfits = foundOutfits
+        }
     }
 
     func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){

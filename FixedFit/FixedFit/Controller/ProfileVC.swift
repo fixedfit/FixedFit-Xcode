@@ -20,6 +20,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     //MARK: Initialize integer counters to count the number of followers and followings the user currently has.
     var FollowersCounter = 0
     var FollowingCounter = 0
+
+    var outfitVC: OutfitVC!
     
     //label for the user's first and last name, user's bio, and viewing status
     @IBOutlet weak var UserFirstName: UILabel!
@@ -36,6 +38,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     //Reference to the UIImageVIew
     @IBOutlet weak var UserProfileImage: UIImageView!
     
+    @IBOutlet weak var childVCView: UIView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +53,14 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         FollowersButton.isUserInteractionEnabled = true
         FollowingButton.addGestureRecognizer(followingTap)
         FollowersButton.addGestureRecognizer(followersTap)
-        
+
+        let outfitVC = UIStoryboard.outfitVC as! OutfitVC
+        childVCView.addSubview(outfitVC.view)
+        outfitVC.view.fillSuperView()
+        self.outfitVC = outfitVC
+        outfitVC.outfits = UserStuffManager.shared.closet.outfits
+        print(outfitVC.outfits)
+        self.addChildViewController(outfitVC)
     }
     
 
@@ -57,7 +68,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: Update profile page once view appears.
     override func viewWillAppear(_ animated: Bool) {
-        
+        outfitVC.viewWillAppear(true)
+
         //Fetch the user's Information from the UserStuffManager
         usermanager.fetchUserInformation()
         
@@ -117,7 +129,19 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         print("followers pressed")
     }
 
-    
+    @IBAction func tappedOutfits(_ sender: UITapGestureRecognizer) {
+        print("Tapped outfits")
+    }
+
+    @IBAction func tappedLiked(_ sender: UITapGestureRecognizer) {
+        print("Tapped liked")
+    }
+
+    @IBAction func tappedFavorited(_ sender: UITapGestureRecognizer) {
+        print("Tapped favorited")
+    }
+
+
     //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
     
 }

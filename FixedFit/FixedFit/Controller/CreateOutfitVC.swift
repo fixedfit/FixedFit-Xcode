@@ -28,6 +28,10 @@ class CreateOutfitVC: PhotosVC {
         setupAllItems()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
+    }
+
     private func setupViews() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -56,8 +60,13 @@ class CreateOutfitVC: PhotosVC {
         let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addCategory"), leftButtonData: nil, rightButtonData: nil)
 
         present(informationVC, animated: true, completion: nil)
-        firebaseManager.saveOutfit(outfitItems: pickedOutfitItems) { [weak self] error in
+        firebaseManager.saveOutfit(outfitItems: pickedOutfitItems) { [weak self] (uniqueID, error) in
+            guard let strongSelf = self else { return }
+
             informationVC.dismiss(animated: true) { [weak self] in
+                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems)
+
+                strongSelf.userStuffManager.closet.outfits.append(outfit)
                 self?.dismiss(animated: true, completion: nil)
             }
         }

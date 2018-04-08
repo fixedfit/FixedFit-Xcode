@@ -133,7 +133,7 @@ class FirebaseManager {
                     completion(FirebaseError.usernameInUse)
                 }
             } else {
-                completion(FirebaseError.unableToRetrieveData)
+                completion(nil)
             }
         }, withCancel: {(_) in
             completion(FirebaseError.unableToRetrieveData)
@@ -309,22 +309,37 @@ class FirebaseManager {
         }
     }
 
-    func saveOutfit(outfitItems: [ClosetItem], completion: @escaping (Error?) -> Void) {
+    func saveOutfit(outfitItems: [ClosetItem], completion: @escaping (_ uniqueID: String?, _ error: Error?) -> Void) {
+        var newOutfit: [String: Any] = [:]
         var outfitItemsInfos: [[String: String]] = []
         let outfitUniqueID = uniqueID()
 
         outfitItems.forEach { (closetItem) in
-            let closetItemInfo = [FirebaseKeys.uniqueID.rawValue: closetItem.uniqueID]
+            var closetItemInfo = [FirebaseKeys.uniqueID.rawValue: closetItem.uniqueID,
+                                  FirebaseKeys.url.rawValue: closetItem.storagePath]
+
+            if let category = closetItem.categorySubcategory.category {
+                closetItemInfo[FirebaseKeys.category.rawValue] = category
+            }
+
+            if let subcategory = closetItem.categorySubcategory.subcategory {
+                closetItemInfo[FirebaseKeys.subcategory.rawValue] = subcategory
+            }
+
 
             outfitItemsInfos.append(closetItemInfo)
         }
+
+        newOutfit[FirebaseKeys.items.rawValue] = outfitItemsInfos
+        newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
         
-        ref.child(userStuffManager.username).child(.closet).child(.outfits).child(outfitUniqueID).child(.items).setValue(outfitItemsInfos) { (error, _) in
+        ref.child(userStuffManager.username).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
             if let error = error {
                 print(error.localizedDescription)
+                completion(nil, error)
+            } else {
+                completion(outfitUniqueID, nil)
             }
-
-            completion(error)
         }
     }
 
@@ -441,7 +456,7 @@ class FirebaseManager {
 
     private func uniqueID() -> String {
         let fullRandomIDReference = ref.childByAutoId().description()
-        let uniqueID = fullRandomIDReference.replacingOccurrences(of: "https://testfixedfit.firebaseio.com/", with: "")
+        let uniqueID = fullRandomIDReference.replacingOccurrences(of: "https://testfixedfit2.firebaseio.com/", with: "")
 
         return uniqueID
     }
@@ -451,12 +466,12 @@ class FirebaseManager {
 
         if let uniqueID = uniqueID {
             let fullStorageReference = storageRef.child(userStuffManager.username).child(.closet).child(uniqueID).description
-            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit.appspot.com/", with: "")
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit2.appspot.com", with: "")
 
             return referenceNeeded
         } else {
             let fullStorageReference = storageRef.child(userStuffManager.username).child(.closet).child(self.uniqueID()).description
-            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit.appspot.com/", with: "")
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit2.appspot.com", with: "")
 
             return referenceNeeded
         }

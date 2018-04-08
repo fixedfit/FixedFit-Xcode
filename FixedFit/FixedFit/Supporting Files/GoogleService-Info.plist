@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>441379630382-uespf7rebc6m27a2ohu1b3i2bsc06ues.apps.googleusercontent.com</string>
+	<string>332542755284-3hsh8ondecu46l8u5a6onfdd6t8sip9q.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.441379630382-uespf7rebc6m27a2ohu1b3i2bsc06ues</string>
+	<string>com.googleusercontent.apps.332542755284-3hsh8ondecu46l8u5a6onfdd6t8sip9q</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBvnZvLxNgh4DlC1Bn7QD5czMQN8SVUlVY</string>
+	<string>AIzaSyAl3NK-jNk80SHn875YYRzEN0dkn1fDD18</string>
 	<key>GCM_SENDER_ID</key>
-	<string>441379630382</string>
+	<string>332542755284</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>unlv.keteboa.FixedFit</string>
 	<key>PROJECT_ID</key>
-	<string>testfixedfit</string>
+	<string>testfixedfit2</string>
 	<key>STORAGE_BUCKET</key>
-	<string>testfixedfit.appspot.com</string>
+	<string>testfixedfit2.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:441379630382:ios:65e8f0e9b1fd4824</string>
+	<string>1:332542755284:ios:65e8f0e9b1fd4824</string>
 	<key>DATABASE_URL</key>
-	<string>https://testfixedfit.firebaseio.com</string>
+	<string>https://testfixedfit2.firebaseio.com</string>
 </dict>
 </plist>

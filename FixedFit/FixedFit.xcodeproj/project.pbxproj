@@ -17,6 +17,7 @@
 		5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86F2ED207996F900E102C5 /* UserViewVC.swift */; };
 		5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */; };
 		5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */; };
+		5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3069A2079B5A6007C55E0 /* PushViews.swift */; };
 		CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */; };
 		CA18467D204BE5340091B568 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA18467C204BE5340091B568 /* WeatherService.swift */; };
 		CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1970612077369C006D7B89 /* Reference+Extension.swift */; };
@@ -84,6 +85,7 @@
 		5C86F2ED207996F900E102C5 /* UserViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewVC.swift; sourceTree = "<group>"; };
 		5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserFinder.storyboard; sourceTree = "<group>"; };
 		5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFinderVC.swift; sourceTree = "<group>"; };
+		5CC3069A2079B5A6007C55E0 /* PushViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViews.swift; sourceTree = "<group>"; };
 		73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2DCC6D9D821E733876CA8D /* Pods-FixedFit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit.release.xcconfig"; sourceTree = "<group>"; };
 		A255FB8D04BF3676A516BF21 /* Pods-FixedFitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				5C2F1DAB20789FA500ADF58E /* SupportVC.swift */,
 				5C2F1DAD2078B9F800ADF58E /* CategoriesVC.swift */,
 				5C86F2ED207996F900E102C5 /* UserViewVC.swift */,
+				5CC3069A2079B5A6007C55E0 /* PushViews.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -549,6 +552,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAFEE176205258D100701ED2 /* CalendarCell.swift in Sources */,
+				5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */,
 				CAD3C562204BC50300DE2911 /* UIColor+Extension.swift in Sources */,
 				CAD3C55F204B5D1600DE2911 /* AddCategoryCell.swift in Sources */,
 				CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */,

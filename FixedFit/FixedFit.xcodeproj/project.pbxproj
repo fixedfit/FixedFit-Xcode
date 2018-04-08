@@ -14,6 +14,7 @@
 		5C2F1DAE2078B9F800ADF58E /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F1DAD2078B9F800ADF58E /* CategoriesVC.swift */; };
 		5C5B4E472053A34100479FC9 /* EditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B4E462053A34100479FC9 /* EditorVC.swift */; };
 		5C633467205858CC0035F00A /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C633466205858CC0035F00A /* SettingsVC.swift */; };
+		5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86F2ED207996F900E102C5 /* UserViewVC.swift */; };
 		5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */; };
 		5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */; };
 		CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */; };
@@ -80,6 +81,7 @@
 		5C2F1DAD2078B9F800ADF58E /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
 		5C5B4E462053A34100479FC9 /* EditorVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditorVC.swift; path = FixedFit/Controller/EditorVC.swift; sourceTree = SOURCE_ROOT; };
 		5C633466205858CC0035F00A /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		5C86F2ED207996F900E102C5 /* UserViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewVC.swift; sourceTree = "<group>"; };
 		5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserFinder.storyboard; sourceTree = "<group>"; };
 		5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFinderVC.swift; sourceTree = "<group>"; };
 		73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,6 +309,7 @@
 				CAFCDBDF2074BE1A00E87E9B /* Parents */,
 				5C2F1DAB20789FA500ADF58E /* SupportVC.swift */,
 				5C2F1DAD2078B9F800ADF58E /* CategoriesVC.swift */,
+				5C86F2ED207996F900E102C5 /* UserViewVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				149B5694204286840074285C /* HomeVC.swift in Sources */,
 				CA1DA7592058D29E00DE3897 /* PhotoCell.swift in Sources */,
 				CA843C4620602CCF005672D5 /* FiltersVC.swift in Sources */,
+				5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */,
 				CA2CABCD203D2AA800C62AE1 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

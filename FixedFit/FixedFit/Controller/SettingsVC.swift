@@ -117,7 +117,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     //Function used to execute transitions from a view to a new view that needs to be instantiated on the navigation
     //The Function needs:
     //(view controller name, storyboard name, title for navigation item, mode if view controller contains that variable as a member)
-    func executeTransition(vcName: String, storyboardName: String, newTitle:String, newMode:String?){
+    func executeTransition(vcName: String, storyboardName: String, newTitle:String, newMode:String? = nil) -> UIViewController?{
         
         //Message used to monitor if cases are correct
         var errorMessage = ""
@@ -129,42 +129,44 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             
         } else {
             
+            //Initial view controller
+            var vc: UIViewController!
+            let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
+            
             if(vcName == "UserFinderVC"){
                 
                 let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
-                let vc = storyboard.instantiateInitialViewController() as! UserFinderVC
+                vc = storyboard.instantiateInitialViewController() as! UserFinderVC
                 
-                //Initialize the title of the ViewController and mode if needed
-                if(newMode != nil){
-                    vc.mode = newMode!
+                if let vc = vc as? UserFinderVC{
+                    //Initialize the title of the ViewController and mode if needed
+                    if(newMode != nil){
+                        vc.mode = newMode!
+                    }
+                    vc.viewTitle = newTitle
                 }
-                vc.viewTitle = newTitle
-                
-                //Push View Controller onto Navigation Stack
-                navigationController?.pushViewController(vc, animated: true)
                 
             } else if(vcName == "SupportVC" || vcName == "UserViewVC" || vcName == "CategoriesVC"){
-                var vc: UIViewController!
-                let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
                 
                 if(vcName == "SupportVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "")  as! SupportVC
+                    vc = storyboard.instantiateViewController(withIdentifier: "SupportVC")  as! SupportVC
                     
                     //Initialize the title of the ViewController
                     if let currentVC = vc as? SupportVC{
                         currentVC.viewTitle = newTitle
                     }
                     
+                //For UserViewVC, the title should be the user name of the searched person
                 } else if(vcName == "UserViewVC"){
-                    //vc = storyboard.instantiateViewController(withIdentifier: "") as! UserViewVC
+                    vc = storyboard.instantiateViewController(withIdentifier: "UserViewVC") as! UserViewVC
                     
                     //Initialize the title of the ViewController
-                    /*if let currentVC = vc as? CategoriesVC{
-                     currentVC.viewTitle = newTitle
-                     }*/
+                    if let currentVC = vc as? CategoriesVC{
+                        currentVC.viewTitle = newTitle
+                     }
                     
                 } else if(vcName == "CategoriesVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "") as! CategoriesVC
+                    vc = storyboard.instantiateViewController(withIdentifier: "CategoriesVC") as! CategoriesVC
                     
                     //Initialize the title of the ViewController
                     if let currentVC = vc as? CategoriesVC{
@@ -172,12 +174,12 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
                     }
                 }
                 
-                //Push View Controller onto Navigation Stack
-                navigationController?.pushViewController(vc, animated: true)
-                
             } else {
                 errorMessage = "Error: Unknown view controller name"
             }
+            
+            //Return view controller
+            return vc
         }
         
         if(!(errorMessage.isEmpty)){
@@ -186,6 +188,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             let informationVC = InformationVC(message: errorMessage, image: nil, leftButtonData: nil, rightButtonData: rightButtonData)
             self.present(informationVC, animated: true, completion: nil)
         }
+        
+        //Return nil
+        return nil
     }
     
     //MARK: Management of Categories
@@ -197,7 +202,13 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     @objc func tappedBlockUsers(_ sender: UITapGestureRecognizer){
         
         //Transition to the UserFinder storyboard where you would want to look for Blocked Users
-        executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked)
+        guard let vc = executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
+
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     //MARK: Change user email and password
@@ -268,6 +279,10 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             if(reauthenticationCode == 0){
                 nextMessage = "Reauthentication Failed"
                 
+            } else if(reauthenticationCode == -1){
+                nextMessage = "Error: Empty Email or Password Entry"
+            } else if(reauthenticationCode == -2){
+                nextMessage = "Error: Incorrect Email"
             } else {
                 //Delete the account
                 //(self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!

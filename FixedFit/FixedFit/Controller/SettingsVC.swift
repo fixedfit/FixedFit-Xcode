@@ -111,86 +111,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             PushStatus.textColor = .fixedFitPurple
             PushStatus.text = "Off"
         }
-        
-    }
-    
-    //Function used to execute transitions from a view to a new view that needs to be instantiated on the navigation
-    //The Function needs:
-    //(view controller name, storyboard name, title for navigation item, mode if view controller contains that variable as a member)
-    func executeTransition(vcName: String, storyboardName: String, newTitle:String, newMode:String? = nil) -> UIViewController?{
-        
-        //Message used to monitor if cases are correct
-        var errorMessage = ""
-        
-        if(vcName.isEmpty || storyboardName.isEmpty || newTitle.isEmpty){
-            
-            //Modify errorMessage vairable to produce correct error message
-            errorMessage = "Error: Invalid String Parameters"
-            
-        } else {
-            
-            //Initial view controller
-            var vc: UIViewController!
-            let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
-            
-            if(vcName == "UserFinderVC"){
-                
-                let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
-                vc = storyboard.instantiateInitialViewController() as! UserFinderVC
-                
-                if let vc = vc as? UserFinderVC{
-                    //Initialize the title of the ViewController and mode if needed
-                    if(newMode != nil){
-                        vc.mode = newMode!
-                    }
-                    vc.viewTitle = newTitle
-                }
-                
-            } else if(vcName == "SupportVC" || vcName == "UserViewVC" || vcName == "CategoriesVC"){
-                
-                if(vcName == "SupportVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "SupportVC")  as! SupportVC
-                    
-                    //Initialize the title of the ViewController
-                    if let currentVC = vc as? SupportVC{
-                        currentVC.viewTitle = newTitle
-                    }
-                    
-                //For UserViewVC, the title should be the user name of the searched person
-                } else if(vcName == "UserViewVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "UserViewVC") as! UserViewVC
-                    
-                    //Initialize the title of the ViewController
-                    if let currentVC = vc as? CategoriesVC{
-                        currentVC.viewTitle = newTitle
-                     }
-                    
-                } else if(vcName == "CategoriesVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "CategoriesVC") as! CategoriesVC
-                    
-                    //Initialize the title of the ViewController
-                    if let currentVC = vc as? CategoriesVC{
-                        currentVC.viewTitle = newTitle
-                    }
-                }
-                
-            } else {
-                errorMessage = "Error: Unknown view controller name"
-            }
-            
-            //Return view controller
-            return vc
-        }
-        
-        if(!(errorMessage.isEmpty)){
-            //Generate informationVC to let user know that there was an error in transition
-            let rightButtonData = ButtonData(title: "Ok", color: .fixedFitBlue, action: nil)
-            let informationVC = InformationVC(message: errorMessage, image: nil, leftButtonData: nil, rightButtonData: rightButtonData)
-            self.present(informationVC, animated: true, completion: nil)
-        }
-        
-        //Return nil
-        return nil
     }
     
     //MARK: Management of Categories
@@ -202,12 +122,14 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     @objc func tappedBlockUsers(_ sender: UITapGestureRecognizer){
         
         //Transition to the UserFinder storyboard where you would want to look for Blocked Users
-        guard let vc = executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
+        guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
 
         if let vc = vc as? UserFinderVC{
             
             //Push View Controller onto Navigation Stack
             self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
         }
     }
     

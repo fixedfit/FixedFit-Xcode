@@ -98,10 +98,28 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     //Execute with transitional view animations
     //perform action when following and followers button are clicked
     @objc func tappedFollowing(sender: UITapGestureRecognizer){
-        print("following pressed")
+        guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.following, newMode:FirebaseUserFinderMode.following) else {return}
+        
+        //Check if the View Controller is of a certain View Controller type
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     @objc func tappedFollowers(sender: UITapGestureRecognizer){
-        print("followers pressed")
+        guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.follower, newMode:FirebaseUserFinderMode.follower) else {return}
+        
+        //Check if the View Controller is of a certain View Controller type
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 
     

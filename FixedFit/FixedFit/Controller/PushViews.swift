@@ -49,16 +49,14 @@ class PushViews {
             var vc: UIViewController!
             let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
             
-            if(vcName == "UserFinderVC"){
+            if(vcName == "UserFinderVC" && newMode != nil){
                 
                 let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
                 vc = storyboard.instantiateInitialViewController() as! UserFinderVC
                 
                 if let vc = vc as? UserFinderVC{
                     //Initialize the title of the ViewController and mode if needed
-                    if(newMode != nil){
-                        vc.mode = newMode!
-                    }
+                    vc.mode = newMode!
                     vc.viewTitle = newTitle
                 }
                 
@@ -77,7 +75,7 @@ class PushViews {
                     vc = storyboard.instantiateViewController(withIdentifier: "UserViewVC") as! UserViewVC
                     
                     //Initialize the title of the ViewController
-                    if let currentVC = vc as? CategoriesVC{
+                    if let currentVC = vc as? UserViewVC{
                         currentVC.viewTitle = newTitle
                     }
                     

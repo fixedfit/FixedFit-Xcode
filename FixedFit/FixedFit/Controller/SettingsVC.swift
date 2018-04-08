@@ -14,7 +14,7 @@ enum SettingErrors: Error{
     case invalidVCName
 }
 
-class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
+class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate{
     
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
@@ -23,8 +23,8 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     @IBOutlet weak var PushStatus: UILabel!
     
     //Variables used to obtain the email and password for reauthentication
-    var email:String!
-    var password:String!
+    var userEmail:String!
+    var userPassword:String!
     
     //View references for tap gestures for particular actions
     @IBOutlet weak var CategoryView: UIView!
@@ -115,7 +115,16 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     //MARK: Management of Categories
     @objc func tappedCategory(_ sender: UITapGestureRecognizer){
-        print("tapped1")
+        
+        //Transition to CategoriesVC
+        guard let vc = PushViews.executeTransition(vcName: "CategoriesVC", storyboardName: "Home", newTitle:"Categories", newMode:"") else {return}
+        
+        if let vc = vc as? CategoriesVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     //MARK: Management of blocked users
@@ -125,7 +134,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
 
         if let vc = vc as? UserFinderVC{
-            
             //Push View Controller onto Navigation Stack
             self.navigationController?.pushViewController(vc, animated: true)
         } else if let vc = vc as? InformationVC{
@@ -161,10 +169,28 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
     
     //MARK: Support - Help Center(FAQ) and Contacts
     @objc func tappedHelpCenter(_ sender: UITapGestureRecognizer){
-        print("tapped7")
+        
+        //Transition to Help Center
+        guard let vc = PushViews.executeTransition(vcName: "SupportVC", storyboardName: "Home", newTitle:FirebaseSupportVCTitleAndMode.helpCenter, newMode:"") else {return}
+        
+        if let vc = vc as? SupportVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     @objc func tappedContacts(_ sender: UITapGestureRecognizer){
-        print("tapped8")
+        
+        //Transition to Contact Us
+        guard let vc = PushViews.executeTransition(vcName: "SupportVC", storyboardName: "Home", newTitle:FirebaseSupportVCTitleAndMode.contactUs, newMode:"") else {return}
+        
+        if let vc = vc as? SupportVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     //MARK: log out of user account
@@ -189,14 +215,20 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
-            var reauthenticationCode = 0
+            var reauthenticationCode:Int!
             var nextMessage = ""
             
-            //Generate a view controller to obtain the email and password
+            //Initialize variables used to determine
+            let email = self?.userEmail! ?? ""
+            let password = self?.userPassword! ?? ""
             
+            //Generate a view controller to obtain the email and password
+            let reauthVC = ReauthenticateVC()
+            reauthVC.delegate = self
+            self?.present(reauthVC, animated: true, completion: nil)
             
             //The user must be reauthenticated in order to be able to delete the account
-            //reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password))!
+            reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password))!
             
             if(reauthenticationCode == 0){
                 nextMessage = "Reauthentication Failed"
@@ -211,7 +243,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
                 
                 //If message is reached then deletion of account was unsuccessful.
                 nextMessage = "Deletion of Account Failed"
-                
             }
             
             //Determine if informationVC must be generated for error message
@@ -228,4 +259,17 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate{
         
         present(informationVC, animated: true, completion: nil)
     }
+    
+    //Functions from delegates that are implemented by the SettingsVC class
+    //ReauthenticationVC function:
+    /*
+     Function takes in two strings for the ReauthenticationVC.hib file that contains the email and password of the user
+    */
+    func didAcceptCredentials(email: String, password: String) {
+        self.userEmail = email
+        self.userPassword = password
+    }
+    
+    //
+    
 }

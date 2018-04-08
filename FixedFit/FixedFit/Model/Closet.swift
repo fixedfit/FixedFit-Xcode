@@ -33,8 +33,19 @@ struct ClosetItem {
     }
 }
 
+struct Outfit {
+    var uniqueID: String
+    var items: [ClosetItem]
+
+    init(uniqueID: String, items: [ClosetItem]) {
+        self.uniqueID = uniqueID
+        self.items = items
+    }
+}
+
 class Closet {
     var items: [ClosetItem] = []
+    var outfits: [Outfit] = []
     var categorySubcategoryStore = CategorySubcategoryStore()
     var filters: [String: String] = [:]
 

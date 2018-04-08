@@ -115,7 +115,16 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     
     //MARK: Management of Categories
     @objc func tappedCategory(_ sender: UITapGestureRecognizer){
-        print("tapped1")
+        
+        //Transition to CategoriesVC
+        guard let vc = PushViews.executeTransition(vcName: "CategoriesVC", storyboardName: "Home", newTitle:"Categories", newMode:"") else {return}
+        
+        if let vc = vc as? CategoriesVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     //MARK: Management of blocked users
@@ -125,7 +134,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
 
         if let vc = vc as? UserFinderVC{
-            
             //Push View Controller onto Navigation Stack
             self.navigationController?.pushViewController(vc, animated: true)
         } else if let vc = vc as? InformationVC{
@@ -161,10 +169,28 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     
     //MARK: Support - Help Center(FAQ) and Contacts
     @objc func tappedHelpCenter(_ sender: UITapGestureRecognizer){
-        print("tapped7")
+        
+        //Transition to Help Center
+        guard let vc = PushViews.executeTransition(vcName: "SupportVC", storyboardName: "Home", newTitle:FirebaseSupportVCTitleAndMode.helpCenter, newMode:"") else {return}
+        
+        if let vc = vc as? SupportVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     @objc func tappedContacts(_ sender: UITapGestureRecognizer){
-        print("tapped8")
+        
+        //Transition to Contact Us
+        guard let vc = PushViews.executeTransition(vcName: "SupportVC", storyboardName: "Home", newTitle:FirebaseSupportVCTitleAndMode.contactUs, newMode:"") else {return}
+        
+        if let vc = vc as? SupportVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     //MARK: log out of user account
@@ -189,8 +215,12 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             
             ////call firebase function to perform deletion operation.
             //Initialize variables used to determine if deletion is successful
-            var reauthenticationCode = 0
+            var reauthenticationCode:Int!
             var nextMessage = ""
+            
+            //Initialize variables used to determine
+            let email = self?.userEmail! ?? ""
+            let password = self?.userPassword! ?? ""
             
             //Generate a view controller to obtain the email and password
             let reauthVC = ReauthenticateVC()
@@ -198,7 +228,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             self?.present(reauthVC, animated: true, completion: nil)
             
             //The user must be reauthenticated in order to be able to delete the account
-            //reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: self?.userEmail, currentUserPassword: self?.userPassword))!
+            reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password))!
             
             if(reauthenticationCode == 0){
                 nextMessage = "Reauthentication Failed"
@@ -213,7 +243,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                 
                 //If message is reached then deletion of account was unsuccessful.
                 nextMessage = "Deletion of Account Failed"
-                
             }
             
             //Determine if informationVC must be generated for error message
@@ -239,8 +268,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     func didAcceptCredentials(email: String, password: String) {
         self.userEmail = email
         self.userPassword = password
-        print(self.userEmail)
-        print(self.userPassword)
     }
     
     //

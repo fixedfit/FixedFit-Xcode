@@ -47,10 +47,8 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         editingPhoto.isUserInteractionEnabled = true
         editingPhoto.addGestureRecognizer(tappedPhotoGesture)
         
-        //Initialize image field of EditingPhoto to nil to identify this view being presented by the profileVC
-        if userStuffManager.userInfo.photo != nil {
-             editingPhoto.image = userStuffManager.userInfo.photo
-        }
+        //Initialize image field of EditingPhoto to nil to identify this view being presented by the profileVC for proper photo display and fast exit action
+        self.editingPhoto.image = nil
     }
     
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
@@ -86,7 +84,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     }
 
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
-        // Need to unwrap info's value entry when retrieving image since it is wrapped in a optional
+        
         if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
             editingPhoto.contentMode = .scaleAspectFit
             editingPhoto.image = image
@@ -192,8 +190,8 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
             //Check if user name already exists in list of users in firebase
             } else {
                 dispatch.enter()
-                userStuffManager.checkUsername(username: self.usernameTextField.text!) { (takenUserName) in
-                    if takenUserName == true {
+                userStuffManager.checkUsername(username: self.usernameTextField.text!) { (goodUserName) in
+                    if goodUserName == false {
                         errorMsg = errorMsg + "User Name already exists.\n"
                     }
 

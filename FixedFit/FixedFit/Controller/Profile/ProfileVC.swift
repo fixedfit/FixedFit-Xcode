@@ -87,15 +87,13 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         ////Load the User's profile photo into the UIImageView
         //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
 
-        //Only obtain a single photo under the term: "userphoto" as a parameter which will be used to determine what to look for
-        if userStuffManager.userInfo.photo != nil {
-            Image = userStuffManager.userInfo.photo
-            //Generate a UIImage from the user's photo
-            //ContentMode is used to scale images
-            UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
-            let image = Image
-            UserProfileImage.image = image
-        }
+        Image = userStuffManager.userInfo.photo
+        //Generate a UIImage from the user's photo
+        //ContentMode is used to scale images
+        UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
+        let image = Image
+        UserProfileImage.image = image
+        
     }
 
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {

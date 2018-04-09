@@ -25,6 +25,8 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     //Variables used to obtain the email and password for reauthentication
     var userEmail:String!
     var userPassword:String!
+    //Initialize dispatch group to wait for the ReauthenticationVC nib file to be finish presented
+    let dispatch = DispatchGroup()
     
     //View references for tap gestures for particular actions
     @IBOutlet weak var CategoryView: UIView!
@@ -218,40 +220,66 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             var reauthenticationCode:Int!
             var nextMessage = ""
             
-            //Initialize variables used to determine
-            let email = self?.userEmail! ?? ""
-            let password = self?.userPassword! ?? ""
+            //Implement dispatch to make main wait until reauthentication view controller was done
+            self?.dispatch.enter()
             
             //Generate a view controller to obtain the email and password
-            let reauthVC = ReauthenticateVC()
+            let buttonAction = ButtonAction(){
+                self?.dispatch.leave()
+            }
+            let reauthVC = ReauthenticateVC(button: buttonAction)
             reauthVC.delegate = self
             self?.present(reauthVC, animated: true, completion: nil)
             
-            //The user must be reauthenticated in order to be able to delete the account
-            reauthenticationCode = (self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password))!
-            
-            if(reauthenticationCode == 0){
-                nextMessage = "Reauthentication Failed"
+            self?.dispatch.notify(queue: .main){
                 
-            } else if(reauthenticationCode == -1){
-                nextMessage = "Error: Empty Email or Password Entry"
-            } else if(reauthenticationCode == -2){
-                nextMessage = "Error: Incorrect Email"
-            } else {
-                //Delete the account
-                //(self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: ""))!
+                //Obtain the user's email and password
+                let email = (self?.userEmail!)!
+                let password = (self?.userPassword!)!
+   
+                //The user must be reauthenticated in order to be able to delete the account
+                //Implement dispatch to wait for reathentication to finish
+                self?.dispatch.enter()
+                self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password, completion:{(value) in
+                    reauthenticationCode = value
+                    self?.dispatch.leave()
+                })
+
                 
-                //If message is reached then deletion of account was unsuccessful.
-                nextMessage = "Deletion of Account Failed"
-            }
-            
-            //Determine if informationVC must be generated for error message
-            if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
-                //Generate second informationVC and present it
-                let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
-                let secondInformationVC = InformationVC(message: nextMessage, image: self?.usermanager.userInfo.photo, leftButtonData: nil, rightButtonData: buttonDataRight)
-                
-                self?.present(secondInformationVC, animated: true, completion: nil)
+                self?.dispatch.notify(queue: .main){
+                    
+                    if(reauthenticationCode == 0){
+                        nextMessage = "Reauthentication Failed"
+                    } else if(reauthenticationCode == -1){
+                        nextMessage = "Error: Empty Email or Password Entry"
+                    } else if(reauthenticationCode == -2){
+                        nextMessage = "Error: Incorrect Email"
+                    } else {
+                        //Delete the account
+                        //Implement dispatch to delete account without issue informationVC if not needed
+                        self?.dispatch.enter()
+                        self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: "", completion: {(error) in
+                        
+                            //If message is reached then deletion of account was unsuccessful.
+                            if(error != nil){
+                                nextMessage = "Deletion of Account Failed"
+                            }
+                            self?.dispatch.leave()
+                        })
+                    }
+                    
+                    self?.dispatch.notify(queue: .main){
+                        
+                        //Determine if informationVC must be generated for error message
+                        if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
+                            //Generate second informationVC and present it
+                            let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
+                            let secondInformationVC = InformationVC(message: nextMessage, image: self?.usermanager.userInfo.photo, leftButtonData: nil, rightButtonData: buttonDataRight)
+                            
+                            self?.present(secondInformationVC, animated: true, completion:nil)
+                        }
+                    }
+                }
             }
         }
         let leftButtonData = ButtonData(title: "Nevermind", color: .fixedFitBlue, action: nil)

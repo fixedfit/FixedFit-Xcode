@@ -13,10 +13,17 @@ protocol ReauthenticationDelegate{
     func didAcceptCredentials(email: String, password: String)
 }
 
+struct ButtonAction{
+    var action:(() -> Void)?
+}
+
 class ReauthenticateVC: UIViewController, UITextFieldDelegate {
 
     //Initialize the delegate variable
     var delegate: ReauthenticationDelegate?
+    
+    //Initialize the button for a certain action to be performed when the user selected Enter button
+    var buttonAction: ButtonAction!
     
     //References to buttons for presenting them with a certain color
     @IBOutlet weak var EnterButton: UIButton!
@@ -28,8 +35,9 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var PasswordTextField: UITextField!
     
     //Initializers
-    init(){
+    init(button:ButtonAction){
         super.init(nibName: "ReauthenticateVC", bundle:nil)
+        self.buttonAction = button
         self.modalTransitionStyle = .crossDissolve
         self.modalPresentationStyle = .overFullScreen
     }
@@ -63,8 +71,8 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     
     //Action functions used when the user selects the respective buttons
     @IBAction func pressEnter(_ sender: UIButton) {
-        delegate?.didAcceptCredentials(email: EmailTextField.text ?? "" , password: PasswordTextField.text ?? "")
-        self.dismiss(animated: true, completion: nil)
+        delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text! )
+        self.dismiss(animated: true, completion: self.buttonAction.action)
     }
     @IBAction func pressCancel(_ sender: UIButton) {
         //Dismiss the view

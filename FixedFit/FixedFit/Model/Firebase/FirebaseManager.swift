@@ -153,6 +153,7 @@ class FirebaseManager {
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
 
+        print("Updating", userInfo.publicProfile)
         let userInfoDict = [FirebaseKeys.firstName.rawValue: userInfo.firstName,
                             FirebaseKeys.lastName.rawValue: userInfo.lastName,
                             FirebaseKeys.username.rawValue: userInfo.username,
@@ -161,7 +162,7 @@ class FirebaseManager {
                             FirebaseKeys.pushNotificationsEnabled.rawValue: userInfo.pushNotificationsEnabled
             ] as [String : Any]
 
-        ref.child(user.uid).updateChildValues(userInfoDict) { (error, _) in
+        ref.child(.users).child(user.uid).updateChildValues(userInfoDict) { (error, _) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(error)

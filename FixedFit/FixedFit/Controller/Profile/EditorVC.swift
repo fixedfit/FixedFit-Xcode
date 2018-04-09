@@ -241,7 +241,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                 errorMsg = "Would you like to save changes?\n"
                 
                 //Update previous user information with the new content
-                let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.previousPublicProfile, pushNotificationsEnabled: true, photo: self.editingPhoto.image)
+                let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.userStuffManager.userInfo.publicProfile, pushNotificationsEnabled: true, photo: self.editingPhoto.image)
                 self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in })
             } else {
                 leftMessage = "fix issues"

@@ -81,7 +81,7 @@ class UserStuffManager {
 
     func togglePublicProfile() {
         userInfo.publicProfile = !userInfo.publicProfile
-        firebaseManager.updateUserInfo(userInfo) { _ in }
+        updateUserInfo(userInfo) { _ in }
     }
 
     func togglePushNotificationsEnabled() {

@@ -20,7 +20,7 @@ class OutfitCell: UICollectionViewCell {
         verticalStackView.axis = .vertical
         verticalStackView.distribution = .fillEqually
 
-        layer.borderWidth = 2
+        layer.borderWidth = 5
         layer.borderColor = UIColor.black.cgColor
     }
 }

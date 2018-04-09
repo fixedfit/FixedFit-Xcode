@@ -46,13 +46,14 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
 
     @IBAction func touchedSignUp() {
         let signUpInfo = SignUpInfo(firstName: firstNameTextField.text ?? "",
-                                    lastName: lastNameTextField.text ?? "",
-                                    email: emailTextField.text ?? "",
-                                    username: usernameTextField.text ?? "",
-                                    password: passwordTextField.text ?? "",
-                                    status: "Public",
-                                    bio: "No Bio Set"
-        )
+                                  lastName: lastNameTextField.text ?? "",
+                                  email: emailTextField.text ?? "",
+                                  username: usernameTextField.text ?? "",
+                                  password: passwordTextField.text ?? "",
+                                  publicProfile: true,
+                                  bio: "",
+                                  pushNotificationsEnabled: true
+        ) 
 
         if validInput(signUpInfo) {
             firebaseManager.signUp(signUpInfo, completion: { [weak self] (_, error) in

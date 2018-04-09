@@ -103,10 +103,10 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     override func viewWillAppear(_ animated: Bool) {
         
         //fetch user info
-        usermanager.fetchUserInformation()
+        usermanager.fetchUserInfo { _ in }
         
         //Change label of push notification status
-        if (usermanager.userPushNotification == "On"){
+        if (usermanager.userInfo.pushNotificationsEnabled == true){
             PushStatus.textColor = .fixedFitBlue
             PushStatus.text = "On"
         } else {
@@ -158,14 +158,14 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             PushStatus.text = "Off"
             
             //Update user's push notifications in firebase
-            usermanager.toggelUserPushNotification(newStatus: "Off")
+            usermanager.togglePushNotificationsEnabled()
             
         } else {
             PushStatus.textColor = .fixedFitBlue
             PushStatus.text = "On"
             
             //Update user's push notifications in firebase
-            usermanager.toggelUserPushNotification(newStatus: "On")
+            usermanager.togglePushNotificationsEnabled()
         }
     }
     
@@ -244,6 +244,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                     reauthenticationCode = value
                     self?.dispatch.leave()
                 })
+
                 
                 self?.dispatch.notify(queue: .main){
                     
@@ -273,7 +274,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                         if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
                             //Generate second informationVC and present it
                             let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
-                            let secondInformationVC = InformationVC(message: nextMessage, image: self?.usermanager.userphoto, leftButtonData: nil, rightButtonData: buttonDataRight)
+                            let secondInformationVC = InformationVC(message: nextMessage, image: self?.usermanager.userInfo.photo, leftButtonData: nil, rightButtonData: buttonDataRight)
                             
                             self?.present(secondInformationVC, animated: true, completion:nil)
                         }

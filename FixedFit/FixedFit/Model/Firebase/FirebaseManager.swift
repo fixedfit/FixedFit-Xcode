@@ -12,68 +12,6 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-enum FirebaseError: Error {
-    case usernameInUse
-    case unableToSignOut
-    case unableToRetrieveData
-    case unableToUploadCloset
-    case unableToFetchUserInformation
-
-    var localizedDescription: String {
-        switch self {
-        case .usernameInUse: return "Username in use"
-        case .unableToSignOut: return "Unable to signout"
-        case .unableToRetrieveData: return "Unable to retrieve data"
-        case .unableToUploadCloset: return "Unable to upload closet"
-        case .unableToFetchUserInformation: return "Unable to fetch user information"
-        }
-    }
-}
-
-struct SignUpInfo {
-    let firstName: String
-    let lastName: String
-    let email: String
-    let username: String
-    let password: String
-    let status: String
-    let bio: String
-    
-
-    init(firstName: String, lastName: String, email: String, username: String, password: String, status: String, bio: String) {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.email = email
-        self.username = username
-        self.password = password
-        self.status = status
-        self.bio = bio
-    }
-}
-
-enum FirebaseKeys: String {
-    // User
-    case users = "users"
-    case firstName = "firstName"
-    case lastName = "lastName"
-    case username = "username"
-    case bio = "bio"
-    case status = "status"
-    case photo = "photo"
-    // Closet
-    case closet = "closet"
-    case items = "items"
-    case category = "category"
-    case subcategory = "subcategory"
-    case uniqueID = "uniqueID"
-    case url = "url"
-    case categories = "categories"
-    // Filters
-    case filters = "filters"
-    // Outfits
-    case outfits = "outfits"
-}
-
 //structs for UserFinder title and mode
 struct FirebaseUserFinderTitle{
     static let blocked = "Blocked Users"
@@ -106,15 +44,16 @@ class FirebaseManager {
     private var currentUser: User? {
         return Auth.auth().currentUser
     }
+    var databaseURL = "https://testfixedfit3.firebaseio.com/"
+    var storageURL = "gs://testfixedfit3.appspot.com"
 
-    let userStuffManager = UserStuffManager.shared
     let notificationCenter = NotificationCenter.default
 
     // MARK: - Auth methods
 
-    func login(email: String, password: String, completion: AuthResultCallback?) {
+    func login(email: String, password: String, completion: @escaping AuthResultCallback) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-            completion?(user, error)
+            completion(user, error)
         }
     }
 
@@ -144,12 +83,14 @@ class FirebaseManager {
                 if strongSelf.checkUsername(newUsername, in: allUsersInfo) {
                     completion(nil)
                 } else {
+                    print(FirebaseError.usernameInUse.localizedDescription)
                     completion(FirebaseError.usernameInUse)
                 }
             } else {
                 completion(nil)
             }
         }, withCancel: {(_) in
+            print(FirebaseError.unableToRetrieveData.localizedDescription)
             completion(FirebaseError.unableToRetrieveData)
         })
     }
@@ -164,7 +105,7 @@ class FirebaseManager {
             completion(FirebaseError.unableToSignOut)
         }
     }
-    
+
     // MARK: - Fetch methods
 
     func fetchUserInfo(completion: @escaping ([String: Any]?, Error?) -> Void) {
@@ -181,30 +122,17 @@ class FirebaseManager {
     }
 
     func fetchCloset(completion: @escaping ([String: Any]?, Error?) -> Void) {
-        func fetchCloset(username: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
-            ref.child(username).child(.closet).observeSingleEvent(of: .value, with: { (snapshot) in
-                if let closetItems = snapshot.value as? [String: Any] {
-                    completion(closetItems, nil)
-                } else {
-                    completion([:], nil)
-                }
-            }) { (error) in
-                completion(nil, error)
-            }
-        }
+        guard let user = currentUser else { return }
 
-        guard let _ = currentUser else { return }
-
-        if userStuffManager.username.isEmpty == true {
-            fetchUserInfo { (userInfo, error) in
-                if let username = userInfo?[FirebaseKeys.username.rawValue] as? String {
-                    fetchCloset(username: username, completion: completion)
-                } else {
-                    completion(nil, FirebaseError.unableToRetrieveData)
-                }
+        ref.child(.users).child(user.uid).child(.closet).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let closetItems = snapshot.value as? [String: Any] {
+                completion(closetItems, nil)
+            } else {
+                completion([:], nil)
             }
-        } else {
-            fetchCloset(username: userStuffManager.username, completion: completion)
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(nil, error)
         }
     }
 
@@ -222,6 +150,28 @@ class FirebaseManager {
 
     // MARK: - Upload methods
 
+    func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        print("Updating", userInfo.publicProfile)
+        let userInfoDict = [FirebaseKeys.firstName.rawValue: userInfo.firstName,
+                            FirebaseKeys.lastName.rawValue: userInfo.lastName,
+                            FirebaseKeys.username.rawValue: userInfo.username,
+                            FirebaseKeys.bio.rawValue: userInfo.bio,
+                            FirebaseKeys.publicProfile.rawValue: userInfo.publicProfile,
+                            FirebaseKeys.pushNotificationsEnabled.rawValue: userInfo.pushNotificationsEnabled
+            ] as [String : Any]
+
+        ref.child(.users).child(user.uid).updateChildValues(userInfoDict) { (error, _) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
     func uploadClosetItems(_ itemCategoriesDict: [UIImage: CategorySubcategory], completion: @escaping (Error?) -> Void) {
         guard let _ = currentUser else { return }
 
@@ -234,10 +184,9 @@ class FirebaseManager {
             let category = itemCategoryInfo.category!
             let imageUniqueID = uniqueID()
             let newItemStoragePath = storageImageURLReference(uniqueID: imageUniqueID) ?? ""
-            print(newItemStoragePath)
 
             // Save images to storage
-            if let resizedImage = itemImage.resized(toWidth: 700), let imageData = UIImagePNGRepresentation(resizedImage) {
+            if let resizedImage = itemImage.resized(toWidth: 100), let imageData = UIImagePNGRepresentation(resizedImage) {
                 // Use the index to see if im saving the last image in the dictionary, because then I call the completion method
                 if index + 1 == itemCategoriesDict.count {
                     saveItemImage(path: newItemStoragePath, imageData: imageData, completion: { (error) in
@@ -282,15 +231,19 @@ class FirebaseManager {
     }
 
     private func saveClosetItems(newItems: [[String: Any]]) {
+        guard let user = currentUser else { return }
+
         newItems.forEach({ (newItemInfo) in
             let itemUniqueID = newItemInfo[FirebaseKeys.uniqueID.rawValue] as? String
 
-            ref.child(userStuffManager.username).child(.closet).child(.items).child(itemUniqueID ?? "").setValue(newItemInfo)
+            ref.child(.users).child(user.uid).child(.closet).child(.items).child(itemUniqueID ?? "").setValue(newItemInfo)
         })
     }
 
     private func saveNewCategories(categories: [String]) {
-        ref.child(userStuffManager.username).child(.closet).child(.categories).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.closet).child(.categories).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             guard let strongSelf = self else { return }
 
             if var foundCategories = snapshot.value as? [String] {
@@ -300,9 +253,9 @@ class FirebaseManager {
                     }
                 }
 
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(.closet).child(.categories).setValue(foundCategories)
+                strongSelf.ref.child(.users).child(user.uid).child(.closet).child(.categories).setValue(foundCategories)
             } else {
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(.closet).child(.categories).setValue(categories)
+                strongSelf.ref.child(.users).child(user.uid).child(.closet).child(.categories).setValue(categories)
             }
         }) { (error) in
             print(error.localizedDescription)
@@ -310,14 +263,16 @@ class FirebaseManager {
     }
 
     func saveSubcategoryFilter(subcategoryFilter: String, category: String) {
-        ref.child(userStuffManager.username).child(.closet).child(.filters).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.closet).child(.filters).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             guard let strongSelf = self else { return }
 
             if var filtersDict = snapshot.value as? [String: String] {
                 filtersDict[category] = subcategoryFilter
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(.closet).child(.filters).setValue(filtersDict)
+                strongSelf.ref.child(.users).child(user.uid).child(.closet).child(.filters).setValue(filtersDict)
             } else {
-                strongSelf.ref.child(strongSelf.userStuffManager.username).child(.closet).child(.filters).setValue([category: subcategoryFilter])
+                strongSelf.ref.child(.users).child(user.uid).child(.closet).child(.filters).setValue([category: subcategoryFilter])
             }
         }) { (error) in
             print(error.localizedDescription)
@@ -325,6 +280,8 @@ class FirebaseManager {
     }
 
     func saveOutfit(outfitItems: [ClosetItem], completion: @escaping (_ uniqueID: String?, _ error: Error?) -> Void) {
+        guard let user = currentUser else { return }
+
         var newOutfit: [String: Any] = [:]
         var outfitItemsInfos: [[String: String]] = []
         let outfitUniqueID = uniqueID()
@@ -347,9 +304,7 @@ class FirebaseManager {
 
         newOutfit[FirebaseKeys.items.rawValue] = outfitItemsInfos
         newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
-
-        print(userStuffManager.username)
-        ref.child(userStuffManager.username).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
+        ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil, error)
@@ -448,7 +403,14 @@ class FirebaseManager {
     // MARK: - Helper methods
 
     private func createfirstLoginData(user: User, signUpInfo: SignUpInfo) -> [String: Any] {
-        return [FirebaseKeys.username.rawValue: signUpInfo.username, FirebaseKeys.firstName.rawValue: signUpInfo.firstName, FirebaseKeys.lastName.rawValue: signUpInfo.lastName, FirebaseKeys.status.rawValue: signUpInfo.status, FirebaseKeys.bio.rawValue: signUpInfo.bio]
+        return [
+            FirebaseKeys.firstName.rawValue: signUpInfo.firstName,
+            FirebaseKeys.lastName.rawValue: signUpInfo.lastName,
+            FirebaseKeys.username.rawValue: signUpInfo.username,
+            FirebaseKeys.publicProfile.rawValue: signUpInfo.publicProfile,
+            FirebaseKeys.bio.rawValue: signUpInfo.bio,
+            FirebaseKeys.profileImageURL.rawValue: ""
+        ]
     }
 
     private func checkUsername(_ username: String, in allUsersInfo: [String: [String: Any]]) -> Bool {
@@ -465,22 +427,22 @@ class FirebaseManager {
 
     private func uniqueID() -> String {
         let fullRandomIDReference = ref.childByAutoId().description()
-        let uniqueID = fullRandomIDReference.replacingOccurrences(of: "https://testfixedfit3.firebaseio.com/", with: "")
+        let uniqueID = fullRandomIDReference.replacingOccurrences(of: databaseURL, with: "")
 
         return uniqueID
     }
 
     func storageImageURLReference(uniqueID: String? = nil) -> String? {
-        guard let _ = currentUser else { return nil }
+        guard let user = currentUser else { return nil }
 
         if let uniqueID = uniqueID {
-            let fullStorageReference = storageRef.child(userStuffManager.username).child(.closet).child(uniqueID).description
-            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit3.appspot.com", with: "")
+            let fullStorageReference = storageRef.child(user.uid).child(.closet).child(uniqueID).description
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: storageURL, with: "")
 
             return referenceNeeded
         } else {
-            let fullStorageReference = storageRef.child(userStuffManager.username).child(.closet).child(self.uniqueID()).description
-            let referenceNeeded = fullStorageReference.replacingOccurrences(of: "gs://testfixedfit3.appspot.com", with: "")
+            let fullStorageReference = storageRef.child(user.uid).child(.closet).child(self.uniqueID()).description
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: storageURL, with: "")
 
             return referenceNeeded
         }

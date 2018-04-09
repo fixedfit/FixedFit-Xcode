@@ -12,7 +12,7 @@ import UIKit
 
 class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     let firebaseManager = FirebaseManager.shared
-    let usermanager = UserStuffManager.shared
+    let userStuffManager = UserStuffManager.shared
 
     //MARK: Initialize integer counters to count the number of followers and followings the user currently has.
     var FollowersCounter = 0
@@ -55,8 +55,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         childVCView.addSubview(outfitVC.view)
         outfitVC.view.fillSuperView()
         self.outfitVC = outfitVC
-        outfitVC.outfits = UserStuffManager.shared.closet.outfits
-        print(outfitVC.outfits)
+        outfitVC.outfits = userStuffManager.closet.outfits
         self.addChildViewController(outfitVC)
     }
 
@@ -65,18 +64,18 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         outfitVC.viewWillAppear(true)
 
         //Fetch the user's Information from the UserStuffManager
-        usermanager.fetchUserInformation()
+        userStuffManager.fetchUserInfo { _ in }
 
         //Initial UIImage variable used to select the image to output to the screen
         weak var Image: UIImage!
 
         //Update the title of the navigation bar with the user name of the user
-        self.navigationItem.title = usermanager.username
+        self.navigationItem.title = userStuffManager.userInfo.username
 
         //Update labels of profile if user has edited them
-        self.UserFirstName.text = usermanager.firstName
-        self.UserLastName.text = usermanager.lastName
-        self.UserBio.text = usermanager.userbio
+        self.UserFirstName.text = userStuffManager.userInfo.firstName
+        self.UserLastName.text = userStuffManager.userInfo.lastName
+        self.UserBio.text = userStuffManager.userInfo.bio
 
         ////Update Followers and Following Counters from firebase
         //Update button titles/view counters
@@ -88,13 +87,14 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
 
         //Only obtain a single photo under the term: "userphoto" as a parameter which will be used to determine what to look for
-        Image = usermanager.userphoto
-        
-        //Generate a UIImage from the user's photo
-        //ContentMode is used to scale images
-        UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
-        let image = Image
-        UserProfileImage.image = image
+        if userStuffManager.userInfo.photo != nil {
+            Image = userStuffManager.userInfo.photo
+            //Generate a UIImage from the user's photo
+            //ContentMode is used to scale images
+            UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
+            let image = Image
+            UserProfileImage.image = image
+        }
     }
 
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {

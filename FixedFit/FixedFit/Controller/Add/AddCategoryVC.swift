@@ -33,7 +33,6 @@ class AddCategoryVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Ayeyooooo!")
         setupViews()
         closet = userStuffManager.closet
     }

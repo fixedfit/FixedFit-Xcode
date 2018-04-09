@@ -85,8 +85,8 @@
                                     <constraint firstItem="1J9-Ed-lea" firstAttribute="leading" secondItem="4kw-ZR-hgl" secondAttribute="leading" constant="9" id="dLP-bG-FhR"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E3e-uj-CrD">
-                                <rect key="frame" x="16" y="65" width="142" height="144"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="E3e-uj-CrD">
+                                <rect key="frame" x="16" y="65" width="142" height="128"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Ilw-aJ-SYG">
                                 <rect key="frame" x="167" y="69" width="193" height="20.5"/>
@@ -107,9 +107,6 @@
                             </stackView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ohc-3A-JZ1">
                                 <rect key="frame" x="0.0" y="260" width="375" height="358"/>
-                                <connections>
-                                    <segue destination="X3Z-R2-bgr" kind="embed" id="772-wd-lWh"/>
-                                </connections>
                             </containerView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="rOV-05-ahf">
                                 <rect key="frame" x="0.0" y="210" width="375" height="50"/>
@@ -281,7 +278,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8qb-Vl-oTK">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="8qb-Vl-oTK">
                                 <rect key="frame" x="116" y="146" width="141" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="DZX-HZ-0Ty"/>
@@ -342,17 +339,17 @@
                     <navigationItem key="navigationItem" title="Edit Profile" id="RVd-5z-xIq">
                         <barButtonItem key="leftBarButtonItem" title="Profile" id="bUG-sZ-NCy">
                             <connections>
-                                <action selector="ExitEditor:" destination="cxB-Lu-tpc" id="SO7-iz-ZB4"/>
+                                <action selector="exitEditor:" destination="cxB-Lu-tpc" id="J0Z-l1-w64"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="CurrentViewStatus" destination="Cf2-7k-4xz" id="7fJ-fU-BOf"/>
-                        <outlet property="EditingPhoto" destination="8qb-Vl-oTK" id="8kv-qG-6zq"/>
-                        <outlet property="UserBioTextField" destination="zWP-hs-rve" id="NZ3-NB-4eO"/>
-                        <outlet property="UserFirstNameField" destination="jWM-9T-pvU" id="2B7-Uj-a70"/>
-                        <outlet property="UserLastNameField" destination="CzW-dC-bhS" id="uPk-01-vvX"/>
-                        <outlet property="UserNameTextField" destination="fB4-pa-Ijx" id="oks-3K-mbv"/>
+                        <outlet property="bioTextField" destination="zWP-hs-rve" id="HIN-3x-o5a"/>
+                        <outlet property="currentStatus" destination="Cf2-7k-4xz" id="6zU-2V-t8p"/>
+                        <outlet property="editingPhoto" destination="8qb-Vl-oTK" id="Hw3-NS-8Gk"/>
+                        <outlet property="firstNameTextField" destination="jWM-9T-pvU" id="LUV-eF-UOM"/>
+                        <outlet property="lastNameTextField" destination="CzW-dC-bhS" id="hmL-fv-2Z2"/>
+                        <outlet property="usernameTextField" destination="fB4-pa-Ijx" id="X6h-Xg-2rL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HqH-ov-quk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -395,22 +392,9 @@
             </objects>
             <point key="canvasLocation" x="274" y="-1291"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="Fsy-Sw-LTB">
-            <objects>
-                <viewController id="X3Z-R2-bgr" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="KwB-fd-RRV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="358"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.0" green="0.32156862749999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="s3d-UQ-OU2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-487" y="-710"/>
-        </scene>
     </scenes>
     <resources>
+        <image name="defaultProfile" width="128" height="128"/>
         <image name="profile" width="30" height="30"/>
     </resources>
 </document>

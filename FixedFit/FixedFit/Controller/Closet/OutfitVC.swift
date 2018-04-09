@@ -26,10 +26,11 @@ class OutfitVC: PhotosVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+
+        print(outfits.count)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        print(outfits.count)
         collectionView.reloadData()
     }
 

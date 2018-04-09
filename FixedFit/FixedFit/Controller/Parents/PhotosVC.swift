@@ -10,7 +10,7 @@ import UIKit
 
 class PhotosVC: UIViewController {
     let numberOfColumns = 3
-    let edgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+    let edgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
 
     override func viewDidLoad() {
         super.viewDidLoad()

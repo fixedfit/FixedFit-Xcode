@@ -10,13 +10,8 @@ import UIKit
 
 class CategoriesVC: UIViewController {
     var viewTitle: String!
+    
     override func viewWillAppear(_ animated: Bool){
         self.navigationItem.title = viewTitle
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }

@@ -384,19 +384,7 @@ class FirebaseManager {
             }
 
         } else if(commandString == "delete account"){
-
-            //delete user's account
-            user.delete { (error) in
-                if error == nil{
-                    //Account Deleted
-                    self.notificationCenter.post(name: .authStatusChanged, object: nil)
-                    completion?(nil)
-                } else {
-                    //An error occured
-                    print("Failed to update email")
-                    completion?(error)
-                }
-            }
+            deleteAccount(user:user)
         } 
     }
 
@@ -446,5 +434,44 @@ class FirebaseManager {
 
             return referenceNeeded
         }
+    }
+    
+    private func deleteAccount(user: User){
+
+        //Obtain the current users unique ID
+        guard let uid = currentUser?.uid else {return}
+        
+        ////delete user's data base account
+        self.ref.child(FirebaseKeys.users).child("\(uid)").observe(.value, with:{(snapshot)in
+            if snapshot.value != nil{
+                self.ref.child(FirebaseKeys.users).child("\(uid)").removeValue()
+            }
+        })
+        
+        ////delete user's storage
+        //Obtain the reference to the file
+        let userRef = self.storageRef.child("\(uid)")
+        
+        //delete the user's file directory
+        userRef.delete{ error in
+            if error != nil{
+                //Error in deletion
+                print("Could not delete")
+            } else {
+                //User storage deleted
+                print("Successfully deleted user storage")
+            }
+        }
+        
+        //delete user's account
+        user.delete { (error) in
+            if error == nil{
+                //Account Deleted
+                self.notificationCenter.post(name: .authStatusChanged, object: nil)
+            } else {
+                //An error occured
+                print("Failed to delete account")
+             }
+         }
     }
 }

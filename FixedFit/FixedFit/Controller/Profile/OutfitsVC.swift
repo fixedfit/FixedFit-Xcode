@@ -10,6 +10,7 @@ import UIKit
 
 class OutfitsVC: PhotosVC {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var noOutfitsLabel: UILabel!
 
     var outfits: [Outfit] {
         get {
@@ -26,8 +27,6 @@ class OutfitsVC: PhotosVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-
-        print(outfits.count)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +41,15 @@ class OutfitsVC: PhotosVC {
 
 extension OutfitsVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if outfits.isEmpty {
+            // Show no outfits message
+            print("Setting to hidden")
+                noOutfitsLabel.isHidden = false
+        } else {
+            print("Setting to unhidden")
+                noOutfitsLabel.isHidden = true
+        }
+
         return outfits.count
     }
 

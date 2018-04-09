@@ -52,18 +52,32 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="EFd-XB-SvH">
+                                <rect key="frame" x="105" y="323" width="164.5" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No outfits to display" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBN-lm-PS7">
+                                        <rect key="frame" x="0.0" y="0.0" width="164.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" red="0.094117647060000004" green="0.1137254902" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="EFd-XB-SvH" firstAttribute="centerX" secondItem="mL3-e2-hZR" secondAttribute="centerX" id="Eaj-ID-6qZ"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="leading" secondItem="qtn-du-5Qk" secondAttribute="leading" id="PFk-IC-i4R"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="top" secondItem="qtn-du-5Qk" secondAttribute="top" id="bLt-6g-mcL"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="trailing" secondItem="qtn-du-5Qk" secondAttribute="trailing" id="v8T-zb-qBM"/>
+                            <constraint firstItem="EFd-XB-SvH" firstAttribute="centerY" secondItem="mL3-e2-hZR" secondAttribute="centerY" id="wJr-ry-RpX"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="bottom" secondItem="qtn-du-5Qk" secondAttribute="bottom" id="ykc-BP-Pkc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qtn-du-5Qk"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="CT1-QA-z9q" id="cap-aX-62V"/>
+                        <outlet property="noOutfitsLabel" destination="CBN-lm-PS7" id="nKz-jR-Rqz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3r-Lr-qZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>

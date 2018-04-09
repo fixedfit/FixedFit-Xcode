@@ -22,7 +22,6 @@ class WeatherService {
 
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping (String, String, String) -> Void) {
         let urlString = baseURL + "?lat=" + String(latitude) + "&lon=" + String(longitude) + "&APPID=" + appID
-        print(urlString)
         let url = URL(string: urlString)
 
         let task = URLSession.shared.dataTask(with: url!) { [weak self] (data, response, error) in

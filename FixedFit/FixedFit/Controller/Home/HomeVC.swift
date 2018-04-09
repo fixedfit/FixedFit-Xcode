@@ -63,6 +63,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         }
     }
 
+
     func setupCalendarView() {
         //show today's date in calendar
         calendarView.calendarDelegate = self

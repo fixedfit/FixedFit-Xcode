@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         notificationCenter.addObserver(self, selector: #selector(setupRootVC), name: .authStatusChanged, object: nil)
         FirebaseApp.configure()
+
+//        firebaseManager.logout { (_) in }
+        userStuffManager.fetchCloset { _ in }
         setupAppearance()
         setupRootVC()
 
@@ -45,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
             let mainVC = UIStoryboard.mainVC
 
             rootVC = mainVC
-            userStuffManager.fetchUserInformation()
+            userStuffManager.fetchUserInfo { _ in }
         } else {
             let authVC = UIStoryboard.authVC
 

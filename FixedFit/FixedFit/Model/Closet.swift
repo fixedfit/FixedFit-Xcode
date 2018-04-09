@@ -24,16 +24,30 @@ struct CategorySubcategory {
 struct ClosetItem {
     var categorySubcategory: CategorySubcategory
     var storagePath: String
+    var uniqueID: String
 
-    init(categorySubcategory: CategorySubcategory, storagePath: String) {
+    init(categorySubcategory: CategorySubcategory, storagePath: String, uniqueID: String) {
         self.storagePath = storagePath
         self.categorySubcategory = categorySubcategory
+        self.uniqueID = uniqueID
+    }
+}
+
+struct Outfit {
+    var uniqueID: String
+    var items: [ClosetItem]
+
+    init(uniqueID: String, items: [ClosetItem]) {
+        self.uniqueID = uniqueID
+        self.items = items
     }
 }
 
 class Closet {
     var items: [ClosetItem] = []
+    var outfits: [Outfit] = []
     var categorySubcategoryStore = CategorySubcategoryStore()
+    var filters: [String: String] = [:]
 
     func imageStoragePath(for category: String) -> String? {
         for item in items {
@@ -43,6 +57,14 @@ class Closet {
         }
 
         return nil
+    }
+
+    func filterForCategory(category: String) -> String {
+        if let filter = filters[category] {
+            return filter
+        } else {
+            return "show all"
+        }
     }
 
     func closetItems(matching category: String) -> [ClosetItem] {

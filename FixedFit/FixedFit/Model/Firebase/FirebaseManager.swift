@@ -105,7 +105,7 @@ class FirebaseManager {
             completion(FirebaseError.unableToSignOut)
         }
     }
-    
+
     // MARK: - Fetch methods
 
     func fetchUserInfo(completion: @escaping ([String: Any]?, Error?) -> Void) {

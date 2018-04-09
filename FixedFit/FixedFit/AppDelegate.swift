@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         FirebaseApp.configure()
 
 //        firebaseManager.logout { (_) in }
+        userStuffManager.fetchCloset { _ in }
         setupAppearance()
         setupRootVC()
 

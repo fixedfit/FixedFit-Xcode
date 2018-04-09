@@ -18,7 +18,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     var FollowersCounter = 0
     var FollowingCounter = 0
 
-    var outfitVC: OutfitVC!
+    var outfitsVC: OutfitsVC!
+    var selectedOutfit: Outfit!
 
     //label for the user's first and last name, user's bio, and viewing status
     @IBOutlet weak var UserFirstName: UILabel!
@@ -51,17 +52,17 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
         FollowingButton.addGestureRecognizer(followingTap)
         FollowersButton.addGestureRecognizer(followersTap)
 
-        let outfitVC = UIStoryboard.outfitVC as! OutfitVC
-        childVCView.addSubview(outfitVC.view)
-        outfitVC.view.fillSuperView()
-        self.outfitVC = outfitVC
-        outfitVC.outfits = userStuffManager.closet.outfits
-        self.addChildViewController(outfitVC)
+        let outfitsVC = UIStoryboard.outfitsVC as! OutfitsVC
+        childVCView.addSubview(outfitsVC.view)
+        outfitsVC.view.fillSuperView()
+        self.outfitsVC = outfitsVC
+        outfitsVC.outfits = userStuffManager.closet.outfits
+        self.addChildViewController(outfitsVC)
     }
 
     //MARK: Update profile page once view appears.
     override func viewWillAppear(_ animated: Bool) {
-        outfitVC.viewWillAppear(true)
+        outfitsVC.viewWillAppear(true)
 
         //Fetch the user's Information from the UserStuffManager
         userStuffManager.fetchUserInfo { _ in }
@@ -139,6 +140,12 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
 
     @IBAction func tappedFavorited(_ sender: UITapGestureRecognizer) {
         print("Tapped favorited")
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let outfitItemsVC = segue.destination as? OutfitItemsVC {
+            outfitItemsVC.outfit = selectedOutfit
+        }
     }
 
 

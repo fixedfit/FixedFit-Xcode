@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OutfitVC: PhotosVC {
+class OutfitsVC: PhotosVC {
     @IBOutlet weak var collectionView: UICollectionView!
 
     var outfits: [Outfit] {
@@ -40,7 +40,7 @@ class OutfitVC: PhotosVC {
     }
 }
 
-extension OutfitVC: UICollectionViewDataSource {
+extension OutfitsVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return outfits.count
     }
@@ -95,5 +95,16 @@ extension OutfitVC: UICollectionViewDataSource {
         }
 
         return cell
+    }
+}
+
+extension OutfitsVC {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let outfit = outfits[indexPath.row]
+        // Segue to next VC
+        if let profileVC = self.parent as? ProfileVC {
+            profileVC.selectedOutfit = outfit
+            profileVC.performSegue(withIdentifier: "showOutfitItems", sender: nil)
+        }
     }
 }

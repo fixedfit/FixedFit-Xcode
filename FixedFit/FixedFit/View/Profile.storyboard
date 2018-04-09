@@ -191,6 +191,7 @@
                         <outlet property="UserLastName" destination="aOi-JQ-r0o" id="8wg-Hd-JtA"/>
                         <outlet property="UserProfileImage" destination="E3e-uj-CrD" id="5DY-07-fyD"/>
                         <outlet property="childVCView" destination="Ohc-3A-JZ1" id="oS1-X6-t1Y"/>
+                        <segue destination="rhi-1g-XyG" kind="show" identifier="showOutfitItems" id="BhI-4j-ZWL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lKX-t0-9va" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -391,6 +392,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yaH-q9-LRA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="274" y="-1291"/>
+        </scene>
+        <!--Outfit Items-->
+        <scene sceneID="Uoc-3H-FeN">
+            <objects>
+                <viewController title="Outfit Items" id="rhi-1g-XyG" customClass="OutfitItemsVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cyn-Zm-RLE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxS-zw-6gt">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qxS-zw-6gt" firstAttribute="trailing" secondItem="t0E-O2-uJo" secondAttribute="trailing" id="Bhl-iT-UdC"/>
+                            <constraint firstItem="qxS-zw-6gt" firstAttribute="leading" secondItem="t0E-O2-uJo" secondAttribute="leading" id="CW7-cQ-uIn"/>
+                            <constraint firstItem="qxS-zw-6gt" firstAttribute="bottom" secondItem="t0E-O2-uJo" secondAttribute="bottom" id="XUe-4F-eWv"/>
+                            <constraint firstItem="qxS-zw-6gt" firstAttribute="top" secondItem="t0E-O2-uJo" secondAttribute="top" id="brX-aN-pgv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="t0E-O2-uJo"/>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="qxS-zw-6gt" id="gPE-ai-krm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xr0-jf-fFL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-487.19999999999999" y="-512.29385307346331"/>
         </scene>
     </scenes>
     <resources>

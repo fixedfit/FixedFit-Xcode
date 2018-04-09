@@ -19,7 +19,7 @@
 		5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */; };
 		5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3069A2079B5A6007C55E0 /* PushViews.swift */; };
 		CA121DFE2078195E006C5C54 /* Outfits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA121DFD2078195E006C5C54 /* Outfits.storyboard */; };
-		CA121E0020781A03006C5C54 /* OutfitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121DFF20781A03006C5C54 /* OutfitVC.swift */; };
+		CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121DFF20781A03006C5C54 /* OutfitsVC.swift */; };
 		CA121E0220781CD0006C5C54 /* OutfitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121E0120781CD0006C5C54 /* OutfitCell.swift */; };
 		CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */; };
 		CA18467D204BE5340091B568 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA18467C204BE5340091B568 /* WeatherService.swift */; };
@@ -62,6 +62,7 @@
 		CA972EEC207B01DA006AB842 /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA972EEB207B01DA006AB842 /* FirebaseError.swift */; };
 		CA972EEE207B020D006AB842 /* SignUpInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA972EED207B020D006AB842 /* SignUpInfo.swift */; };
 		CA972EF0207B0275006AB842 /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA972EEF207B0275006AB842 /* FirebaseKeys.swift */; };
+		CAB45A90207BD84400ACB58C /* OutfitItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB45A8F207BD84400ACB58C /* OutfitItemsVC.swift */; };
 		CAB5AAD7207AEF4700FCC305 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB5AAD6207AEF4700FCC305 /* CategoriesVC.swift */; };
 		CABA7927203F988600EABAA1 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABA7926203F988600EABAA1 /* SignUpVC.swift */; };
 		CAD3C55D204B4EE600DE2911 /* ClosetCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C55C204B4EE600DE2911 /* ClosetCategoryCell.swift */; };
@@ -100,7 +101,7 @@
 		B1E4887A8F885FB46347B3B6 /* Pods-FixedFit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit.debug.xcconfig"; sourceTree = "<group>"; };
 		B63E3078D420275BA4BF4F39 /* Pods_FixedFit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA121DFD2078195E006C5C54 /* Outfits.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Outfits.storyboard; sourceTree = "<group>"; };
-		CA121DFF20781A03006C5C54 /* OutfitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutfitVC.swift; sourceTree = "<group>"; };
+		CA121DFF20781A03006C5C54 /* OutfitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutfitsVC.swift; sourceTree = "<group>"; };
 		CA121E0120781CD0006C5C54 /* OutfitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutfitCell.swift; sourceTree = "<group>"; };
 		CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		CA18467C204BE5340091B568 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 		CA972EEB207B01DA006AB842 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		CA972EED207B020D006AB842 /* SignUpInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInfo.swift; sourceTree = "<group>"; };
 		CA972EEF207B0275006AB842 /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
+		CAB45A8F207BD84400ACB58C /* OutfitItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutfitItemsVC.swift; sourceTree = "<group>"; };
 		CAB5AAD6207AEF4700FCC305 /* CategoriesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
 		CABA7926203F988600EABAA1 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		CAD3C55C204B4EE600DE2911 /* ClosetCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetCategoryCell.swift; sourceTree = "<group>"; };
@@ -342,7 +344,6 @@
 		CAB5AAD2207AEDA100FCC305 /* Closet */ = {
 			isa = PBXGroup;
 			children = (
-				CA121DFF20781A03006C5C54 /* OutfitVC.swift */,
 				CA4BD42F2049E13B002405D8 /* ClosetVC.swift */,
 				CAED629D20533EE200181975 /* ItemsVC.swift */,
 				CA2CABD4203D351600C62AE1 /* ProfileVC.swift */,
@@ -376,6 +377,8 @@
 			children = (
 				CA972EE8207AF128006AB842 /* EditorVC.swift */,
 				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
+				CA121DFF20781A03006C5C54 /* OutfitsVC.swift */,
+				CAB45A8F207BD84400ACB58C /* OutfitItemsVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */,
 				CA2CABCF203D2B8F00C62AE1 /* FirebaseManager.swift in Sources */,
 				5C633467205858CC0035F00A /* SettingsVC.swift in Sources */,
+				CAB45A90207BD84400ACB58C /* OutfitItemsVC.swift in Sources */,
 				CA972EE9207AF128006AB842 /* EditorVC.swift in Sources */,
 				CA669282203D0B0C000069B5 /* AppDelegate.swift in Sources */,
 				CA4BD4322049E44F002405D8 /* InformationVC.swift in Sources */,
@@ -644,7 +648,7 @@
 				CA66928A203D0B0C000069B5 /* FixedFit.xcdatamodeld in Sources */,
 				CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */,
 				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
-				CA121E0020781A03006C5C54 /* OutfitVC.swift in Sources */,
+				CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,
 				CA972EF0207B0275006AB842 /* FirebaseKeys.swift in Sources */,

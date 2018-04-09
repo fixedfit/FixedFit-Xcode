@@ -131,6 +131,8 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.65000000000000002" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="667" id="RER-6C-0V6"/>
+                        <constraint firstAttribute="width" constant="375" id="VTd-Ek-5DB"/>
                         <constraint firstAttribute="bottom" secondItem="JeD-Od-NcI" secondAttribute="bottom" constant="222.5" id="ogg-l9-kHB"/>
                         <constraint firstItem="JeD-Od-NcI" firstAttribute="leading" secondItem="0ng-Qr-7N0" secondAttribute="leading" constant="15" id="qyu-GP-rLy"/>
                         <constraint firstItem="JeD-Od-NcI" firstAttribute="top" secondItem="0ng-Qr-7N0" secondAttribute="top" constant="222" id="w4J-wP-Rol"/>

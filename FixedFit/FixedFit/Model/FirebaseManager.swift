@@ -59,6 +59,7 @@ enum FirebaseKeys: String {
     case username = "username"
     case bio = "bio"
     case status = "status"
+    case photo = "photo"
     // Closet
     case closet = "closet"
     case items = "items"

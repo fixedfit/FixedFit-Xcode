@@ -103,6 +103,7 @@
                                 <constraint firstItem="UOH-DN-2Z6" firstAttribute="leading" secondItem="xjv-me-xIe" secondAttribute="trailing" constant="8" symbolic="YES" id="KUZ-v8-Xuu"/>
                                 <constraint firstAttribute="bottom" secondItem="rDl-OX-w0C" secondAttribute="bottom" constant="50" id="NHk-sc-s21"/>
                                 <constraint firstItem="zwl-nM-XFh" firstAttribute="leading" secondItem="UOH-DN-2Z6" secondAttribute="leading" id="SlZ-1D-zQk"/>
+                                <constraint firstAttribute="height" constant="223" id="TSp-19-nXf"/>
                                 <constraint firstAttribute="trailing" secondItem="eAS-AK-Oi6" secondAttribute="trailing" constant="45" id="VaW-1e-gEI"/>
                                 <constraint firstAttribute="trailing" secondItem="rDl-OX-w0C" secondAttribute="trailing" id="W5j-xC-0gb"/>
                                 <constraint firstItem="xjv-me-xIe" firstAttribute="centerY" secondItem="UOH-DN-2Z6" secondAttribute="centerY" id="Ze6-tQ-kvi"/>
@@ -110,6 +111,7 @@
                                 <constraint firstItem="UOH-DN-2Z6" firstAttribute="top" secondItem="zwl-nM-XFh" secondAttribute="bottom" constant="29" id="bFt-CW-e6d"/>
                                 <constraint firstItem="FSF-8y-Ube" firstAttribute="leading" secondItem="JeD-Od-NcI" secondAttribute="leading" id="cHu-zT-gbS"/>
                                 <constraint firstItem="zwl-nM-XFh" firstAttribute="trailing" secondItem="JeD-Od-NcI" secondAttribute="trailingMargin" id="hNm-qp-7Yy"/>
+                                <constraint firstAttribute="width" constant="345" id="hOK-Gg-P6y"/>
                                 <constraint firstItem="qAo-vz-BJc" firstAttribute="centerY" secondItem="zwl-nM-XFh" secondAttribute="centerY" id="ip4-G8-Z7r"/>
                                 <constraint firstItem="zwl-nM-XFh" firstAttribute="trailing" secondItem="UOH-DN-2Z6" secondAttribute="trailing" id="kRD-pR-KgX"/>
                                 <constraint firstItem="FSF-8y-Ube" firstAttribute="top" secondItem="rDl-OX-w0C" secondAttribute="bottom" id="oeT-Wx-TOe"/>

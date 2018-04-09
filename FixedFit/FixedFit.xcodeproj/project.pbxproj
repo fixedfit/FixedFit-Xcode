@@ -14,8 +14,16 @@
 		5C257424207AA70E0003F8C5 /* ReauthenticateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C257423207AA70E0003F8C5 /* ReauthenticateVC.swift */; };
 		5C2F1DAC20789FA500ADF58E /* SupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F1DAB20789FA500ADF58E /* SupportVC.swift */; };
 		5C633467205858CC0035F00A /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C633466205858CC0035F00A /* SettingsVC.swift */; };
-		721A3495207834EB00A98BC8 /* DatePopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A3494207834EB00A98BC8 /* DatePopUpVC.swift */; };
+		5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86F2ED207996F900E102C5 /* UserViewVC.swift */; };
+		5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */; };
+		5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */; };
+		5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3069A2079B5A6007C55E0 /* PushViews.swift */; };
 		721A34972078397400A98BC8 /* DatePopUpVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 721A34962078397400A98BC8 /* DatePopUpVC.storyboard */; };
+		72990E9F207C1F8900E1E213 /* DatePopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72990E9E207C1F8900E1E213 /* DatePopUpVC.swift */; };
+		CA121DFE2078195E006C5C54 /* Outfits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA121DFD2078195E006C5C54 /* Outfits.storyboard */; };
+		CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121DFF20781A03006C5C54 /* OutfitsVC.swift */; };
+		CA121E0220781CD0006C5C54 /* OutfitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121E0120781CD0006C5C54 /* OutfitCell.swift */; };
+		CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA14A14B205C61EE00A8F6AD /* Bundle+Extension.swift */; };
 		CA18467D204BE5340091B568 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA18467C204BE5340091B568 /* WeatherService.swift */; };
 		CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1970612077369C006D7B89 /* Reference+Extension.swift */; };
 		CA1DA7592058D29E00DE3897 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1DA7582058D29E00DE3897 /* PhotoCell.swift */; };
@@ -85,8 +93,12 @@
 		5C257423207AA70E0003F8C5 /* ReauthenticateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReauthenticateVC.swift; sourceTree = "<group>"; };
 		5C2F1DAB20789FA500ADF58E /* SupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportVC.swift; sourceTree = "<group>"; };
 		5C633466205858CC0035F00A /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
-		721A3494207834EB00A98BC8 /* DatePopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePopUpVC.swift; sourceTree = "<group>"; };
+		5C86F2ED207996F900E102C5 /* UserViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewVC.swift; sourceTree = "<group>"; };
+		5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserFinder.storyboard; sourceTree = "<group>"; };
+		5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFinderVC.swift; sourceTree = "<group>"; };
+		5CC3069A2079B5A6007C55E0 /* PushViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViews.swift; sourceTree = "<group>"; };
 		721A34962078397400A98BC8 /* DatePopUpVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DatePopUpVC.storyboard; sourceTree = "<group>"; };
+		72990E9E207C1F8900E1E213 /* DatePopUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatePopUpVC.swift; path = FixedFit/Controller/Home/DatePopUpVC.swift; sourceTree = SOURCE_ROOT; };
 		73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2DCC6D9D821E733876CA8D /* Pods-FixedFit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit.release.xcconfig"; sourceTree = "<group>"; };
 		A255FB8D04BF3676A516BF21 /* Pods-FixedFitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -348,6 +360,7 @@
 		CAB5AAD3207AEDAE00FCC305 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				72990E9E207C1F8900E1E213 /* DatePopUpVC.swift */,
 				5C2F1DAB20789FA500ADF58E /* SupportVC.swift */,
 				149B5693204286840074285C /* HomeVC.swift */,
 				5C633466205858CC0035F00A /* SettingsVC.swift */,
@@ -368,8 +381,10 @@
 			isa = PBXGroup;
 			children = (
 				CA2CABD4203D351600C62AE1 /* ProfileVC.swift */,
-				CA4BD4312049E44F002405D8 /* InformationVC.swift */,
-				721A3494207834EB00A98BC8 /* DatePopUpVC.swift */,
+				CA972EE8207AF128006AB842 /* EditorVC.swift */,
+				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
+				CA121DFF20781A03006C5C54 /* OutfitsVC.swift */,
+				CAB45A8F207BD84400ACB58C /* OutfitItemsVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -620,7 +635,6 @@
 				5C2F1DAC20789FA500ADF58E /* SupportVC.swift in Sources */,
 				CA8C48E6205B734F007A74F5 /* CategorySubcategoryStore.swift in Sources */,
 				CA18467D204BE5340091B568 /* WeatherService.swift in Sources */,
-				721A3495207834EB00A98BC8 /* DatePopUpVC.swift in Sources */,
 				CAD3C55D204B4EE600DE2911 /* ClosetCategoryCell.swift in Sources */,
 				CA972EEC207B01DA006AB842 /* FirebaseError.swift in Sources */,
 				CA4BD42E2049349F002405D8 /* AddPhotosVC.swift in Sources */,
@@ -659,6 +673,7 @@
 				149B5694204286840074285C /* HomeVC.swift in Sources */,
 				CA1DA7592058D29E00DE3897 /* PhotoCell.swift in Sources */,
 				CA843C4620602CCF005672D5 /* FiltersVC.swift in Sources */,
+				72990E9F207C1F8900E1E213 /* DatePopUpVC.swift in Sources */,
 				5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */,
 				CA2CABCD203D2AA800C62AE1 /* LoginVC.swift in Sources */,
 			);

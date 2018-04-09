@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Jlj-Id-344">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,14 +16,14 @@
             <objects>
                 <viewController modalPresentationStyle="overCurrentContext" id="Jlj-Id-344" customClass="DatePopUpVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ieg-rZ-hJQ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Am5-Nb-mR7">
-                                <rect key="frame" x="67" y="180" width="240" height="307"/>
+                                <rect key="frame" x="67" y="180" width="241" height="307"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DateLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShG-MC-7W1">
-                                        <rect key="frame" x="0.0" y="0.0" width="240" height="29"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="241" height="29"/>
                                         <color key="backgroundColor" red="0.54283252145963001" green="0.156676967692323" blue="0.72340381145477295" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="7Z8-wT-WHB"/>
@@ -28,17 +33,20 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Event Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ofp-wG-kyF">
-                                        <rect key="frame" x="0.0" y="37" width="240" height="30"/>
+                                        <rect key="frame" x="0.0" y="37" width="241" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="1fb-uI-26r"/>
+                                        </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hb2-Kx-Ny4">
-                                        <rect key="frame" x="4" y="75" width="232" height="190"/>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k6B-mX-qyw" userLabel="Save Button">
-                                        <rect key="frame" x="202" y="273" width="34" height="30"/>
+                                        <rect key="frame" x="203" y="273" width="34" height="30"/>
                                         <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="saveDate_Touch:" destination="Jlj-Id-344" eventType="touchUpInside" id="gc1-YB-8JR"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wxs-bL-SX8" userLabel="Cancel Button">
                                         <rect key="frame" x="4" y="273" width="52" height="30"/>
@@ -50,12 +58,22 @@
                                             <action selector="cancelDate_Touch:" destination="Jlj-Id-344" eventType="touchUpInside" id="fVY-aJ-RAK"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="datePopupAdd" translatesAutoresizingMaskIntoConstraints="NO" id="hb2-Kx-Ny4">
+                                        <rect key="frame" x="25" y="75" width="190" height="190"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="hb2-Kx-Ny4" secondAttribute="height" multiplier="233:190" constant="-43" id="AdR-Tk-hIH"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="4dw-38-qbs" appends="YES" id="wwQ-U7-7p4"/>
+                                        </connections>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="k6B-mX-qyw" firstAttribute="top" secondItem="hb2-Kx-Ny4" secondAttribute="bottom" constant="8" id="0SS-Qa-ebh"/>
                                     <constraint firstAttribute="trailing" secondItem="ShG-MC-7W1" secondAttribute="trailing" id="1AQ-JJ-9sA"/>
-                                    <constraint firstItem="k6B-mX-qyw" firstAttribute="trailing" secondItem="hb2-Kx-Ny4" secondAttribute="trailing" id="5Fa-9k-7go"/>
+                                    <constraint firstItem="k6B-mX-qyw" firstAttribute="trailing" secondItem="hb2-Kx-Ny4" secondAttribute="trailing" constant="22" id="5Fa-9k-7go"/>
                                     <constraint firstAttribute="trailing" secondItem="k6B-mX-qyw" secondAttribute="trailing" constant="4" id="5P6-DL-Wbp"/>
                                     <constraint firstItem="ShG-MC-7W1" firstAttribute="top" secondItem="Am5-Nb-mR7" secondAttribute="top" id="5P7-ic-qbI"/>
                                     <constraint firstItem="ShG-MC-7W1" firstAttribute="leading" secondItem="Am5-Nb-mR7" secondAttribute="leading" id="A1N-xU-EtD"/>
@@ -70,7 +88,7 @@
                                     <constraint firstAttribute="bottom" secondItem="Wxs-bL-SX8" secondAttribute="bottom" constant="4" id="pV4-MZ-HGW"/>
                                     <constraint firstItem="hb2-Kx-Ny4" firstAttribute="top" secondItem="Ofp-wG-kyF" secondAttribute="bottom" constant="8" symbolic="YES" id="q3g-wh-fFj"/>
                                     <constraint firstItem="Ofp-wG-kyF" firstAttribute="top" secondItem="ShG-MC-7W1" secondAttribute="bottom" constant="8" id="q5f-jQ-kHs"/>
-                                    <constraint firstItem="Wxs-bL-SX8" firstAttribute="leading" secondItem="hb2-Kx-Ny4" secondAttribute="leading" id="xgb-n9-vym"/>
+                                    <constraint firstItem="Wxs-bL-SX8" firstAttribute="leading" secondItem="hb2-Kx-Ny4" secondAttribute="leading" constant="-21" id="xgb-n9-vym"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -90,8 +108,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="muA-DE-hKv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="4dw-38-qbs">
+                    <connections>
+                        <action selector="dateImageTapped:" destination="Jlj-Id-344" id="eFO-PI-1Wk"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="421.60000000000002" y="-891.00449775112452"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="datePopupAdd" width="320" height="320"/>
+    </resources>
 </document>

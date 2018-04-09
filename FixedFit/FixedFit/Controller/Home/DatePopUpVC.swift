@@ -9,7 +9,7 @@
 import UIKit
 
 class DatePopUpVC: UIViewController {
-
+    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var eventTextField: UITextField!
     @IBOutlet weak var outfitImageView: UIImageView!
@@ -28,6 +28,14 @@ class DatePopUpVC: UIViewController {
     
     @IBAction func cancelDate_Touch(_ sender: UIButton) {
         dismiss(animated: true)
+    }
+    @IBAction func saveDate_Touch(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
+    @IBAction func dateImageTapped(_ sender: UITapGestureRecognizer) {
+        
+        print("Image tapped")
+        
     }
     
 }

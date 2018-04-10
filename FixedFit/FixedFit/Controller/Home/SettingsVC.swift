@@ -135,7 +135,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         self.dispatch.enter()
         
         //Generate a view controller to obtain the email and password
-        let buttonAction = ButtonAction(){
+        let buttonAction = ButtonData(title: "", color: UIColor()){
             self.dispatch.leave()
         }
         let reauthVC = ReauthenticateVC(button: buttonAction)

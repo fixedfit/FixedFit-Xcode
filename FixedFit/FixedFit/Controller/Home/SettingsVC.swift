@@ -18,7 +18,7 @@ enum SettingKeys: String{
     case emailUpdate = "change email"
     case passwordUpdate = "change password"
 }
-class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate{
+class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate, UserInfoDelegate{
     
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
@@ -29,6 +29,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     //Variables used to obtain the email and password for reauthentication
     var userEmail:String!
     var userPassword:String!
+    
+    //Variable used to hold the value to be used to update user info
+    var userInfo:String!
     
     //Initialize dispatch group to wait for the ReauthenticationVC nib file to be finish presented
     let dispatch = DispatchGroup()
@@ -120,7 +123,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         }
     }
     
-    //Function used to modify account only after the reauthenticateVC has been dismissed
+    //MARK: Function used to modify account only after the reauthenticateVC has been dismissed
     private func modifyAccount(operation:String){
         
         ////call firebase function to perform parameter operation.
@@ -165,7 +168,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                 } else {
                     
                     //Generate InformationVC for changing email and password cases
-                    
+                    if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
+                        
+                    }
                     
                     //Modify the account
                     //Implement dispatch to modify account without issue informationVC if not needed
@@ -234,10 +239,13 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     
     //MARK: Change user email and password
     @objc func tappedChangeEmail(_ sender: UITapGestureRecognizer){
-        print("tapped5")
+        print("tappedChangeEmail")
+        //Function called to update email
+        //self.modifyAccount(operation: SettingKeys.emailUpdate.rawValue)
+        
     }
     @objc func tappedChangePassword(_ sender: UITapGestureRecognizer){
-        print("tapped6")
+        print("tappedChangedPassword")
     }
     
     //MARK: Push Notification Settings
@@ -324,6 +332,12 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         self.userPassword = password
     }
     
-    //
+    //ChangeUserInfoVC function:
+    /*
+     Function takes one parameter from the ChangeUserInfoVC that contains the updated email or password from the user
+    */
+    func saveUserInfo(userInfo: String) {
+        self.userInfo = userInfo
+    }
     
 }

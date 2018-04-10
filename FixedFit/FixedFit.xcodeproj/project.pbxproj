@@ -18,6 +18,8 @@
 		5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */; };
 		5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */; };
 		5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3069A2079B5A6007C55E0 /* PushViews.swift */; };
+		5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */; };
+		5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */; };
 		CA121DFE2078195E006C5C54 /* Outfits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA121DFD2078195E006C5C54 /* Outfits.storyboard */; };
 		CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121DFF20781A03006C5C54 /* OutfitsVC.swift */; };
 		CA121E0220781CD0006C5C54 /* OutfitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121E0120781CD0006C5C54 /* OutfitCell.swift */; };
@@ -95,6 +97,8 @@
 		5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserFinder.storyboard; sourceTree = "<group>"; };
 		5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFinderVC.swift; sourceTree = "<group>"; };
 		5CC3069A2079B5A6007C55E0 /* PushViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViews.swift; sourceTree = "<group>"; };
+		5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangeUserInfoVC.xib; sourceTree = "<group>"; };
+		5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInfoVC.swift; sourceTree = "<group>"; };
 		73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2DCC6D9D821E733876CA8D /* Pods-FixedFit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit.release.xcconfig"; sourceTree = "<group>"; };
 		A255FB8D04BF3676A516BF21 /* Pods-FixedFitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -215,6 +219,7 @@
 				5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */,
 				CA121DFD2078195E006C5C54 /* Outfits.storyboard */,
 				5C257421207AA6DC0003F8C5 /* ReauthenticateVC.xib */,
+				5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -326,6 +331,7 @@
 				CAB5AAD6207AEF4700FCC305 /* CategoriesVC.swift */,
 				5CC3069A2079B5A6007C55E0 /* PushViews.swift */,
 				CA4BD4312049E44F002405D8 /* InformationVC.swift */,
+				5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -510,6 +516,7 @@
 				CA2CABC5203D1B7E00C62AE1 /* AddPhotos.storyboard in Resources */,
 				CA2CABC3203D1B7200C62AE1 /* Closet.storyboard in Resources */,
 				CA27BEC9207A180100C2E0AA /* GoogleService-Info.plist in Resources */,
+				5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +657,7 @@
 				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
 				CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
+				5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,
 				CA972EF0207B0275006AB842 /* FirebaseKeys.swift in Sources */,
 				CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */,

@@ -167,15 +167,32 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                     nextMessage = "Error: Incorrect Email"
                 } else {
                     
+                    //Initial variable used to update email or password if needed
+                    var updatingInfo:String!
+                    
                     //Generate InformationVC for changing email and password cases
                     if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
+                        /*
+                        //Initialize button action and enter block
+                        self.dispatch.enter()
+                        let button = ButtonData(title: "", color: UIColor()){
+                            self.dispatch.leave()
+                        }
                         
+                        //Instantiate view controller and present it
+                        let vc = ChangeUserInfoVC(buttonAction: button, changingInfoMode: operation)
+                        self.present(vc, animated: true, completion: nil)
+                        */
+                        print("change email")
+                        return
+                    } else {
+                        updatingInfo = ""
                     }
                     
                     //Modify the account
                     //Implement dispatch to modify account without issue informationVC if not needed
                     self.dispatch.enter()
-                    self.firebaseManager.manageUserAccount(commandString: operation, updateString: "", completion: {(error) in
+                    self.firebaseManager.manageUserAccount(commandString: operation, updateString: updatingInfo, completion: {(error) in
                         
                         //If message is reached then modification of account was unsuccessful.
                         if(error != nil){
@@ -239,13 +256,15 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     
     //MARK: Change user email and password
     @objc func tappedChangeEmail(_ sender: UITapGestureRecognizer){
-        print("tappedChangeEmail")
+
         //Function called to update email
-        //self.modifyAccount(operation: SettingKeys.emailUpdate.rawValue)
+        self.modifyAccount(operation: SettingKeys.emailUpdate.rawValue)
         
     }
     @objc func tappedChangePassword(_ sender: UITapGestureRecognizer){
-        print("tappedChangedPassword")
+        
+        //Function called to update password
+        self.modifyAccount(operation: SettingKeys.passwordUpdate.rawValue)
     }
     
     //MARK: Push Notification Settings

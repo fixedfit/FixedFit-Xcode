@@ -76,5 +76,15 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     }
     
     //Functions used to dismiss the keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        super.view.endEditing
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        EmailTextField.resignFirstResponder()
+        PasswordTextField.resignFirstResponder()
+        return true
+    }
     
 }

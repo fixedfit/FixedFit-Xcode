@@ -13,9 +13,10 @@ protocol UserInfoDelegate{
 class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
 
     var delegate: UserInfoDelegate?
-    var buttonAction: ButtonData!
+    var button: ButtonData!
     
     //references to object in certain classes
+    @IBOutlet weak var ChangeInfoView: UIView!
     @IBOutlet weak var titleMessage: UILabel!
     @IBOutlet weak var presentChangingInfo: UILabel!
     @IBOutlet weak var textField: UITextField!
@@ -25,14 +26,14 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     //Variable used to obtain the mode in which this VC will operate as efficient as it can
     var userInfoUpdateMode: String!
     
-    init(button:ButtonData, changingInfoMode: String){
+    init(buttonAction:ButtonData, changingInfoMode: String){
         super.init(nibName: "ChangeUserInfoVC", bundle:nil)
-        self.buttonAction = button
         self.modalTransitionStyle = .crossDissolve
         self.modalPresentationStyle = .overFullScreen
         
         //Store the passed in information
         self.userInfoUpdateMode = changingInfoMode
+        self.button = buttonAction
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -76,7 +77,18 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     
     @IBAction func savedInfo(_ sender: UIButton) {
         delegate?.saveUserInfo(userInfo: self.textField.text!)
-        self.dismiss(animated: true, completion: buttonAction?.action)
+        self.dismiss(animated: true, completion: button?.action)
+    }
+    
+    //Functions used to dismiss the keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        super.view.endEditing
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 }

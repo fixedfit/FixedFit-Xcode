@@ -71,7 +71,7 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     
     //Action functions used when the user selects the respective buttons
     @IBAction func pressEnter(_ sender: UIButton) {
-        delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text! )
+        delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text!)
         self.dismiss(animated: true, completion: self.buttonAction.action)
     }
     @IBAction func pressCancel(_ sender: UIButton) {

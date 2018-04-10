@@ -13,7 +13,9 @@ class DatePopUpVC: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var eventTextField: UITextField!
     @IBOutlet weak var outfitImageView: UIImageView!
-    var dateString:String = "Date Label"
+    var dateString:String?
+    
+    let userStuffManager = UserStuffManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +34,9 @@ class DatePopUpVC: UIViewController {
     @IBAction func saveDate_Touch(_ sender: UIButton) {
         dismiss(animated: true)
     }
-    @IBAction func dateImageTapped(_ sender: UITapGestureRecognizer) {
-        
-        print("Image tapped")
-        
-    }
     
+    @IBAction func dateImageTapped(_ sender: UITapGestureRecognizer) {
+        let addOutfitVC = AddOutfitVC()
+        present(addOutfitVC, animated: true, completion: nil)
+    }
 }

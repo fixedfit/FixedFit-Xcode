@@ -155,11 +155,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        formatter.dateFormat = "EEEE MMMM dd, yyyy"
-        let sb = UIStoryboard(name: "DatePopUpVC", bundle: nil)
-        let popUp = sb.instantiateInitialViewController()! as! DatePopUpVC
-        popUp.dateString = formatter.string(from: cellState.date)
-        self.present(popUp, animated: true)
+        performSegue(withIdentifier: "showOutfits", sender: nil)
     }
     
 }

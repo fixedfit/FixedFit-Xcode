@@ -13,7 +13,7 @@ protocol UserInfoDelegate{
 class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
 
     var delegate: UserInfoDelegate?
-    var buttonAction: ButtonAction!
+    var buttonAction: ButtonData!
     
     //references to object in certain classes
     @IBOutlet weak var titleMessage: UILabel!
@@ -25,7 +25,7 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     //Variable used to obtain the mode in which this VC will operate as efficient as it can
     var userInfoUpdateMode: String!
     
-    init(button:ButtonAction, changingInfoMode: String){
+    init(button:ButtonData, changingInfoMode: String){
         super.init(nibName: "ChangeUserInfoVC", bundle:nil)
         self.buttonAction = button
         self.modalTransitionStyle = .crossDissolve

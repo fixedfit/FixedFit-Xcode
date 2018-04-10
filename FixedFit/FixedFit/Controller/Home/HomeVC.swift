@@ -23,8 +23,10 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     let formatter = DateFormatter()
     let firebaseManager = FirebaseManager.shared
+    let userStuffManager = UserStuffManager.shared
     let weatherService = WeatherService()
     let currentDate = Date()
+    var events: [Event] = []
 
     //mock dictionary of events
     var firebaseEvents: [String:String] = [:]
@@ -39,11 +41,22 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
 
         setupCalendarView()
-        setupTableView()
 
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
         
         eventView.dataSource = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        userStuffManager.fetchEvents { [weak self] (events, error) in
+            guard let strongSelf = self else { return }
+            if error != nil {
+                
+            } else if let events = events {
+                strongSelf.events = events
+                strongSelf.calendarView.reloadData()
+            }
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -73,33 +86,15 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.minimumInteritemSpacing = 1
         calendarView.backgroundColor = UIColor.fixedFitPurple
     }
-    
-    func setupTableView() {
-        //get calendar events
-        firebaseEvents = getServerEvents()
-        formatter.dateFormat = "yyyyMMdd"
-        //dictionaries are unordered, so create an array of dates after today
-        for key in firebaseEvents.keys {
-            if key > formatter.string(from: Date()) {
-                firebaseEventsKeys.append(key)
-            }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let addOutfitVC = segue.destination as? AddOutfitVC,
+            let eventDate = sender as? Date {
+            addOutfitVC.eventDate = eventDate
+        } else if let outfitItemsVC = segue.destination as? OutfitItemsVC,
+            let outfit = sender as? Outfit {
+            outfitItemsVC.outfit =  outfit
         }
-        //sort them for use in table view
-        firebaseEventsKeys.sort(by: <)
-    }
-
-    //mock firebase event pull
-    func getServerEvents() -> [String:String] {
-
-        return [
-            "20180402":"Outfit 1",
-            "20180411":"Outfit 2",
-            "20180414":"Outfit 3",
-            "20180416":"Outfit 4",
-            "20180420":"Outfit 5",
-            "20180422":"Outfit 6",
-            "20180425":"Outfit 7"
-        ]
     }
     
 }
@@ -121,8 +116,13 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as! CalendarCell
         cell.dateLabel.text = cellState.text
         formatter.dateFormat = "yyyyMMdd"
-        cell.closetEvent.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
-        cell.outfitImage.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
+
+        cell.closetEvent.isHidden = !events.contains(where: { (event) -> Bool in
+            return event.date == date
+        })
+        cell.outfitImage.isHidden = !events.contains(where: { (event) -> Bool in
+            return event.date == date
+        })
         
         let currentDateString = formatter.string(from: currentDate)
         let calendarDateString = formatter.string(from: cellState.date)
@@ -155,11 +155,13 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        formatter.dateFormat = "EEEE MMMM dd, yyyy"
-        let sb = UIStoryboard(name: "DatePopUpVC", bundle: nil)
-        let popUp = sb.instantiateInitialViewController()! as! DatePopUpVC
-        popUp.dateString = formatter.string(from: cellState.date)
-        self.present(popUp, animated: true)
+        if let indexPath = events.index(where: { (event) -> Bool in
+            return event.date == date
+        }) {
+            performSegue(withIdentifier: "showOutfitItems", sender: events[indexPath].outfit)
+        } else {
+            performSegue(withIdentifier: "showOutfits", sender: date)
+        }
     }
     
 }

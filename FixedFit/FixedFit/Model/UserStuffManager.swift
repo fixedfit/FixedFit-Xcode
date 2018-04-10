@@ -22,11 +22,58 @@ struct UserInfo {
     var photo: UIImage?
 }
 
+struct Event {
+    var date: Date
+    var outfit: Outfit
+    var name: String
+
+    init(date: Date, outfit: Outfit, name: String) {
+        self.date = date
+        self.outfit = outfit
+        self.name = name
+    }
+}
+
+extension Event {
+    init?(json: [String: Any]) {
+        if let eventName = json[FirebaseKeys.eventName.rawValue] as? String,
+            let dateFrom1970 = json[FirebaseKeys.date.rawValue] as? Int,
+            let outfitInfo = json[FirebaseKeys.outfit.rawValue] as? [String: Any],
+            let outfitUniqueID = outfitInfo[FirebaseKeys.uniqueID.rawValue] as? String {
+            self.date = Date(timeIntervalSince1970: Double(dateFrom1970))
+            self.name = eventName
+
+            var outfitClosetItems = [ClosetItem]()
+
+            if let closetItems = outfitInfo[FirebaseKeys.items.rawValue] as? [[String: Any]] {
+                for closetItem in closetItems {
+                    if let url = closetItem[FirebaseKeys.url.rawValue] as? String,
+                        let category = closetItem[FirebaseKeys.category.rawValue] as? String {
+
+                        let uniqueID = closetItem[FirebaseKeys.uniqueID.rawValue] as? String
+                        let subcategory = closetItem[FirebaseKeys.subcategory.rawValue] as? String
+                        let categorySubcategory = CategorySubcategory(category: category, subcategory: subcategory)
+                        let createdClosetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url, uniqueID: uniqueID!)
+
+                        outfitClosetItems.append(createdClosetItem)
+                    }
+                }
+            }
+
+            let outfit = Outfit(uniqueID: outfitUniqueID, items: outfitClosetItems)
+            self.outfit = outfit
+        } else  {
+            return nil
+        }
+    }
+}
+
 class UserStuffManager {
     static let shared = UserStuffManager()
 
     var userInfo = UserInfo()
     var closet = Closet()
+    var events: [Event] = []
 
     let firebaseManager = FirebaseManager.shared
 
@@ -73,6 +120,25 @@ class UserStuffManager {
                 strongSelf.closet.filters = strongSelf.parseFilters(foundCloset: closet)
                 strongSelf.closet.outfits = strongSelf.parseOutfits(foundCloset: closet)
                 completion(nil)
+            }
+        }
+    }
+
+    func fetchEvents(completion: @escaping ([Event]?, Error?) -> Void) {
+        firebaseManager.fetchEvents { (eventInfos, error) in
+            if error != nil {
+                completion(nil, error)
+            } else if let eventInfos = eventInfos{
+                var events = [Event]()
+
+                for eventInfo in eventInfos {
+                    if let event = Event(json: eventInfo) {
+                        events.append(event)
+                    }
+                }
+
+                self.events = events
+                completion(events, nil)
             }
         }
     }
@@ -172,8 +238,6 @@ class UserStuffManager {
                 foundOutfits.append(outfit)
             }
         }
-
-        print(foundOutfits.count)
 
         return foundOutfits
     }

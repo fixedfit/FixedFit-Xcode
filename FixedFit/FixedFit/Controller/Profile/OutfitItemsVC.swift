@@ -33,9 +33,6 @@ class OutfitItemsVC: UIViewController {
         for (index,outfitItem) in outfit.items.enumerated() {
             let imageViewHeight: CGFloat = scrollView.bounds.height
             let padding = (scrollView.bounds.height - imageViewHeight) / 2
-            print("Scroll view height", scrollView.bounds.height)
-            print("Image ViewHeight", imageViewHeight)
-            print("Padding", padding)
             let imageViewRect = CGRect(x: CGFloat(index) * scrollView.bounds.width, y: padding, width: scrollView.bounds.width, height: imageViewHeight)
             let imageView = UIImageView(frame: imageViewRect)
             imageView.contentMode = .scaleAspectFit

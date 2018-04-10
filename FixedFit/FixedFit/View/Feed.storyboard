@@ -20,7 +20,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="FyT-Cy-eKi"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Feed" id="lbO-y2-mn5"/>
+                    <navigationItem key="navigationItem" title="Feed" id="lbO-y2-mn5">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="1AN-FG-gS8">
+                            <connections>
+                                <segue destination="3Dg-tf-MEr" kind="show" id="tFI-b4-PuE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4yV-IN-qZf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,6 +49,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HTU-wa-XQb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-969" y="-1287"/>
+        </scene>
+        <!--UserFinder-->
+        <scene sceneID="f11-3q-7f5">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserFinder" id="kzZ-u3-Wxk" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C9M-8y-7Cp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="359" y="-1294"/>
+        </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="6PC-6O-RqG">
+            <objects>
+                <viewControllerPlaceholder id="6oS-iq-Zim" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LUL-5W-hK3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="416" y="-1201"/>
+        </scene>
+        <!--UserFinder-->
+        <scene sceneID="C25-NM-KO8">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserFinder" id="3Dg-tf-MEr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OxG-I0-oQX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="359" y="-1294"/>
         </scene>
     </scenes>
     <resources>

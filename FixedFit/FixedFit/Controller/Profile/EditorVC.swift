@@ -154,6 +154,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     
     // Perform any last minute error checks and Exit editor view if needed
     @IBAction func exitEditor(_ sender: UIBarButtonItem) {
+        
         // Initialize dispatch group to ensure that the error messages are accurate
         let dispatch = DispatchGroup()
         
@@ -162,6 +163,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         
         // Store original error message to confirm if any errors were found
         let oldErrorMsg = errorMsg
+        
+        // Initialize a boolean variable to determine whether the data should be updated when the user clicks save
+        var saveBoolean = false
         
         // Initialize character limiter for text fields
         let nameCharacterLimiter = 35
@@ -231,29 +235,37 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
                 }
             }
+            
+            //Update previous user information with the new content
+            //if there is an error and it does not get fixed, then it is just discarded
+            let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.userStuffManager.userInfo.publicProfile, pushNotificationsEnabled: true, photo: self.editingPhoto.image)
         
             //if the error message is the same, then changes are successful so update them
             if(oldErrorMsg == errorMsg) {
                 leftMessage = "make more changes"
                 rightMessage = "save changes"
                 errorMsg = "Would you like to save changes?\n"
-                
-                //Update previous user information with the new content
-                let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.userStuffManager.userInfo.publicProfile, pushNotificationsEnabled: true, photo: self.editingPhoto.image)
-                self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in })
+                saveBoolean = true
             } else {
                 leftMessage = "fix issues"
                 rightMessage = "discard changes"
                 errorMsg = errorMsg + "Would you like to discard changes and go to profile?"
+                saveBoolean = false
             }
         
             //Set button messages
             leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
             rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
                 
+                //Update only when right button is meant to save user info
+                if(saveBoolean){
+                    self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in })
+                }
+                
                 //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
                 self.editingPhoto.image = nil
                 
+                //Dismiss editor vc
                 self.dismiss(animated: true, completion: nil)
 
             }

@@ -51,10 +51,17 @@ class UserStuffManager {
             }
             
             //Fetch user photo
-            if let userInfo = userInfo, let userphotoURL = userInfo[FirebaseKeys.profileImageURL.rawValue] as? String, false{
+            if let userInfo = userInfo, let userphotoURL = userInfo[FirebaseKeys.profileImageURL.rawValue] as? String, !(userphotoURL.isEmpty){
                 
                 //fetch User image
-                
+                self?.firebaseManager.fetchImage(storageURL: userphotoURL, completion: { (image, error) in
+                    if let error = error{
+                        print(error.localizedDescription)
+                    } else {
+                        self?.userInfo.photo = image
+                    }
+                })
+                completion(nil)
             } else {
                 self?.userInfo.photo = UIImage(named: "defaultProfile")
                 completion(nil)

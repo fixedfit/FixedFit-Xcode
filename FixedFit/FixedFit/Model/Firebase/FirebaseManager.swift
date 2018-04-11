@@ -152,14 +152,48 @@ class FirebaseManager {
 
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
+        
+        ////upload photo's url onto firebase storage by first checking if one already exists
+        //Generate path for new image
+        let imageUniqueID = uniqueID()
+        var imagePath = storageProfilePhotoURLReference(uniqueID: imageUniqueID) ?? ""
+        
+        //Delete the previous user's photo if already stored
+        if(!(userInfo.previousPhotoURL.isEmpty)){
 
+            let photoRef = storageRef.child(userInfo.previousPhotoURL)
+            
+            //delete the user's profile photo
+            photoRef.delete{ error in
+                if error != nil{
+                    //Error in deletion
+                    print("Could not delete user profile image")
+                } else {
+                    //User storage deleted
+                    print("Successfully deleted user profile image")
+                }
+            }
+        }
+        
+        //Update the new user's photo into firebase
+        if let resizedImage = userInfo.photo!.resized(toWidth: 100), let imageData = UIImagePNGRepresentation(resizedImage) {
+            
+            saveItemImage(path: imagePath, imageData: imageData, completion: { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                    imagePath = ""
+                }
+            })
+        }
+        
         print("Updating", userInfo.publicProfile)
         let userInfoDict = [FirebaseKeys.firstName.rawValue: userInfo.firstName,
                             FirebaseKeys.lastName.rawValue: userInfo.lastName,
                             FirebaseKeys.username.rawValue: userInfo.username,
                             FirebaseKeys.bio.rawValue: userInfo.bio,
                             FirebaseKeys.publicProfile.rawValue: userInfo.publicProfile,
-                            FirebaseKeys.pushNotificationsEnabled.rawValue: userInfo.pushNotificationsEnabled
+                            FirebaseKeys.pushNotificationsEnabled.rawValue: userInfo.pushNotificationsEnabled,
+                            FirebaseKeys.profileImageURL.rawValue: imagePath
             ] as [String : Any]
 
         ref.child(.users).child(user.uid).updateChildValues(userInfoDict) { (error, _) in
@@ -432,6 +466,21 @@ class FirebaseManager {
             let fullStorageReference = storageRef.child(user.uid).child(.closet).child(self.uniqueID()).description
             let referenceNeeded = fullStorageReference.replacingOccurrences(of: storageURL, with: "")
 
+            return referenceNeeded
+        }
+    }
+    func storageProfilePhotoURLReference(uniqueID: String? = nil) -> String? {
+        guard let user = currentUser else { return nil }
+        
+        if let uniqueID = uniqueID {
+            let fullStorageReference = storageRef.child(user.uid).child(.profilePhoto).child(uniqueID).description
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: storageURL, with: "")
+            
+            return referenceNeeded
+        } else {
+            let fullStorageReference = storageRef.child(user.uid).child(.profilePhoto).child(self.uniqueID()).description
+            let referenceNeeded = fullStorageReference.replacingOccurrences(of: storageURL, with: "")
+            
             return referenceNeeded
         }
     }

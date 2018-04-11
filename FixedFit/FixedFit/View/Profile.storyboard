@@ -87,6 +87,10 @@
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="E3e-uj-CrD">
                                 <rect key="frame" x="16" y="65" width="142" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="142" id="5q5-9n-Hkf"/>
+                                    <constraint firstAttribute="height" constant="128" id="aTz-C3-caI"/>
+                                </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Ilw-aJ-SYG">
                                 <rect key="frame" x="167" y="69" width="193" height="20.5"/>
@@ -283,6 +287,7 @@
                                 <rect key="frame" x="116" y="146" width="141" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="DZX-HZ-0Ty"/>
+                                    <constraint firstAttribute="width" constant="141" id="W9O-3b-wOX"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xHn-Le-IFg">

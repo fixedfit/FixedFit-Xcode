@@ -172,7 +172,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                     
                     //Generate InformationVC for changing email and password cases
                     if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
-                        /*
+                        
                         //Initialize button action and enter block
                         self.dispatch.enter()
                         let button = ButtonData(title: "", color: UIColor()){
@@ -181,34 +181,35 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                         
                         //Instantiate view controller and present it
                         let vc = ChangeUserInfoVC(buttonAction: button, changingInfoMode: operation)
+                        vc.delegate = self
                         self.present(vc, animated: true, completion: nil)
-                        */
-                        print("change email")
-                        return
+
                     } else {
                         updatingInfo = ""
                     }
                     
-                    //Modify the account
-                    //Implement dispatch to modify account without issue informationVC if not needed
-                    self.dispatch.enter()
-                    self.firebaseManager.manageUserAccount(commandString: operation, updateString: updatingInfo, completion: {(error) in
-                        
-                        //If message is reached then modification of account was unsuccessful.
-                        if(error != nil){
+                    self.dispatch.notify(queue: .main){
+                        //Modify the account
+                        //Implement dispatch to modify account without issue informationVC if not needed
+                        self.dispatch.enter()
+                        self.firebaseManager.manageUserAccount(commandString: operation, updateString: updatingInfo, completion: {(error) in
+                            
+                            //If message is reached then modification of account was unsuccessful.
+                            if(error != nil){
 
-                            if(operation == SettingKeys.deletion.rawValue){
-                                nextMessage = "Deletion of Account Failed"
-                            } else if(operation == SettingKeys.emailUpdate.rawValue){
-                                nextMessage = "Update of Email Failed"
-                            } else if(operation == SettingKeys.passwordUpdate.rawValue){
-                                nextMessage = "Update of Password Failed"
-                            } else {
-                                nextMessage = "Updating Account Operation Failed"
+                                if(operation == SettingKeys.deletion.rawValue){
+                                    nextMessage = "Deletion of Account Failed"
+                                } else if(operation == SettingKeys.emailUpdate.rawValue){
+                                    nextMessage = "Update of Email Failed"
+                                } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                    nextMessage = "Update of Password Failed"
+                                } else {
+                                    nextMessage = "Updating Account Operation Failed"
+                                }
                             }
-                        }
-                        self.dispatch.leave()
-                    })
+                            self.dispatch.leave()
+                        })
+                    }
                 }
                 
                 self.dispatch.notify(queue: .main){

@@ -167,9 +167,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                     nextMessage = "Error: Incorrect Email"
                 } else {
                     
-                    //Initial variable used to update email or password if needed
-                    var updatingInfo:String!
-                    
                     //Generate InformationVC for changing email and password cases
                     if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
                         
@@ -185,14 +182,14 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                         self.present(vc, animated: true, completion: nil)
 
                     } else {
-                        updatingInfo = ""
+                        self.userInfo = ""
                     }
                     
                     self.dispatch.notify(queue: .main){
                         //Modify the account
                         //Implement dispatch to modify account without issue informationVC if not needed
                         self.dispatch.enter()
-                        self.firebaseManager.manageUserAccount(commandString: operation, updateString: updatingInfo, completion: {(error) in
+                        self.firebaseManager.manageUserAccount(commandString: operation, updateString: self.userInfo, completion: {(error) in
                             
                             //If message is reached then modification of account was unsuccessful.
                             if(error != nil){

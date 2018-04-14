@@ -101,10 +101,8 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.65000000000000002" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="PEx-rv-itd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15.5" id="Byp-bW-ovF"/>
                 <constraint firstItem="PEx-rv-itd" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="Cr6-03-cV4"/>
                 <constraint firstItem="PEx-rv-itd" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="YDQ-i6-vK5"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="PEx-rv-itd" secondAttribute="trailing" constant="16.5" id="gDv-rU-N5g"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="33.5" y="50.5"/>

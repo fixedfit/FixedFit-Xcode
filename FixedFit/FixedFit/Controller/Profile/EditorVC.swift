@@ -190,7 +190,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                 errorMsg = errorMsg + "User Name Field is empty.\n"
             //Check if username has too many characters
             } else if usernameTextField.text!.count > nameCharacterLimiter {
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)\n"
             //Check if user name already exists in list of users in firebase
             } else {
                 dispatch.enter()
@@ -212,7 +212,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "First Name Field is empty.\n"
                 
                 } else if(( (self.firstNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)\n"
                 }
             }
         
@@ -222,7 +222,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "Last Name Field is empty.\n"
                 
                 } else if(( (self.lastNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)\n"
                 }
             }
         
@@ -232,7 +232,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     self.bioTextField.text = "No Bio Set"
                 
                 } else if(( (self.bioTextField.text!.count) > bioCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
+                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)\n"
                 }
             }
             

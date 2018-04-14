@@ -158,7 +158,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             
             
             self.dispatch.notify(queue: .main){
-                
+
                 if(reauthenticationCode == 0){
                     nextMessage = "Reauthentication Failed"
                 } else if(reauthenticationCode == -1){
@@ -186,6 +186,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                     }
                     
                     self.dispatch.notify(queue: .main){
+                        
                         //Modify the account
                         //Implement dispatch to modify account without issue informationVC if not needed
                         self.dispatch.enter()
@@ -215,7 +216,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                     if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
                         //Generate second informationVC and present it
                         let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
-                        let secondInformationVC = InformationVC(message: nextMessage, image: self.usermanager.userInfo.photo, leftButtonData: nil, rightButtonData: buttonDataRight)
+                        let secondInformationVC = InformationVC(message: nextMessage, image: UIImage(named: "error diagram"), leftButtonData: nil, rightButtonData: buttonDataRight)
                         
                         self.present(secondInformationVC, animated: true, completion:nil)
                     }

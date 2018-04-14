@@ -58,6 +58,7 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
         //Make delegate of textfields equal to itself
         EmailTextField.delegate = self
         PasswordTextField.delegate = self
+        PasswordTextField.isSecureTextEntry = true
     }
 
     override func didReceiveMemoryWarning() {

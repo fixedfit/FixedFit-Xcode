@@ -60,9 +60,11 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
         if(userInfoUpdateMode == SettingKeys.emailUpdate.rawValue){
             titleMessage.text = "Changing Email:\n"
             presentChangingInfo.text = "New Email:"
+            textField.isSecureTextEntry = false
         } else if(userInfoUpdateMode == SettingKeys.passwordUpdate.rawValue){
             titleMessage.text = "Changing Password:\n"
             presentChangingInfo.text = "New Password:"
+            textField.isSecureTextEntry = true
         }
     }
 

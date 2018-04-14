@@ -328,10 +328,8 @@
 				CAB5AAD5207AEEB800FCC305 /* Profile */,
 				CAFCDBDF2074BE1A00E87E9B /* Parents */,
 				5C86F2ED207996F900E102C5 /* UserViewVC.swift */,
-				CAB5AAD6207AEF4700FCC305 /* CategoriesVC.swift */,
 				5CC3069A2079B5A6007C55E0 /* PushViews.swift */,
 				CA4BD4312049E44F002405D8 /* InformationVC.swift */,
-				5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -361,7 +359,9 @@
 		CAB5AAD3207AEDAE00FCC305 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				CAB5AAD6207AEF4700FCC305 /* CategoriesVC.swift */,
 				5C2F1DAB20789FA500ADF58E /* SupportVC.swift */,
+				5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */,
 				149B5693204286840074285C /* HomeVC.swift */,
 				5C633466205858CC0035F00A /* SettingsVC.swift */,
 			);

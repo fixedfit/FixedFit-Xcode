@@ -9,7 +9,15 @@
 import Foundation
 import UIKit
 
-class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIGestureRecognizerDelegate {
+enum EditorKeys: String{
+    case camera = "Camera"
+    case library = "Library"
+    case defaultPhoto = "defaultProfile"
+    case cancel = "cancel"
+}
+
+class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIGestureRecognizerDelegate, PhotoSourceDelegate {
+    
     // Reference for editing photo
     @IBOutlet weak var editingPhoto: UIImageView!
     // Button for current view status of profile
@@ -19,6 +27,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     @IBOutlet weak var bioTextField: UITextField!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
+    
+    //Initialize variable used to determine where the users would like to retrieve the photo for the user profile
+    var selectionStatus: String!
 
     // Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
     var previousFirstName: String!
@@ -54,33 +65,50 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
         
-        //Initialize variable used to determine where the users would like to retrieve the photo for the user profile
-        var selectionStatus: String!
+        //Initialize status variable
+        self.selectionStatus = ""
         
-        //Present PhotoSelector ViewController to ask user how they want to edit user photo
-        selectionStatus = "Libray"//debug purposes
-        
-        if(selectionStatus == "Libray"){
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-                imagePicker.delegate = self
-                imagePicker.sourceType = .photoLibrary;
-                imagePicker.allowsEditing = false
-            }
-        } else if(selectionStatus == "Camera"){
-        
-            if UIImagePickerController.isSourceTypeAvailable(.camera){
-                imagePicker.delegate = self
-                imagePicker.sourceType = .camera
-                imagePicker.allowsEditing = false
-            }
-        
-        } else {
-            //If users select the default profile image to be displayed on their profile, then just assigned it and return
-            editingPhoto.image = UIImage(named: "defaultProfile")
-            return
+        //Initialize a dispatch group
+        let dispatch = DispatchGroup()
+        dispatch.enter()
+        let button = ButtonData(title: "", color: UIColor()){
+            dispatch.leave()
         }
         
-        self.present(imagePicker, animated: true, completion: nil)
+        //Present PhotoSelector ViewController to ask user how they want to edit user photo
+        let vc = ChooseUserPhotoVC(button: button)
+        vc.delegate = self
+        self.present(vc, animated: true, completion: nil)
+ 
+        dispatch.notify(queue: .main){
+
+            if(self.selectionStatus == EditorKeys.library.rawValue){
+                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+                    self.imagePicker.delegate = self
+                    self.imagePicker.sourceType = .photoLibrary;
+                    self.imagePicker.allowsEditing = false
+                }
+            } else if(self.selectionStatus == EditorKeys.camera.rawValue){
+            
+                if UIImagePickerController.isSourceTypeAvailable(.camera){
+                    self.imagePicker.delegate = self
+                    self.imagePicker.sourceType = .camera
+                    self.imagePicker.allowsEditing = false
+                }
+            
+            } else if(self.selectionStatus == EditorKeys.defaultPhoto.rawValue){
+                //If users select the default profile image to be displayed on their profile, then just assigned it and return
+                self.editingPhoto.image = UIImage(named: "defaultProfile")
+                return
+            } else {
+                
+                //if cancel button is selected, then just return
+                return
+                
+            }
+            
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }
     }
 
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
@@ -277,4 +305,8 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         }
     }
     
+    //delegate function for photo selection
+    func didChooseOption(choice: String){
+        self.selectionStatus = choice
+    }
 }

@@ -20,6 +20,8 @@
 		5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3069A2079B5A6007C55E0 /* PushViews.swift */; };
 		5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */; };
 		5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */; };
+		5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */; };
+		5CF8599520831E3A00B2D07D /* ChooseUserPhotoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */; };
 		CA121DFE2078195E006C5C54 /* Outfits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA121DFD2078195E006C5C54 /* Outfits.storyboard */; };
 		CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121DFF20781A03006C5C54 /* OutfitsVC.swift */; };
 		CA121E0220781CD0006C5C54 /* OutfitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121E0120781CD0006C5C54 /* OutfitCell.swift */; };
@@ -99,6 +101,8 @@
 		5CC3069A2079B5A6007C55E0 /* PushViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViews.swift; sourceTree = "<group>"; };
 		5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangeUserInfoVC.xib; sourceTree = "<group>"; };
 		5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInfoVC.swift; sourceTree = "<group>"; };
+		5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUserPhotoVC.swift; sourceTree = "<group>"; };
+		5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChooseUserPhotoVC.xib; sourceTree = "<group>"; };
 		73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2DCC6D9D821E733876CA8D /* Pods-FixedFit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit.release.xcconfig"; sourceTree = "<group>"; };
 		A255FB8D04BF3676A516BF21 /* Pods-FixedFitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 				CA121DFD2078195E006C5C54 /* Outfits.storyboard */,
 				5C257421207AA6DC0003F8C5 /* ReauthenticateVC.xib */,
 				5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */,
+				5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -329,6 +334,7 @@
 				CAFCDBDF2074BE1A00E87E9B /* Parents */,
 				5C86F2ED207996F900E102C5 /* UserViewVC.swift */,
 				5CC3069A2079B5A6007C55E0 /* PushViews.swift */,
+				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
 				CA4BD4312049E44F002405D8 /* InformationVC.swift */,
 			);
 			path = Controller;
@@ -382,9 +388,9 @@
 			children = (
 				CA2CABD4203D351600C62AE1 /* ProfileVC.swift */,
 				CA972EE8207AF128006AB842 /* EditorVC.swift */,
-				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
 				CA121DFF20781A03006C5C54 /* OutfitsVC.swift */,
 				CAB45A8F207BD84400ACB58C /* OutfitItemsVC.swift */,
+				5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -511,6 +517,7 @@
 				CA4BD4342049E494002405D8 /* InformationVC.xib in Resources */,
 				CA669287203D0B0C000069B5 /* Main.storyboard in Resources */,
 				CA2CABC1203D1B6400C62AE1 /* Home.storyboard in Resources */,
+				5CF8599520831E3A00B2D07D /* ChooseUserPhotoVC.xib in Resources */,
 				CA2CABC7203D1B8E00C62AE1 /* Feed.storyboard in Resources */,
 				CA2CABCB203D2A1000C62AE1 /* Authentication.storyboard in Resources */,
 				CA2CABC5203D1B7E00C62AE1 /* AddPhotos.storyboard in Resources */,
@@ -656,6 +663,7 @@
 				CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */,
 				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
 				CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */,
+				5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
 				5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,

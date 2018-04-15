@@ -11,7 +11,7 @@ import UIKit
 
 enum EditorKeys: String{
     case camera = "Camera"
-    case library = "Libray"
+    case library = "Library"
     case defaultPhoto = "defaultProfile"
     case cancel = "cancel"
 }
@@ -66,7 +66,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
         
         //Initialize status variable
-        selectionStatus = ""
+        self.selectionStatus = ""
         
         //Initialize a dispatch group
         let dispatch = DispatchGroup()
@@ -82,7 +82,6 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
  
         dispatch.notify(queue: .main){
 
-            self.selectionStatus = EditorKeys.library.rawValue//debug purposes
             if(self.selectionStatus == EditorKeys.library.rawValue){
                 if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
                     self.imagePicker.delegate = self

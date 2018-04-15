@@ -23,9 +23,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
     
-    //Label reference for push notification label
-    @IBOutlet weak var PushStatus: UILabel!
-    
     //Variables used to obtain the email and password for reauthentication
     var userEmail:String!
     var userPassword:String!
@@ -41,7 +38,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @IBOutlet weak var BlockUserView: UIView!
     @IBOutlet weak var ChangeEmailView: UIView!
     @IBOutlet weak var ChangePasswordView: UIView!
-    @IBOutlet weak var PushNotificationView: UIView!
+    @IBOutlet weak var TutorialView: UIView!
     @IBOutlet weak var HelpCenterView: UIView!
     @IBOutlet weak var ContactsView: UIView!
     @IBOutlet weak var LogoutView: UIView!
@@ -77,11 +74,11 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         ChangePasswordView.isUserInteractionEnabled = true
         ChangePasswordView.addGestureRecognizer(changePasswordTap)
         
-        //Push Notifications
-        let pushNotificationTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedPushNotificationView))
-        pushNotificationTap.delegate = self
-        PushNotificationView.isUserInteractionEnabled = true
-        PushNotificationView.addGestureRecognizer(pushNotificationTap)
+        //Tutorial
+        let tutorialsTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedTutorialView))
+        tutorialsTap.delegate = self
+        TutorialView.isUserInteractionEnabled = true
+        TutorialView.addGestureRecognizer(tutorialsTap)
         
         //Help Center FAQ
         let helpcenterTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedHelpCenter))
@@ -112,15 +109,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         
         //fetch user info
         usermanager.fetchUserInfo { _ in }
-        
-        //Change label of push notification status
-        if (usermanager.userInfo.pushNotificationsEnabled == true){
-            PushStatus.textColor = .fixedFitBlue
-            PushStatus.text = "On"
-        } else {
-            PushStatus.textColor = .fixedFitPurple
-            PushStatus.text = "Off"
-        }
     }
     
     //MARK: Function used to modify account only after the reauthenticateVC has been dismissed
@@ -266,21 +254,17 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         self.modifyAccount(operation: SettingKeys.passwordUpdate.rawValue)
     }
     
-    //MARK: Push Notification Settings
-    @objc func tappedPushNotificationView(_ sender: UITapGestureRecognizer){
-        if(PushStatus.text == "On"){
-            PushStatus.textColor = .fixedFitPurple
-            PushStatus.text = "Off"
-            
-            //Update user's push notifications in firebase
-            usermanager.togglePushNotificationsEnabled()
-            
-        } else {
-            PushStatus.textColor = .fixedFitBlue
-            PushStatus.text = "On"
-            
-            //Update user's push notifications in firebase
-            usermanager.togglePushNotificationsEnabled()
+    //MARK: Tutorials
+    @objc func tappedTutorialView(_ sender: UITapGestureRecognizer){
+        
+        //Transition to Help Center
+        guard let vc = PushViews.executeTransition(vcName: "SupportVC", storyboardName: "Home", newTitle:FirebaseSupportVCTitleAndMode.tutorial, newMode:"") else {return}
+        
+        if let vc = vc as? SupportVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
         }
     }
     

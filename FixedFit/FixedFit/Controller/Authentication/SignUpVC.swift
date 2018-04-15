@@ -51,8 +51,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                   username: usernameTextField.text ?? "",
                                   password: passwordTextField.text ?? "",
                                   publicProfile: true,
-                                  bio: "",
-                                  pushNotificationsEnabled: true
+                                  bio: ""
         ) 
 
         if validInput(signUpInfo) {

@@ -16,10 +16,9 @@ struct SignUpInfo {
     let password: String
     let publicProfile: Bool
     let bio: String
-    let pushNotificationsEnabled: Bool
 
 
-    init(firstName: String, lastName: String, email: String, username: String, password: String, publicProfile: Bool, bio: String, pushNotificationsEnabled: Bool) {
+    init(firstName: String, lastName: String, email: String, username: String, password: String, publicProfile: Bool, bio: String) {
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
@@ -27,6 +26,6 @@ struct SignUpInfo {
         self.password = password
         self.publicProfile = publicProfile
         self.bio = bio
-        self.pushNotificationsEnabled = pushNotificationsEnabled
+        
     }
 }

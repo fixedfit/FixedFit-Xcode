@@ -266,7 +266,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
             
             //Update previous user information with the new content
             //if there is an error and it does not get fixed, then it is just discarded
-            let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.userStuffManager.userInfo.publicProfile, pushNotificationsEnabled: true, previousPhotoURL: self.userStuffManager.userInfo.previousPhotoURL, photo: self.editingPhoto.image)
+            let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.userStuffManager.userInfo.publicProfile, previousPhotoURL: self.userStuffManager.userInfo.previousPhotoURL, photo: self.editingPhoto.image)
         
             //if the error message is the same, then changes are successful so update them
             if(oldErrorMsg == errorMsg) {

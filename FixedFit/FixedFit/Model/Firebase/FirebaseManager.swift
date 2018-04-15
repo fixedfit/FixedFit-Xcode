@@ -30,6 +30,7 @@ struct FirebaseUserFinderMode{
 struct FirebaseSupportVCTitleAndMode{
     static let helpCenter = "Help Center(FAQ)"
     static let contactUs = "Contact Us"
+    static let tutorial = "Tutorials"
 }
 
 class FirebaseManager {
@@ -192,7 +193,6 @@ class FirebaseManager {
                             FirebaseKeys.username.rawValue: userInfo.username,
                             FirebaseKeys.bio.rawValue: userInfo.bio,
                             FirebaseKeys.publicProfile.rawValue: userInfo.publicProfile,
-                            FirebaseKeys.pushNotificationsEnabled.rawValue: userInfo.pushNotificationsEnabled,
                             FirebaseKeys.profileImageURL.rawValue: imagePath
             ] as [String : Any]
 

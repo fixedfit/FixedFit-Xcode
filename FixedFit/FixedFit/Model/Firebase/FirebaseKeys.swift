@@ -16,7 +16,6 @@ enum FirebaseKeys: String {
     case username = "username"
     case bio = "bio"
     case publicProfile = "publicProfile"
-    case pushNotificationsEnabled = "pushNotificationsEnabled"
     case profileImageURL = "profileImageURL"
     case profilePhoto = "profilePhoto"
     // Closet

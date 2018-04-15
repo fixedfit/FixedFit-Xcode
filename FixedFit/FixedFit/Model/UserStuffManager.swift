@@ -18,7 +18,6 @@ struct UserInfo {
     var username = ""
     var bio = ""
     var publicProfile = true
-    var pushNotificationsEnabled = true
     var previousPhotoURL = ""
     var photo: UIImage?
 }
@@ -103,11 +102,6 @@ class UserStuffManager {
     func togglePublicProfile() {
         userInfo.publicProfile = !userInfo.publicProfile
         updateUserInfo(userInfo) { _ in }
-    }
-
-    func togglePushNotificationsEnabled() {
-        userInfo.pushNotificationsEnabled = !userInfo.pushNotificationsEnabled
-        firebaseManager.updateUserInfo(userInfo) { _ in }
     }
 
     func checkUsername(username: String, completion: @escaping (Bool?)->Void){

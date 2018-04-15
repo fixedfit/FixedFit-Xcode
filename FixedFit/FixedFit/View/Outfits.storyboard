@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZLG-b4-xPs">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--OutfitsVC-->
+        <scene sceneID="EEI-py-ecS">
+            <objects>
+                <viewController id="ZLG-b4-xPs" customClass="OutfitsVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mL3-e2-hZR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CT1-QA-z9q">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="P94-Ny-4OV">
+                                    <size key="itemSize" width="152" height="163"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="outfitCell" id="jj6-gd-Pfw" customClass="OutfitCell" customModule="FixedFit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="50J-1J-IkS">
+                                                    <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
+                                                </stackView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="50J-1J-IkS" firstAttribute="top" secondItem="jj6-gd-Pfw" secondAttribute="top" id="H56-M1-CMo"/>
+                                            <constraint firstAttribute="trailing" secondItem="50J-1J-IkS" secondAttribute="trailing" id="SvJ-cI-NdG"/>
+                                            <constraint firstAttribute="bottom" secondItem="50J-1J-IkS" secondAttribute="bottom" id="Y1q-Ji-FRG"/>
+                                            <constraint firstItem="50J-1J-IkS" firstAttribute="leading" secondItem="jj6-gd-Pfw" secondAttribute="leading" id="nZR-FD-msR"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="verticalStackView" destination="50J-1J-IkS" id="doo-9y-Z1G"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="EFd-XB-SvH">
+                                <rect key="frame" x="105" y="323" width="164.5" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No outfits to display" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBN-lm-PS7">
+                                        <rect key="frame" x="0.0" y="0.0" width="164.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" red="0.094117647060000004" green="0.1137254902" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="EFd-XB-SvH" firstAttribute="centerX" secondItem="mL3-e2-hZR" secondAttribute="centerX" id="Eaj-ID-6qZ"/>
+                            <constraint firstItem="CT1-QA-z9q" firstAttribute="leading" secondItem="qtn-du-5Qk" secondAttribute="leading" id="PFk-IC-i4R"/>
+                            <constraint firstItem="CT1-QA-z9q" firstAttribute="top" secondItem="qtn-du-5Qk" secondAttribute="top" id="bLt-6g-mcL"/>
+                            <constraint firstItem="CT1-QA-z9q" firstAttribute="trailing" secondItem="qtn-du-5Qk" secondAttribute="trailing" id="v8T-zb-qBM"/>
+                            <constraint firstItem="EFd-XB-SvH" firstAttribute="centerY" secondItem="mL3-e2-hZR" secondAttribute="centerY" id="wJr-ry-RpX"/>
+                            <constraint firstItem="CT1-QA-z9q" firstAttribute="bottom" secondItem="qtn-du-5Qk" secondAttribute="bottom" id="ykc-BP-Pkc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="qtn-du-5Qk"/>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="CT1-QA-z9q" id="cap-aX-62V"/>
+                        <outlet property="noOutfitsLabel" destination="CBN-lm-PS7" id="nKz-jR-Rqz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K3r-Lr-qZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-908" y="131"/>
+        </scene>
+    </scenes>
+</document>

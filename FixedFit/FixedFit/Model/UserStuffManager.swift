@@ -8,104 +8,173 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
+import FirebaseStorage
+
+struct UserInfo {
+    var firstName = ""
+    var lastName = ""
+    var username = ""
+    var bio = ""
+    var publicProfile = true
+    var pushNotificationsEnabled = true
+    var photo: UIImage?
+}
 
 class UserStuffManager {
     static let shared = UserStuffManager()
 
-    var firstName = ""
-    var lastName = ""
-    var username = ""
-    var userbio = ""
-    var userstatus = "Public"
-    var userPushNotification = "On"
-    var userphoto:UIImage? = nil
-
+    var userInfo = UserInfo()
     var closet = Closet()
 
-    func fetchUserInformation(completion: ((Error?) -> Void)? = nil) {
-        let firebaseManager = FirebaseManager.shared
+    let firebaseManager = FirebaseManager.shared
 
+    func fetchUserInfo(completion: @escaping (Error?) -> Void) {
         firebaseManager.fetchUserInfo { [weak self] (userInfo, error) in
             if let error = error {
-                print(error.localizedDescription)
-                if let completion = completion {
-                    completion(error)
-                }
-            } else if let userInfo = userInfo, let username = userInfo[FirebaseKeys.username] as? String,
-                let firstName = userInfo[FirebaseKeys.firstName] as? String, let lastName = userInfo[FirebaseKeys.lastName] as? String {
-                self?.firstName = firstName
-                self?.lastName = lastName
-                self?.username = username
+                completion(error)
+            } else if let userInfo = userInfo,
+                let firstName = userInfo[FirebaseKeys.firstName.rawValue] as? String,
+                let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String,
+                let username = userInfo[FirebaseKeys.username.rawValue] as? String,
+                let bio = userInfo[FirebaseKeys.bio.rawValue] as? String,
+                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool {
+                
+                self?.userInfo.firstName = firstName
+                self?.userInfo.lastName = lastName
+                self?.userInfo.username = username
+                self?.userInfo.bio = bio
+                self?.userInfo.publicProfile = publicProfile
 
-                if let completion = completion {
-                    completion(nil)
-                }
+                completion(nil)
+            }
+            
+            //Fetch user photo
+            if let userInfo = userInfo, let userphotoURL = userInfo[FirebaseKeys.profileImageURL.rawValue] as? String, false{
+                
+                //fetch User image
+                
+            } else {
+                self?.userInfo.photo = UIImage(named: "defaultProfile")
+                completion(nil)
             }
         }
     }
 
-    func updateCloset(closet: [String: Any]) {
-        if let newClosetItems = closet[FirebaseKeys.items] as? [[String:Any]] {
-            var createdClosetItems: [ClosetItem] = []
+    func fetchCloset(completion: @escaping (Error?) -> Void) {
+        firebaseManager.fetchCloset { [weak self] (closet, error) in
+            guard let strongSelf = self else { return }
 
-            for newClosetItem in newClosetItems {
-                if let url = newClosetItem[FirebaseKeys.url] as? String,
-                    let category = newClosetItem[FirebaseKeys.category] as? String {
-                    let subcategory = newClosetItem[FirebaseKeys.subcategory] as? String
+            if let error = error {
+                completion(error)
+            } else if let closet = closet {
+                strongSelf.closet.items = strongSelf.parseClosetItems(foundCloset: closet)
+                strongSelf.closet.filters = strongSelf.parseFilters(foundCloset: closet)
+                strongSelf.closet.outfits = strongSelf.parseOutfits(foundCloset: closet)
+                completion(nil)
+            }
+        }
+    }
+    
+    func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
+        self.userInfo = userInfo
+        firebaseManager.updateUserInfo(userInfo) { (error) in
+            if let error = error {
+                // Show the user something
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
+    func togglePublicProfile() {
+        userInfo.publicProfile = !userInfo.publicProfile
+        updateUserInfo(userInfo) { _ in }
+    }
+
+    func togglePushNotificationsEnabled() {
+        userInfo.pushNotificationsEnabled = !userInfo.pushNotificationsEnabled
+        firebaseManager.updateUserInfo(userInfo) { _ in }
+    }
+
+    func checkUsername(username: String, completion: @escaping (Bool?)->Void){
+        // Check if firebase already contains the user name
+        // If true, the completion function will contain the parameter as a boolean value
+        firebaseManager.checkUsername(username) { (error) in
+            if let _ = error {
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+    }
+
+    // MARK: Helper methods
+
+    func parseClosetItems(foundCloset: [String: Any]) -> [ClosetItem] {
+        var closetItems: [ClosetItem] = []
+
+        if let foundClosetItems = foundCloset[FirebaseKeys.items.rawValue] as? [String: [String:Any]] {
+            for foundClosetItemInfo in foundClosetItems {
+                if let url = foundClosetItemInfo.value[FirebaseKeys.url.rawValue] as? String,
+                    let category = foundClosetItemInfo.value[FirebaseKeys.category.rawValue] as? String {
+
+                    let uniqueID = foundClosetItemInfo.value[FirebaseKeys.uniqueID.rawValue] as? String
+                    let subcategory = foundClosetItemInfo.value[FirebaseKeys.subcategory.rawValue] as? String
                     let categorySubcategory = CategorySubcategory(category: category, subcategory: subcategory)
-                    let createdClosetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url)
+                    let createdClosetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url, uniqueID: uniqueID!)
 
-                    createdClosetItems.append(createdClosetItem)
-                    self.closet.categorySubcategoryStore.addCategory(category: category)
+                    closetItems.append(createdClosetItem)
+                    closet.categorySubcategoryStore.addCategory(category: category)
 
                     if subcategory != nil {
-                        self.closet.categorySubcategoryStore.addSubcategory(category: category, subcategory: subcategory!)
+                        closet.categorySubcategoryStore.addSubcategory(category: category, subcategory: subcategory!)
                     }
                 }
             }
-
-            self.closet.items = createdClosetItems
         }
 
-        if let filters = closet[FirebaseKeys.filters] as? [String: String] {
-            self.closet.filters = filters
+        return closetItems
+    }
+
+    func parseFilters(foundCloset: [String: Any]) -> [String: String] {
+        if let filters = foundCloset[FirebaseKeys.filters.rawValue] as? [String: String] {
+            return filters
+        } else {
+            return [:]
         }
     }
-    
-    func updateUserInfo(firstname: String, lastname: String, bio: String, name_of_user: String, photo: UIImage? = nil){
-        
-        let firebaseManager = FirebaseManager.shared
-        
-        //Update user information in firebase
-        
-        
-        //Save current userstatus into firebase
-        
-    }
-    
-    //Function used to modify user's status
-    func toggleUserStatus(newStatus: String){
-        self.userstatus = newStatus
-    }
-    
-    func toggelUserPushNotification(newStatus: String){
-        self.userPushNotification = newStatus
-    }
-    
-    //Function used to check if user name already exist by calling firebase checkUsername()
-    func checkUsername(username: String, completed: @escaping (Bool?)->Void){
-        
-        //Check if firebase already contains the user name
-        //if true, the completion function will contain the parameter as a boolean value
-        let firebaseManager = FirebaseManager.shared
-        
-        //Check username
-        firebaseManager.checkUsername(username) {(firebaseError) in
-            if firebaseError != nil {
-                completed(true)
-            } else {
-                completed(false)
+
+    func parseOutfits(foundCloset: [String: Any]) -> [Outfit] {
+        var foundOutfits: [Outfit] = []
+
+        if let outfits = foundCloset[FirebaseKeys.outfits.rawValue] as? [String: [String: Any]] {
+            for key in outfits.keys {
+                var outfit = Outfit(uniqueID: key, items: [])
+                var outfitInfo = outfits[key]
+
+                if let items = outfitInfo?[FirebaseKeys.items.rawValue] as? [[String: String]] {
+                    for closetItem in items {
+                        if let url = closetItem[FirebaseKeys.url.rawValue],
+                            let category = closetItem[FirebaseKeys.category.rawValue],
+                            let uniqueID = closetItem[FirebaseKeys.uniqueID.rawValue] {
+                            let categorySubcategory = CategorySubcategory(category: category, subcategory: closetItem[FirebaseKeys.subcategory.rawValue])
+                            let closetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url, uniqueID: uniqueID)
+
+                            outfit.items.append(closetItem)
+                        }
+                    }
+
+                }
+
+                foundOutfits.append(outfit)
             }
         }
+
+        print(foundOutfits.count)
+
+        return foundOutfits
     }
 }

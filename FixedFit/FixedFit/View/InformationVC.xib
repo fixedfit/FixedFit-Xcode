@@ -14,7 +14,7 @@
             <connections>
                 <outlet property="buttonStackView" destination="peu-Ch-Ayb" id="iUP-1X-527"/>
                 <outlet property="imageView" destination="FOg-0p-3zK" id="Fzv-in-8iL"/>
-                <outlet property="informationView" destination="cqs-8H-c7j" id="9P3-Xv-mwS"/>
+                <outlet property="informationView" destination="cqs-8H-c7j" id="M7s-gt-CD7"/>
                 <outlet property="messageLabel" destination="z9F-dg-cGe" id="NSe-Su-soE"/>
                 <outlet property="seperatorView" destination="HEs-WN-6Vx" id="jf0-S6-ryq"/>
                 <outlet property="subtitleLabel" destination="8n4-Yf-cnn" id="cLq-Dv-MRz"/>

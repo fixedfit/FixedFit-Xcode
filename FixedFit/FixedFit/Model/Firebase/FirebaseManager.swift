@@ -157,13 +157,12 @@ class FirebaseManager {
         ////upload photo's url onto firebase storage by first checking if one already exists
         //Generate path for new image
         let imageUniqueID = uniqueID()
-        var imagePath = storageProfilePhotoURLReference(uniqueID: imageUniqueID) ?? ""
-        
+        let imagePath = storageProfilePhotoURLReference(uniqueID: imageUniqueID) ?? ""
+
         //Delete the previous user's photo if already stored
         if(!(userInfo.previousPhotoURL.isEmpty)){
 
             let photoRef = storageRef.child(userInfo.previousPhotoURL)
-            
             //delete the user's profile photo
             photoRef.delete{ error in
                 if error != nil{
@@ -182,11 +181,12 @@ class FirebaseManager {
             saveItemImage(path: imagePath, imageData: imageData, completion: { (error) in
                 if let error = error {
                     print(error.localizedDescription)
-                    imagePath = ""
+                    completion(error)
+                } else {
+                    completion(nil)
                 }
             })
         }
-        
         print("Updating", userInfo.publicProfile)
         let userInfoDict = [FirebaseKeys.firstName.rawValue: userInfo.firstName,
                             FirebaseKeys.lastName.rawValue: userInfo.lastName,
@@ -200,8 +200,6 @@ class FirebaseManager {
             if let error = error {
                 print(error.localizedDescription)
                 completion(error)
-            } else {
-                completion(nil)
             }
         }
     }
@@ -500,12 +498,13 @@ class FirebaseManager {
         ////delete user's storage
         //Obtain the reference to the file
         let userRef = self.storageRef.child("\(uid)")
-        
+
         //delete the user's file directory
         userRef.delete{ error in
             if error != nil{
                 //Error in deletion
-                print("Could not delete")
+                print("Could not delete data storage at uid:\n")
+                dump(userRef)
             } else {
                 //User storage deleted
                 print("Successfully deleted user storage")

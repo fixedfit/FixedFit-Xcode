@@ -287,15 +287,20 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                 
                 //Update only when right button is meant to save user info
                 if(saveBoolean){
-                    self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in })
+                    dispatch.enter()
+                    self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in
+                        dispatch.leave()
+                    })
                 }
                 
-                //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
-                self.editingPhoto.image = nil
-                
                 //Dismiss editor vc
-                self.dismiss(animated: true, completion: nil)
-
+                dispatch.notify(queue: .main){
+                    
+                    //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
+                    self.editingPhoto.image = nil
+                    
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
         
             //Generate the informationVC and present it to the user

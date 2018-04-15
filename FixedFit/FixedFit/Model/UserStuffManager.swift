@@ -52,11 +52,13 @@ class UserStuffManager {
             
             //Fetch user photo
             if let userInfo = userInfo, let userphotoURL = userInfo[FirebaseKeys.profileImageURL.rawValue] as? String, !(userphotoURL.isEmpty){
-                
+
                 //fetch User image
                 self?.firebaseManager.fetchImage(storageURL: userphotoURL, completion: { (image, error) in
                     if let error = error{
                         print(error.localizedDescription)
+                        self?.userInfo.photo = UIImage(named: "defaultProfile")
+                        self?.userInfo.previousPhotoURL = ""
                     } else {
                         self?.userInfo.photo = image
                         self?.userInfo.previousPhotoURL = userphotoURL
@@ -101,7 +103,6 @@ class UserStuffManager {
 
     func togglePublicProfile() {
         userInfo.publicProfile = !userInfo.publicProfile
-        updateUserInfo(userInfo) { _ in }
     }
 
     func checkUsername(username: String, completion: @escaping (Bool?)->Void){

@@ -472,22 +472,48 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6JL-Yb-UfY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1118" y="-1290"/>
+            <point key="canvasLocation" x="414" y="-573"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="NRq-C2-jqJ">
+            <objects>
+                <navigationController id="qOl-oe-j4K" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cZQ-F0-s5j">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bpf-2c-dnv" kind="relationship" relationship="rootViewController" id="dua-KJ-GLJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TjJ-IR-cRt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1313" y="-1290"/>
         </scene>
         <!--CategoriesVC-->
         <scene sceneID="qH1-sw-BAv">
             <objects>
                 <viewController storyboardIdentifier="CategoriesVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bpf-2c-dnv" customClass="CategoriesVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9nH-jw-Ubw">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="XLS-R0-FkP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="53C-de-GgA"/>
-                    </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCells" id="87o-AP-2OU">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="87o-AP-2OU" id="huZ-Nv-HBs">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="20n-Y7-FVb"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6e3-iP-GXL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1852" y="-1290"/>
+            <point key="canvasLocation" x="1977" y="-1290"/>
         </scene>
         <!--Home-->
         <scene sceneID="2Tq-j4-Q9h">

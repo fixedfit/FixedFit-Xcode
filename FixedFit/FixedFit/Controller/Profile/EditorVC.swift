@@ -240,7 +240,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "First Name Field is empty.\n"
                 
                 } else if(( (self.firstNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)\n"
+                    errorMsg = errorMsg + "First Name has exceeded the character limit of \(nameCharacterLimiter)\n"
                 }
             }
         
@@ -250,7 +250,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "Last Name Field is empty.\n"
                 
                 } else if(( (self.lastNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)\n"
+                    errorMsg = errorMsg + "Last Name has exceeded the character limit of \(nameCharacterLimiter)\n"
                 }
             }
         
@@ -260,7 +260,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     self.bioTextField.text = "No Bio Set"
                 
                 } else if(( (self.bioTextField.text!.count) > bioCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)\n"
+                    errorMsg = errorMsg + "Bio has exceeded the character limit of \(bioCharacterLimiter)\n"
                 }
             }
             
@@ -285,8 +285,12 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
             leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
             rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
                 
+                //Generate information VC to notify users that the changes are being saved
+                let infoVC = InformationVC(message: "Saving Changes", image: UIImage(named: "add"), leftButtonData: nil, rightButtonData: nil)
+                
                 //Update only when right button is meant to save user info
                 if(saveBoolean){
+                    self.present(infoVC, animated: true, completion: nil)
                     dispatch.enter()
                     self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in
                         dispatch.leave()
@@ -296,8 +300,10 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                 //Dismiss editor vc
                 dispatch.notify(queue: .main){
                     
-                    //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
-                    self.editingPhoto.image = nil
+                    //Dismisses the Information View Controller that was presented, when right button was clicked
+                    if(saveBoolean){
+                        self.dismiss(animated: true, completion: nil)
+                    }
                     
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -313,5 +319,10 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     //delegate function for photo selection
     func didChooseOption(choice: String){
         self.selectionStatus = choice
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
+        self.editingPhoto.image = nil
     }
 }

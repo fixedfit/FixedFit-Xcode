@@ -26,6 +26,11 @@ enum FirebaseKeys: String {
     case uniqueID = "uniqueID"
     case url = "url"
     case categories = "categories"
+    // Events
+    case events = "events"
+    case date = "date"
+    case outfit = "outfit"
+    case eventName = "eventName"
     // Filters
     case filters = "filters"
     // Outfits

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Jlj-Id-344">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Date Pop UpVC-->
+        <scene sceneID="er0-yZ-GhC">
+            <objects>
+                <viewController modalPresentationStyle="overCurrentContext" id="Jlj-Id-344" customClass="DatePopUpVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ieg-rZ-hJQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Am5-Nb-mR7">
+                                <rect key="frame" x="67" y="180" width="241" height="307"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DateLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShG-MC-7W1">
+                                        <rect key="frame" x="0.0" y="0.0" width="241" height="29"/>
+                                        <color key="backgroundColor" red="0.54283252145963001" green="0.156676967692323" blue="0.72340381145477295" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="29" id="7Z8-wT-WHB"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Event Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ofp-wG-kyF">
+                                        <rect key="frame" x="0.0" y="37" width="241" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="1fb-uI-26r"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k6B-mX-qyw" userLabel="Save Button">
+                                        <rect key="frame" x="203" y="273" width="34" height="30"/>
+                                        <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="saveDate_Touch:" destination="Jlj-Id-344" eventType="touchUpInside" id="gc1-YB-8JR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wxs-bL-SX8" userLabel="Cancel Button">
+                                        <rect key="frame" x="4" y="273" width="52" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="52" id="EAk-0V-YgO"/>
+                                        </constraints>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelDate_Touch:" destination="Jlj-Id-344" eventType="touchUpInside" id="fVY-aJ-RAK"/>
+                                        </connections>
+                                    </button>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="datePopupAdd" translatesAutoresizingMaskIntoConstraints="NO" id="hb2-Kx-Ny4">
+                                        <rect key="frame" x="25" y="75" width="190" height="190"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="hb2-Kx-Ny4" secondAttribute="height" multiplier="1:1" id="UIR-T5-jmt"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="4dw-38-qbs" appends="YES" id="wwQ-U7-7p4"/>
+                                        </connections>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ShG-MC-7W1" secondAttribute="trailing" id="1AQ-JJ-9sA"/>
+                                    <constraint firstAttribute="bottom" secondItem="k6B-mX-qyw" secondAttribute="bottom" constant="4" id="2wQ-OS-zAf"/>
+                                    <constraint firstItem="Wxs-bL-SX8" firstAttribute="leading" secondItem="Am5-Nb-mR7" secondAttribute="leading" constant="4" id="3qM-IT-60E"/>
+                                    <constraint firstAttribute="trailing" secondItem="k6B-mX-qyw" secondAttribute="trailing" constant="4" id="5P6-DL-Wbp"/>
+                                    <constraint firstItem="ShG-MC-7W1" firstAttribute="top" secondItem="Am5-Nb-mR7" secondAttribute="top" id="5P7-ic-qbI"/>
+                                    <constraint firstItem="ShG-MC-7W1" firstAttribute="leading" secondItem="Am5-Nb-mR7" secondAttribute="leading" id="A1N-xU-EtD"/>
+                                    <constraint firstItem="hb2-Kx-Ny4" firstAttribute="centerX" secondItem="Ofp-wG-kyF" secondAttribute="centerX" id="BWS-WP-mAN"/>
+                                    <constraint firstItem="hb2-Kx-Ny4" firstAttribute="leading" secondItem="Am5-Nb-mR7" secondAttribute="leading" constant="25" id="Cke-nD-b3d"/>
+                                    <constraint firstItem="Wxs-bL-SX8" firstAttribute="baseline" secondItem="k6B-mX-qyw" secondAttribute="baseline" id="DpH-8v-orj"/>
+                                    <constraint firstAttribute="trailing" secondItem="ShG-MC-7W1" secondAttribute="trailing" id="Q4c-hL-C8m"/>
+                                    <constraint firstAttribute="trailing" secondItem="k6B-mX-qyw" secondAttribute="trailing" constant="4" id="R3J-6R-VaZ"/>
+                                    <constraint firstItem="Wxs-bL-SX8" firstAttribute="top" secondItem="hb2-Kx-Ny4" secondAttribute="bottom" constant="8" symbolic="YES" id="Vsf-7B-lws"/>
+                                    <constraint firstItem="hb2-Kx-Ny4" firstAttribute="top" secondItem="Ofp-wG-kyF" secondAttribute="bottom" constant="8" symbolic="YES" id="WZs-vN-hz8"/>
+                                    <constraint firstItem="Wxs-bL-SX8" firstAttribute="leading" secondItem="Am5-Nb-mR7" secondAttribute="leading" constant="4" id="YVN-92-d7z"/>
+                                    <constraint firstAttribute="bottom" secondItem="k6B-mX-qyw" secondAttribute="bottom" constant="4" id="a8d-Ql-Wxq"/>
+                                    <constraint firstItem="ShG-MC-7W1" firstAttribute="leading" secondItem="Am5-Nb-mR7" secondAttribute="leading" id="aIQ-Ja-AKp"/>
+                                    <constraint firstAttribute="bottom" secondItem="Wxs-bL-SX8" secondAttribute="bottom" constant="4" id="dHq-6G-IPa"/>
+                                    <constraint firstItem="Ofp-wG-kyF" firstAttribute="leading" secondItem="Am5-Nb-mR7" secondAttribute="leading" id="fF7-kW-kfh"/>
+                                    <constraint firstAttribute="bottom" secondItem="k6B-mX-qyw" secondAttribute="bottom" constant="4" id="fxR-AH-HDa"/>
+                                    <constraint firstItem="ShG-MC-7W1" firstAttribute="top" secondItem="Am5-Nb-mR7" secondAttribute="top" id="ggZ-oq-QcI"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ofp-wG-kyF" secondAttribute="trailing" id="kjR-dF-ZLJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="Wxs-bL-SX8" secondAttribute="bottom" constant="4" id="pV4-MZ-HGW"/>
+                                    <constraint firstItem="Ofp-wG-kyF" firstAttribute="top" secondItem="ShG-MC-7W1" secondAttribute="bottom" constant="8" id="q5f-jQ-kHs"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Am5-Nb-mR7" firstAttribute="centerY" secondItem="Ieg-rZ-hJQ" secondAttribute="centerY" id="IoI-j7-Dus"/>
+                            <constraint firstItem="Am5-Nb-mR7" firstAttribute="leading" secondItem="wRb-cD-BqQ" secondAttribute="leading" constant="67" id="avS-9m-Cpq"/>
+                            <constraint firstItem="Am5-Nb-mR7" firstAttribute="centerX" secondItem="Ieg-rZ-hJQ" secondAttribute="centerX" id="nJd-Zb-mNk"/>
+                            <constraint firstItem="Am5-Nb-mR7" firstAttribute="top" secondItem="wRb-cD-BqQ" secondAttribute="top" constant="160" id="vsn-lo-Jud"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wRb-cD-BqQ"/>
+                    </view>
+                    <connections>
+                        <outlet property="dateLabel" destination="ShG-MC-7W1" id="5ZB-v3-dov"/>
+                        <outlet property="eventTextField" destination="Ofp-wG-kyF" id="W56-mk-aYh"/>
+                        <outlet property="outfitImageView" destination="hb2-Kx-Ny4" id="8xb-Fy-sNY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="muA-DE-hKv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="4dw-38-qbs">
+                    <connections>
+                        <action selector="dateImageTapped:" destination="Jlj-Id-344" id="eFO-PI-1Wk"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="421.60000000000002" y="-891.00449775112452"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="datePopupAdd" width="320" height="320"/>
+    </resources>
+</document>

@@ -11,6 +11,12 @@
 import UIKit
 
 class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
+    enum CurrentDisplay {
+        case outfit
+        case likes
+        case favorite
+    }
+
     let firebaseManager = FirebaseManager.shared
     let userStuffManager = UserStuffManager.shared
 

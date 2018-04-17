@@ -18,15 +18,19 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
+    @IBOutlet weak var eventView: UITableView!
 
     var locationManager = CLLocationManager()
     let formatter = DateFormatter()
     let firebaseManager = FirebaseManager.shared
+    let userStuffManager = UserStuffManager.shared
     let weatherService = WeatherService()
     let currentDate = Date()
+    var events: [Event] = []
 
     //mock dictionary of events
     var firebaseEvents: [String:String] = [:]
+    var firebaseEventsKeys = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +43,20 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         setupCalendarView()
 
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
+
+        eventView.dataSource = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        userStuffManager.fetchEvents { [weak self] (events, error) in
+            guard let strongSelf = self else { return }
+            if error != nil {
+
+            } else if let events = events {
+                strongSelf.events = events
+                strongSelf.calendarView.reloadData()
+            }
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -66,34 +84,24 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.scrollToDate(Date(), animateScroll: false)
         calendarView.minimumLineSpacing = 1
         calendarView.minimumInteritemSpacing = 1
-
-        //get calendar events
-        firebaseEvents = getServerEvents()
+        calendarView.backgroundColor = UIColor.fixedFitPurple
     }
 
-    //mock firebase event pull
-    func getServerEvents() -> [String:String] {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let addOutfitVC = segue.destination as? AddOutfitVC,
+            let eventDate = sender as? Date {
+            addOutfitVC.eventDate = eventDate
+        } else if let outfitItemsVC = segue.destination as? OutfitItemsVC,
+            let outfit = sender as? Outfit {
+            outfitItemsVC.outfit =  outfit
+        }
+    }
 
-        return [
-            "2018 03 05":"Outfit 1",
-            "2018 03 10":"Outfit 2",
-            "2018 03 16":"Outfit 3",
-            "2018 03 20":"Outfit 4",
-            "2018 03 22":"Outfit 5",
-            "2018 03 25":"Outfit 6",
-            "2018 03 28":"Outfit 7"
-        ]
-    }
-    
-    @IBAction func SettingsTransition(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: "SettingTransition", sender: self)
-    }
-    
 }
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
-        formatter.dateFormat = "yyyy MM dd"
+        formatter.dateFormat = "yyyyMMdd"
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
 
@@ -107,8 +115,14 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as! CalendarCell
         cell.dateLabel.text = cellState.text
-        formatter.dateFormat = "yyyy MM dd"
-        cell.closetEvent.isHidden = !firebaseEvents.contains { $0.key == formatter.string(from: cellState.date) }
+        formatter.dateFormat = "yyyyMMdd"
+
+        cell.closetEvent.isHidden = !events.contains(where: { (event) -> Bool in
+            return event.date == date
+        })
+        cell.outfitImage.isHidden = !events.contains(where: { (event) -> Bool in
+            return event.date == date
+        })
 
         let currentDateString = formatter.string(from: currentDate)
         let calendarDateString = formatter.string(from: cellState.date)
@@ -116,7 +130,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         if currentDateString == calendarDateString {
             cell.dateLabel.textColor = UIColor.fixedFitBlue
         } else if cellState.dateBelongsTo == .thisMonth {
-            cell.dateLabel.textColor = UIColor.fixedFitPurple
+            cell.dateLabel.textColor = UIColor.black
         } else {
             cell.dateLabel.textColor = UIColor.gray
         }
@@ -139,7 +153,33 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "MMM"
         month.text = formatter.string(from: date)
     }
-    
-    
-    
+
+    func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
+        if let indexPath = events.index(where: { (event) -> Bool in
+            return event.date == date
+        }) {
+            performSegue(withIdentifier: "showOutfitItems", sender: events[indexPath].outfit)
+        } else {
+            performSegue(withIdentifier: "showOutfits", sender: date)
+        }
+    }
+
+}
+
+extension HomeVC: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return firebaseEventsKeys.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = eventView.dequeueReusableCell(withIdentifier: "eventCell")
+        formatter.dateFormat = "yyyyMMdd"
+        let eventDate = formatter.date(from: firebaseEventsKeys[indexPath.row])
+        formatter.dateFormat = "EEEE MMMM dd, yyyy"
+        cell?.textLabel?.text = formatter.string(from: eventDate!) + " " + firebaseEvents[firebaseEventsKeys[indexPath.row]]!
+
+        return cell!
+    }
+
 }

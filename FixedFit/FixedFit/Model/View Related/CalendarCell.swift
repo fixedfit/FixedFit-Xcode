@@ -12,6 +12,7 @@ import JTAppleCalendar
 class CalendarCell: JTAppleCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var closetEvent: UIImageView!
-
+    @IBOutlet weak var outfitImage: UIImageView!
+    
     static let identifier = "calendarCell"
 }

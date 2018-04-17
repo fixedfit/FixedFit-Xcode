@@ -137,6 +137,18 @@ class FirebaseManager {
         }
     }
 
+    func fetchEvents(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.events).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let eventsInfos = snapshot.value as? [[String: Any]] {
+                completion(eventsInfos, nil)
+            }
+        }) { (error) in
+            completion(nil, error)
+        }
+    }
+
     func fetchImage(storageURL: String, completion: @escaping (UIImage?, Error?) -> Void) {
         storageRef.child(storageURL).getData(maxSize: 3 * 1024 * 1024) { (data, error) in
             if let data = data,
@@ -343,6 +355,60 @@ class FirebaseManager {
             } else {
                 completion(outfitUniqueID, nil)
             }
+        }
+    }
+
+    func saveEvent(date: Date, eventName: String, outfit: Outfit, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.events).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            guard let strongSelf = self else { return }
+
+            var eventDict: [String: Any] = [FirebaseKeys.date.rawValue: date.timeIntervalSince1970]
+            var outfitDict: [String: Any] = [FirebaseKeys.uniqueID.rawValue: outfit.uniqueID]
+            var outfitItemsInfos: [[String: String]] = []
+
+            outfit.items.forEach { (closetItem) in
+                var closetItemInfo = [FirebaseKeys.uniqueID.rawValue: closetItem.uniqueID,
+                                      FirebaseKeys.url.rawValue: closetItem.storagePath]
+
+                if let category = closetItem.categorySubcategory.category {
+                    closetItemInfo[FirebaseKeys.category.rawValue] = category
+                }
+
+                if let subcategory = closetItem.categorySubcategory.subcategory {
+                    closetItemInfo[FirebaseKeys.subcategory.rawValue] = subcategory
+                }
+
+                outfitItemsInfos.append(closetItemInfo)
+            }
+
+            outfitDict[FirebaseKeys.items.rawValue] = outfitItemsInfos
+            eventDict[FirebaseKeys.outfit.rawValue] = outfitDict
+            eventDict[FirebaseKeys.eventName.rawValue] = eventName
+
+            if var events = snapshot.value as? [[String: Any]] {
+                // Already have stuff stored
+                events.append(eventDict)
+                strongSelf.ref.child(.users).child(user.uid).child(.events).setValue(events, withCompletionBlock: { (error, _) in
+                    if let error = error {
+                        completion(error)
+                    } else {
+                        completion(nil)
+                    }
+                })
+            } else {
+                strongSelf.ref.child(.users).child(user.uid).child(.events).setValue([eventDict], withCompletionBlock: { (error, _) in
+                    if let error = error {
+                        completion(error)
+                    } else {
+                        completion(nil)
+                    }
+                })
+            }
+        }) { (error) in
+            completion(error)
+            print(error.localizedDescription)
         }
     }
 

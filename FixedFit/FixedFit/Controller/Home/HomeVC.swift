@@ -19,7 +19,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var eventView: UITableView!
-    
+
     var locationManager = CLLocationManager()
     let formatter = DateFormatter()
     let firebaseManager = FirebaseManager.shared
@@ -43,7 +43,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         setupCalendarView()
 
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
-        
+
         eventView.dataSource = self
     }
 
@@ -51,7 +51,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         userStuffManager.fetchEvents { [weak self] (events, error) in
             guard let strongSelf = self else { return }
             if error != nil {
-                
+
             } else if let events = events {
                 strongSelf.events = events
                 strongSelf.calendarView.reloadData()
@@ -96,7 +96,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
             outfitItemsVC.outfit =  outfit
         }
     }
-    
+
 }
 
 extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
@@ -123,7 +123,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         cell.outfitImage.isHidden = !events.contains(where: { (event) -> Bool in
             return event.date == date
         })
-        
+
         let currentDateString = formatter.string(from: currentDate)
         let calendarDateString = formatter.string(from: cellState.date)
 
@@ -153,7 +153,7 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         formatter.dateFormat = "MMM"
         month.text = formatter.string(from: date)
     }
-    
+
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         if let indexPath = events.index(where: { (event) -> Bool in
             return event.date == date
@@ -163,23 +163,23 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
             performSegue(withIdentifier: "showOutfits", sender: date)
         }
     }
-    
+
 }
 
 extension HomeVC: UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return firebaseEventsKeys.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = eventView.dequeueReusableCell(withIdentifier: "eventCell")
         formatter.dateFormat = "yyyyMMdd"
         let eventDate = formatter.date(from: firebaseEventsKeys[indexPath.row])
         formatter.dateFormat = "EEEE MMMM dd, yyyy"
         cell?.textLabel?.text = formatter.string(from: eventDate!) + " " + firebaseEvents[firebaseEventsKeys[indexPath.row]]!
-        
+
         return cell!
     }
-    
+
 }

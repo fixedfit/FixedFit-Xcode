@@ -486,40 +486,93 @@ class FirebaseManager {
     private func deleteAccount(user: User){
 
         //Obtain the current users unique ID
-        guard let uid = currentUser?.uid else {return}
+        let uid = user.uid
         
-        ////delete user's data base account
-        self.ref.child(FirebaseKeys.users).child("\(uid)").observe(.value, with:{(snapshot)in
-            if snapshot.value != nil{
-                self.ref.child(FirebaseKeys.users).child("\(uid)").removeValue()
-            }
-        })
+        //Use dispatch to ensure that the deletion of the database and storage happen first before deleting the authentication
+        let dispatch = DispatchGroup()
         
+        dispatch.enter()
         ////delete user's storage
-        //Obtain the reference to the file
-        let userRef = self.storageRef.child("\(uid)")
-
-        //delete the user's file directory
-        userRef.delete{ error in
-            if error != nil{
-                //Error in deletion
-                print("Could not delete data storage at uid:\n")
-                dump(userRef)
-            } else {
-                //User storage deleted
-                print("Successfully deleted user storage")
-            }
+        deleteStorageAndDatabase(user: user){
+            
+            ////delete user's data base account
+            self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").observe(.value, with:{(snapshot)in
+                if snapshot.value != nil{
+                    self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").removeValue()
+                }
+            })
+            dispatch.leave()
         }
         
-        //delete user's account
-        user.delete { (error) in
-            if error == nil{
-                //Account Deleted
-                self.notificationCenter.post(name: .authStatusChanged, object: nil)
-            } else {
-                //An error occured
-                print("Failed to delete account")
+        dispatch.notify(queue: .main){
+            //delete user's account
+            user.delete { (error) in
+                if error == nil{
+                    //Account Deleted
+                    self.notificationCenter.post(name: .authStatusChanged, object: nil)
+                } else {
+                    //An error occured
+                    print("Failed to delete account")
+                 }
              }
-         }
+        }
+    }
+    
+    private func deleteStorageAndDatabase(user: User, completion: @escaping ()->Void){
+        
+        //Obtain the current users unique ID
+        let uid = user.uid
+
+        //Initialize a dispatch for concurrent execution of firebase functions before performing completion
+        let dispatch = DispatchGroup()
+        
+        ////Iterate through the database to delete the references of the clothes and profile photo
+        
+        dispatch.enter()
+        //Delete the profilePhoto if the user has set one
+        self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").child(FirebaseKeys.profileImageURL.rawValue).observeSingleEvent(of: .value, with: {(snapshot) in
+            
+            if let path = snapshot.value as? String{
+                self.storageRef.child(path).delete{ (error) in
+                    if error == nil{
+                        //Profile photo deleted
+                        print("Successfully deleted profile photo")
+                        
+                    } else {
+                        //An error occured
+                        print("Failed to delete profile photo")
+                    }
+                }
+            }
+            dispatch.leave()
+        })
+        
+        dispatch.enter()
+        //Delete the clothes in the closet and then delete the user photo
+        self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").child(FirebaseKeys.closet.rawValue).child(FirebaseKeys.items.rawValue).observeSingleEvent(of: .value, with:{(snapshot) in
+            
+            if let data = snapshot.value! as? [String: [String: Any]]{
+                for (_, val) in data{
+                    if let url = val[FirebaseKeys.url.rawValue] as? String{
+                        self.storageRef.child(url).delete{ (error) in
+                            if error == nil{
+                                //Profile photo deleted
+                                print("Successfully deleted profile photo")
+                                
+                            } else {
+                                //An error occured
+                                print("Failed to delete profile photo")
+                            }
+                        }
+                    }
+                }
+            }
+            dispatch.leave()
+        })
+        
+        //Call completion handler to finish deleting the data base
+        dispatch.notify(queue: .main){
+            completion()
+        }
     }
 }

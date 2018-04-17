@@ -105,12 +105,6 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         DeleteAccountView.addGestureRecognizer(deleteTap)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        
-        //fetch user info
-        usermanager.fetchUserInfo { _ in }
-    }
-    
     //MARK: Function used to modify account only after the reauthenticateVC has been dismissed
     private func modifyAccount(operation:String){
         

@@ -473,7 +473,7 @@ class FirebaseManager {
             user.updatePassword(to: updateString) { (error) in
                 if error != nil{
                     //An error occured
-                    print("Failed to update email")
+                    print("Failed to update password")
                     completion?(error)
                 } else {
                     //Password successfully updated
@@ -483,7 +483,7 @@ class FirebaseManager {
 
         } else if(commandString == "delete account"){
             deleteAccount(user:user)
-        } 
+        }
     }
 
     // MARK: - Helper methods

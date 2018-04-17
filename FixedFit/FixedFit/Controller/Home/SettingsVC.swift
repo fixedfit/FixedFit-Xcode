@@ -123,22 +123,28 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         let reauthVC = ReauthenticateVC(button: buttonAction)
         reauthVC.delegate = self
         self.present(reauthVC, animated: true, completion: nil)
-        
+
         self.dispatch.notify(queue: .main){
             
             //Obtain the user's email and password
             let email = self.userEmail!
             let password = self.userPassword!
             
+            //Generate a InformationVC that lets the user know that they are beiung reauthenticated
+            let ReauthenticatingVC = InformationVC(message: "Reauthenticating...", image: UIImage(named: "add"), leftButtonData: nil, rightButtonData: nil)
+            self.present(ReauthenticatingVC, animated: true, completion: nil)
+            
             //The user must be reauthenticated in order to be able to modify the account
             //Implement dispatch to wait for reathentication to finish
             self.dispatch.enter()
             self.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password, completion:{(value) in
                 reauthenticationCode = value
+                
+                //Dismissing ReauthenticatingVC
+                self.dismiss(animated: true, completion: nil)
                 self.dispatch.leave()
             })
-            
-            
+
             self.dispatch.notify(queue: .main){
 
                 if(reauthenticationCode == 0){
@@ -169,14 +175,33 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                     
                     self.dispatch.notify(queue: .main){
                         
-                        //Modify the account
+                        ////Generate Information vc to let user know that the operation is currently being executed
+                        //Initialize a temporary string to inform user of current operation
+                        var operatingString: String!
+                        
+                        //Assign the string value with a proper message to let the user know of the progress being made
+                        if(operation == SettingKeys.emailUpdate.rawValue){
+                            operatingString = "Changing Email is in Progress"
+                        } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                            operatingString = "Changing Password is in Progress"
+                        } else if(operation == SettingKeys.deletion.rawValue){
+                            operatingString = "Deletion of Account is in Progress"
+                        } else {
+                            operatingString = "unknown operation"
+                        }
+                        
+                        //present the view controller
+                        let progressVC = InformationVC(message: operatingString, image: UIImage(named: "graycheckmark"), leftButtonData: nil, rightButtonData: nil)
+                        self.present(progressVC, animated: true, completion: nil)
+                       
+                        ////Modify the account
                         //Implement dispatch to modify account without issue informationVC if not needed
                         self.dispatch.enter()
+                        
                         self.firebaseManager.manageUserAccount(commandString: operation, updateString: self.userInfo, completion: {(error) in
                             
                             //If message is reached then modification of account was unsuccessful.
                             if(error != nil){
-
                                 if(operation == SettingKeys.deletion.rawValue){
                                     nextMessage = "Deletion of Account Failed"
                                 } else if(operation == SettingKeys.emailUpdate.rawValue){
@@ -187,13 +212,26 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                                     nextMessage = "Updating Account Operation Failed"
                                 }
                             }
+                            
+                            //Dismiss the view controller that is mean't to display the current operation (i.e progressVC)
+                            self.dismiss(animated: true, completion: nil)
+                           
+                            //Display the View controller that lets the user know that it was successful unless it is the deletion operation
+                            /*if(nextMessage.isEmpty && operation != SettingKeys.deletion.rawValue){
+                             
+                                 let message = "Updated Successfully"
+                             
+                                 let button = ButtonData(title: "Ok", color: UIColor(), action:nil)
+                             
+                                 let completeVC = InformationVC(message: message, image: UIImage(named: "bluecheckmark"), leftButtonData: nil, rightButtonData: button)
+                                 self.present(completeVC, animated: true, completion: nil)
+                             }*/
                             self.dispatch.leave()
                         })
                     }
                 }
                 
                 self.dispatch.notify(queue: .main){
-                    
                     //Determine if informationVC must be generated for error message
                     if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
                         //Generate second informationVC and present it

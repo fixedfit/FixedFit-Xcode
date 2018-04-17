@@ -9,7 +9,15 @@
 import Foundation
 import UIKit
 
-class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIGestureRecognizerDelegate {
+enum EditorKeys: String{
+    case camera = "Camera"
+    case library = "Library"
+    case defaultPhoto = "defaultProfile"
+    case cancel = "cancel"
+}
+
+class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIGestureRecognizerDelegate, PhotoSourceDelegate {
+    
     // Reference for editing photo
     @IBOutlet weak var editingPhoto: UIImageView!
     // Button for current view status of profile
@@ -19,6 +27,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     @IBOutlet weak var bioTextField: UITextField!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
+    
+    //Initialize variable used to determine where the users would like to retrieve the photo for the user profile
+    var selectionStatus: String!
 
     // Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
     var previousFirstName: String!
@@ -54,33 +65,50 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
     @objc func tappedPhoto(sender: UITapGestureRecognizer?){
         
-        //Initialize variable used to determine where the users would like to retrieve the photo for the user profile
-        var selectionStatus: String!
+        //Initialize status variable
+        self.selectionStatus = ""
         
-        //Present PhotoSelector ViewController to ask user how they want to edit user photo
-        selectionStatus = "Libray"//debug purposes
-        
-        if(selectionStatus == "Libray"){
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-                imagePicker.delegate = self
-                imagePicker.sourceType = .photoLibrary;
-                imagePicker.allowsEditing = false
-            }
-        } else if(selectionStatus == "Camera"){
-        
-            if UIImagePickerController.isSourceTypeAvailable(.camera){
-                imagePicker.delegate = self
-                imagePicker.sourceType = .camera
-                imagePicker.allowsEditing = false
-            }
-        
-        } else {
-            //If users select the default profile image to be displayed on their profile, then just assigned it and return
-            editingPhoto.image = UIImage(named: "defaultProfile")
-            return
+        //Initialize a dispatch group
+        let dispatch = DispatchGroup()
+        dispatch.enter()
+        let button = ButtonData(title: "", color: UIColor()){
+            dispatch.leave()
         }
         
-        self.present(imagePicker, animated: true, completion: nil)
+        //Present PhotoSelector ViewController to ask user how they want to edit user photo
+        let vc = ChooseUserPhotoVC(button: button)
+        vc.delegate = self
+        self.present(vc, animated: true, completion: nil)
+ 
+        dispatch.notify(queue: .main){
+
+            if(self.selectionStatus == EditorKeys.library.rawValue){
+                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+                    self.imagePicker.delegate = self
+                    self.imagePicker.sourceType = .photoLibrary;
+                    self.imagePicker.allowsEditing = false
+                }
+            } else if(self.selectionStatus == EditorKeys.camera.rawValue){
+            
+                if UIImagePickerController.isSourceTypeAvailable(.camera){
+                    self.imagePicker.delegate = self
+                    self.imagePicker.sourceType = .camera
+                    self.imagePicker.allowsEditing = false
+                }
+            
+            } else if(self.selectionStatus == EditorKeys.defaultPhoto.rawValue){
+                //If users select the default profile image to be displayed on their profile, then just assigned it and return
+                self.editingPhoto.image = UIImage(named: "defaultProfile")
+                return
+            } else {
+                
+                //if cancel button is selected, then just return
+                return
+                
+            }
+            
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }
     }
 
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]){
@@ -154,6 +182,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     
     // Perform any last minute error checks and Exit editor view if needed
     @IBAction func exitEditor(_ sender: UIBarButtonItem) {
+        
         // Initialize dispatch group to ensure that the error messages are accurate
         let dispatch = DispatchGroup()
         
@@ -162,6 +191,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         
         // Store original error message to confirm if any errors were found
         let oldErrorMsg = errorMsg
+        
+        // Initialize a boolean variable to determine whether the data should be updated when the user clicks save
+        var saveBoolean = false
         
         // Initialize character limiter for text fields
         let nameCharacterLimiter = 35
@@ -186,7 +218,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                 errorMsg = errorMsg + "User Name Field is empty.\n"
             //Check if username has too many characters
             } else if usernameTextField.text!.count > nameCharacterLimiter {
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)\n"
             //Check if user name already exists in list of users in firebase
             } else {
                 dispatch.enter()
@@ -208,7 +240,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "First Name Field is empty.\n"
                 
                 } else if(( (self.firstNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                    errorMsg = errorMsg + "First Name has exceeded the character limit of \(nameCharacterLimiter)\n"
                 }
             }
         
@@ -218,7 +250,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "Last Name Field is empty.\n"
                 
                 } else if(( (self.lastNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)"
+                    errorMsg = errorMsg + "Last Name has exceeded the character limit of \(nameCharacterLimiter)\n"
                 }
             }
         
@@ -228,34 +260,53 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     self.bioTextField.text = "No Bio Set"
                 
                 } else if(( (self.bioTextField.text!.count) > bioCharacterLimiter)){
-                    errorMsg = errorMsg + "User Name has exceeded the character limit of \(bioCharacterLimiter)"
+                    errorMsg = errorMsg + "Bio has exceeded the character limit of \(bioCharacterLimiter)\n"
                 }
             }
+            
+            //Update previous user information with the new content
+            //if there is an error and it does not get fixed, then it is just discarded
+            let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.userStuffManager.userInfo.publicProfile, previousPhotoURL: self.userStuffManager.userInfo.previousPhotoURL, photo: self.editingPhoto.image)
         
             //if the error message is the same, then changes are successful so update them
             if(oldErrorMsg == errorMsg) {
                 leftMessage = "make more changes"
                 rightMessage = "save changes"
                 errorMsg = "Would you like to save changes?\n"
-                
-                //Update previous user information with the new content
-                let updatedUserInfo = UserInfo(firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, username: self.usernameTextField.text!, bio: self.bioTextField.text!, publicProfile: self.userStuffManager.userInfo.publicProfile, pushNotificationsEnabled: true, photo: self.editingPhoto.image)
-                self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in })
+                saveBoolean = true
             } else {
                 leftMessage = "fix issues"
                 rightMessage = "discard changes"
                 errorMsg = errorMsg + "Would you like to discard changes and go to profile?"
+                saveBoolean = false
             }
         
             //Set button messages
             leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
             rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){
                 
-                //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
-                self.editingPhoto.image = nil
+                //Generate information VC to notify users that the changes are being saved
+                let infoVC = InformationVC(message: "Saving Changes", image: UIImage(named: "add"), leftButtonData: nil, rightButtonData: nil)
                 
-                self.dismiss(animated: true, completion: nil)
-
+                //Update only when right button is meant to save user info
+                if(saveBoolean){
+                    self.present(infoVC, animated: true, completion: nil)
+                    dispatch.enter()
+                    self.userStuffManager.updateUserInfo(updatedUserInfo, completion: { _ in
+                        dispatch.leave()
+                    })
+                }
+                
+                //Dismiss editor vc
+                dispatch.notify(queue: .main){
+                    
+                    //Dismisses the Information View Controller that was presented, when right button was clicked
+                    if(saveBoolean){
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
         
             //Generate the informationVC and present it to the user
@@ -265,4 +316,13 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         }
     }
     
+    //delegate function for photo selection
+    func didChooseOption(choice: String){
+        self.selectionStatus = choice
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //Assign nil to EditingPhoto image field to identify that updating was successful and prepare next editing session when being presented by profileVC next time
+        self.editingPhoto.image = nil
+    }
 }

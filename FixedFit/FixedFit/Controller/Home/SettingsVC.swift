@@ -13,18 +13,23 @@ enum SettingErrors: Error{
     case invalidStoryboardName
     case invalidVCName
 }
-
-class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate{
+enum SettingKeys: String{
+    case deletion = "delete account"
+    case emailUpdate = "change email"
+    case passwordUpdate = "change password"
+}
+class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate, UserInfoDelegate{
     
     let firebaseManager = FirebaseManager.shared
     let usermanager = UserStuffManager.shared
     
-    //Label reference for push notification label
-    @IBOutlet weak var PushStatus: UILabel!
-    
     //Variables used to obtain the email and password for reauthentication
     var userEmail:String!
     var userPassword:String!
+    
+    //Variable used to hold the value to be used to update user info
+    var userInfo:String!
+    
     //Initialize dispatch group to wait for the ReauthenticationVC nib file to be finish presented
     let dispatch = DispatchGroup()
     
@@ -33,7 +38,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @IBOutlet weak var BlockUserView: UIView!
     @IBOutlet weak var ChangeEmailView: UIView!
     @IBOutlet weak var ChangePasswordView: UIView!
-    @IBOutlet weak var PushNotificationView: UIView!
+    @IBOutlet weak var TutorialView: UIView!
     @IBOutlet weak var HelpCenterView: UIView!
     @IBOutlet weak var ContactsView: UIView!
     @IBOutlet weak var LogoutView: UIView!
@@ -69,11 +74,11 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         ChangePasswordView.isUserInteractionEnabled = true
         ChangePasswordView.addGestureRecognizer(changePasswordTap)
         
-        //Push Notifications
-        let pushNotificationTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedPushNotificationView))
-        pushNotificationTap.delegate = self
-        PushNotificationView.isUserInteractionEnabled = true
-        PushNotificationView.addGestureRecognizer(pushNotificationTap)
+        //Tutorial
+        let tutorialsTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedTutorialView))
+        tutorialsTap.delegate = self
+        TutorialView.isUserInteractionEnabled = true
+        TutorialView.addGestureRecognizer(tutorialsTap)
         
         //Help Center FAQ
         let helpcenterTap = UITapGestureRecognizer(target:self, action: #selector(SettingsVC.tappedHelpCenter))
@@ -100,18 +105,105 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         DeleteAccountView.addGestureRecognizer(deleteTap)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    //MARK: Function used to modify account only after the reauthenticateVC has been dismissed
+    private func modifyAccount(operation:String){
         
-        //fetch user info
-        usermanager.fetchUserInfo { _ in }
+        ////call firebase function to perform parameter operation.
+        //Initialize variables used to determine if parameter is successful
+        var reauthenticationCode:Int!
+        var nextMessage = ""
         
-        //Change label of push notification status
-        if (usermanager.userInfo.pushNotificationsEnabled == true){
-            PushStatus.textColor = .fixedFitBlue
-            PushStatus.text = "On"
-        } else {
-            PushStatus.textColor = .fixedFitPurple
-            PushStatus.text = "Off"
+        //Implement dispatch to make main wait until reauthentication view controller was done
+        self.dispatch.enter()
+        
+        //Generate a view controller to obtain the email and password
+        let buttonAction = ButtonData(title: "", color: UIColor()){
+            self.dispatch.leave()
+        }
+        let reauthVC = ReauthenticateVC(button: buttonAction)
+        reauthVC.delegate = self
+        self.present(reauthVC, animated: true, completion: nil)
+        
+        self.dispatch.notify(queue: .main){
+            
+            //Obtain the user's email and password
+            let email = self.userEmail!
+            let password = self.userPassword!
+            
+            //The user must be reauthenticated in order to be able to modify the account
+            //Implement dispatch to wait for reathentication to finish
+            self.dispatch.enter()
+            self.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password, completion:{(value) in
+                reauthenticationCode = value
+                self.dispatch.leave()
+            })
+            
+            
+            self.dispatch.notify(queue: .main){
+
+                if(reauthenticationCode == 0){
+                    nextMessage = "Reauthentication Failed"
+                } else if(reauthenticationCode == -1){
+                    nextMessage = "Error: Empty Email or Password Entry"
+                } else if(reauthenticationCode == -2){
+                    nextMessage = "Error: Incorrect Email"
+                } else {
+                    
+                    //Generate InformationVC for changing email and password cases
+                    if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
+                        
+                        //Initialize button action and enter block
+                        self.dispatch.enter()
+                        let button = ButtonData(title: "", color: UIColor()){
+                            self.dispatch.leave()
+                        }
+                        
+                        //Instantiate view controller and present it
+                        let vc = ChangeUserInfoVC(buttonAction: button, changingInfoMode: operation)
+                        vc.delegate = self
+                        self.present(vc, animated: true, completion: nil)
+
+                    } else {
+                        self.userInfo = ""
+                    }
+                    
+                    self.dispatch.notify(queue: .main){
+                        
+                        //Modify the account
+                        //Implement dispatch to modify account without issue informationVC if not needed
+                        self.dispatch.enter()
+                        self.firebaseManager.manageUserAccount(commandString: operation, updateString: self.userInfo, completion: {(error) in
+                            
+                            //If message is reached then modification of account was unsuccessful.
+                            if(error != nil){
+
+                                if(operation == SettingKeys.deletion.rawValue){
+                                    nextMessage = "Deletion of Account Failed"
+                                } else if(operation == SettingKeys.emailUpdate.rawValue){
+                                    nextMessage = "Update of Email Failed"
+                                } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                    nextMessage = "Update of Password Failed"
+                                } else {
+                                    nextMessage = "Updating Account Operation Failed"
+                                }
+                            }
+                            self.dispatch.leave()
+                        })
+                    }
+                }
+                
+                self.dispatch.notify(queue: .main){
+                    
+                    //Determine if informationVC must be generated for error message
+                    if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
+                        //Generate second informationVC and present it
+                        let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
+                        let secondInformationVC = InformationVC(message: nextMessage, image: UIImage(named: "error diagram"), leftButtonData: nil, rightButtonData: buttonDataRight)
+                        
+                        self.present(secondInformationVC, animated: true, completion:nil)
+                    }
+                }
+            }
         }
     }
     
@@ -145,27 +237,28 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     
     //MARK: Change user email and password
     @objc func tappedChangeEmail(_ sender: UITapGestureRecognizer){
-        print("tapped5")
+
+        //Function called to update email
+        self.modifyAccount(operation: SettingKeys.emailUpdate.rawValue)
+        
     }
     @objc func tappedChangePassword(_ sender: UITapGestureRecognizer){
-        print("tapped6")
+        
+        //Function called to update password
+        self.modifyAccount(operation: SettingKeys.passwordUpdate.rawValue)
     }
     
-    //MARK: Push Notification Settings
-    @objc func tappedPushNotificationView(_ sender: UITapGestureRecognizer){
-        if(PushStatus.text == "On"){
-            PushStatus.textColor = .fixedFitPurple
-            PushStatus.text = "Off"
-            
-            //Update user's push notifications in firebase
-            usermanager.togglePushNotificationsEnabled()
-            
-        } else {
-            PushStatus.textColor = .fixedFitBlue
-            PushStatus.text = "On"
-            
-            //Update user's push notifications in firebase
-            usermanager.togglePushNotificationsEnabled()
+    //MARK: Tutorials
+    @objc func tappedTutorialView(_ sender: UITapGestureRecognizer){
+        
+        //Transition to Help Center
+        guard let vc = PushViews.executeTransition(vcName: "SupportVC", storyboardName: "Home", newTitle:FirebaseSupportVCTitleAndMode.tutorial, newMode:"") else {return}
+        
+        if let vc = vc as? SupportVC{
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
         }
     }
     
@@ -215,72 +308,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         let message = "Are you sure you want to delete your account?"
         let rightButtonData = ButtonData(title: "Yes, delete account", color: .fixedFitPurple) { [weak self] in
             
-            ////call firebase function to perform deletion operation.
-            //Initialize variables used to determine if deletion is successful
-            var reauthenticationCode:Int!
-            var nextMessage = ""
+            //Call function to delete user's account
+            self?.modifyAccount(operation: SettingKeys.deletion.rawValue)
             
-            //Implement dispatch to make main wait until reauthentication view controller was done
-            self?.dispatch.enter()
-            
-            //Generate a view controller to obtain the email and password
-            let buttonAction = ButtonAction(){
-                self?.dispatch.leave()
-            }
-            let reauthVC = ReauthenticateVC(button: buttonAction)
-            reauthVC.delegate = self
-            self?.present(reauthVC, animated: true, completion: nil)
-            
-            self?.dispatch.notify(queue: .main){
-                
-                //Obtain the user's email and password
-                let email = (self?.userEmail!)!
-                let password = (self?.userPassword!)!
-   
-                //The user must be reauthenticated in order to be able to delete the account
-                //Implement dispatch to wait for reathentication to finish
-                self?.dispatch.enter()
-                self?.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password, completion:{(value) in
-                    reauthenticationCode = value
-                    self?.dispatch.leave()
-                })
-
-                
-                self?.dispatch.notify(queue: .main){
-                    
-                    if(reauthenticationCode == 0){
-                        nextMessage = "Reauthentication Failed"
-                    } else if(reauthenticationCode == -1){
-                        nextMessage = "Error: Empty Email or Password Entry"
-                    } else if(reauthenticationCode == -2){
-                        nextMessage = "Error: Incorrect Email"
-                    } else {
-                        //Delete the account
-                        //Implement dispatch to delete account without issue informationVC if not needed
-                        self?.dispatch.enter()
-                        self?.firebaseManager.manageUserAccount(commandString: "delete account", updateString: "", completion: {(error) in
-                        
-                            //If message is reached then deletion of account was unsuccessful.
-                            if(error != nil){
-                                nextMessage = "Deletion of Account Failed"
-                            }
-                            self?.dispatch.leave()
-                        })
-                    }
-                    
-                    self?.dispatch.notify(queue: .main){
-                        
-                        //Determine if informationVC must be generated for error message
-                        if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
-                            //Generate second informationVC and present it
-                            let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
-                            let secondInformationVC = InformationVC(message: nextMessage, image: self?.usermanager.userInfo.photo, leftButtonData: nil, rightButtonData: buttonDataRight)
-                            
-                            self?.present(secondInformationVC, animated: true, completion:nil)
-                        }
-                    }
-                }
-            }
         }
         let leftButtonData = ButtonData(title: "Nevermind", color: .fixedFitBlue, action: nil)
         let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "question"), leftButtonData: leftButtonData, rightButtonData: rightButtonData)
@@ -298,6 +328,12 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         self.userPassword = password
     }
     
-    //
+    //ChangeUserInfoVC function:
+    /*
+     Function takes one parameter from the ChangeUserInfoVC that contains the updated email or password from the user
+    */
+    func saveUserInfo(userInfo: String) {
+        self.userInfo = userInfo
+    }
     
 }

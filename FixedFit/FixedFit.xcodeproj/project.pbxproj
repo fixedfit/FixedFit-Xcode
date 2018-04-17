@@ -22,6 +22,10 @@
 		727681C8207C511E00F76F29 /* SelectableOutfitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727681C7207C511E00F76F29 /* SelectableOutfitCell.swift */; };
 		727681CA207C533A00F76F29 /* AddOutfitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727681C9207C533A00F76F29 /* AddOutfitVC.swift */; };
 		72990E9F207C1F8900E1E213 /* DatePopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72990E9E207C1F8900E1E213 /* DatePopUpVC.swift */; };
+		5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */; };
+		5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */; };
+		5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */; };
+		5CF8599520831E3A00B2D07D /* ChooseUserPhotoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */; };
 		CA121DFE2078195E006C5C54 /* Outfits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA121DFD2078195E006C5C54 /* Outfits.storyboard */; };
 		CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121DFF20781A03006C5C54 /* OutfitsVC.swift */; };
 		CA121E0220781CD0006C5C54 /* OutfitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA121E0120781CD0006C5C54 /* OutfitCell.swift */; };
@@ -104,6 +108,10 @@
 		727681C7207C511E00F76F29 /* SelectableOutfitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableOutfitCell.swift; sourceTree = "<group>"; };
 		727681C9207C533A00F76F29 /* AddOutfitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOutfitVC.swift; sourceTree = "<group>"; };
 		72990E9E207C1F8900E1E213 /* DatePopUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatePopUpVC.swift; path = FixedFit/Controller/Home/DatePopUpVC.swift; sourceTree = SOURCE_ROOT; };
+		5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangeUserInfoVC.xib; sourceTree = "<group>"; };
+		5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInfoVC.swift; sourceTree = "<group>"; };
+		5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUserPhotoVC.swift; sourceTree = "<group>"; };
+		5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChooseUserPhotoVC.xib; sourceTree = "<group>"; };
 		73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FixedFitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2DCC6D9D821E733876CA8D /* Pods-FixedFit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit.release.xcconfig"; sourceTree = "<group>"; };
 		A255FB8D04BF3676A516BF21 /* Pods-FixedFitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -227,6 +235,8 @@
 				CA121DFD2078195E006C5C54 /* Outfits.storyboard */,
 				5C257421207AA6DC0003F8C5 /* ReauthenticateVC.xib */,
 				CA5CA5512085C529007E3943 /* OutfitItemsVC.storyboard */,
+				5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */,
+				5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -335,8 +345,8 @@
 				CAB5AAD5207AEEB800FCC305 /* Profile */,
 				CAFCDBDF2074BE1A00E87E9B /* Parents */,
 				5C86F2ED207996F900E102C5 /* UserViewVC.swift */,
-				CAB5AAD6207AEF4700FCC305 /* CategoriesVC.swift */,
 				5CC3069A2079B5A6007C55E0 /* PushViews.swift */,
+				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
 				CA4BD4312049E44F002405D8 /* InformationVC.swift */,
 			);
 			path = Controller;
@@ -368,7 +378,9 @@
 			isa = PBXGroup;
 			children = (
 				72990E9E207C1F8900E1E213 /* DatePopUpVC.swift */,
+				CAB5AAD6207AEF4700FCC305 /* CategoriesVC.swift */,
 				5C2F1DAB20789FA500ADF58E /* SupportVC.swift */,
+				5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */,
 				149B5693204286840074285C /* HomeVC.swift */,
 				5C633466205858CC0035F00A /* SettingsVC.swift */,
 				727681C9207C533A00F76F29 /* AddOutfitVC.swift */,
@@ -390,9 +402,9 @@
 			children = (
 				CA2CABD4203D351600C62AE1 /* ProfileVC.swift */,
 				CA972EE8207AF128006AB842 /* EditorVC.swift */,
-				5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */,
 				CA121DFF20781A03006C5C54 /* OutfitsVC.swift */,
 				CAB45A8F207BD84400ACB58C /* OutfitItemsVC.swift */,
+				5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -523,11 +535,13 @@
 				CA5CA5522085C529007E3943 /* OutfitItemsVC.storyboard in Resources */,
 				CA2CABC1203D1B6400C62AE1 /* Home.storyboard in Resources */,
 				721A34972078397400A98BC8 /* DatePopUpVC.storyboard in Resources */,
+				5CF8599520831E3A00B2D07D /* ChooseUserPhotoVC.xib in Resources */,
 				CA2CABC7203D1B8E00C62AE1 /* Feed.storyboard in Resources */,
 				CA2CABCB203D2A1000C62AE1 /* Authentication.storyboard in Resources */,
 				CA2CABC5203D1B7E00C62AE1 /* AddPhotos.storyboard in Resources */,
 				CA2CABC3203D1B7200C62AE1 /* Closet.storyboard in Resources */,
 				CA27BEC9207A180100C2E0AA /* GoogleService-Info.plist in Resources */,
+				5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,7 +682,9 @@
 				CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */,
 				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
 				CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */,
+				5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
+				5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,
 				CA972EF0207B0275006AB842 /* FirebaseKeys.swift in Sources */,
 				CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */,

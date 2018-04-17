@@ -13,17 +13,13 @@ protocol ReauthenticationDelegate{
     func didAcceptCredentials(email: String, password: String)
 }
 
-struct ButtonAction{
-    var action:(() -> Void)?
-}
-
 class ReauthenticateVC: UIViewController, UITextFieldDelegate {
 
     //Initialize the delegate variable
     var delegate: ReauthenticationDelegate?
     
     //Initialize the button for a certain action to be performed when the user selected Enter button
-    var buttonAction: ButtonAction!
+    var buttonAction: ButtonData!
     
     //References to buttons for presenting them with a certain color
     @IBOutlet weak var EnterButton: UIButton!
@@ -35,7 +31,7 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var PasswordTextField: UITextField!
     
     //Initializers
-    init(button:ButtonAction){
+    init(button:ButtonData){
         super.init(nibName: "ReauthenticateVC", bundle:nil)
         self.buttonAction = button
         self.modalTransitionStyle = .crossDissolve
@@ -62,6 +58,7 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
         //Make delegate of textfields equal to itself
         EmailTextField.delegate = self
         PasswordTextField.delegate = self
+        PasswordTextField.isSecureTextEntry = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,7 +68,7 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     
     //Action functions used when the user selects the respective buttons
     @IBAction func pressEnter(_ sender: UIButton) {
-        delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text! )
+        delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text!)
         self.dismiss(animated: true, completion: self.buttonAction.action)
     }
     @IBAction func pressCancel(_ sender: UIButton) {
@@ -80,5 +77,15 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     }
     
     //Functions used to dismiss the keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        super.view.endEditing
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        EmailTextField.resignFirstResponder()
+        PasswordTextField.resignFirstResponder()
+        return true
+    }
     
 }

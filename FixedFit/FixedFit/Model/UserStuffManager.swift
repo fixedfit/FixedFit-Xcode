@@ -18,7 +18,7 @@ struct UserInfo {
     var username = ""
     var bio = ""
     var publicProfile = true
-    var pushNotificationsEnabled = true
+    var previousPhotoURL = ""
     var photo: UIImage?
 }
 
@@ -98,12 +98,23 @@ class UserStuffManager {
             }
             
             //Fetch user photo
-            if let userInfo = userInfo, let userphotoURL = userInfo[FirebaseKeys.profileImageURL.rawValue] as? String, false{
-                
+            if let userInfo = userInfo, let userphotoURL = userInfo[FirebaseKeys.profileImageURL.rawValue] as? String, !(userphotoURL.isEmpty){
+
                 //fetch User image
-                
+                self?.firebaseManager.fetchImage(storageURL: userphotoURL, completion: { (image, error) in
+                    if let error = error{
+                        print(error.localizedDescription)
+                        self?.userInfo.photo = UIImage(named: "defaultProfile")
+                        self?.userInfo.previousPhotoURL = ""
+                    } else {
+                        self?.userInfo.photo = image
+                        self?.userInfo.previousPhotoURL = userphotoURL
+                    }
+                })
+                completion(nil)
             } else {
                 self?.userInfo.photo = UIImage(named: "defaultProfile")
+                self?.userInfo.previousPhotoURL = ""
                 completion(nil)
             }
         }
@@ -145,6 +156,7 @@ class UserStuffManager {
     
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
         self.userInfo = userInfo
+        
         firebaseManager.updateUserInfo(userInfo) { (error) in
             if let error = error {
                 // Show the user something
@@ -157,12 +169,6 @@ class UserStuffManager {
 
     func togglePublicProfile() {
         userInfo.publicProfile = !userInfo.publicProfile
-        updateUserInfo(userInfo) { _ in }
-    }
-
-    func togglePushNotificationsEnabled() {
-        userInfo.pushNotificationsEnabled = !userInfo.pushNotificationsEnabled
-        firebaseManager.updateUserInfo(userInfo) { _ in }
     }
 
     func checkUsername(username: String, completion: @escaping (Bool?)->Void){

@@ -141,7 +141,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             
             //Generate a InformationVC that lets the user know that they are beiung reauthenticated
             let ReauthenticatingVC = InformationVC(message: "Reauthenticating...", image: UIImage(named: "add"), leftButtonData: nil, rightButtonData: nil)
-            self.present(ReauthenticatingVC, animated: true, completion: nil)
+            //self.present(ReauthenticatingVC, animated: true, completion: nil)
             
             //The user must be reauthenticated in order to be able to modify the account
             //Implement dispatch to wait for reathentication to finish
@@ -150,19 +150,25 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                 reauthenticationCode = value
                 
                 //Dismissing ReauthenticatingVC
-                self.dismiss(animated: true, completion: nil)
+                //self.dismiss(animated: true, completion: nil)
                 self.dispatch.leave()
             })
 
             self.dispatch.notify(queue: .main){
 
-                if(reauthenticationCode == 0){
-                    nextMessage = "Reauthentication Failed"
-                } else if(reauthenticationCode == -1){
-                    nextMessage = "Error: Empty Email or Password Entry"
-                } else if(reauthenticationCode == -2){
-                    nextMessage = "Error: Incorrect Email"
-                } else {
+                if(reauthenticationCode != 1){
+                    if(reauthenticationCode == 0){
+                        nextMessage = "Reauthentication Failed"
+                    } else if(reauthenticationCode == -1){
+                        nextMessage = "Error: Empty Email or Password Entry"
+                    } else if(reauthenticationCode == -2){
+                        nextMessage = "Error: Incorrect Email"
+                    }
+                    
+                    //Present a informationVC that lets the user know that there was an error
+                    self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
+                    
+                } else if(reauthenticationCode == 1) {
                     
                     //Generate InformationVC for changing email and password cases
                     if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
@@ -204,10 +210,10 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                         self.present(progressVC, animated: true, completion: nil)
                        
                         ////Modify the account
-                        //Implement dispatch to modify account without issue informationVC if not needed
-                        self.dispatch.enter()
-                        
                         self.firebaseManager.manageUserAccount(commandString: operation, updateString: self.userInfo, completion: {(error) in
+                            
+                            //Dismiss the view controller that is mean't to display the current operation (i.e progressVC)
+                            self.dismiss(animated: true, completion: nil)
                             
                             //If message is reached then modification of account was unsuccessful.
                             if(error != nil){
@@ -220,36 +226,18 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                                 } else {
                                     nextMessage = "Updating Account Operation Failed"
                                 }
-                            }
                             
-                            //Dismiss the view controller that is mean't to display the current operation (i.e progressVC)
-                            self.dismiss(animated: true, completion: nil)
-                           
-                            //Display the View controller that lets the user know that it was successful unless it is the deletion operation
-                            /*if(nextMessage.isEmpty && operation != SettingKeys.deletion.rawValue){
-                             
-                                 let message = "Updated Successfully"
-                             
-                                 let button = ButtonData(title: "Ok", color: UIColor(), action:nil)
-                             
-                                 let completeVC = InformationVC(message: message, image: UIImage(named: "bluecheckmark"), leftButtonData: nil, rightButtonData: button)
-                                 self.present(completeVC, animated: true, completion: nil)
-                             }*/
-                            self.dispatch.leave()
+                                //Display the View controller that lets the user know that there was an error
+                                self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
+                            } else if(operation != SettingKeys.deletion.rawValue){
+                                
+                                //Display the View controller that lets the user know that it was successful unless it is the deletion operation
+                                let message = "Updated Account Credientials Successfully"
+                                self.presentFinalInfoVC(message: message, imageName: "bluecheckmark")
+                            }
                         })
                     }
-                }
-                
-                self.dispatch.notify(queue: .main){
-                    //Determine if informationVC must be generated for error message
-                    if(reauthenticationCode != 1) || !(nextMessage.isEmpty){
-                        //Generate second informationVC and present it
-                        let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
-                        let secondInformationVC = InformationVC(message: nextMessage, image: UIImage(named: "error diagram"), leftButtonData: nil, rightButtonData: buttonDataRight)
-                        
-                        self.present(secondInformationVC, animated: true, completion:nil)
-                    }
-                }
+                } // Reauthentication if-else conditions
             }
         }
     }

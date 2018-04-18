@@ -9,14 +9,25 @@
 import Foundation
 import CoreLocation
 
+enum WeatherKeys: String {
+    case main = "main"
+    case forecast = "forecast"
+    case forecastday = "forecastday"
+    case day = "day"
+    case current = "current"
+    case temp = "temp_f"
+    case tempMin = "mintemp_f"
+    case tempMax = "maxtemp_f"
+}
+
 class WeatherService {
-    private let baseURL = "https://api.openweathermap.org/data/2.5/weather"
-    private let appID = "4ebd3596288f474d93915703e0d4058b"
+    private let baseURL = "https://api.apixu.com/v1/forecast.json"
+    private let appID = "b56c329abf6c4ef393e184927180304"
 
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping (String, String, String) -> Void) {
-        let urlString = baseURL + "?lat=" + String(latitude) + "&lon=" + String(longitude) + "&APPID=" + appID
-        print(urlString)
+        let urlString = baseURL + "?key=" + appID + "&q=" + String(latitude) + "," + String(longitude)
         let url = URL(string: urlString)
+
         let task = URLSession.shared.dataTask(with: url!) { [weak self] (data, response, error) in
             guard let strongSelf = self else { return }
 
@@ -24,14 +35,25 @@ class WeatherService {
                 print(taskError.localizedDescription)
             } else if let weatherData = data {
                 if let jsonWeatherData = try? JSONSerialization.jsonObject(with: weatherData, options: []) as? [String : Any] {
-                    if let kelvinTemperature = (jsonWeatherData?["main"] as? [String: Any])?["temp"] as? Float {
-                        let fahrenheitTemperature = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinTemperature))
-                        let kelvinLo = (jsonWeatherData?["main"] as? [String: Any])?["temp_min"] as? Float
-                        let kelvinHi = (jsonWeatherData?["main"] as? [String: Any])?["temp_max"] as? Float
-                        let loTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinLo ?? 0))
-                        let hiTemp = String(strongSelf.kelvinToFahrenheit(kelvinTemp: kelvinHi ?? 0))
-                        DispatchQueue.main.async {
-                            completion(fahrenheitTemperature + "°",loTemp + "°",hiTemp + "°")
+                    if let mainInfo = jsonWeatherData?[WeatherKeys.forecast.rawValue] as? [String: Any],
+                        let currentInfo = jsonWeatherData?[WeatherKeys.current.rawValue] as? [String: Any]{
+                        if let currTemp = currentInfo[WeatherKeys.temp.rawValue] as? Double{
+                            print(mainInfo)
+                            let currentTemp = strongSelf.formatTemp(Int(currTemp))
+                            if let forecastInfo = mainInfo[WeatherKeys.forecastday.rawValue] as? [String: Any]{
+                                if let dayInfo = forecastInfo[WeatherKeys.day.rawValue] as? [String: Any],
+                                let lowTemp = dayInfo[WeatherKeys.tempMin.rawValue] as? Double,
+                                let highTemp = dayInfo[WeatherKeys.tempMax.rawValue] as? Double {
+                                    let loTemp = strongSelf.formatTemp(Int(lowTemp))
+                                    let hiTemp = strongSelf.formatTemp(Int(highTemp))
+
+                                    DispatchQueue.main.async {
+                                        completion(currentTemp, loTemp, hiTemp)
+                                    }
+                                }
+                            }else{
+                                print("trouble parsing forecastday")
+                            }
                         }
                     } else {
                         print("Trouble parsing weather JSON")
@@ -47,7 +69,11 @@ class WeatherService {
         task.resume()
     }
 
-    private func kelvinToFahrenheit(kelvinTemp: Float) -> Int {
+    private func kelvinToFahrenheit(kelvinTemp: Double) -> Int {
         return Int(round(kelvinTemp * 9 / 5 - 459.67))
+    }
+
+    private func formatTemp(_ temperature: Int) -> String {
+        return String(temperature) + "°"
     }
 }

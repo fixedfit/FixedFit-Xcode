@@ -27,6 +27,10 @@ extension UIStoryboard {
         return UIStoryboard(name: "AddCategory", bundle: nil).instantiateInitialViewController()
     }
 
+    class var outfitsVC: UIViewController? {
+        return UIStoryboard(name: "Outfits", bundle: nil).instantiateInitialViewController()
+    }
+
     // Segues
     static let itemsSegue = "itemsSegue"
     static let filtersSegue = "filtersSegue"

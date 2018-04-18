@@ -9,7 +9,7 @@
 import UIKit
 
 class ClosetVC: UIViewController {
-    @IBOutlet weak var categoriesTableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
 
     var categories: [String] {
         get {
@@ -17,6 +17,8 @@ class ClosetVC: UIViewController {
         }
 
         set {
+            setCreateButton()
+
             if newValue.count == 0 {
                 presentEmptyState()
             } else {
@@ -59,18 +61,18 @@ class ClosetVC: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        let indexPath = categoriesTableView.indexPathForSelectedRow
+        let indexPath = tableView.indexPathForSelectedRow
 
         if let indexPath = indexPath {
-            categoriesTableView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 
     private func setupViews() {
-        categoriesTableView.dataSource = self
-        categoriesTableView.delegate = self
-        categoriesTableView.tableFooterView = UIView()
-        categoriesTableView.refreshControl = tableRefreshControl
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        tableView.refreshControl = tableRefreshControl
 
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(activityIndicator)
@@ -92,19 +94,16 @@ class ClosetVC: UIViewController {
     }
 
     @objc private func fetchCloset() {
-        firebaseManager.fetchCloset { [weak self] (closet, error) in
+        userStuffManager.fetchCloset { [weak self] (error) in
             guard let strongSelf = self else { return }
 
             if let _ = error {
-                print("Trouble fetching closet")
-            } else if let closet = closet {
-                // If the second line isn't included the empty state won't show
-                // Def change this later
-                self?.userStuffManager.updateCloset(closet: closet)
+                // Show some error to the user
+            } else {
                 self?.categories = strongSelf.userStuffManager.closet.categorySubcategoryStore.allCategories
-                self?.categoriesTableView.reloadData()
+                self?.tableView.reloadData()
                 self?.activityIndicator.stopAnimating()
-                self?.categoriesTableView.refreshControl?.endRefreshing()
+                self?.tableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -115,6 +114,10 @@ class ClosetVC: UIViewController {
 
     private func hideEmptyState() {
         emptyStateLabel.alpha = 0
+    }
+
+    private func setCreateButton() {
+        navigationItem.leftBarButtonItem?.isEnabled = !categories.isEmpty
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -139,6 +142,7 @@ extension ClosetVC: UITableViewDataSource {
 
         cell.categoryNameLabel.text = category
         cell.tag = indexPath.row
+        cell.imageView?.contentMode = .scaleAspectFill
 
         if let imageStoragePath = imageStoragePath {
             firebaseManager.fetchImage(storageURL: imageStoragePath, completion: { (image, error) in
@@ -158,7 +162,7 @@ extension ClosetVC: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = categoriesTableView.cellForRow(at: indexPath) as? ClosetCategoryCell
+        let cell = tableView.cellForRow(at: indexPath) as? ClosetCategoryCell
         let category = cell?.categoryNameLabel.text
 
         performSegue(withIdentifier: UIStoryboard.itemsSegue, sender: category)

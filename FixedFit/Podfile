@@ -8,6 +8,7 @@ target 'FixedFit' do
 	pod 'Firebase/Storage'
 	pod 'ImagePicker'
 	pod 'JTAppleCalendar'
+    pod 'ObjectMapper'
   target 'FixedFitTests' do
     inherit! :search_paths
   end

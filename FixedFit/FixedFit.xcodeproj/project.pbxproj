@@ -53,10 +53,11 @@
 		CAD3C55F204B5D1600DE2911 /* AddCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C55E204B5D1600DE2911 /* AddCategoryCell.swift */; };
 		CAD3C562204BC50300DE2911 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */; };
 		CAED629E20533EE200181975 /* ItemsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED629D20533EE200181975 /* ItemsVC.swift */; };
-		CAF5F36220549ACA009D362B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAF5F36120549ACA009D362B /* GoogleService-Info.plist */; };
 		CAFBF10D20572B9C007D425A /* Closet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFBF10C20572B9C007D425A /* Closet.swift */; };
 		CAFEE176205258D100701ED2 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE175205258D100701ED2 /* CalendarCell.swift */; };
 		CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */; };
+		FA58D7BC208662A000F0A5F6 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA58D7BB208662A000F0A5F6 /* UserTableViewCell.swift */; };
+		FAA3016C207D8ECB00D6D9D8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAA3016B207D8ECA00D6D9D8 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,11 +124,12 @@
 		CAD3C55E204B5D1600DE2911 /* AddCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryCell.swift; sourceTree = "<group>"; };
 		CAD3C561204BC50300DE2911 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CAED629D20533EE200181975 /* ItemsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsVC.swift; sourceTree = "<group>"; };
-		CAF5F36120549ACA009D362B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CAFBF10C20572B9C007D425A /* Closet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Closet.swift; sourceTree = "<group>"; };
 		CAFEE175205258D100701ED2 /* CalendarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		CAFEE17720528B4500701ED2 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		F28EA6771080022F180D3C4F /* Pods-FixedFitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FixedFitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FixedFitTests/Pods-FixedFitTests.release.xcconfig"; sourceTree = "<group>"; };
+		FA58D7BB208662A000F0A5F6 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		FAA3016B207D8ECA00D6D9D8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,9 +271,9 @@
 		CA6692A4203D0BE8000069B5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FAA3016B207D8ECA00D6D9D8 /* GoogleService-Info.plist */,
 				CA66928B203D0B0C000069B5 /* Assets.xcassets */,
 				CA669290203D0B0C000069B5 /* Info.plist */,
-				CAF5F36120549ACA009D362B /* GoogleService-Info.plist */,
 				CA669288203D0B0C000069B5 /* FixedFit.xcdatamodeld */,
 			);
 			path = "Supporting Files";
@@ -306,6 +308,7 @@
 				CAD3C55E204B5D1600DE2911 /* AddCategoryCell.swift */,
 				CA1DA7582058D29E00DE3897 /* PhotoCell.swift */,
 				CA843C4720602FE4005672D5 /* SubcategoryCell.swift */,
+				FA58D7BB208662A000F0A5F6 /* UserTableViewCell.swift */,
 			);
 			path = "View Related";
 			sourceTree = "<group>";
@@ -399,13 +402,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAA3016C207D8ECB00D6D9D8 /* GoogleService-Info.plist in Resources */,
 				CA66928F203D0B0C000069B5 /* LaunchScreen.storyboard in Resources */,
 				CA4BD4362049E813002405D8 /* AddCategory.storyboard in Resources */,
 				CA66928C203D0B0C000069B5 /* Assets.xcassets in Resources */,
 				CA2CABC9203D1B9D00C62AE1 /* Profile.storyboard in Resources */,
 				5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */,
 				CA4BD4342049E494002405D8 /* InformationVC.xib in Resources */,
-				CAF5F36220549ACA009D362B /* GoogleService-Info.plist in Resources */,
 				CA669287203D0B0C000069B5 /* Main.storyboard in Resources */,
 				CA2CABC1203D1B6400C62AE1 /* Home.storyboard in Resources */,
 				CA2CABC7203D1B8E00C62AE1 /* Feed.storyboard in Resources */,
@@ -431,13 +434,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FixedFit-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4A26986FEA32E8BA498CC4F4 /* [CP] Check Pods Manifest.lock */ = {
@@ -446,13 +452,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FixedFitTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5E9782AD796D1A2EC6AED2AA /* [CP] Embed Pods Frameworks */ = {
@@ -476,9 +485,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FixedFit/Pods-FixedFit-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/ImagePicker/ImagePicker.framework",
+				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImagePicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -531,6 +555,7 @@
 				CAD3C55D204B4EE600DE2911 /* ClosetCategoryCell.swift in Sources */,
 				CA4BD42E2049349F002405D8 /* AddPhotosVC.swift in Sources */,
 				CA8C48E8205BA67D007A74F5 /* SectionTitleCell.swift in Sources */,
+				FA58D7BC208662A000F0A5F6 /* UserTableViewCell.swift in Sources */,
 				CA2CABD5203D351600C62AE1 /* ProfileVC.swift in Sources */,
 				CAED629E20533EE200181975 /* ItemsVC.swift in Sources */,
 				CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */,

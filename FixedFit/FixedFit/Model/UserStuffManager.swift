@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import ObjectMapper
 
-class UserStuffManager {
+class UserStuffManager: Mappable {
     static let shared = UserStuffManager()
 
     var firstName = ""
@@ -19,9 +20,22 @@ class UserStuffManager {
     var userstatus = "Public"
     var userPushNotification = "On"
     var userphoto:UIImage? = nil
+    var profileImageURL: String?
 
     var closet = Closet()
 
+    required convenience init?(map : Map) {
+        self.init()
+    }
+    
+    func mapping(map: Map) {
+        firstName <- map["firstName"]
+        lastName <- map["lastName"]
+        username <- map["username"]
+        userbio <- map["bio"]
+        profileImageURL <- map["profileImageURL"]
+    }
+    
     func fetchUserInformation(completion: ((Error?) -> Void)? = nil) {
         let firebaseManager = FirebaseManager.shared
 

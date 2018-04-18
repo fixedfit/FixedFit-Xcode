@@ -50,6 +50,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - ObjectMapper (3.1.0)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -58,6 +59,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - ImagePicker
   - JTAppleCalendar
+  - ObjectMapper
 
 SPEC CHECKSUMS:
   Firebase: dbfb98ccec2dcfcd21ab9cc1b4981a3f3c8c5e26
@@ -66,14 +68,15 @@ SPEC CHECKSUMS:
   FirebaseCore: 6cf108b63997bc08c04a1ffa55a3ac0d71a59ffc
   FirebaseDatabase: 18ecb23e15c7f58bb0c4527e9cace06897cc40ca
   FirebaseInstanceID: 148c25c986c8699e67304b114e365713dce467f2
-  FirebaseStorage: '0930e97994dc79b404179bdfafb6b16f59433a82'
+  FirebaseStorage: 0930e97994dc79b404179bdfafb6b16f59433a82
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   ImagePicker: 973953c25960fe04729a7082a56194321c6762d2
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
-  leveldb-library: '08cba283675b7ed2d99629a4bc5fd052cd2bb6a5'
+  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  ObjectMapper: 20505058f54e5c3ca69e1d6de9897d152a5369a6
 
-PODFILE CHECKSUM: a84a3d98c2cd32eb2e56a41b04bd74c0393f4401
+PODFILE CHECKSUM: 7b3edc3520068d83e9bc01c61ecf7c29a14eab61
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.4.0

@@ -105,6 +105,15 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         DeleteAccountView.addGestureRecognizer(deleteTap)
     }
     
+    //Function used to present the final Information VC for errors or successes
+    private func presentFinalInfoVC(message: String, imageName: String){
+        //Generate second informationVC and present it
+        let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
+        let secondInformationVC = InformationVC(message: message, image: UIImage(named: imageName), leftButtonData: nil, rightButtonData: buttonDataRight)
+        
+        self.present(secondInformationVC, animated: true, completion:nil)
+    }
+    
     //MARK: Function used to modify account only after the reauthenticateVC has been dismissed
     private func modifyAccount(operation:String){
         

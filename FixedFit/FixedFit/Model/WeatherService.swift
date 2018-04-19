@@ -38,10 +38,9 @@ class WeatherService {
                     if let mainInfo = jsonWeatherData?[WeatherKeys.forecast.rawValue] as? [String: Any],
                         let currentInfo = jsonWeatherData?[WeatherKeys.current.rawValue] as? [String: Any]{
                         if let currTemp = currentInfo[WeatherKeys.temp.rawValue] as? Double{
-                            print(mainInfo)
                             let currentTemp = strongSelf.formatTemp(Int(currTemp))
-                            if let forecastInfo = mainInfo[WeatherKeys.forecastday.rawValue] as? [String: Any]{
-                                if let dayInfo = forecastInfo[WeatherKeys.day.rawValue] as? [String: Any],
+                            if let forecastInfo = mainInfo[WeatherKeys.forecastday.rawValue] as? [[String: Any]] {
+                                if let dayInfo = forecastInfo[0][WeatherKeys.day.rawValue] as? [String: Any],
                                 let lowTemp = dayInfo[WeatherKeys.tempMin.rawValue] as? Double,
                                 let highTemp = dayInfo[WeatherKeys.tempMax.rawValue] as? Double {
                                     let loTemp = strongSelf.formatTemp(Int(lowTemp))

@@ -20,6 +20,36 @@ struct UserInfo {
     var publicProfile = true
     var previousPhotoURL = ""
     var photo: UIImage?
+
+    init() {}
+
+    init(firstName: String, lastName: String, username: String, bio: String, publicProfile: Bool, previousPhotoURL: String, photo: UIImage?) {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.username = username
+        self.bio = bio
+        self.publicProfile = publicProfile
+        self.previousPhotoURL = previousPhotoURL
+        self.photo = photo
+    }
+
+    init?(json: [String: Any]) {
+        if let firstName = json[FirebaseKeys.firstName.rawValue] as? String,
+            let lastName = json[FirebaseKeys.lastName.rawValue] as? String,
+            let username = json[FirebaseKeys.username.rawValue] as? String,
+            let bio = json[FirebaseKeys.bio.rawValue] as? String,
+            let publicProfile = json[FirebaseKeys.publicProfile.rawValue] as? Bool,
+            let previousPhotoURL = json[FirebaseKeys.profileImageURL.rawValue] as? String {
+            self.firstName = firstName
+            self.lastName = lastName
+            self.username = username
+            self.bio = bio
+            self.publicProfile = publicProfile
+            self.previousPhotoURL = previousPhotoURL
+        } else {
+            return nil
+        }
+    }
 }
 
 struct Event {

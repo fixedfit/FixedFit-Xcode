@@ -161,6 +161,29 @@ class FirebaseManager {
         }
     }
 
+    func fetchUsers(nameStartingWith: String, completion: @escaping ([UserInfo]?, Error?) -> Void) {
+        guard let _ = currentUser else { return}
+
+        ref.child(.users).queryOrdered(byChild: FirebaseKeys.username.rawValue).queryStarting(atValue: nameStartingWith)
+            .queryEnding(atValue: nameStartingWith + "\u{f8ff}").observeSingleEvent(of: .value, with: { (snapshot) in
+                var usersInfos: [UserInfo] = []
+
+                if let data = snapshot.value as? [String: Any] {
+                    for userData in data.values {
+                        if let json = userData as? [String: Any],
+                            let userInfo = UserInfo(json: json) {
+                            usersInfos.append(userInfo)
+                        }
+                    }
+                }
+
+                completion(usersInfos, nil)
+            }) { (error) in
+                print(error.localizedDescription)
+                completion(nil, error)
+        }
+    }
+
     // MARK: - Upload methods
 
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {

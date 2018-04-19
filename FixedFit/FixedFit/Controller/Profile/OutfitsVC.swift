@@ -43,11 +43,9 @@ extension OutfitsVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if outfits.isEmpty {
             // Show no outfits message
-            print("Setting to hidden")
-                noOutfitsLabel.isHidden = false
+            noOutfitsLabel.isHidden = false
         } else {
-            print("Setting to unhidden")
-                noOutfitsLabel.isHidden = true
+            noOutfitsLabel.isHidden = true
         }
 
         return outfits.count

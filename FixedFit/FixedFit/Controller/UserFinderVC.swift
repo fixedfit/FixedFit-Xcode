@@ -92,19 +92,17 @@ extension UserFinderVC: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showProfile", sender: nil)
         
-        /*
          //Transition to the UserViewVC
-         guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle: "User id", newMode:FirebaseUserFinderMode.blocked) else {return}
+         guard let vc = PushViews.executeTransition(vcName: "UserViewVC", storyboardName: "UserFinder", newTitle: "User id", newMode: self.mode) else {return}
          
-         if let vc = vc as? UserFinderVC{
-         //Push View Controller onto Navigation Stack
-         self.navigationController?.pushViewController(vc, animated: true)
+         if let vc = vc as? UserViewVC{
+             //Push View Controller onto Navigation Stack
+             self.navigationController?.pushViewController(vc, animated: true)
          } else if let vc = vc as? InformationVC{
-         self.present(vc, animated: true, completion: nil)
+             self.present(vc, animated: true, completion: nil)
          }
-        */
+ 
     }
 }
 

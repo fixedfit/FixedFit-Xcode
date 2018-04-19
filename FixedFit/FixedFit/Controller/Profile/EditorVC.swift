@@ -196,7 +196,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         var saveBoolean = false
         
         // Initialize character limiter for text fields
-        let nameCharacterLimiter = 35
+        let nameCharacterLimiter = 30
         let bioCharacterLimiter = 150
         
         //Initialize button message to empty

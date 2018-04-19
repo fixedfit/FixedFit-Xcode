@@ -10,13 +10,24 @@ import UIKit
 
 class UserViewVC: UIViewController {
     //Variable used to present the title, which is the username
-    var viewTitle: String!
+    var uid: String!
     var mode: String!
+    var userInformation: UserInfo!
     
     //References to objects in view controller
     
     override func viewDidLoad() {
+        
+        //Fetch the selected user's information from firebase
+        
+        //Obtain the user name for the current selected user
+        var viewTitle = "Username"
         super.viewDidLoad()
         self.navigationItem.title = viewTitle
+        setupView()
+    }
+    
+    func setupView(){
+        
     }
 }

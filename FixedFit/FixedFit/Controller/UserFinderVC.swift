@@ -96,7 +96,7 @@ extension UserFinderVC: UITableViewDelegate {
         
         /*
          //Transition to the UserViewVC
-         guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
+         guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle: "User id", newMode:FirebaseUserFinderMode.blocked) else {return}
          
          if let vc = vc as? UserFinderVC{
          //Push View Controller onto Navigation Stack

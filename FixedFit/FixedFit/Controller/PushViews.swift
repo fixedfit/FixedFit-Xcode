@@ -74,7 +74,7 @@ class PushViews {
                 } else if(vcName == "UserViewVC"){
                     vc = storyboard.instantiateViewController(withIdentifier: "UserViewVC") as! UserViewVC
                     
-                    //Initialize the title of the ViewController
+                    //Initialize the selecte user's uid for the ViewController
                     if let currentVC = vc as? UserViewVC{
                         currentVC.uid = newTitle
                     }

@@ -16,6 +16,9 @@ class UserViewVC: UIViewController {
     //References to objects in view controller
     
     override func viewDidLoad() {
+        
+        //Obtain the user name for the current selected user
+        var viewTitle = ""
         super.viewDidLoad()
         self.navigationItem.title = viewTitle
         setupView()

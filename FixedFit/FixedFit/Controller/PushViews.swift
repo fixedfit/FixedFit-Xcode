@@ -76,7 +76,7 @@ class PushViews {
                     
                     //Initialize the title of the ViewController
                     if let currentVC = vc as? UserViewVC{
-                        currentVC.viewTitle = newTitle
+                        currentVC.uid = newTitle
                     }
                     
                 } else if(vcName == "CategoriesVC"){
@@ -101,7 +101,7 @@ class PushViews {
         if(!(errorMessage.isEmpty)){
             //Generate informationVC to let user know that there was an error in transition
             let rightButtonData = ButtonData(title: "Ok", color: .fixedFitBlue, action: nil)
-            let informationVC = InformationVC(message: errorMessage, image: nil, leftButtonData: nil, rightButtonData: rightButtonData)
+            let informationVC = InformationVC(message: errorMessage, image: UIImage(named: "error diagram"), leftButtonData: nil, rightButtonData: rightButtonData)
             return informationVC
         }
         

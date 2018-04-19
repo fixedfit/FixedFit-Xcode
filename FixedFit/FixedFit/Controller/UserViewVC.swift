@@ -10,7 +10,7 @@ import UIKit
 
 class UserViewVC: UIViewController {
     //Variable used to present the title, which is the username
-    var viewTitle: String!
+    var uid: String!
     var mode: String!
     
     //References to objects in view controller
@@ -18,5 +18,10 @@ class UserViewVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = viewTitle
+        setupView()
+    }
+    
+    func setupView(){
+        
     }
 }

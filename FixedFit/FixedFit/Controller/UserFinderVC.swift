@@ -18,7 +18,7 @@ class UserFinderVC: UIViewController {
 
     //Initialize variables used to finding users from multiple sources
     var mode = ""
-    var viewTitle = ""
+    var viewTitle = "Title"
     var users: [UserInfo] = [] {
         didSet {
             checkEmptyUsers()
@@ -48,7 +48,7 @@ class UserFinderVC: UIViewController {
         userSearchBar.autocapitalizationType = .none
 
         searchStatusLabel.text = "Type in username"
-        navigationItem.title = "Users"
+        self.navigationItem.title = self.viewTitle
     }
 
     private func checkEmptyUsers() {
@@ -74,7 +74,8 @@ extension UserFinderVC: UITableViewDataSource {
         if !userInfo.previousPhotoURL.isEmpty {
             firebaseManager.fetchImage(storageURL: userInfo.previousPhotoURL) { (image, error) in
                 if error != nil {
-                    // Show the user something
+                    //If user does not have a photo set up, then assign the default photo as the profile picture
+                    cell.userPhotoImageView.image = UIImage(named: "defaultProfile")
                 } else {
                     cell.userPhotoImageView.image = image
                 }
@@ -92,6 +93,18 @@ extension UserFinderVC: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showProfile", sender: nil)
+        
+        /*
+         //Transition to the UserViewVC
+         guard let vc = PushViews.executeTransition(vcName: "UserFinderVC", storyboardName: "UserFinder", newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
+         
+         if let vc = vc as? UserFinderVC{
+         //Push View Controller onto Navigation Stack
+         self.navigationController?.pushViewController(vc, animated: true)
+         } else if let vc = vc as? InformationVC{
+         self.present(vc, animated: true, completion: nil)
+         }
+        */
     }
 }
 

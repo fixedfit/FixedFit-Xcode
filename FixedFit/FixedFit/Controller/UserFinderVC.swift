@@ -18,7 +18,7 @@ class UserFinderVC: UIViewController {
 
     //Initialize variables used to finding users from multiple sources
     var mode = ""
-    var viewTitle = ""
+    var viewTitle = "Title"
     var users: [UserInfo] = [] {
         didSet {
             checkEmptyUsers()
@@ -40,6 +40,8 @@ class UserFinderVC: UIViewController {
     }
 
     func setupViews() {
+        viewTitle = "Users"
+
         userSearchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
@@ -48,7 +50,7 @@ class UserFinderVC: UIViewController {
         userSearchBar.autocapitalizationType = .none
 
         searchStatusLabel.text = "Type in username"
-        navigationItem.title = "Users"
+        self.navigationItem.title = self.viewTitle
     }
 
     private func checkEmptyUsers() {
@@ -57,6 +59,34 @@ class UserFinderVC: UIViewController {
         } else {
             searchStatusLabel.isHidden = true
         }
+    }
+
+    @objc private func tappedFollow(_ button: UIButton) {
+        if let cell = button.superview?.superview as? UserCell {
+            guard let username = cell.username.text else { return }
+
+            if !username.isEmpty {
+                if cell.following {
+                     cell.toggleFollowing()
+                    firebaseManager.unfollowUser(username: username) { (error) in
+                        if error != nil {
+                            // Show the user something
+                        }
+                    }
+                } else {
+                    cell.toggleFollowing()
+                    firebaseManager.followUser(username: username) { (error) in
+                        if error != nil {
+                            // Show the user something
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @IBAction func tappedView(_ sender: UITapGestureRecognizer) {
+        userSearchBar.resignFirstResponder()
     }
 }
 
@@ -70,11 +100,13 @@ extension UserFinderVC: UITableViewDataSource {
         let userInfo = users[indexPath.row]
 
         cell.configure(userInfo)
+        cell.followButton.addTarget(self, action: #selector(tappedFollow(_:)), for: .touchUpInside)
 
         if !userInfo.previousPhotoURL.isEmpty {
             firebaseManager.fetchImage(storageURL: userInfo.previousPhotoURL) { (image, error) in
                 if error != nil {
-                    // Show the user something
+                    //If user does not have a photo set up, then assign the default photo as the profile picture
+                    cell.userPhotoImageView.image = UIImage(named: "defaultProfile")
                 } else {
                     cell.userPhotoImageView.image = image
                 }
@@ -91,20 +123,34 @@ extension UserFinderVC: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showProfile", sender: nil)
+        
+         //Transition to the UserViewVC
+         guard let vc = PushViews.executeTransition(vcName: "UserViewVC", storyboardName: "UserFinder", newTitle: "User id", newMode: self.mode) else {return}
+         
+         if let vc = vc as? UserViewVC{
+             //Push View Controller onto Navigation Stack
+             self.navigationController?.pushViewController(vc, animated: true)
+         } else if let vc = vc as? InformationVC{
+             self.present(vc, animated: true, completion: nil)
+         }
+ 
     }
 }
 
 extension UserFinderVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        firebaseManager.fetchUsers(nameStartingWith: searchBar.text!) { [weak self] (usersInfos, error) in
-            if error != nil {
-                // Show the user something
-            } else if let usersInfos = usersInfos {
-                self?.users = usersInfos
-                self?.searchStatusLabel.text = "No users found"
-                self?.tableView.reloadData()
-                searchBar.resignFirstResponder()
+        let username = searchBar.text ?? ""
+
+        if !username.isEmpty {
+            firebaseManager.fetchUsers(nameStartingWith: searchBar.text!) { [weak self] (usersInfos, error) in
+                if error != nil {
+                    // Show the user something
+                } else if let usersInfos = usersInfos {
+                    self?.users = usersInfos
+                    self?.searchStatusLabel.text = "No users found"
+                    self?.tableView.reloadData()
+                    searchBar.resignFirstResponder()
+                }
             }
         }
     }

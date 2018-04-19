@@ -162,7 +162,9 @@ class FirebaseManager {
     }
 
     func fetchUsers(nameStartingWith: String, completion: @escaping ([UserInfo]?, Error?) -> Void) {
-        guard let _ = currentUser else { return}
+        guard let _ = currentUser else { return }
+
+        let userStuffManager = UserStuffManager.shared
 
         ref.child(.users).queryOrdered(byChild: FirebaseKeys.username.rawValue).queryStarting(atValue: nameStartingWith)
             .queryEnding(atValue: nameStartingWith + "\u{f8ff}").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -177,7 +179,9 @@ class FirebaseManager {
                     }
                 }
 
-                completion(usersInfos, nil)
+                let usersWithoutCurrentUser = usersInfos.filter({ $0.username != userStuffManager.userInfo.username })
+
+                completion(usersWithoutCurrentUser, nil)
             }) { (error) in
                 print(error.localizedDescription)
                 completion(nil, error)
@@ -506,6 +510,54 @@ class FirebaseManager {
 
         } else if(commandString == "delete account"){
             deleteAccount(user:user)
+        }
+    }
+
+    func followUser(username: String, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if var userFollowing = snapshot.value as? [String] {
+                if !userFollowing.contains(username) {
+                    userFollowing.append(username)
+                    self?.ref.child(.users).child(user.uid).child(.following).setValue(userFollowing, withCompletionBlock: { (error, _) in
+                        completion(error)
+                    })
+                }
+            } else {
+                self?.ref.child(.users).child(user.uid).child(.following).setValue([username], withCompletionBlock: { (error, _) in
+                    completion(error)
+                })
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(error)
+        }
+    }
+
+    func unfollowUser(username: String, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if let userFollowing = snapshot.value as? [String] {
+                let updatedFollowing = userFollowing.filter({ (foundUsername) -> Bool in
+                    if foundUsername != username {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+
+                self?.ref.child(.users).child(user.uid).child(.following).setValue(updatedFollowing, withCompletionBlock: { (error, _) in
+                    completion(error)
+                })
+            } else {
+                print("No one to unfollow")
+                completion(nil)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(error)
         }
     }
 

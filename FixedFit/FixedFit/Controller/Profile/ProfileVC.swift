@@ -47,6 +47,14 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //Adjust texts in labels to fit the width of the label
+        self.UserBio.numberOfLines = 0
+        self.UserBio.adjustsFontSizeToFitWidth = true
+        self.UserFirstName.adjustsFontSizeToFitWidth = true
+        self.UserLastName.adjustsFontSizeToFitWidth = true
+        self.FollowingCount.adjustsFontSizeToFitWidth = true
+        self.FollowersCount.adjustsFontSizeToFitWidth = true
+        
         //Give UITapGesture to the Following and Follower views
         let followingTap = UITapGestureRecognizer(target:self, action: #selector(ProfileVC.tappedFollowing))
         followingTap.delegate = self

@@ -232,7 +232,12 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                             } else if(operation != SettingKeys.deletion.rawValue){
                                 
                                 //Display the View controller that lets the user know that it was successful unless it is the deletion operation
-                                let message = "Updated Account Credientials Successfully"
+                                var message: String!
+                                if(operation == SettingKeys.emailUpdate.rawValue){
+                                    message = "Updated Email Successfully"
+                                } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                    message = "Updated Password Successfully"
+                                }
                                 self.presentFinalInfoVC(message: message, imageName: "bluecheckmark")
                             }
                         })

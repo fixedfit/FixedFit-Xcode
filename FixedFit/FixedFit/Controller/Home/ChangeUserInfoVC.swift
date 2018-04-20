@@ -8,7 +8,7 @@
 
 import UIKit
 protocol UserInfoDelegate{
-    func saveUserInfo(userInfo:String)
+    func saveUserInfo(userInfo:String, cancel: Bool)
 }
 class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
 
@@ -74,11 +74,12 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func discardInfo(_ sender: UIButton) {
+        delegate?.saveUserInfo(userInfo: "", cancel: true)
         self.dismiss(animated: true, completion: button?.action)
     }
     
     @IBAction func savedInfo(_ sender: UIButton) {
-        delegate?.saveUserInfo(userInfo: self.textField.text!)
+        delegate?.saveUserInfo(userInfo: self.textField.text!, cancel: false)
         self.dismiss(animated: true, completion: button?.action)
     }
     

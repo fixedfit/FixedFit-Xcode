@@ -30,6 +30,10 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     //Variable used to hold the value to be used to update user info
     var userInfo:String!
     
+    //Variable used to determine if the view controller has been cancelled
+    //Initialize it to false to check whenever it was cancelled
+    var cancelled = false
+    
     //Initialize dispatch group to wait for the ReauthenticationVC nib file to be finish presented
     let dispatch = DispatchGroup()
     
@@ -117,6 +121,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     //MARK: Function used to modify account only after the reauthenticateVC has been dismissed
     private func modifyAccount(operation:String){
         
+        //Initialize the cancelled variable to false
+        self.cancelled = false
+        
         ////call firebase function to perform parameter operation.
         //Initialize variables used to determine if parameter is successful
         var reauthenticationCode:Int!
@@ -139,111 +146,119 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             let email = self.userEmail!
             let password = self.userPassword!
             
-            //Generate a InformationVC that lets the user know that they are beiung reauthenticated
-            let ReauthenticatingVC = InformationVC(message: "Reauthenticating...", image: UIImage(named: "add"), leftButtonData: nil, rightButtonData: nil)
-            self.present(ReauthenticatingVC, animated: true, completion: nil)
+            //Determine if the user clicked cancel on the ReauthenticationVC
+            if(self.cancelled == false){
             
-            //The user must be reauthenticated in order to be able to modify the account
-            //Implement dispatch to wait for reathentication to finish
-            self.dispatch.enter()
-            self.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password, completion:{(value) in
-                reauthenticationCode = value
+                //Generate a InformationVC that lets the user know that they are being reauthenticated
+                let ReauthenticatingVC = InformationVC(message: "Reauthenticating...", image: UIImage(named: "add"), leftButtonData: nil, rightButtonData: nil)
+                //self.present(ReauthenticatingVC, animated: true, completion: nil)
                 
-                //Dismissing ReauthenticatingVC
-                self.dismiss(animated: true, completion: nil)
-                self.dispatch.leave()
-            })
+                //The user must be reauthenticated in order to be able to modify the account
+                //Implement dispatch to wait for reathentication to finish
+                self.dispatch.enter()
+                self.firebaseManager.reautheticateUser(currentUserEmail: email, currentUserPassword: password, completion:{(value) in
+                    reauthenticationCode = value
+                    
+                    //Dismissing ReauthenticatingVC
+                    //self.dismiss(animated: true, completion: nil)
+                    self.dispatch.leave()
+                })
 
-            self.dispatch.notify(queue: .main){
+                self.dispatch.notify(queue: .main){
 
-                if(reauthenticationCode != 1){
-                    if(reauthenticationCode == 0){
-                        nextMessage = "Reauthentication Failed"
-                    } else if(reauthenticationCode == -1){
-                        nextMessage = "Error: Empty Email or Password Entry"
-                    } else if(reauthenticationCode == -2){
-                        nextMessage = "Error: Incorrect Email"
-                    }
-                    
-                    //Present a informationVC that lets the user know that there was an error
-                    self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
-                    
-                } else if(reauthenticationCode == 1) {
-                    
-                    //Generate InformationVC for changing email and password cases
-                    if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
-                        
-                        //Initialize button action and enter block
-                        self.dispatch.enter()
-                        let button = ButtonData(title: "", color: UIColor()){
-                            self.dispatch.leave()
+                    if(reauthenticationCode != 1){
+                        if(reauthenticationCode == 0){
+                            nextMessage = "Reauthentication Failed"
+                        } else if(reauthenticationCode == -1){
+                            nextMessage = "Error: Empty Email or Password Entry"
+                        } else if(reauthenticationCode == -2){
+                            nextMessage = "Error: Incorrect Email"
                         }
                         
-                        //Instantiate view controller and present it
-                        let vc = ChangeUserInfoVC(buttonAction: button, changingInfoMode: operation)
-                        vc.delegate = self
-                        self.present(vc, animated: true, completion: nil)
-
-                    } else {
-                        self.userInfo = ""
-                    }
-                    
-                    self.dispatch.notify(queue: .main){
+                        //Present a informationVC that lets the user know that there was an error
+                        self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
                         
-                        ////Generate Information vc to let user know that the operation is currently being executed
-                        //Initialize a temporary string to inform user of current operation
-                        var operatingString: String!
+                    } else if(reauthenticationCode == 1) {
                         
-                        //Assign the string value with a proper message to let the user know of the progress being made
-                        if(operation == SettingKeys.emailUpdate.rawValue){
-                            operatingString = "Changing Email is in Progress"
-                        } else if(operation == SettingKeys.passwordUpdate.rawValue){
-                            operatingString = "Changing Password is in Progress"
-                        } else if(operation == SettingKeys.deletion.rawValue){
-                            operatingString = "Deletion of Account is in Progress"
-                        } else {
-                            operatingString = "unknown operation"
-                        }
-                        
-                        //present the view controller
-                        let progressVC = InformationVC(message: operatingString, image: UIImage(named: "graycheckmark"), leftButtonData: nil, rightButtonData: nil)
-                        self.present(progressVC, animated: true, completion: nil)
-                       
-                        ////Modify the account
-                        self.firebaseManager.manageUserAccount(commandString: operation, updateString: self.userInfo, completion: {(error) in
+                        //Generate InformationVC for changing email and password cases
+                        if(operation == SettingKeys.emailUpdate.rawValue || operation == SettingKeys.passwordUpdate.rawValue){
                             
-                            //Dismiss the view controller that is mean't to display the current operation (i.e progressVC)
-                            self.dismiss(animated: true, completion: nil)
-                            
-                            //If message is reached then modification of account was unsuccessful.
-                            if(error != nil){
-                                if(operation == SettingKeys.deletion.rawValue){
-                                    nextMessage = "Deletion of Account Failed"
-                                } else if(operation == SettingKeys.emailUpdate.rawValue){
-                                    nextMessage = "Update of Email Failed"
-                                } else if(operation == SettingKeys.passwordUpdate.rawValue){
-                                    nextMessage = "Update of Password Failed"
-                                } else {
-                                    nextMessage = "Updating Account Operation Failed"
-                                }
-                            
-                                //Display the View controller that lets the user know that there was an error
-                                self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
-                            } else if(operation != SettingKeys.deletion.rawValue){
-                                
-                                //Display the View controller that lets the user know that it was successful unless it is the deletion operation
-                                var message: String!
-                                if(operation == SettingKeys.emailUpdate.rawValue){
-                                    message = "Updated Email Successfully"
-                                } else if(operation == SettingKeys.passwordUpdate.rawValue){
-                                    message = "Updated Password Successfully"
-                                }
-                                self.presentFinalInfoVC(message: message, imageName: "bluecheckmark")
+                            //Initialize button action and enter block
+                            self.dispatch.enter()
+                            let button = ButtonData(title: "", color: UIColor()){
+                                self.dispatch.leave()
                             }
-                        })
-                    }
-                } // Reauthentication if-else conditions
-            }
+                            
+                            //Instantiate view controller and present it
+                            let vc = ChangeUserInfoVC(buttonAction: button, changingInfoMode: operation)
+                            vc.delegate = self
+                            self.present(vc, animated: true, completion: nil)
+
+                        } else {
+                            self.userInfo = ""
+                        }
+                        
+                        self.dispatch.notify(queue: .main){
+                            
+                            //Determine if the cancel variable is set to false
+                            if(self.cancelled == false){
+                            
+                                ////Generate Information vc to let user know that the operation is currently being executed
+                                //Initialize a temporary string to inform user of current operation
+                                var operatingString: String!
+                                
+                                //Assign the string value with a proper message to let the user know of the progress being made
+                                if(operation == SettingKeys.emailUpdate.rawValue){
+                                    operatingString = "Changing Email is in Progress"
+                                } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                    operatingString = "Changing Password is in Progress"
+                                } else if(operation == SettingKeys.deletion.rawValue){
+                                    operatingString = "Deletion of Account is in Progress"
+                                } else {
+                                    operatingString = "unknown operation"
+                                }
+                                
+                                //present the view controller
+                                let progressVC = InformationVC(message: operatingString, image: UIImage(named: "graycheckmark"), leftButtonData: nil, rightButtonData: nil)
+                                self.present(progressVC, animated: true, completion: nil)
+                               
+                                ////Modify the account
+                                self.firebaseManager.manageUserAccount(commandString: operation, updateString: self.userInfo, completion: {(error) in
+                                    
+                                    //Dismiss the view controller that is mean't to display the current operation (i.e progressVC)
+                                    self.dismiss(animated: true, completion: nil)
+                                    
+                                    //If message is reached then modification of account was unsuccessful.
+                                    if(error != nil){
+                                        if(operation == SettingKeys.deletion.rawValue){
+                                            nextMessage = "Deletion of Account Failed"
+                                        } else if(operation == SettingKeys.emailUpdate.rawValue){
+                                            nextMessage = "Update of Email Failed"
+                                        } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                            nextMessage = "Update of Password Failed"
+                                        } else {
+                                            nextMessage = "Updating Account Operation Failed"
+                                        }
+                                    
+                                        //Display the View controller that lets the user know that there was an error
+                                        self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
+                                    } else if(operation != SettingKeys.deletion.rawValue){
+                                        
+                                        //Display the View controller that lets the user know that it was successful unless it is the deletion operation
+                                        var message: String!
+                                        if(operation == SettingKeys.emailUpdate.rawValue){
+                                            message = "Updated Email Successfully"
+                                        } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                            message = "Updated Password Successfully"
+                                        }
+                                        self.presentFinalInfoVC(message: message, imageName: "bluecheckmark")
+                                    }
+                                })
+                            }//If statement for determining cancel
+                        } // Dispatch for managing user data
+                    } // Reauthentication if-else conditions
+                } // Dispatch for Reatuhentication if-else
+            } // End of if statement if user selected cancel on the reauthenticationVC
         }
     }
     
@@ -286,6 +301,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         
         //Function called to update password
         self.modifyAccount(operation: SettingKeys.passwordUpdate.rawValue)
+        
     }
     
     //MARK: Tutorials
@@ -363,17 +379,19 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     /*
      Function takes in two strings for the ReauthenticationVC.hib file that contains the email and password of the user
     */
-    func didAcceptCredentials(email: String, password: String) {
+    func didAcceptCredentials(email: String, password: String, cancel: Bool) {
         self.userEmail = email
         self.userPassword = password
+        self.cancelled = cancel
     }
     
     //ChangeUserInfoVC function:
     /*
      Function takes one parameter from the ChangeUserInfoVC that contains the updated email or password from the user
     */
-    func saveUserInfo(userInfo: String) {
+    func saveUserInfo(userInfo: String, cancel: Bool) {
         self.userInfo = userInfo
+        self.cancelled = cancel
     }
     
 }

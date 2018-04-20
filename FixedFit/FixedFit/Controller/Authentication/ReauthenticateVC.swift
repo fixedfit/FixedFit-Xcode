@@ -10,7 +10,7 @@ import UIKit
 
 //Make a reauthentication delegate that will be used to implement this function in other classes that utilize the delegate
 protocol ReauthenticationDelegate{
-    func didAcceptCredentials(email: String, password: String)
+    func didAcceptCredentials(email: String, password: String, cancel: Bool)
 }
 
 class ReauthenticateVC: UIViewController, UITextFieldDelegate {
@@ -68,12 +68,13 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     
     //Action functions used when the user selects the respective buttons
     @IBAction func pressEnter(_ sender: UIButton) {
-        delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text!)
+        delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text!, cancel: false)
         self.dismiss(animated: true, completion: self.buttonAction.action)
     }
     @IBAction func pressCancel(_ sender: UIButton) {
         //Dismiss the view
-        self.dismiss(animated: true, completion: nil)
+        delegate?.didAcceptCredentials(email: "", password: "", cancel: true)
+        self.dismiss(animated: true, completion: self.buttonAction.action)
     }
     
     //Functions used to dismiss the keyboard

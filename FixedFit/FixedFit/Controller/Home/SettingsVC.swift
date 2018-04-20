@@ -141,7 +141,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
             
             //Generate a InformationVC that lets the user know that they are beiung reauthenticated
             let ReauthenticatingVC = InformationVC(message: "Reauthenticating...", image: UIImage(named: "add"), leftButtonData: nil, rightButtonData: nil)
-            //self.present(ReauthenticatingVC, animated: true, completion: nil)
+            self.present(ReauthenticatingVC, animated: true, completion: nil)
             
             //The user must be reauthenticated in order to be able to modify the account
             //Implement dispatch to wait for reathentication to finish
@@ -150,7 +150,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                 reauthenticationCode = value
                 
                 //Dismissing ReauthenticatingVC
-                //self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 self.dispatch.leave()
             })
 

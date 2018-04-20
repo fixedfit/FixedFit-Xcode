@@ -74,7 +74,7 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func discardInfo(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: button?.action)
     }
     
     @IBAction func savedInfo(_ sender: UIButton) {

@@ -73,7 +73,7 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func pressCancel(_ sender: UIButton) {
         //Dismiss the view
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: self.buttonAction.action)
     }
     
     //Functions used to dismiss the keyboard

@@ -22,7 +22,11 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     var buttonAction: ButtonData!
     
     //Variable used to determine if the view is leaving for cleaner exit
-    var exiting:Bool!
+    var exiting: Bool!
+    
+    //Variables used to determine if a textfield was selected
+    var emailBoolean: Bool!
+    var passwordBoolean: Bool!
     
     //References to buttons for presenting them with a certain color
     @IBOutlet weak var EnterButton: UIButton!
@@ -48,6 +52,10 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
         self.buttonAction = button
         self.modalTransitionStyle = .crossDissolve
         self.modalPresentationStyle = .overFullScreen
+        
+        //Unconditional set the boolean variable for the email and password to false
+        self.emailBoolean = false
+        self.passwordBoolean = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,10 +100,23 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     //Functions used to show and hide the keyboard whenever the user selects the text field
     @objc private func keyboardWillShow(_ notification: NSNotification) {
         self.keyboardPresented = true
+        
+        //Determine which text field is the first responder
+        if(EmailTextField.isFirstResponder){
+            self.emailBoolean = true
+        } else if(PasswordTextField.isFirstResponder){
+            self.passwordBoolean = true
+        }
+        
         adjustTextFieldPlacement(notification: notification)
     }
     @objc private func keyboardWillHide(_ notification: NSNotification) {
         self.keyboardPresented = false
+        
+        //Unconditional set the boolean variable for the email and password to false
+        self.emailBoolean = false
+        self.passwordBoolean = false
+        
         adjustTextFieldPlacement(notification: notification)
     }
     private func adjustTextFieldPlacement(notification: NSNotification) {
@@ -106,12 +127,10 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
         }
         
         //Move the text fields into proper position by a fixed amount of half of the size of the view
-        if(self.keyboardPresented){
-             
-            self.reauthenticationView.frame.origin.y -= ((reauthenticationView.frame.size.height)/2)
-            
-        } else {
-            self.reauthenticationView.frame.origin.y = self.y_origin_position
+        if(self.keyboardPresented && !(self.emailBoolean == true && self.passwordBoolean == true)){
+            self.view.frame.origin.y -= ((reauthenticationView.frame.size.height)/2)
+        } else if(self.keyboardPresented == false){
+            self.view.frame.origin.y = self.y_origin_position
         }
         
         UIView.animate(withDuration: 0.0) { [weak self] in
@@ -139,9 +158,11 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         super.view.endEditing
+        dismisskeyBoard()
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
+        //Dismiss the keyboard by resigning the text fields from being the first responders
         dismisskeyBoard()
         
         return true
@@ -149,6 +170,5 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     private func dismisskeyBoard(){
         self.EmailTextField.resignFirstResponder()
         self.PasswordTextField.resignFirstResponder()
-        
     }
 }

@@ -18,6 +18,9 @@ enum FirebaseKeys: String {
     case publicProfile = "publicProfile"
     case profileImageURL = "profileImageURL"
     case profilePhoto = "profilePhoto"
+    // Follow
+    case followers = "followers"
+    case following = "following"
     // Closet
     case closet = "closet"
     case items = "items"

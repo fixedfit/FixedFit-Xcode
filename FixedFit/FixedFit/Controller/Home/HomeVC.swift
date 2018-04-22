@@ -48,6 +48,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        print("Fetching events!")
         userStuffManager.fetchEvents { [weak self] (events, error) in
             guard let strongSelf = self else { return }
             if error != nil {

@@ -12,10 +12,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--User FinderVC-->
+        <!--Users-->
         <scene sceneID="WIu-AX-hzd">
             <objects>
-                <viewController id="Iwm-FW-1fc" customClass="UserFinderVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Users" id="Iwm-FW-1fc" customClass="UserFinderVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sVq-uI-X3U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -63,7 +63,10 @@
                                                     </subviews>
                                                 </stackView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPa-Iw-BlL">
-                                                    <rect key="frame" x="307" y="39.5" width="53" height="33"/>
+                                                    <rect key="frame" x="270" y="39.5" width="90" height="33"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="90" id="gyS-Ku-hPf"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <state key="normal" title="Follow"/>
                                                 </button>
@@ -78,6 +81,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="followButton" destination="PPa-Iw-BlL" id="kaK-i3-v29"/>
                                             <outlet property="fullName" destination="a2G-aH-uYT" id="lnR-o9-zgR"/>
                                             <outlet property="userPhotoImageView" destination="5Vq-tV-Oxp" id="kRE-qc-ZlN"/>
                                             <outlet property="username" destination="c6p-uf-rMp" id="LgF-ca-wOS"/>
@@ -94,6 +98,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wDT-Eh-RZn" firstAttribute="bottom" secondItem="iQ1-nB-l7O" secondAttribute="bottom" id="Cew-YX-01B"/>
                             <constraint firstItem="Tgu-X7-WIp" firstAttribute="trailing" secondItem="iQ1-nB-l7O" secondAttribute="trailing" id="VhG-iS-5Xv"/>
@@ -107,6 +112,9 @@
                             <constraint firstItem="N6x-C6-SQo" firstAttribute="centerX" secondItem="sVq-uI-X3U" secondAttribute="centerX" id="ytG-r9-22f"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iQ1-nB-l7O"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Xzy-wQ-xMI" appends="YES" id="QPb-Go-gxi"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="searchStatusLabel" destination="N6x-C6-SQo" id="SGM-jK-996"/>
@@ -115,6 +123,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ldg-TR-ynv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Xzy-wQ-xMI">
+                    <connections>
+                        <action selector="tappedView:" destination="Iwm-FW-1fc" id="eLf-Gq-QWq"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-106.40000000000001" y="238.83058470764618"/>
         </scene>

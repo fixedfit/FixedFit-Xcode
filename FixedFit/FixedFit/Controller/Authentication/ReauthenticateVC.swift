@@ -21,6 +21,9 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     //Initialize the button for a certain action to be performed when the user selected Enter button
     var buttonAction: ButtonData!
     
+    //Variable used to determine if the view is leaving for cleaner exit
+    var exiting:Bool!
+    
     //References to buttons for presenting them with a certain color
     @IBOutlet weak var EnterButton: UIButton!
     @IBOutlet weak var CancelButton: UIButton!
@@ -29,6 +32,15 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var reauthenticationView: UIView!
     @IBOutlet weak var EmailTextField: UITextField!
     @IBOutlet weak var PasswordTextField: UITextField!
+    
+    //Initialize variable to hold the original view's orgin y coordinate value
+    var y_origin_position: CGFloat!
+    
+    //Initialize keyboard variable to determine whether the keyboard is being displayed
+    var keyboardPresented: Bool!
+    
+    //Variable used to determine when the keyboard will or will not be presented
+    private let notificationCenter = NotificationCenter.default
     
     //Initializers
     init(button:ButtonData){
@@ -46,19 +58,30 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         //Change the colors of the UIButtons and the fonts
-        EnterButton.setTitleColor(.fixedFitPurple, for: .normal)
-        CancelButton.setTitleColor(.fixedFitBlue, for: .normal)
+        self.EnterButton.setTitleColor(.fixedFitPurple, for: .normal)
+        self.CancelButton.setTitleColor(.fixedFitBlue, for: .normal)
         
         //Change the font of the text
         let buttonFont = UIFont.systemFont(ofSize:18, weight: UIFont.Weight.semibold)
         
-        EnterButton.titleLabel?.font = buttonFont
-        CancelButton.titleLabel?.font = buttonFont
+        self.EnterButton.titleLabel?.font = buttonFont
+        self.CancelButton.titleLabel?.font = buttonFont
         
         //Make delegate of textfields equal to itself
-        EmailTextField.delegate = self
-        PasswordTextField.delegate = self
-        PasswordTextField.isSecureTextEntry = true
+        self.EmailTextField.delegate = self
+        self.PasswordTextField.delegate = self
+        self.PasswordTextField.isSecureTextEntry = true
+        
+        //Add observers when ever the user wishes to edit a text field
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        
+        //Set the keyboardPresented and exiting variables to false initially
+        self.keyboardPresented = false
+        self.exiting = false
+        
+        //Preserve the original origin
+        self.y_origin_position = self.view.frame.origin.y
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,13 +89,48 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    //Functions used to show and hide the keyboard whenever the user selects the text field
+    @objc private func keyboardWillShow(_ notification: NSNotification) {
+        self.keyboardPresented = true
+        adjustTextFieldPlacement(notification: notification)
+    }
+    @objc private func keyboardWillHide(_ notification: NSNotification) {
+        self.keyboardPresented = false
+        adjustTextFieldPlacement(notification: notification)
+    }
+    private func adjustTextFieldPlacement(notification: NSNotification) {
+        
+        //Determine if the reauthenticationVC is being dismissed or if the user is choosing to dismiss the keyboard
+        if(self.exiting == true){
+           return
+        }
+        
+        //Move the text fields into proper position by a fixed amount of half of the size of the view
+        if(self.keyboardPresented){
+             
+            self.reauthenticationView.frame.origin.y -= ((reauthenticationView.frame.size.height)/2)
+            
+        } else {
+            self.reauthenticationView.frame.origin.y = self.y_origin_position
+        }
+        
+        UIView.animate(withDuration: 0.0) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
     //Action functions used when the user selects the respective buttons
     @IBAction func pressEnter(_ sender: UIButton) {
+        //Dismiss the view and keyboard if needed
+        self.exiting = true
+        dismisskeyBoard()
         delegate?.didAcceptCredentials(email: EmailTextField.text!, password: PasswordTextField.text!, cancel: false)
         self.dismiss(animated: true, completion: self.buttonAction.action)
     }
     @IBAction func pressCancel(_ sender: UIButton) {
-        //Dismiss the view
+        //Dismiss the view and keyboard if needed
+        self.exiting = true
+        dismisskeyBoard()
         delegate?.didAcceptCredentials(email: "", password: "", cancel: true)
         self.dismiss(animated: true, completion: self.buttonAction.action)
     }
@@ -82,11 +140,15 @@ class ReauthenticateVC: UIViewController, UITextFieldDelegate {
         super.touchesBegan(touches, with: event)
         super.view.endEditing
     }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        EmailTextField.resignFirstResponder()
-        PasswordTextField.resignFirstResponder()
+        
+        dismisskeyBoard()
+        
         return true
     }
-    
+    private func dismisskeyBoard(){
+        self.EmailTextField.resignFirstResponder()
+        self.PasswordTextField.resignFirstResponder()
+        
+    }
 }

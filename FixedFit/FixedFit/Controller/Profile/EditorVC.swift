@@ -74,6 +74,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         //Add observers when ever the user wishes to edit a text field
         self.notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         self.notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        
+        //Preserve the original origin
+        self.y_origin_position = self.view.frame.origin.y
     }
     
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
@@ -175,13 +178,17 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     
     // Hide keyboard when users touch the done button on the keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        dismissKeyBoard()
+        
+        return true
+    }
+    private func dismissKeyBoard(){
         //Resign the Text Field from being the first responder
         usernameTextField.resignFirstResponder()
         bioTextField.resignFirstResponder()
         firstNameTextField.resignFirstResponder()
         lastNameTextField.resignFirstResponder()
-        
-        return true
     }
     
     // Change the current view status for profile
@@ -200,9 +207,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     //Functions used to show and hide the keyboard whenever the user selects the text field
     @objc private func keyboardWillShow(_ notification: NSNotification) {
         self.keyboardPresented = true
-        
-        //Preserve the original origin
-        y_origin_position = self.view.frame.origin.y
+        self.view.frame.origin.y = self.y_origin_position   //Set initial position for proper alignment
         adjustTextFieldPlacement(notification: notification)
     }
     @objc private func keyboardWillHide(_ notification: NSNotification) {
@@ -249,6 +254,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         var rightMessage = ""
         var leftButton:ButtonData!
         var rightButton:ButtonData!
+        
+        //Dismiss the keyboard if the users has chosen to return to the profile view
+        self.dismissKeyBoard()
         
         // If there was no changes, then just return without asking the user to save or not
         if firstNameTextField.text! == previousFirstName && lastNameTextField.text! == previousLastName && bioTextField.text! == previousBio && usernameTextField.text! == previousUsername && editingPhoto.image == previousPhoto && userStuffManager.userInfo.publicProfile == previousPublicProfile {
@@ -325,7 +333,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                 errorMsg = errorMsg + "Would you like to discard changes and go to profile?"
                 saveBoolean = false
             }
-        
+            
             //Set button messages
             leftButton = ButtonData(title: leftMessage, color: .fixedFitPurple, action: nil)
             rightButton = ButtonData(title: rightMessage, color: .fixedFitBlue){

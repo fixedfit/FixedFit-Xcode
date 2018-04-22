@@ -17,6 +17,8 @@
 		5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86F2ED207996F900E102C5 /* UserViewVC.swift */; };
 		5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */; };
 		5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */; };
+		5C92B4E0208C100A00D1F246 /* OutfitSelectionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C92B4DF208C100A00D1F246 /* OutfitSelectionVC.xib */; };
+		5C92B4E2208C128100D1F246 /* OutfitSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B4E1208C128100D1F246 /* OutfitSelectionVC.swift */; };
 		5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3069A2079B5A6007C55E0 /* PushViews.swift */; };
 		5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */; };
 		5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */; };
@@ -104,6 +106,8 @@
 		5C86F2ED207996F900E102C5 /* UserViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewVC.swift; sourceTree = "<group>"; };
 		5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserFinder.storyboard; sourceTree = "<group>"; };
 		5C91E59B2073EC1200D9D0F3 /* UserFinderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFinderVC.swift; sourceTree = "<group>"; };
+		5C92B4DF208C100A00D1F246 /* OutfitSelectionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutfitSelectionVC.xib; sourceTree = "<group>"; };
+		5C92B4E1208C128100D1F246 /* OutfitSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutfitSelectionVC.swift; sourceTree = "<group>"; };
 		5CC3069A2079B5A6007C55E0 /* PushViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViews.swift; sourceTree = "<group>"; };
 		5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangeUserInfoVC.xib; sourceTree = "<group>"; };
 		5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInfoVC.swift; sourceTree = "<group>"; };
@@ -239,6 +243,7 @@
 				CA5CA5512085C529007E3943 /* OutfitItemsVC.storyboard */,
 				5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */,
 				5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */,
+				5C92B4DF208C100A00D1F246 /* OutfitSelectionVC.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 				CA121DFF20781A03006C5C54 /* OutfitsVC.swift */,
 				CAB45A8F207BD84400ACB58C /* OutfitItemsVC.swift */,
 				5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */,
+				5C92B4E1208C128100D1F246 /* OutfitSelectionVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -534,6 +540,7 @@
 				CA2CABC9203D1B9D00C62AE1 /* Profile.storyboard in Resources */,
 				5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */,
 				CA4BD4342049E494002405D8 /* InformationVC.xib in Resources */,
+				5C92B4E0208C100A00D1F246 /* OutfitSelectionVC.xib in Resources */,
 				CA669287203D0B0C000069B5 /* Main.storyboard in Resources */,
 				CA5CA5522085C529007E3943 /* OutfitItemsVC.storyboard in Resources */,
 				CA2CABC1203D1B6400C62AE1 /* Home.storyboard in Resources */,
@@ -707,6 +714,7 @@
 				CA1DA7592058D29E00DE3897 /* PhotoCell.swift in Sources */,
 				CA843C4620602CCF005672D5 /* FiltersVC.swift in Sources */,
 				72990E9F207C1F8900E1E213 /* DatePopUpVC.swift in Sources */,
+				5C92B4E2208C128100D1F246 /* OutfitSelectionVC.swift in Sources */,
 				5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */,
 				CA2CABCD203D2AA800C62AE1 /* LoginVC.swift in Sources */,
 			);

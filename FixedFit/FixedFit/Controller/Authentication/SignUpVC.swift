@@ -10,6 +10,12 @@ import UIKit
 import FirebaseAuth
 import SafariServices
 
+enum UserInfoCheckerKeys: Int{
+    case username_has_whitespsace = 0
+    case firstname_of_user_invalid_structure = -1
+    case lastname_of_user_invalid_structure = -2
+}
+
 class SignUpVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var welcomeMessageLabel: UILabel!
     @IBOutlet weak var inputStackView: UIStackView!
@@ -52,9 +58,12 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                   password: passwordTextField.text ?? "",
                                   publicProfile: true,
                                   bio: ""
-        ) 
+        )
+        
+        let validInputBool = validInput(signUpInfo)
+        let validNamesInt = validNames(signUpInfo)
 
-        if validInput(signUpInfo) {
+        if validInputBool && validNamesInt == 1{
             firebaseManager.signUp(signUpInfo, completion: { [weak self] (_, error) in
                 if let firebaseError = error as? FirebaseError {
                     self?.showLoginError(firebaseError.localizedDescription)
@@ -65,9 +74,16 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                     self?.notificationCenter.post(name: .authStatusChanged, object: nil)
                 }
             })
-        } else {
+        } else if(validInputBool){
             showLoginError("Make sure all text fields are filled")
+        } else if(validNamesInt == UserInfoCheckerKeys.username_has_whitespsace.rawValue){
+            showLoginError("Username has white spaces")
+        } else if(validNamesInt == UserInfoCheckerKeys.firstname_of_user_invalid_structure.rawValue){
+            showLoginError("First name should only contain alphabet letters and whitespaces")
+        } else if(validNamesInt == UserInfoCheckerKeys.lastname_of_user_invalid_structure.rawValue){
+            showLoginError("Last name should only contain alphabet letters and whitespaces")
         }
+
     }
 
     // MARK: - Helper methods
@@ -78,6 +94,39 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         } else {
             return true
         }
+    }
+    private func validNames(_ signUpInfo: SignUpInfo) -> Int{
+        
+        //Return code used to determine if names satifiy criteria
+        var returnCode = 1
+        
+        //If the user name has any whitespace
+        if(signUpInfo.username.contains(" ")){
+            returnCode = UserInfoCheckerKeys.username_has_whitespsace.rawValue
+        } else {
+            
+            //Determine if the first and last names have the correct structure
+            if(returnCode == 1){
+                for (_, char) in signUpInfo.firstName.enumerated(){
+                    if(!(char == " " || (char >= "A" && char <= "Z") || (char >= "a" && char <= "z"))){
+                        returnCode = UserInfoCheckerKeys.firstname_of_user_invalid_structure.rawValue
+                        break
+                    }
+                }
+            }
+            
+            if(returnCode == 1){
+                for (_, char) in signUpInfo.lastName.enumerated(){
+                    if(!(char == " " || (char >= "A" && char <= "Z") || (char >= "a" && char <= "z"))){
+                        returnCode = UserInfoCheckerKeys.lastname_of_user_invalid_structure.rawValue
+                        break
+                    }
+                }
+            }
+        }
+        
+        return returnCode
+        
     }
 
     private func showLoginError(_ message: String) {

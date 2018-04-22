@@ -30,6 +30,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
     
     //Initialize variable used to determine where the users would like to retrieve the photo for the user profile
     var selectionStatus: String!
+    
+    //Initialize variable to hold the original view's orgin y coordinate value
+    var y_origin_position: CGFloat!
 
     // Initial variable to hold data when view is loaded. to be able to restore data if user improperly entered a field and decided to return back to the previous view.
     var previousFirstName: String!
@@ -43,9 +46,16 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
 
     let userStuffManager = UserStuffManager.shared
     
+    //Initialize keyboard variable to determine whether the keyboard is being displayed
+    var keyboardPresented: Bool!
+    
+    //Variable used to determine when the keyboard will or will not be presented
+    private let notificationCenter = NotificationCenter.default
+    
     // Update current view with relevant information regarding the user's profile
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //Assign the local variables with the corresponding Image and text
         self.usernameTextField.delegate = self
         self.bioTextField.delegate = self
@@ -60,6 +70,10 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         
         //Initialize image field of EditingPhoto to nil to identify this view being presented by the profileVC for proper photo display and fast exit action
         self.editingPhoto.image = nil
+        
+        //Add observers when ever the user wishes to edit a text field
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
     }
     
     //Allow UIImageView to have touch gesture - this will allow you to perform action when clicking the photo
@@ -148,6 +162,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         } else {
             currentStatus.setTitle("Private", for: .normal)
         }
+        
+        //Set the keyboardPresented variable to false initially
+        self.keyboardPresented = false
     }
     
     // Hide keyboard when users touch outside the text boxes
@@ -177,6 +194,34 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
             currentStatus.setTitle("Public", for: .normal)
             // Update switch of view status to public
             userStuffManager.togglePublicProfile()
+        }
+    }
+    
+    //Functions used to show and hide the keyboard whenever the user selects the text field
+    @objc private func keyboardWillShow(_ notification: NSNotification) {
+        self.keyboardPresented = true
+        
+        //Preserve the original origin
+        y_origin_position = self.view.frame.origin.y
+        adjustTextFieldPlacement(notification: notification)
+    }
+    @objc private func keyboardWillHide(_ notification: NSNotification) {
+        self.keyboardPresented = false
+        adjustTextFieldPlacement(notification: notification)
+    }
+    private func adjustTextFieldPlacement(notification: NSNotification) {
+        
+        //Move the text fields into proper position
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if(self.keyboardPresented){
+                self.view.frame.origin.y -= keyboardSize.height
+            } else {
+                self.view.frame.origin.y = self.y_origin_position
+            }
+        }
+        
+        UIView.animate(withDuration: 0.0) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
     }
     

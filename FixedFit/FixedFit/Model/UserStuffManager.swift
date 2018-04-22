@@ -13,6 +13,7 @@ import FirebaseDatabase
 import FirebaseStorage
 
 struct UserInfo {
+    var uid = ""
     var firstName = ""
     var lastName = ""
     var username = ""
@@ -23,7 +24,7 @@ struct UserInfo {
 
     init() {}
 
-    init(firstName: String, lastName: String, username: String, bio: String, publicProfile: Bool, previousPhotoURL: String, photo: UIImage?) {
+    init(firstName: String, lastName: String, username: String, bio: String, publicProfile: Bool, previousPhotoURL: String, photo: UIImage?, uniqueID: String) {
         self.firstName = firstName
         self.lastName = lastName
         self.username = username
@@ -31,6 +32,7 @@ struct UserInfo {
         self.publicProfile = publicProfile
         self.previousPhotoURL = previousPhotoURL
         self.photo = photo
+        self.uid = uniqueID
     }
 
     init?(json: [String: Any]) {
@@ -39,13 +41,15 @@ struct UserInfo {
             let username = json[FirebaseKeys.username.rawValue] as? String,
             let bio = json[FirebaseKeys.bio.rawValue] as? String,
             let publicProfile = json[FirebaseKeys.publicProfile.rawValue] as? Bool,
-            let previousPhotoURL = json[FirebaseKeys.profileImageURL.rawValue] as? String {
+            let previousPhotoURL = json[FirebaseKeys.profileImageURL.rawValue] as? String,
+            let uniqueID = json[FirebaseKeys.uniqueID.rawValue] as? String {
             self.firstName = firstName
             self.lastName = lastName
             self.username = username
             self.bio = bio
             self.publicProfile = publicProfile
             self.previousPhotoURL = previousPhotoURL
+            self.uid = uniqueID
         } else {
             return nil
         }
@@ -116,13 +120,15 @@ class UserStuffManager {
                 let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String,
                 let username = userInfo[FirebaseKeys.username.rawValue] as? String,
                 let bio = userInfo[FirebaseKeys.bio.rawValue] as? String,
-                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool {
+                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool,
+                let uniqueID = userInfo[FirebaseKeys.uniqueID.rawValue] as? String {
                 
                 self?.userInfo.firstName = firstName
                 self?.userInfo.lastName = lastName
                 self?.userInfo.username = username
                 self?.userInfo.bio = bio
                 self?.userInfo.publicProfile = publicProfile
+                self?.userInfo.uid = uniqueID
 
                 completion(nil)
             }

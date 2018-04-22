@@ -19,6 +19,8 @@ class UserCell: UITableViewCell {
     var following = false
 
     func configure(_ user: UserInfo) {
+        following = false
+
         username.text = user.username
         fullName.text = user.firstName + " " + user.lastName
 

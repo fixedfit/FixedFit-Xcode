@@ -63,19 +63,20 @@ class UserFinderVC: UIViewController {
 
     @objc private func tappedFollow(_ button: UIButton) {
         if let cell = button.superview?.superview as? UserCell {
-            guard let username = cell.username.text else { return }
+            let userInfo = users[cell.tag]
+            let userUniqueID = userInfo.uid
 
-            if !username.isEmpty {
+            if !userUniqueID.isEmpty {
                 if cell.following {
                      cell.toggleFollowing()
-                    firebaseManager.unfollowUser(username: username) { (error) in
+                    firebaseManager.unfollowUser(usernameUniqueID: userUniqueID) { (error) in
                         if error != nil {
                             // Show the user something
                         }
                     }
                 } else {
                     cell.toggleFollowing()
-                    firebaseManager.followUser(username: username) { (error) in
+                    firebaseManager.followUser(usernameUniqueID: userUniqueID) { (error) in
                         if error != nil {
                             // Show the user something
                         }
@@ -100,6 +101,7 @@ extension UserFinderVC: UITableViewDataSource {
         let userInfo = users[indexPath.row]
 
         cell.configure(userInfo)
+        cell.tag = indexPath.row
         cell.followButton.addTarget(self, action: #selector(tappedFollow(_:)), for: .touchUpInside)
 
         if !userInfo.previousPhotoURL.isEmpty {

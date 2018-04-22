@@ -26,6 +26,18 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     //Variable used to obtain the mode in which this VC will operate as efficient as it can
     var userInfoUpdateMode: String!
     
+    //Initialize variable to hold the original view's orgin y coordinate value
+    var y_origin_position: CGFloat!
+    
+    //Initialize keyboard variable to determine whether the keyboard is being displayed
+    var keyboardPresented: Bool!
+    
+    //Variable used to determine if the view is leaving for cleaner exit
+    var exiting: Bool!
+    
+    //Variable used to determine when the keyboard will or will not be presented
+    private let notificationCenter = NotificationCenter.default
+    
     init(buttonAction:ButtonData, changingInfoMode: String){
         super.init(nibName: "ChangeUserInfoVC", bundle:nil)
         self.modalTransitionStyle = .crossDissolve
@@ -66,19 +78,65 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
             presentChangingInfo.text = "New Password:"
             textField.isSecureTextEntry = true
         }
+        
+        //Set the keyboardPresented and exiting variables to false initially
+        self.keyboardPresented = false
+        self.exiting = false
+        
+        //Preserve the original origin
+        self.y_origin_position = self.view.frame.origin.y
+        
+        //Add observers when ever the user wishes to edit a text field
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        
     }
 
+    //Functions used to show and hide the keyboard whenever the user selects the text field
+    @objc private func keyboardWillShow(_ notification: NSNotification) {
+        self.keyboardPresented = true
+        adjustTextFieldPlacement(notification: notification)
+    }
+    @objc private func keyboardWillHide(_ notification: NSNotification) {
+        self.keyboardPresented = false
+        adjustTextFieldPlacement(notification: notification)
+    }
+    private func adjustTextFieldPlacement(notification: NSNotification) {
+        
+        //Determine if the reauthenticationVC is being dismissed or if the user is choosing to dismiss the keyboard
+        if(self.exiting == true){
+            return
+        }
+        
+        //Move the text fields into proper position by a fixed amount of half of the size of the view
+        if(self.keyboardPresented){
+            self.view.frame.origin.y -= ((self.ChangeInfoView.frame.size.height)/2)
+        } else {
+            self.view.frame.origin.y = self.y_origin_position
+        }
+        
+        UIView.animate(withDuration: 0.0) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func discardInfo(_ sender: UIButton) {
+        //Dismiss the view and keyboard if needed
+        self.exiting = true
+        dismisskeyBoard()
         delegate?.saveUserInfo(userInfo: "", cancel: true)
         self.dismiss(animated: true, completion: button?.action)
     }
     
     @IBAction func savedInfo(_ sender: UIButton) {
+        //Dismiss the view and keyboard if needed
+        self.exiting = true
+        dismisskeyBoard()
         delegate?.saveUserInfo(userInfo: self.textField.text!, cancel: false)
         self.dismiss(animated: true, completion: button?.action)
     }
@@ -87,11 +145,15 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         super.view.endEditing
+        //dismisskeyBoard()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        dismisskeyBoard()
         return true
     }
     
+    private func dismisskeyBoard(){
+        self.textField.resignFirstResponder()
+    }
 }

@@ -21,6 +21,8 @@ struct UserInfo {
     var publicProfile = true
     var previousPhotoURL = ""
     var photo: UIImage?
+    var following: [String] = []
+    var followers: [String] = []
 
     init() {}
 
@@ -50,6 +52,14 @@ struct UserInfo {
             self.publicProfile = publicProfile
             self.previousPhotoURL = previousPhotoURL
             self.uid = uniqueID
+
+            if let followers = json[FirebaseKeys.followers.rawValue] as? [String] {
+                self.followers = followers
+            }
+
+            if let following = json[FirebaseKeys.following.rawValue] as? [String] {
+                self.following = following
+            }
         } else {
             return nil
         }
@@ -131,6 +141,14 @@ class UserStuffManager {
                 self?.userInfo.bio = bio
                 self?.userInfo.publicProfile = publicProfile
                 self?.userInfo.uid = uniqueID
+
+                if let followers = userInfo[FirebaseKeys.followers.rawValue] as? [String] {
+                    self?.userInfo.followers = followers
+                }
+
+                if let following = userInfo[FirebaseKeys.following.rawValue] as? [String] {
+                    self?.userInfo.following = following
+                }
 
                 completion(nil)
             }

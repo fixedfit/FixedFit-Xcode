@@ -18,8 +18,10 @@ class UserCell: UITableViewCell {
 
     var following = false
 
-    func configure(_ user: UserInfo) {
-        following = false
+    func configure(_ user: UserInfo, isFollowing: Bool) {
+        following = isFollowing
+
+        setupButton()
 
         username.text = user.username
         fullName.text = user.firstName + " " + user.lastName
@@ -32,6 +34,10 @@ class UserCell: UITableViewCell {
     func toggleFollowing() {
         following = !following
 
+        setupButton()
+    }
+
+    private func setupButton() {
         if following {
             followButton.setTitle("Unfollow", for: .normal)
         } else {

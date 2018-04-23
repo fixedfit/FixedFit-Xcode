@@ -39,70 +39,73 @@ class UserViewVC: UIViewController {
         self.userNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
             
             //retrieve the User's username
-            let username = snapshot.value as? String
+            if let username = snapshot.value as? String {
             
-            //set the User's username
-            self.FirstNameLabel.text = username!
+                //set the User's username
+                self.FirstNameLabel.text = username
+            }
         })
         
         self.firstNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.firstName.rawValue).observe(.value, with: {(snapshot) in
             
             //retrieve the User's first name
-            let firstname = snapshot.value as? String
+            if let firstname = snapshot.value as? String {
             
-            //set the User's first name
-            self.FirstNameLabel.text = firstname!
-            
+                //set the User's first name
+                self.FirstNameLabel.text = firstname
+            }
         })
         
         self.lastNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.lastName.rawValue).observe(.value, with: {(snapshot) in
             
             //retrieve the User's last name
-            let lastname = snapshot.value as? String
-            
-            //set the User's last name
-            self.FirstNameLabel.text = lastname!
-            
+            if let lastname = snapshot.value as? String {
+                
+                //set the User's last name
+                self.FirstNameLabel.text = lastname
+            }
         })
         
         self.bioHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.bio.rawValue).observe(.value, with: {(snapshot) in
             
             //retrieve the User's bio
-            let bio = snapshot.value as? String
+            if let bio = snapshot.value as? String {
             
-            //set the User's bio
-            self.FirstNameLabel.text = bio!
-            
+                //set the User's bio
+                self.FirstNameLabel.text = bio
+            }
         })
         
         
         self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
             
             //Assign variable with the snapshot value
-            let followingCounter = snapshot.value as? Int
+            if let followingCounter = snapshot.value as? Int {
             
-            //Update button titles/view counters for following Counter
-            self.FollowingCounter.text = "\(followingCounter!)"
-            
+                //Update button titles/view counters for following Counter
+                self.FollowingCounter.text = "\(followingCounter)"
+            }
         })
         
         //Observer used to observe when a user is added or delete from the followers lists of the current user
         self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
             
             //Assign variable with the snapshot value
-            let followersCounter = snapshot.value as? Int
+            if let followersCounter = snapshot.value as? Int {
             
-            //Update button titles/view counters for follower's Counter
-            self.FollowersCounter.text = "\(followersCounter!)"
-
+                //Update button titles/view counters for follower's Counter
+                self.FollowersCounter.text = "\(followersCounter)"
+            }
         })
         
         //Observer used to observe when a user has modified their profile image
         self.profileImageHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.profilePhoto.rawValue).observe(.value, with: {(snapshot) in
             
             //retrieve the User's profile photo
-            
-            self.UserImage.image = UIImage(named: "defaultProfile")
+            if let photoURL = snapshot.value as? String {
+                print(photoURL)
+                self.UserImage.image = UIImage(named: "defaultProfile")
+            }
         })
     }
     

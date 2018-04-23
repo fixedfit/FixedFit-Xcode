@@ -291,6 +291,13 @@
                         <viewLayoutGuide key="safeArea" id="vob-ea-DnF"/>
                     </view>
                     <navigationItem key="navigationItem" id="DMG-AU-JqY"/>
+                    <connections>
+                        <outlet property="BioLabel" destination="ucF-Tx-6pc" id="FTy-5x-fNT"/>
+                        <outlet property="FirstNameLabel" destination="kcH-9Y-dtY" id="55R-AH-thL"/>
+                        <outlet property="FollowersCounter" destination="Teh-He-PGI" id="Q8L-tE-PYZ"/>
+                        <outlet property="FollowingCounter" destination="f7B-Yd-C8u" id="sAP-zH-HnI"/>
+                        <outlet property="LastNameLabel" destination="3O1-Ut-eZl" id="ryp-bu-O6e"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5KG-JO-WvC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

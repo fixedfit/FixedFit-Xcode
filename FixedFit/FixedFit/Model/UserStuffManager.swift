@@ -59,9 +59,9 @@ struct UserInfo {
 struct Event {
     var date: Date
     var outfit: Outfit
-    var name: String
+    var name: String?
 
-    init(date: Date, outfit: Outfit, name: String) {
+    init(date: Date, outfit: Outfit, name: String?) {
         self.date = date
         self.outfit = outfit
         self.name = name
@@ -70,12 +70,14 @@ struct Event {
 
 extension Event {
     init?(json: [String: Any]) {
-        if let eventName = json[FirebaseKeys.eventName.rawValue] as? String,
-            let dateFrom1970 = json[FirebaseKeys.date.rawValue] as? Int,
+        if let dateFrom1970 = json[FirebaseKeys.date.rawValue] as? Int,
             let outfitInfo = json[FirebaseKeys.outfit.rawValue] as? [String: Any],
             let outfitUniqueID = outfitInfo[FirebaseKeys.uniqueID.rawValue] as? String {
             self.date = Date(timeIntervalSince1970: Double(dateFrom1970))
-            self.name = eventName
+
+            if let eventName = json[FirebaseKeys.eventName.rawValue] as? String {
+                self.name = eventName
+            }
 
             var outfitClosetItems = [ClosetItem]()
 

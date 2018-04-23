@@ -39,7 +39,7 @@ class CreateOutfitVC: PhotosVC {
     }
 
     private func setupAllItems() {
-        userStuffManager.closet.categorySubcategoryStore.allCategories.forEach { (category) in
+        userStuffManager.closet.categorySubcategoryStore.allUserCreatedCategories.forEach { (category) in
             let categoryItems = userStuffManager.closet.closetItems(matching: category)
 
             allClosetItems.append(categoryItems)

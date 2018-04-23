@@ -24,10 +24,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
     let firebaseManager = FirebaseManager.shared
     let userStuffManager = UserStuffManager.shared
-
-    //MARK: Initialize integer counters to count the number of followers and followings the user currently has.
-    var FollowersCounter = 0
-    var FollowingCounter = 0
     
     //MARK: varible used to determine if the outfit selection was already being presented or if it is not being presented
     var outfitDisplayed: Bool!
@@ -84,6 +80,30 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         self.outfitsVC = outfitsVC
         outfitsVC.outfits = userStuffManager.closet.outfits
         self.addChildViewController(outfitsVC)
+        
+        ////Update Followers and Following Counters from firebase
+        //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
+        //Observer used to observe when a user is added or delete from the following lists of the current user
+    firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+        
+            //Assign variable with the snapshot value
+            let followingCounter = snapshot.value as? Int
+        
+            //Update button titles/view counters for following Counter
+            self.FollowingCount.text = "\(followingCounter!)"
+            
+        })
+        
+        //Observer used to observe when a user is added or delete from the followers lists of the current user
+    firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
+        
+            //Assign variable with the snapshot value
+            let followersCounter = snapshot.value as? Int
+        
+            //Update button titles/view counters for follower's Counter
+            self.FollowersCount.text = "\(followersCounter!)"
+        
+        })
     }
 
     //MARK: Update profile page once view appears.
@@ -104,11 +124,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         self.UserLastName.text = userStuffManager.userInfo.lastName
         self.UserBio.text = userStuffManager.userInfo.bio
 
-        ////Update Followers and Following Counters from firebase
-        //Update button titles/view counters
-        self.FollowingCount.text = String(userStuffManager.userInfo.following.count)
-        self.FollowersCount.text = String(userStuffManager.userInfo.followers.count)
-
         ////Load the User's profile photo into the UIImageView
         //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
 
@@ -118,7 +133,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
         let image = Image
         UserProfileImage.image = image
-        
     }
 
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {
@@ -218,7 +232,5 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     func displaySelection(selection:String){
         self.outfitdisplayingStatus = selection
     }
-
-    //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
 
 }

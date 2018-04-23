@@ -386,7 +386,7 @@ class FirebaseManager {
         }
     }
 
-    func saveEvent(date: Date, eventName: String, outfit: Outfit, completion: @escaping (Error?) -> Void) {
+    func saveEvent(date: Date, eventName: String?, outfit: Outfit, completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
 
         ref.child(.users).child(user.uid).child(.events).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in

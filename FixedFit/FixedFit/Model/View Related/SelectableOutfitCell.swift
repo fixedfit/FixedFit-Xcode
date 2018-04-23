@@ -10,8 +10,8 @@ import UIKit
 
 class SelectableOutfitCell: UICollectionViewCell {
     @IBOutlet weak var verticalStackView: UIStackView!
-    var checkmarkView: UIView!
 
+    var checkmarkView: UIView!
     var isPicked: Bool {
         return !checkmarkView.isHidden
     }

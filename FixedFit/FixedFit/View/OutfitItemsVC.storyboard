@@ -31,13 +31,19 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Sae-wj-Imj"/>
                     </view>
+                    <navigationItem key="navigationItem" id="q2Y-ld-uBw">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="unfilledstar" id="CVB-1b-hXA"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="scrollView" destination="tVp-7u-YvN" id="GXk-kh-X7k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c4B-LW-inN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="92" y="-519"/>
+            <point key="canvasLocation" x="1031.2" y="-519.49025487256381"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="unfilledstar" width="25" height="25"/>
+    </resources>
 </document>

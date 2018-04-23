@@ -36,6 +36,7 @@ struct ClosetItem {
 struct Outfit {
     var uniqueID: String
     var items: [ClosetItem]
+    var isFavorited = false
 
     init(uniqueID: String, items: [ClosetItem]) {
         self.uniqueID = uniqueID
@@ -69,6 +70,12 @@ class Closet {
 
     func closetItems(matching category: String) -> [ClosetItem] {
         return items.filter { return $0.categorySubcategory.category ?? "" == category ? true : false }
+    }
+
+    func updateFavorite(outfitUID: String, favorite: Bool) {
+        if let index = outfits.index(where:{ $0.uniqueID == outfitUID }) {
+            outfits[index].isFavorited = favorite
+        }
     }
 }
 

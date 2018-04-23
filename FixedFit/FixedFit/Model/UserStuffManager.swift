@@ -263,6 +263,10 @@ class UserStuffManager {
                 var outfit = Outfit(uniqueID: key, items: [])
                 var outfitInfo = outfits[key]
 
+                if let isFavorited = outfitInfo?[FirebaseKeys.isFavorited.rawValue] as? Bool {
+                    outfit.isFavorited = isFavorited
+                }
+
                 if let items = outfitInfo?[FirebaseKeys.items.rawValue] as? [[String: String]] {
                     for closetItem in items {
                         if let url = closetItem[FirebaseKeys.url.rawValue],

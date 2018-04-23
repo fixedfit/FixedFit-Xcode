@@ -13,9 +13,17 @@ class OutfitItemsVC: UIViewController {
     var outfit: Outfit!
 
     let firebaseManager = FirebaseManager.shared
+    let userStuffManager = UserStuffManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Items"
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+
+        let favoriteImage: UIImage!
+
+        favoriteImage = outfit.isFavorited ? #imageLiteral(resourceName: "filledstar") : #imageLiteral(resourceName: "unfilledstar")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: favoriteImage, style: .plain, target: self, action: #selector(tappedFavorite))
     }
 
     override func viewDidLayoutSubviews() {
@@ -23,8 +31,6 @@ class OutfitItemsVC: UIViewController {
     }
 
     private func setupViews() {
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-
         let scrollViewSize = CGSize(width: CGFloat(outfit.items.count) * view.bounds.width, height: scrollView.bounds.height)
 
         scrollView.contentSize = scrollViewSize
@@ -46,5 +52,18 @@ class OutfitItemsVC: UIViewController {
                 }
             }
         }
+    }
+
+    @objc private func tappedFavorite() {
+        outfit.isFavorited = !outfit.isFavorited
+
+        if outfit.isFavorited {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "filledstar"), style: .plain, target: self, action: #selector(tappedFavorite))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "unfilledstar"), style: .plain, target: self, action: #selector(tappedFavorite))
+        }
+
+        firebaseManager.updateOutfitFavorite(outfitUID: outfit.uniqueID, favorite: outfit.isFavorited) { _ in }
+        userStuffManager.closet.updateFavorite(outfitUID: outfit.uniqueID, favorite: outfit.isFavorited)
     }
 }

@@ -375,6 +375,7 @@ class FirebaseManager {
 
         newOutfit[FirebaseKeys.items.rawValue] = outfitItemsInfos
         newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
+        newOutfit[FirebaseKeys.isFavorited.rawValue] = false
         ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
             if let error = error {
                 print(error.localizedDescription)
@@ -562,6 +563,18 @@ class FirebaseManager {
         }
     }
 
+    func updateOutfitFavorite(outfitUID: String, favorite: Bool, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUID).child(.isFavorited).setValue(favorite) { (error, _) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+
+            completion(error)
+        }
+    }
+
     // MARK: - Helper methods
 
     private func createfirstLoginData(user: User, signUpInfo: SignUpInfo) -> [String: Any] {
@@ -572,7 +585,9 @@ class FirebaseManager {
             FirebaseKeys.publicProfile.rawValue: signUpInfo.publicProfile,
             FirebaseKeys.bio.rawValue: signUpInfo.bio,
             FirebaseKeys.profileImageURL.rawValue: "",
-            FirebaseKeys.uniqueID.rawValue: currentUser?.uid ?? ""
+            FirebaseKeys.uniqueID.rawValue: currentUser?.uid ?? "",
+            FirebaseKeys.followingCount.rawValue: 0,
+            FirebaseKeys.followersCount.rawValue: 0
         ]
     }
 

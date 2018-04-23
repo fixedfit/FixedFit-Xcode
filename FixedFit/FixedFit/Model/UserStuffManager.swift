@@ -13,6 +13,7 @@ import FirebaseDatabase
 import FirebaseStorage
 
 struct UserInfo {
+    var uid = ""
     var firstName = ""
     var lastName = ""
     var username = ""
@@ -20,10 +21,12 @@ struct UserInfo {
     var publicProfile = true
     var previousPhotoURL = ""
     var photo: UIImage?
+    var following: [String] = []
+    var followers: [String] = []
 
     init() {}
 
-    init(firstName: String, lastName: String, username: String, bio: String, publicProfile: Bool, previousPhotoURL: String, photo: UIImage?) {
+    init(firstName: String, lastName: String, username: String, bio: String, publicProfile: Bool, previousPhotoURL: String, photo: UIImage?, uniqueID: String) {
         self.firstName = firstName
         self.lastName = lastName
         self.username = username
@@ -31,6 +34,7 @@ struct UserInfo {
         self.publicProfile = publicProfile
         self.previousPhotoURL = previousPhotoURL
         self.photo = photo
+        self.uid = uniqueID
     }
 
     init?(json: [String: Any]) {
@@ -39,13 +43,23 @@ struct UserInfo {
             let username = json[FirebaseKeys.username.rawValue] as? String,
             let bio = json[FirebaseKeys.bio.rawValue] as? String,
             let publicProfile = json[FirebaseKeys.publicProfile.rawValue] as? Bool,
-            let previousPhotoURL = json[FirebaseKeys.profileImageURL.rawValue] as? String {
+            let previousPhotoURL = json[FirebaseKeys.profileImageURL.rawValue] as? String,
+            let uniqueID = json[FirebaseKeys.uniqueID.rawValue] as? String {
             self.firstName = firstName
             self.lastName = lastName
             self.username = username
             self.bio = bio
             self.publicProfile = publicProfile
             self.previousPhotoURL = previousPhotoURL
+            self.uid = uniqueID
+
+            if let followers = json[FirebaseKeys.followers.rawValue] as? [String] {
+                self.followers = followers
+            }
+
+            if let following = json[FirebaseKeys.following.rawValue] as? [String] {
+                self.following = following
+            }
         } else {
             return nil
         }
@@ -55,9 +69,9 @@ struct UserInfo {
 struct Event {
     var date: Date
     var outfit: Outfit
-    var name: String
+    var name: String?
 
-    init(date: Date, outfit: Outfit, name: String) {
+    init(date: Date, outfit: Outfit, name: String?) {
         self.date = date
         self.outfit = outfit
         self.name = name
@@ -66,12 +80,14 @@ struct Event {
 
 extension Event {
     init?(json: [String: Any]) {
-        if let eventName = json[FirebaseKeys.eventName.rawValue] as? String,
-            let dateFrom1970 = json[FirebaseKeys.date.rawValue] as? Int,
+        if let dateFrom1970 = json[FirebaseKeys.date.rawValue] as? Int,
             let outfitInfo = json[FirebaseKeys.outfit.rawValue] as? [String: Any],
             let outfitUniqueID = outfitInfo[FirebaseKeys.uniqueID.rawValue] as? String {
             self.date = Date(timeIntervalSince1970: Double(dateFrom1970))
-            self.name = eventName
+
+            if let eventName = json[FirebaseKeys.eventName.rawValue] as? String {
+                self.name = eventName
+            }
 
             var outfitClosetItems = [ClosetItem]()
 
@@ -116,13 +132,23 @@ class UserStuffManager {
                 let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String,
                 let username = userInfo[FirebaseKeys.username.rawValue] as? String,
                 let bio = userInfo[FirebaseKeys.bio.rawValue] as? String,
-                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool {
+                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool,
+                let uniqueID = userInfo[FirebaseKeys.uniqueID.rawValue] as? String {
                 
                 self?.userInfo.firstName = firstName
                 self?.userInfo.lastName = lastName
                 self?.userInfo.username = username
                 self?.userInfo.bio = bio
                 self?.userInfo.publicProfile = publicProfile
+                self?.userInfo.uid = uniqueID
+
+                if let followers = userInfo[FirebaseKeys.followers.rawValue] as? [String] {
+                    self?.userInfo.followers = followers
+                }
+
+                if let following = userInfo[FirebaseKeys.following.rawValue] as? [String] {
+                    self?.userInfo.following = following
+                }
 
                 completion(nil)
             }
@@ -256,6 +282,10 @@ class UserStuffManager {
             for key in outfits.keys {
                 var outfit = Outfit(uniqueID: key, items: [])
                 var outfitInfo = outfits[key]
+
+                if let isFavorited = outfitInfo?[FirebaseKeys.isFavorited.rawValue] as? Bool {
+                    outfit.isFavorited = isFavorited
+                }
 
                 if let items = outfitInfo?[FirebaseKeys.items.rawValue] as? [[String: String]] {
                     for closetItem in items {

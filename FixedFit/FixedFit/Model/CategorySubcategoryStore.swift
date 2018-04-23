@@ -16,7 +16,20 @@ class CategorySubcategoryStore {
     }
     private var subcategories: [String: Set<String>] = [:]
 
+    private var defaultCategories: [String] {
+        return ["tops", "bottoms", "footwear", "accessories"]
+    }
+
     var allCategories: [String] {
+        var setOfAllCategories: Set<String> = []
+        
+        defaultCategories.forEach({ setOfAllCategories.insert($0)})
+        categories.forEach({setOfAllCategories.insert($0)})
+
+        return Array(setOfAllCategories)
+    }
+
+    var allUserCreatedCategories: [String] {
         return Array(categories)
     }
 

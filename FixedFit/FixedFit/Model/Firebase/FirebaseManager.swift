@@ -162,7 +162,9 @@ class FirebaseManager {
     }
 
     func fetchUsers(nameStartingWith: String, completion: @escaping ([UserInfo]?, Error?) -> Void) {
-        guard let _ = currentUser else { return}
+        guard let _ = currentUser else { return }
+
+        let userStuffManager = UserStuffManager.shared
 
         ref.child(.users).queryOrdered(byChild: FirebaseKeys.username.rawValue).queryStarting(atValue: nameStartingWith)
             .queryEnding(atValue: nameStartingWith + "\u{f8ff}").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -177,7 +179,9 @@ class FirebaseManager {
                     }
                 }
 
-                completion(usersInfos, nil)
+                let usersWithoutCurrentUser = usersInfos.filter({ $0.username != userStuffManager.userInfo.username })
+
+                completion(usersWithoutCurrentUser, nil)
             }) { (error) in
                 print(error.localizedDescription)
                 completion(nil, error)
@@ -211,7 +215,7 @@ class FirebaseManager {
         }
         
         //Update the new user's photo into firebase
-        if let resizedImage = userInfo.photo!.resized(toWidth: 100), let imageData = UIImagePNGRepresentation(resizedImage) {
+        if let resizedImage = userInfo.photo, let imageData = UIImagePNGRepresentation(resizedImage) {
             
             saveItemImage(path: imagePath, imageData: imageData, completion: { (error) in
                 if let error = error {
@@ -253,7 +257,7 @@ class FirebaseManager {
             let newItemStoragePath = storageImageURLReference(uniqueID: imageUniqueID) ?? ""
 
             // Save images to storage
-            if let resizedImage = itemImage.resized(toWidth: 100), let imageData = UIImagePNGRepresentation(resizedImage) {
+            if let resizedImage = itemImage.resized(toWidth: 300), let imageData = UIImagePNGRepresentation(resizedImage) {
                 // Use the index to see if im saving the last image in the dictionary, because then I call the completion method
                 if index + 1 == itemCategoriesDict.count {
                     saveItemImage(path: newItemStoragePath, imageData: imageData, completion: { (error) in
@@ -371,6 +375,7 @@ class FirebaseManager {
 
         newOutfit[FirebaseKeys.items.rawValue] = outfitItemsInfos
         newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
+        newOutfit[FirebaseKeys.isFavorited.rawValue] = false
         ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
             if let error = error {
                 print(error.localizedDescription)
@@ -381,7 +386,7 @@ class FirebaseManager {
         }
     }
 
-    func saveEvent(date: Date, eventName: String, outfit: Outfit, completion: @escaping (Error?) -> Void) {
+    func saveEvent(date: Date, eventName: String?, outfit: Outfit, completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
 
         ref.child(.users).child(user.uid).child(.events).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
@@ -509,6 +514,67 @@ class FirebaseManager {
         }
     }
 
+    func followUser(usernameUniqueID: String, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if var userFollowing = snapshot.value as? [String] {
+                if !userFollowing.contains(usernameUniqueID) {
+                    userFollowing.append(usernameUniqueID)
+
+                    self?.ref.child(.users).child(user.uid).updateChildValues([FirebaseKeys.following.rawValue: userFollowing], withCompletionBlock: { (error, _) in
+                        completion(error)
+                    })
+                }
+            } else {
+                self?.ref.child(.users).child(user.uid).updateChildValues([FirebaseKeys.following.rawValue: [usernameUniqueID]], withCompletionBlock: { (error, _) in
+                    completion(error)
+                })
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(error)
+        }
+    }
+
+    func unfollowUser(usernameUniqueID: String, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if let userFollowing = snapshot.value as? [String] {
+                let updatedFollowing = userFollowing.filter({ (foundUsernameUniqueID) -> Bool in
+                    if foundUsernameUniqueID != usernameUniqueID {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+
+                self?.ref.child(.users).child(user.uid).child(.following).setValue(updatedFollowing, withCompletionBlock: { (error, _) in
+                    completion(error)
+                })
+            } else {
+                print("No one to unfollow")
+                completion(nil)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(error)
+        }
+    }
+
+    func updateOutfitFavorite(outfitUID: String, favorite: Bool, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUID).child(.isFavorited).setValue(favorite) { (error, _) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+
+            completion(error)
+        }
+    }
+
     // MARK: - Helper methods
 
     private func createfirstLoginData(user: User, signUpInfo: SignUpInfo) -> [String: Any] {
@@ -518,7 +584,10 @@ class FirebaseManager {
             FirebaseKeys.username.rawValue: signUpInfo.username,
             FirebaseKeys.publicProfile.rawValue: signUpInfo.publicProfile,
             FirebaseKeys.bio.rawValue: signUpInfo.bio,
-            FirebaseKeys.profileImageURL.rawValue: ""
+            FirebaseKeys.profileImageURL.rawValue: "",
+            FirebaseKeys.uniqueID.rawValue: currentUser?.uid ?? "",
+            FirebaseKeys.followingCount.rawValue: 0,
+            FirebaseKeys.followersCount.rawValue: 0
         ]
     }
 

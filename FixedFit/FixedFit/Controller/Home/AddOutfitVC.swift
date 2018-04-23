@@ -45,12 +45,7 @@ class AddOutfitVC: PhotosVC {
     }
 
     private func checkAbiltyToSave() {
-        guard let eventName = eventNameTextField.text else {
-            navigationItem.rightBarButtonItem?.isEnabled = false
-            return
-        }
-
-        if !eventName.isEmpty && pickedOutfitInfo != nil {
+        if pickedOutfitInfo != nil {
             navigationItem.rightBarButtonItem?.isEnabled = true
         } else {
             navigationItem.rightBarButtonItem?.isEnabled = false

@@ -41,7 +41,6 @@ class UserFinderVC: UIViewController {
     }
 
     func setupViews() {
-        viewTitle = "Users"
 
         userSearchBar.delegate = self
         tableView.dataSource = self

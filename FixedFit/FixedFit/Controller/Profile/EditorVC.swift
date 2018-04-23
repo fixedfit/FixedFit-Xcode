@@ -271,7 +271,11 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                 errorMsg = errorMsg + "User Name Field is empty.\n"
             //Check if username has too many characters
             } else if usernameTextField.text!.count > nameCharacterLimiter {
-                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter)\n"
+                errorMsg = errorMsg + "User Name has exceeded the character limit of \(nameCharacterLimiter).\n"
+                
+            } else if(validateNames(name: self.usernameTextField.text! , is_username: true)){
+                errorMsg = errorMsg + "Username has whitespace.\n"
+                
             //Check if user name already exists in list of users in firebase
             } else {
                 dispatch.enter()
@@ -293,7 +297,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "First Name Field is empty.\n"
                 
                 } else if(( (self.firstNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "First Name has exceeded the character limit of \(nameCharacterLimiter)\n"
+                    errorMsg = errorMsg + "First Name has exceeded the character limit of \(nameCharacterLimiter).\n"
+                } else if(self.validateNames(name:self.firstNameTextField.text! , is_username:false)){
+                    errorMsg = errorMsg + "First Name can only have Alphabet letters and whitespaces.\n"
                 }
             }
         
@@ -303,7 +309,9 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     errorMsg = errorMsg + "Last Name Field is empty.\n"
                 
                 } else if(( (self.lastNameTextField.text!.count) > nameCharacterLimiter)){
-                    errorMsg = errorMsg + "Last Name has exceeded the character limit of \(nameCharacterLimiter)\n"
+                    errorMsg = errorMsg + "Last Name has exceeded the character limit of \(nameCharacterLimiter).\n"
+                } else if(self.validateNames(name:self.lastNameTextField.text! , is_username:false)){
+                    errorMsg = errorMsg + "Last Name can only have Alphabet letters and whitespaces.\n"
                 }
             }
         
@@ -313,7 +321,7 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
                     self.bioTextField.text = "No Bio Set"
                 
                 } else if(( (self.bioTextField.text!.count) > bioCharacterLimiter)){
-                    errorMsg = errorMsg + "Bio has exceeded the character limit of \(bioCharacterLimiter)\n"
+                    errorMsg = errorMsg + "Bio has exceeded the character limit of \(bioCharacterLimiter).\n"
                 }
             }
             
@@ -367,6 +375,31 @@ class EditorVC: UIViewController, UITextFieldDelegate, UITextViewDelegate, UINav
         
             self.present(informationVC, animated: true, completion: nil)
         }
+    }
+    
+    //Function used to check if the structure of the name parameter is correct
+    private func validateNames(name:String , is_username:Bool) -> Bool{
+        
+        //Determine if the function is evaluating a username or the first/last name of the user
+        if(is_username == true){
+            
+            if(name.contains(" ")){
+                return true
+            }
+            
+        } else {
+            
+            //Determine if the string only contains letters and spaces
+            for (_, char) in name.enumerated(){
+                if(!(char == " " || (char >= "A" && char <= "Z") || (char >= "a" && char <= "z"))){
+                    return true
+                }
+            }
+        }
+        
+        //If no errors exist, then return false
+        return false
+        
     }
     
     //delegate function for photo selection

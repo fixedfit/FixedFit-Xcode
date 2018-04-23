@@ -106,9 +106,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
         ////Update Followers and Following Counters from firebase
         //Update button titles/view counters
-        self.FollowingCount.text = String(FollowingCounter)
-        self.FollowersCount.text = String(FollowersCounter)
-
+        self.FollowingCount.text = String(userStuffManager.userInfo.following.count)
+        self.FollowersCount.text = String(userStuffManager.userInfo.followers.count)
 
         ////Load the User's profile photo into the UIImageView
         //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user

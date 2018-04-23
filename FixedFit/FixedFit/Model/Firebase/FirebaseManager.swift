@@ -15,7 +15,7 @@ import FirebaseStorage
 //structs for UserFinder title and mode
 struct FirebaseUserFinderTitle{
     static let blocked = "Blocked Users"
-    static let search = "Search for Users"
+    static let search = "Users"
     static let follower = "Followers"
     static let following = "Following"
 }

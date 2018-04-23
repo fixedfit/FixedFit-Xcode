@@ -26,6 +26,7 @@ class UserFinderVC: UIViewController {
     }
 
     private let firebaseManager = FirebaseManager.shared
+    private let userStuffManager = UserStuffManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,14 +66,20 @@ class UserFinderVC: UIViewController {
         if let cell = button.superview?.superview as? UserCell {
             let userInfo = users[cell.tag]
             let userUniqueID = userInfo.uid
+            var currentUserInfo = userStuffManager.userInfo
 
             if !userUniqueID.isEmpty {
                 if cell.following {
-                     cell.toggleFollowing()
+                    cell.toggleFollowing()
                     firebaseManager.unfollowUser(usernameUniqueID: userUniqueID) { (error) in
                         if error != nil {
                             // Show the user something
                         }
+                    }
+                    if let index = currentUserInfo.following.index(where: {$0 == userUniqueID}) {
+                        currentUserInfo.following.remove(at: index)
+
+                        userStuffManager.userInfo.following = currentUserInfo.following
                     }
                 } else {
                     cell.toggleFollowing()
@@ -81,6 +88,8 @@ class UserFinderVC: UIViewController {
                             // Show the user something
                         }
                     }
+                    currentUserInfo.following.append(userUniqueID)
+                    userStuffManager.userInfo.following = currentUserInfo.following
                 }
             }
         }
@@ -99,8 +108,14 @@ extension UserFinderVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier, for: indexPath) as! UserCell
         let userInfo = users[indexPath.row]
+        let currentUserInfo = userStuffManager.userInfo
 
-        cell.configure(userInfo)
+        if currentUserInfo.following.contains(userInfo.uid) {
+            cell.configure(userInfo, isFollowing: true)
+        } else {
+            cell.configure(userInfo, isFollowing: false)
+        }
+
         cell.tag = indexPath.row
         cell.followButton.addTarget(self, action: #selector(tappedFollow(_:)), for: .touchUpInside)
 

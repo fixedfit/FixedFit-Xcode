@@ -12,7 +12,6 @@ class UserViewVC: UIViewController {
     //Variable used to present the title, which is the username
     var uid: String!
     var mode: String!
-    var userInformation: UserInfo!
     
     //References to objects in view controller
     @IBOutlet weak var FirstNameLabel: UILabel!
@@ -20,24 +19,64 @@ class UserViewVC: UIViewController {
     @IBOutlet weak var BioLabel: UILabel!
     @IBOutlet weak var FollowersCounter: UILabel!
     @IBOutlet weak var FollowingCounter: UILabel!
+    @IBOutlet weak var UserImage: UIImageView!
     
     let firebaseManager = FirebaseManager.shared
     
-    //Handles for the removal of the observers
-    var followingHandle: UInt = 0
+    //Handlers for the removal of the observers
+    var userNameHandle: UInt = 0
+    var firstNameHandle: UInt = 0
+    var lastNameHandle: UInt = 0
+    var bioHandle: UInt = 0
     var followersHandle: UInt = 0
+    var followingHandle: UInt = 0
+    var profileImageHandle: UInt = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Fetch the selected user's information from firebase and store it into userInformation
+        ////Fetch the selected user's information from firebase by using the observers
+        self.userNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
+            
+            //retrieve the User's username
+            let username = snapshot.value as? String
+            
+            //set the User's username
+            self.FirstNameLabel.text = username!
+        })
+        
+        self.firstNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.firstName.rawValue).observe(.value, with: {(snapshot) in
+            
+            //retrieve the User's first name
+            let firstname = snapshot.value as? String
+            
+            //set the User's first name
+            self.FirstNameLabel.text = firstname!
+            
+        })
+        
+        self.lastNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.lastName.rawValue).observe(.value, with: {(snapshot) in
+            
+            //retrieve the User's last name
+            let lastname = snapshot.value as? String
+            
+            //set the User's last name
+            self.FirstNameLabel.text = lastname!
+            
+        })
+        
+        self.bioHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.bio.rawValue).observe(.value, with: {(snapshot) in
+            
+            //retrieve the User's bio
+            let bio = snapshot.value as? String
+            
+            //set the User's bio
+            self.FirstNameLabel.text = bio!
+            
+        })
         
         
-        //Set up view
-        setupView()
-        
-        //Add observer for modifing the Followers and Following Counters
-        self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.userInformation.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+        self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
             
             //Assign variable with the snapshot value
             let followingCounter = snapshot.value as? Int
@@ -48,7 +87,7 @@ class UserViewVC: UIViewController {
         })
         
         //Observer used to observe when a user is added or delete from the followers lists of the current user
-        self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.userInformation.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
+        self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
             
             //Assign variable with the snapshot value
             let followersCounter = snapshot.value as? Int
@@ -57,26 +96,25 @@ class UserViewVC: UIViewController {
             self.FollowersCounter.text = "\(followersCounter!)"
 
         })
-    }
-    
-    //Function that sets up the labels
-    func setupView(){
         
-        //Assign each label with the corresponding entry
-        self.FirstNameLabel.text = self.userInformation.firstName
-        self.LastNameLabel.text = self.userInformation.lastName
-        self.BioLabel.text = self.userInformation.bio
-        self.navigationItem.title = self.userInformation.username
-        
-        //Obtain the image of the user
-        
+        //Observer used to observe when a user has modified their profile image
+        self.profileImageHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.profilePhoto.rawValue).observe(.value, with: {(snapshot) in
+            
+            //retrieve the User's profile photo
+            
+            self.UserImage.image = UIImage(named: "defaultProfile")
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         
         //Remove the observers for this view
-        self.firebaseManager.ref.removeObserver(withHandle: self.followingHandle)
-        self.firebaseManager.ref.removeObserver(withHandle: self.followersHandle)
-        
+        firebaseManager.ref.removeObserver(withHandle: self.userNameHandle)
+        firebaseManager.ref.removeObserver(withHandle: self.firstNameHandle)
+        firebaseManager.ref.removeObserver(withHandle: self.lastNameHandle)
+        firebaseManager.ref.removeObserver(withHandle: self.bioHandle)
+        firebaseManager.ref.removeObserver(withHandle: self.followersHandle)
+        firebaseManager.ref.removeObserver(withHandle: self.followingHandle)
+        firebaseManager.ref.removeObserver(withHandle: self.profileImageHandle)
     }
 }

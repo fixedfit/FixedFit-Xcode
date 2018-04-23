@@ -297,6 +297,7 @@
                         <outlet property="FollowersCounter" destination="Teh-He-PGI" id="Q8L-tE-PYZ"/>
                         <outlet property="FollowingCounter" destination="f7B-Yd-C8u" id="sAP-zH-HnI"/>
                         <outlet property="LastNameLabel" destination="3O1-Ut-eZl" id="ryp-bu-O6e"/>
+                        <outlet property="UserImage" destination="Lpe-Be-pZB" id="75j-nX-VgW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5KG-JO-WvC" userLabel="First Responder" sceneMemberID="firstResponder"/>

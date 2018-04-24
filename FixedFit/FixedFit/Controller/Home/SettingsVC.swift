@@ -267,7 +267,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedCategory(_ sender: UITapGestureRecognizer){
         
         //Transition to CategoriesVC
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.categoriesVC, storyboardName: PushViewKeys.home, newString:"Categories", newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.categoriesVC, storyboardName: PushViewKeys.home, newString:"Custom Categories", newMode:"") else {return}
         
         if let vc = vc as? CategoriesVC{
             //Push View Controller onto Navigation Stack

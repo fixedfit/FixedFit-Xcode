@@ -94,7 +94,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
         self.addChildViewController(favoritedOutfitsVC)
 
-
         
         ////Update Followers and Following Counters from firebase
         //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
@@ -204,14 +203,16 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         
         //Make main execute this section strictly after the OutfitSelectionVC has been dismissed
         //This section will perform the displaying of certain outfits, either all outfits, public outfits, or private outfits
-        dispatch.notify(queue: .main){}
-        
-        //If the outfit button is was tapped, then make the boolean value of the outfitDisplayed variable to true
-        outfitsVC.outfits = userStuffManager.closet.outfits
-        self.outfitDisplayed = true
-        likedOutfitsVC.view.isHidden = true
-        favoritedOutfitsVC.view.isHidden = true
-        
+        dispatch.notify(queue: .main){
+            
+            //Detemine which set of outfits where chosen to be displayed
+            
+            //If the outfit button is was tapped, then make the boolean value of the outfitDisplayed variable to true
+            self.outfitsVC.outfits = self.userStuffManager.closet.outfits
+            self.outfitDisplayed = true
+            self.likedOutfitsVC.view.isHidden = true
+            self.favoritedOutfitsVC.view.isHidden = true
+        }
     }
 
     @IBAction func tappedLiked(_ sender: UITapGestureRecognizer) {
@@ -245,5 +246,4 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     func displaySelection(selection:String){
         self.outfitdisplayingStatus = selection
     }
-
 }

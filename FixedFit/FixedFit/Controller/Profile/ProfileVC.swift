@@ -78,18 +78,20 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
         childVCView.addSubview(outfitsVC.view)
         outfitsVC.view.fillSuperView()
+        outfitsVC.outfitsType = .outfits
         outfitsVC.outfits = userStuffManager.closet.outfits
         self.addChildViewController(outfitsVC)
 
         childVCView.addSubview(likedOutfitsVC.view)
         likedOutfitsVC.view.fillSuperView()
-        likedOutfitsVC.collectionView.backgroundColor = .blue
+        likedOutfitsVC.outfitsType = .liked
+        likedOutfitsVC.outfits = []
         self.addChildViewController(likedOutfitsVC)
 
         childVCView.addSubview(favoritedOutfitsVC.view)
         favoritedOutfitsVC.view.fillSuperView()
+        favoritedOutfitsVC.outfitsType = .favorited
         favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
-        favoritedOutfitsVC.collectionView.backgroundColor = .yellow
         self.addChildViewController(favoritedOutfitsVC)
 
 

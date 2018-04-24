@@ -206,6 +206,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         dispatch.notify(queue: .main){
             
             //Detemine which set of outfits where chosen to be displayed
+            //Call function to fetch correct outfits in userStuffManager.closet.outfits
+            
             
             //If the outfit button is was tapped, then make the boolean value of the outfitDisplayed variable to true
             self.outfitsVC.outfits = self.userStuffManager.closet.outfits

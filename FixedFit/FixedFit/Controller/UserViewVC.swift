@@ -22,6 +22,9 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     @IBOutlet weak var UserImage: UIImageView!
     @IBOutlet weak var FollowersView: UIView!
     @IBOutlet weak var FollowingView: UIView!
+    @IBOutlet weak var LeftButton: UIButton!
+    @IBOutlet weak var RightButton: UIButton!
+    
     
     let firebaseManager = FirebaseManager.shared
     
@@ -55,6 +58,11 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         self.FollowersView.isUserInteractionEnabled = true
         self.FollowingView.addGestureRecognizer(followingTap)
         self.FollowersView.addGestureRecognizer(followersTap)
+        
+        //set up font for the buttons
+        let buttonFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+        self.LeftButton.titleLabel?.font = buttonFont
+        self.RightButton.titleLabel?.font = buttonFont
     }
     
     override func viewWillAppear(_ animated: Bool) {

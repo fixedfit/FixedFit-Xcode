@@ -300,6 +300,8 @@
                         <outlet property="FollowingCounter" destination="f7B-Yd-C8u" id="sAP-zH-HnI"/>
                         <outlet property="FollowingView" destination="AvY-v9-g2M" id="Y0a-V3-lYm"/>
                         <outlet property="LastNameLabel" destination="3O1-Ut-eZl" id="ryp-bu-O6e"/>
+                        <outlet property="LeftButton" destination="E7h-u8-euz" id="Yw2-eS-6gy"/>
+                        <outlet property="RightButton" destination="rwH-Xg-suM" id="uNf-Tt-RIT"/>
                         <outlet property="UserImage" destination="Lpe-Be-pZB" id="75j-nX-VgW"/>
                     </connections>
                 </viewController>

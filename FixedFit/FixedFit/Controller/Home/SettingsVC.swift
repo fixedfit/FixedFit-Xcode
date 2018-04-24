@@ -227,33 +227,34 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
                                 self.firebaseManager.manageUserAccount(commandString: operation, updateString: self.userInfo, completion: {(error) in
                                     
                                     //Dismiss the view controller that is mean't to display the current operation (i.e progressVC)
-                                    self.dismiss(animated: true, completion: nil)
-                                    
-                                    //If message is reached then modification of account was unsuccessful.
-                                    if(error != nil){
-                                        if(operation == SettingKeys.deletion.rawValue){
-                                            nextMessage = "Deletion of Account Failed"
-                                        } else if(operation == SettingKeys.emailUpdate.rawValue){
-                                            nextMessage = "Update of Email Failed"
-                                        } else if(operation == SettingKeys.passwordUpdate.rawValue){
-                                            nextMessage = "Update of Password Failed"
-                                        } else {
-                                            nextMessage = "Updating Account Operation Failed"
-                                        }
-                                    
-                                        //Display the View controller that lets the user know that there was an error
-                                        self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
-                                    } else if(operation != SettingKeys.deletion.rawValue){
+                                    self.dismiss(animated: true){
                                         
-                                        //Display the View controller that lets the user know that it was successful unless it is the deletion operation
-                                        var message: String!
-                                        if(operation == SettingKeys.emailUpdate.rawValue){
-                                            message = "Updated Email Successfully"
-                                        } else if(operation == SettingKeys.passwordUpdate.rawValue){
-                                            message = "Updated Password Successfully"
+                                        //If message is reached then modification of account was unsuccessful.
+                                        if(error != nil){
+                                            if(operation == SettingKeys.deletion.rawValue){
+                                                nextMessage = "Deletion of Account Failed"
+                                            } else if(operation == SettingKeys.emailUpdate.rawValue){
+                                                nextMessage = "Update of Email Failed"
+                                            } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                                nextMessage = "Update of Password Failed"
+                                            } else {
+                                                nextMessage = "Updating Account Operation Failed"
+                                            }
+                                            
+                                            //Display the View controller that lets the user know that there was an error
+                                            self.presentFinalInfoVC(message: nextMessage, imageName: "error diagram")
+                                        } else if(operation != SettingKeys.deletion.rawValue){
+                                            
+                                            //Display the View controller that lets the user know that it was successful unless it is the deletion operation
+                                            var message: String!
+                                            if(operation == SettingKeys.emailUpdate.rawValue){
+                                                message = "Updated Email Successfully"
+                                            } else if(operation == SettingKeys.passwordUpdate.rawValue){
+                                                message = "Updated Password Successfully"
+                                            }
+                                            self.presentFinalInfoVC(message: message, imageName: "bluecheckmark")
                                         }
-                                        self.presentFinalInfoVC(message: message, imageName: "bluecheckmark")
-                                    }
+                                    }//Dismissing of ProgressVC
                                 })
                             }//If statement for determining cancel
                         } // Dispatch for managing user data

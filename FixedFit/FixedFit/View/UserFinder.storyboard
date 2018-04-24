@@ -180,16 +180,16 @@
                                 <rect key="frame" x="165" y="157.5" width="93" height="50.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3R6-4O-BxD">
-                                        <rect key="frame" x="9" y="5" width="74" height="40.5"/>
+                                        <rect key="frame" x="9" y="5" width="75" height="40.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Teh-He-PGI">
-                                                <rect key="frame" x="0.0" y="0.0" width="74" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="75" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISq-mO-z0f">
-                                                <rect key="frame" x="0.0" y="20.5" width="74" height="20"/>
+                                                <rect key="frame" x="0.0" y="20.5" width="75" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -212,7 +212,7 @@
                                 <rect key="frame" x="267" y="157.5" width="91" height="50.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Hy5-cq-nLT">
-                                        <rect key="frame" x="9" y="5" width="72" height="40.5"/>
+                                        <rect key="frame" x="9" y="5.5" width="72" height="40.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7B-Yd-C8u">
                                                 <rect key="frame" x="0.0" y="0.0" width="72" height="20.5"/>
@@ -295,7 +295,9 @@
                         <outlet property="BioLabel" destination="ucF-Tx-6pc" id="FTy-5x-fNT"/>
                         <outlet property="FirstNameLabel" destination="kcH-9Y-dtY" id="55R-AH-thL"/>
                         <outlet property="FollowersCounter" destination="Teh-He-PGI" id="Q8L-tE-PYZ"/>
+                        <outlet property="FollowersView" destination="QLv-gy-wFH" id="bxH-pv-xhP"/>
                         <outlet property="FollowingCounter" destination="f7B-Yd-C8u" id="sAP-zH-HnI"/>
+                        <outlet property="FollowingView" destination="AvY-v9-g2M" id="Y0a-V3-lYm"/>
                         <outlet property="LastNameLabel" destination="3O1-Ut-eZl" id="ryp-bu-O6e"/>
                         <outlet property="UserImage" destination="Lpe-Be-pZB" id="75j-nX-VgW"/>
                     </connections>

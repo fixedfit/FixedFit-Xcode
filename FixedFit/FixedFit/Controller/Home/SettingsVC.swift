@@ -267,7 +267,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedCategory(_ sender: UITapGestureRecognizer){
         
         //Transition to CategoriesVC
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.categoriesVC, storyboardName: PushViewKeys.home, newTitle:"Categories", newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.categoriesVC, storyboardName: PushViewKeys.home, newString:"Categories", newMode:"") else {return}
         
         if let vc = vc as? CategoriesVC{
             //Push View Controller onto Navigation Stack
@@ -281,7 +281,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedBlockUsers(_ sender: UITapGestureRecognizer){
         
         //Transition to the UserFinder storyboard where you would want to look for Blocked Users
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userfinderVC, storyboardName: PushViewKeys.userfinder, newTitle:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userfinderVC, storyboardName: PushViewKeys.userfinder, newString:FirebaseUserFinderTitle.blocked, newMode:FirebaseUserFinderMode.blocked) else {return}
 
         if let vc = vc as? UserFinderVC{
             //Push View Controller onto Navigation Stack
@@ -309,7 +309,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedTutorialView(_ sender: UITapGestureRecognizer){
         
         //Transition to Help Center
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.tutorialVC, storyboardName: PushViewKeys.home, newTitle:FirebaseSupportTitleAndMode.tutorial, newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.tutorialVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.tutorial, newMode:"") else {return}
         
         if let vc = vc as? TutorialVC{
             //Push View Controller onto Navigation Stack
@@ -323,7 +323,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedHelpCenter(_ sender: UITapGestureRecognizer){
         
         //Transition to Help Center
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newTitle:FirebaseSupportTitleAndMode.helpCenter, newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.helpCenter, newMode:"") else {return}
         
         if let vc = vc as? SupportVC{
             //Push View Controller onto Navigation Stack
@@ -335,7 +335,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedContacts(_ sender: UITapGestureRecognizer){
         
         //Transition to Contact Us
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.contactusVC, storyboardName: PushViewKeys.home, newTitle:FirebaseSupportTitleAndMode.contactUs, newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.contactusVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.contactUs, newMode:"") else {return}
         
         if let vc = vc as? ContactUsVC{
             //Push View Controller onto Navigation Stack

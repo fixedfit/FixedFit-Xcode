@@ -141,7 +141,7 @@ extension UserFinderVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
          //Transition to the UserViewVC
-         guard let vc = PushViews.executeTransition(vcName: "UserViewVC", storyboardName: "UserFinder", newTitle: "User id", newMode: self.mode) else {return}
+         guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userviewVC, storyboardName: PushViewKeys.userfinder, newTitle: "User id", newMode: self.mode) else {return}
          
          if let vc = vc as? UserViewVC{
              //Push View Controller onto Navigation Stack

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserViewVC: UIViewController {
+class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     //Variable used to present the title, which is the username
     var uid: String!
     var mode: String!
@@ -20,6 +20,8 @@ class UserViewVC: UIViewController {
     @IBOutlet weak var FollowersCounter: UILabel!
     @IBOutlet weak var FollowingCounter: UILabel!
     @IBOutlet weak var UserImage: UIImageView!
+    @IBOutlet weak var FollowersView: UIView!
+    @IBOutlet weak var FollowingView: UIView!
     
     let firebaseManager = FirebaseManager.shared
     
@@ -35,6 +37,28 @@ class UserViewVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Set every scale to make the text fit
+        self.BioLabel.numberOfLines = 0
+        self.BioLabel.adjustsFontSizeToFitWidth = true
+        self.FirstNameLabel.adjustsFontSizeToFitWidth = true
+        self.LastNameLabel.adjustsFontSizeToFitWidth = true
+        self.FollowingCounter.adjustsFontSizeToFitWidth = true
+        self.FollowersCounter.adjustsFontSizeToFitWidth = true
+        
+        //Give UITapGesture to the Following and Follower views
+        let followingTap = UITapGestureRecognizer(target:self, action: #selector(UserViewVC.tappedFollowing))
+        followingTap.delegate = self
+        let followersTap = UITapGestureRecognizer(target:self, action: #selector(UserViewVC.tappedFollowers))
+        followersTap.delegate = self
+        
+        self.FollowingView.isUserInteractionEnabled = true
+        self.FollowersView.isUserInteractionEnabled = true
+        self.FollowingView.addGestureRecognizer(followingTap)
+        self.FollowersView.addGestureRecognizer(followersTap)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+
         ////Fetch the selected user's information from firebase by using the observers
         self.userNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
             
@@ -42,7 +66,7 @@ class UserViewVC: UIViewController {
             if let username = snapshot.value as? String {
             
                 //set the User's username
-                self.FirstNameLabel.text = username
+                self.navigationItem.title = username
             }
         })
         
@@ -62,7 +86,7 @@ class UserViewVC: UIViewController {
             if let lastname = snapshot.value as? String {
                 
                 //set the User's last name
-                self.FirstNameLabel.text = lastname
+                self.LastNameLabel.text = lastname
             }
         })
         
@@ -72,10 +96,9 @@ class UserViewVC: UIViewController {
             if let bio = snapshot.value as? String {
             
                 //set the User's bio
-                self.FirstNameLabel.text = bio
+                self.BioLabel.text = bio
             }
         })
-        
         
         self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
             
@@ -101,12 +124,43 @@ class UserViewVC: UIViewController {
         //Observer used to observe when a user has modified their profile image
         self.profileImageHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.profilePhoto.rawValue).observe(.value, with: {(snapshot) in
             
+            //Scale image to aspect fit
+            self.UserImage.contentMode = UIViewContentMode.scaleAspectFit
+            
             //retrieve the User's profile photo
             if let photoURL = snapshot.value as? String {
-                print(photoURL)
+                
                 self.UserImage.image = UIImage(named: "defaultProfile")
             }
         })
+    }
+    
+    //Functions to the buttons involved in the UserView section
+    //Execute with transitional view animations
+    //perform action when following and followers button are clicked
+    @objc func tappedFollowing(sender: UITapGestureRecognizer){
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userfinderVC, storyboardName: PushViewKeys.userfinder, newTitle:FirebaseUserFinderTitle.following, newMode:FirebaseUserFinderMode.following) else {return}
+        
+        //Check if the View Controller is of a certain View Controller type
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    @objc func tappedFollowers(sender: UITapGestureRecognizer){
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userfinderVC, storyboardName: PushViewKeys.userfinder, newTitle:FirebaseUserFinderTitle.follower, newMode:FirebaseUserFinderMode.follower) else {return}
+        
+        //Check if the View Controller is of a certain View Controller type
+        if let vc = vc as? UserFinderVC{
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

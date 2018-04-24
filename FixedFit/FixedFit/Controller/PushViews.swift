@@ -28,7 +28,20 @@ import UIKit
  }
  
  */
-
+struct PushViewKeys{
+    
+    //Views
+    static let userfinderVC = "UserFinderVC"
+    static let supportVC = "SupportVC"
+    static let userviewVC = "UserViewVC"
+    static let categoriesVC = "CategoriesVC"
+    static let contactusVC = "ContactUsVC"
+    static let tutorialVC = "TutorialVC"
+    
+    //Storyboards
+    static let userfinder = "UserFinder"
+    static let home = "Home"
+}
 class PushViews {
 
     //Function used to execute transitions from a view to a new view that needs to be instantiated on the navigation stack
@@ -49,7 +62,7 @@ class PushViews {
             var vc: UIViewController!
             let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
             
-            if(vcName == "UserFinderVC" && newMode != nil){
+            if(vcName == PushViewKeys.userfinderVC && newMode != nil){
                 
                 let storyboard = UIStoryboard(name: storyboardName, bundle:nil)
                 vc = storyboard.instantiateInitialViewController() as! UserFinderVC
@@ -60,34 +73,46 @@ class PushViews {
                     vc.viewTitle = newTitle
                 }
                 
-            } else if(vcName == "SupportVC" || vcName == "UserViewVC" || vcName == "CategoriesVC"){
+            } else if(vcName == PushViewKeys.supportVC){
+                vc = storyboard.instantiateViewController(withIdentifier: "SupportVC")  as! SupportVC
                 
-                if(vcName == "SupportVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "SupportVC")  as! SupportVC
-                    
-                    //Initialize the title of the ViewController
-                    if let currentVC = vc as? SupportVC{
-                        currentVC.viewTitle = newTitle
-                    }
-                    
-                    //For UserViewVC, the title should be the user name of the searched person
-                } else if(vcName == "UserViewVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "UserViewVC") as! UserViewVC
-                    
-                    //Initialize the selecte user's uid for the ViewController
-                    if let currentVC = vc as? UserViewVC{
-                        currentVC.uid = newTitle
-                    }
-                    
-                } else if(vcName == "CategoriesVC"){
-                    vc = storyboard.instantiateViewController(withIdentifier: "CategoriesVC") as! CategoriesVC
-                    
-                    //Initialize the title of the ViewController
-                    if let currentVC = vc as? CategoriesVC{
-                        currentVC.viewTitle = newTitle
-                    }
+                //Initialize the title of the ViewController
+                if let currentVC = vc as? SupportVC{
+                    currentVC.viewTitle = newTitle
                 }
                 
+                //For UserViewVC, the title should be the user name of the searched person
+            } else if(vcName == PushViewKeys.userviewVC){
+                vc = storyboard.instantiateViewController(withIdentifier: "UserViewVC") as! UserViewVC
+                
+                //Initialize the selecte user's uid for the ViewController
+                if let currentVC = vc as? UserViewVC{
+                    currentVC.uid = newTitle
+                }
+                
+            } else if(vcName == PushViewKeys.categoriesVC){
+                vc = storyboard.instantiateViewController(withIdentifier: "CategoriesVC") as! CategoriesVC
+                
+                //Initialize the title of the ViewController
+                if let currentVC = vc as? CategoriesVC{
+                    currentVC.viewTitle = newTitle
+                }
+                
+            } else if(vcName == PushViewKeys.contactusVC){
+                vc = storyboard.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
+                
+                //Initialize the title of the ViewController
+                if let currentVC = vc as? ContactUsVC{
+                    currentVC.viewTitle = newTitle
+                }
+                
+            } else if(vcName == PushViewKeys.tutorialVC){
+                vc = storyboard.instantiateViewController(withIdentifier: "TutorialVC") as! TutorialVC
+                
+                //Initialize the title of the ViewController
+                if let currentVC = vc as? TutorialVC{
+                    currentVC.viewTitle = newTitle
+                }
             } else {
                 errorMessage = "Error: Unknown view controller name"
             }

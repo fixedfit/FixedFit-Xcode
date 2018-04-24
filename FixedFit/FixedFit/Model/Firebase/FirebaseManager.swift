@@ -27,7 +27,7 @@ struct FirebaseUserFinderMode{
 }
 
 //struct for Support title and mode combined
-struct FirebaseSupportVCTitleAndMode{
+struct FirebaseSupportTitleAndMode{
     static let helpCenter = "Help Center(FAQ)"
     static let contactUs = "Contact Us"
     static let tutorial = "Tutorials"

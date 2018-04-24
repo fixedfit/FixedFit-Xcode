@@ -9,7 +9,7 @@
 import UIKit
 
 //Class used to push views onto the navigation stack or present the informationVC
-//Function parameters names: executeTransition(vcName, storyboardName, newTitle, newMode)
+//Function parameters names: executeTransition(vcName, storyboardName, newString, newMode)
 
 /*
 //Function calling structure:
@@ -46,12 +46,12 @@ class PushViews {
 
     //Function used to execute transitions from a view to a new view that needs to be instantiated on the navigation stack
     //The function will return an instance of a ViewController that the calling function will have to present or push.
-    static func executeTransition(vcName: String, storyboardName: String, newTitle:String, newMode:String? = nil) -> UIViewController?{
+    static func executeTransition(vcName: String, storyboardName: String, newString:String, newMode:String? = nil) -> UIViewController?{
         
         //Message used to monitor if cases are correct
         var errorMessage = ""
         
-        if(vcName.isEmpty || storyboardName.isEmpty || newTitle.isEmpty){
+        if(vcName.isEmpty || storyboardName.isEmpty || newString.isEmpty){
             
             //Modify errorMessage vairable to produce correct error message
             errorMessage = "Error: Invalid String Parameters"
@@ -70,7 +70,7 @@ class PushViews {
                 if let vc = vc as? UserFinderVC{
                     //Initialize the title of the ViewController and mode if needed
                     vc.mode = newMode!
-                    vc.viewTitle = newTitle
+                    vc.viewTitle = newString
                 }
                 
             } else if(vcName == PushViewKeys.supportVC){
@@ -78,7 +78,7 @@ class PushViews {
                 
                 //Initialize the title of the ViewController
                 if let currentVC = vc as? SupportVC{
-                    currentVC.viewTitle = newTitle
+                    currentVC.viewTitle = newString
                 }
                 
                 //For UserViewVC, the title should be the user name of the searched person
@@ -87,7 +87,7 @@ class PushViews {
                 
                 //Initialize the selecte user's uid for the ViewController
                 if let currentVC = vc as? UserViewVC{
-                    currentVC.uid = newTitle
+                    currentVC.uid = newString
                 }
                 
             } else if(vcName == PushViewKeys.categoriesVC){
@@ -95,7 +95,7 @@ class PushViews {
                 
                 //Initialize the title of the ViewController
                 if let currentVC = vc as? CategoriesVC{
-                    currentVC.viewTitle = newTitle
+                    currentVC.viewTitle = newString
                 }
                 
             } else if(vcName == PushViewKeys.contactusVC){
@@ -103,7 +103,7 @@ class PushViews {
                 
                 //Initialize the title of the ViewController
                 if let currentVC = vc as? ContactUsVC{
-                    currentVC.viewTitle = newTitle
+                    currentVC.viewTitle = newString
                 }
                 
             } else if(vcName == PushViewKeys.tutorialVC){
@@ -111,7 +111,7 @@ class PushViews {
                 
                 //Initialize the title of the ViewController
                 if let currentVC = vc as? TutorialVC{
-                    currentVC.viewTitle = newTitle
+                    currentVC.viewTitle = newString
                 }
             } else {
                 errorMessage = "Error: Unknown view controller name"

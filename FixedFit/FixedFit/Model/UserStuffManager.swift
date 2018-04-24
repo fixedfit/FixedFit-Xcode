@@ -144,10 +144,14 @@ class UserStuffManager {
 
                 if let followers = userInfo[FirebaseKeys.followers.rawValue] as? [String] {
                     self?.userInfo.followers = followers
+                } else {
+                    self?.userInfo.followers.removeAll()
                 }
 
                 if let following = userInfo[FirebaseKeys.following.rawValue] as? [String] {
                     self?.userInfo.following = following
+                } else {
+                    self?.userInfo.following.removeAll()
                 }
 
                 completion(nil)

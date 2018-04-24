@@ -74,7 +74,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                     self?.notificationCenter.post(name: .authStatusChanged, object: nil)
                 }
             })
-        } else if(validInputBool){
+        } else if(!validInputBool){
             showLoginError("Make sure all text fields are filled")
         } else if(validNamesInt == UserInfoCheckerKeys.username_has_whitespsace.rawValue){
             showLoginError("Username has white spaces")
@@ -87,7 +87,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - Helper methods
-    
     private func validInput(_ signUpInfo: SignUpInfo) -> Bool {
         if signUpInfo.firstName.isEmpty || signUpInfo.lastName.isEmpty || signUpInfo.email.isEmpty || signUpInfo.username.isEmpty || signUpInfo.password.isEmpty {
             return false

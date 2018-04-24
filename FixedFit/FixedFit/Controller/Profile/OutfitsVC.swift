@@ -12,12 +12,8 @@ class OutfitsVC: PhotosVC {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noOutfitsLabel: UILabel!
 
-    var outfits: [Outfit] {
-        get {
-            return UserStuffManager.shared.closet.outfits
-        }
-
-        set {
+    var outfits: [Outfit] = [] {
+        didSet {
             collectionView.reloadData()
         }
     }
@@ -27,10 +23,6 @@ class OutfitsVC: PhotosVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        collectionView.reloadData()
     }
 
     private func setupViews() {

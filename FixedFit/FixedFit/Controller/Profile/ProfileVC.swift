@@ -207,6 +207,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         dispatch.notify(queue: .main){}
         
         //If the outfit button is was tapped, then make the boolean value of the outfitDisplayed variable to true
+        outfitsVC.outfits = userStuffManager.closet.outfits
         self.outfitDisplayed = true
         likedOutfitsVC.view.isHidden = true
         favoritedOutfitsVC.view.isHidden = true
@@ -219,7 +220,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         self.outfitDisplayed = false
         
         //Display only the outfits of other user's that the current user liked
-
+        likedOutfitsVC.outfits = []
         likedOutfitsVC.view.isHidden = false
         favoritedOutfitsVC.view.isHidden = true
     }
@@ -230,7 +231,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         self.outfitDisplayed = false
         
         //Display only the outfits that belongs to the current user that they liked
-
+        favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
         favoritedOutfitsVC.view.isHidden = false
     }
 

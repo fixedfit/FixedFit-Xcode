@@ -15,7 +15,8 @@ class UserFinderVC: UIViewController {
     @IBOutlet weak var userSearchBar: UISearchBar!
     @IBOutlet weak var searchStatusLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet var viewTapGestureRecognizer: UITapGestureRecognizer!
+    
     //Initialize variables used to finding users from multiple sources
     var mode = ""
     var viewTitle = "Title"
@@ -41,6 +42,7 @@ class UserFinderVC: UIViewController {
     }
 
     func setupViews() {
+        viewTapGestureRecognizer.isEnabled = false
 
         userSearchBar.delegate = self
         tableView.dataSource = self
@@ -139,7 +141,6 @@ extension UserFinderVC: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
          //Transition to the UserViewVC
          guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userviewVC, storyboardName: PushViewKeys.userfinder, newTitle: "User id", newMode: self.mode) else {return}
          
@@ -169,5 +170,13 @@ extension UserFinderVC: UISearchBarDelegate {
                 }
             }
         }
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        viewTapGestureRecognizer.isEnabled = true
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        viewTapGestureRecognizer.isEnabled = false
     }
 }

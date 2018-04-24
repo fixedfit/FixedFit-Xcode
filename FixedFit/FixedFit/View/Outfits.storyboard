@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZLG-b4-xPs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZLG-b4-xPs">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -63,12 +63,20 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No outfits to show" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O9i-Vy-0Kk">
+                                <rect key="frame" x="112.5" y="323.5" width="149.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="EFd-XB-SvH" firstAttribute="centerX" secondItem="mL3-e2-hZR" secondAttribute="centerX" id="Eaj-ID-6qZ"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="leading" secondItem="qtn-du-5Qk" secondAttribute="leading" id="PFk-IC-i4R"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="top" secondItem="qtn-du-5Qk" secondAttribute="top" id="bLt-6g-mcL"/>
+                            <constraint firstItem="O9i-Vy-0Kk" firstAttribute="centerY" secondItem="mL3-e2-hZR" secondAttribute="centerY" id="jV0-nC-EFq"/>
+                            <constraint firstItem="O9i-Vy-0Kk" firstAttribute="centerX" secondItem="mL3-e2-hZR" secondAttribute="centerX" id="o9L-AD-SEc"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="trailing" secondItem="qtn-du-5Qk" secondAttribute="trailing" id="v8T-zb-qBM"/>
                             <constraint firstItem="EFd-XB-SvH" firstAttribute="centerY" secondItem="mL3-e2-hZR" secondAttribute="centerY" id="wJr-ry-RpX"/>
                             <constraint firstItem="CT1-QA-z9q" firstAttribute="bottom" secondItem="qtn-du-5Qk" secondAttribute="bottom" id="ykc-BP-Pkc"/>
@@ -77,7 +85,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="CT1-QA-z9q" id="cap-aX-62V"/>
-                        <outlet property="noOutfitsLabel" destination="CBN-lm-PS7" id="nKz-jR-Rqz"/>
+                        <outlet property="noOutfitsLabel" destination="O9i-Vy-0Kk" id="bfo-LP-Krw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3r-Lr-qZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>

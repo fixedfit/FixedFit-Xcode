@@ -77,6 +77,10 @@ class Closet {
             outfits[index].isFavorited = favorite
         }
     }
+
+    func favoriteOutfits() -> [Outfit] {
+        return outfits.filter({$0.isFavorited == true})
+    }
 }
 
 func ==(_ a: CategorySubcategory, _ b: CategorySubcategory) -> Bool {

@@ -8,19 +8,23 @@
 
 import UIKit
 
+enum Outfits {
+    case outfits
+    case liked
+    case favorited
+}
+
 class OutfitsVC: PhotosVC {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noOutfitsLabel: UILabel!
 
-    var outfits: [Outfit] {
-        get {
-            return UserStuffManager.shared.closet.outfits
-        }
-
-        set {
+    var outfits: [Outfit] = [] {
+        didSet {
             collectionView.reloadData()
+            checkEmptyState()
         }
     }
+    var outfitsType = Outfits.outfits
 
     let firebaseManager = FirebaseManager.shared
 
@@ -29,13 +33,25 @@ class OutfitsVC: PhotosVC {
         setupViews()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        collectionView.reloadData()
-    }
-
     private func setupViews() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        checkEmptyState()
+    }
+
+    private func checkEmptyState() {
+        if outfits.isEmpty {
+            noOutfitsLabel.isHidden = false
+            var noOutfitsText = ""
+            switch outfitsType {
+            case .outfits: noOutfitsText = "No outfits to show"
+            case .liked: noOutfitsText = "No liked outfits to show"
+            case .favorited: noOutfitsText = "No favorited outfits to show"
+            }
+            noOutfitsLabel.text = noOutfitsText
+        } else {
+            noOutfitsLabel.isHidden = true
+        }
     }
 }
 

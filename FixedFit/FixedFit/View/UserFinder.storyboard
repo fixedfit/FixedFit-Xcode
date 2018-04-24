@@ -45,7 +45,7 @@
                                                         <constraint firstAttribute="height" constant="60" id="vTm-nq-TsK"/>
                                                     </constraints>
                                                 </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="AYJ-7n-Cck">
+                                                <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="AYJ-7n-Cck">
                                                     <rect key="frame" x="92" y="35" width="84" height="42.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6p-uf-rMp">
@@ -120,6 +120,7 @@
                         <outlet property="searchStatusLabel" destination="N6x-C6-SQo" id="SGM-jK-996"/>
                         <outlet property="tableView" destination="wDT-Eh-RZn" id="VmM-Hf-yGB"/>
                         <outlet property="userSearchBar" destination="Tgu-X7-WIp" id="weS-KY-BVf"/>
+                        <outlet property="viewTapGestureRecognizer" destination="Xzy-wQ-xMI" id="axg-E7-Div"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ldg-TR-ynv" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -29,8 +29,11 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     var outfitDisplayed: Bool!
     var outfitdisplayingStatus: String!
 
-    var outfitsVC: OutfitsVC!
     var selectedOutfit: Outfit!
+
+    let outfitsVC = UIStoryboard.outfitsVC as! OutfitsVC
+    let likedOutfitsVC = UIStoryboard.outfitsVC as! OutfitsVC
+    let favoritedOutfitsVC = UIStoryboard.outfitsVC as! OutfitsVC
 
     //label for the user's first and last name, user's bio, and viewing status
     @IBOutlet weak var UserFirstName: UILabel!
@@ -46,7 +49,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
     //Reference to the UIImageVIew
     @IBOutlet weak var UserProfileImage: UIImageView!
-
     @IBOutlet weak var childVCView: UIView!
 
     override func viewDidLoad() {
@@ -74,12 +76,25 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         FollowingButton.addGestureRecognizer(followingTap)
         FollowersButton.addGestureRecognizer(followersTap)
 
-        let outfitsVC = UIStoryboard.outfitsVC as! OutfitsVC
         childVCView.addSubview(outfitsVC.view)
         outfitsVC.view.fillSuperView()
-        self.outfitsVC = outfitsVC
+        outfitsVC.outfitsType = .outfits
         outfitsVC.outfits = userStuffManager.closet.outfits
         self.addChildViewController(outfitsVC)
+
+        childVCView.addSubview(likedOutfitsVC.view)
+        likedOutfitsVC.view.fillSuperView()
+        likedOutfitsVC.outfitsType = .liked
+        likedOutfitsVC.outfits = []
+        self.addChildViewController(likedOutfitsVC)
+
+        childVCView.addSubview(favoritedOutfitsVC.view)
+        favoritedOutfitsVC.view.fillSuperView()
+        favoritedOutfitsVC.outfitsType = .favorited
+        favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
+        self.addChildViewController(favoritedOutfitsVC)
+
+
         
         ////Update Followers and Following Counters from firebase
         //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
@@ -108,8 +123,6 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
     //MARK: Update profile page once view appears.
     override func viewWillAppear(_ animated: Bool) {
-        outfitsVC.viewWillAppear(true)
-
         //Fetch the user's Information from the UserStuffManager
         userStuffManager.fetchUserInfo { _ in }
 
@@ -191,12 +204,13 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         
         //Make main execute this section strictly after the OutfitSelectionVC has been dismissed
         //This section will perform the displaying of certain outfits, either all outfits, public outfits, or private outfits
-        dispatch.notify(queue: .main){
-            print("Tapped outfits")
-        }
+        dispatch.notify(queue: .main){}
         
         //If the outfit button is was tapped, then make the boolean value of the outfitDisplayed variable to true
+        outfitsVC.outfits = userStuffManager.closet.outfits
         self.outfitDisplayed = true
+        likedOutfitsVC.view.isHidden = true
+        favoritedOutfitsVC.view.isHidden = true
         
     }
 
@@ -206,9 +220,9 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         self.outfitDisplayed = false
         
         //Display only the outfits of other user's that the current user liked
-        
-        
-        print("Tapped liked")
+        likedOutfitsVC.outfits = []
+        likedOutfitsVC.view.isHidden = false
+        favoritedOutfitsVC.view.isHidden = true
     }
 
     @IBAction func tappedFavorited(_ sender: UITapGestureRecognizer) {
@@ -217,9 +231,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         self.outfitDisplayed = false
         
         //Display only the outfits that belongs to the current user that they liked
-        
-        
-        print("Tapped favorited")
+        favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
+        favoritedOutfitsVC.view.isHidden = false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

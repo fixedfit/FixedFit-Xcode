@@ -747,13 +747,28 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sIa-7S-fsa">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TutorialSettingCell" id="sIa-7S-fsa" customClass="TutorialSettingCell" customModule="FixedFit" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sIa-7S-fsa" id="9IB-6h-G6y">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pl3-p0-Dy6">
+                                                    <rect key="frame" x="15" y="11" width="345" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pl3-p0-Dy6" firstAttribute="centerY" secondItem="9IB-6h-G6y" secondAttribute="centerY" id="JwP-dD-eKD"/>
+                                                <constraint firstItem="pl3-p0-Dy6" firstAttribute="centerX" secondItem="9IB-6h-G6y" secondAttribute="centerX" id="gYi-NK-7U8"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="TutorialLabel" destination="pl3-p0-Dy6" id="bgI-06-O7t"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -762,10 +777,13 @@
                         <viewLayoutGuide key="safeArea" id="1ZW-mM-Gcn"/>
                     </view>
                     <navigationItem key="navigationItem" id="4rG-0w-KFu"/>
+                    <connections>
+                        <outlet property="TableView" destination="jCE-RP-7ek" id="loA-m1-dfy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r2n-T3-xFg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3633" y="-940"/>
+            <point key="canvasLocation" x="3632.8000000000002" y="-940.47976011994012"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aq7-ox-vMp">

@@ -10,6 +10,7 @@
 		149B5694204286840074285C /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149B5693204286840074285C /* HomeVC.swift */; };
 		1ADAEFB920AF66F1CCF7ED62 /* Pods_FixedFitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A673C48F25CC7F96D3DE6F /* Pods_FixedFitTests.framework */; };
 		4D15C85F6F6A99AF9CFC9791 /* Pods_FixedFit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63E3078D420275BA4BF4F39 /* Pods_FixedFit.framework */; };
+		5C04D4C22091077D000ED3FD /* TutorialSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C04D4C12091077D000ED3FD /* TutorialSettingCell.swift */; };
 		5C257422207AA6DC0003F8C5 /* ReauthenticateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C257421207AA6DC0003F8C5 /* ReauthenticateVC.xib */; };
 		5C257424207AA70E0003F8C5 /* ReauthenticateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C257423207AA70E0003F8C5 /* ReauthenticateVC.swift */; };
 		5C2F1DAC20789FA500ADF58E /* SupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F1DAB20789FA500ADF58E /* SupportVC.swift */; };
@@ -102,6 +103,7 @@
 
 /* Begin PBXFileReference section */
 		149B5693204286840074285C /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		5C04D4C12091077D000ED3FD /* TutorialSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSettingCell.swift; sourceTree = "<group>"; };
 		5C257421207AA6DC0003F8C5 /* ReauthenticateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReauthenticateVC.xib; sourceTree = "<group>"; };
 		5C257423207AA70E0003F8C5 /* ReauthenticateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReauthenticateVC.swift; sourceTree = "<group>"; };
 		5C2F1DAB20789FA500ADF58E /* SupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportVC.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				CA121E0120781CD0006C5C54 /* OutfitCell.swift */,
 				727681C7207C511E00F76F29 /* SelectableOutfitCell.swift */,
 				5C8A7B44208FA6290054D639 /* CategorySettingCell.swift */,
+				5C04D4C12091077D000ED3FD /* TutorialSettingCell.swift */,
 			);
 			path = "View Related";
 			sourceTree = "<group>";
@@ -728,6 +731,7 @@
 				72990E9F207C1F8900E1E213 /* DatePopUpVC.swift in Sources */,
 				5C92B4E2208C128100D1F246 /* OutfitSelectionVC.swift in Sources */,
 				5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */,
+				5C04D4C22091077D000ED3FD /* TutorialSettingCell.swift in Sources */,
 				CA2CABCD203D2AA800C62AE1 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

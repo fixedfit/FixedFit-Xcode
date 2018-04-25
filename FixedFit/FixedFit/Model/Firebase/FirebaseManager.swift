@@ -187,6 +187,21 @@ class FirebaseManager {
                 completion(nil, error)
         }
     }
+    
+    func fetchCustomCategories(completion: @escaping ([String]?) -> Void) {
+        
+        //Obtain the current user and their uid
+        guard let user = currentUser else {return}
+        let uid = user.uid
+        
+        ref.child(.users).child("\(uid)").child(.closet).child(.categories).observeSingleEvent(of: .value, with:{(snapshot) in
+            if let categories = snapshot.value as? [String]{
+                completion(categories)
+            } else {
+                completion(nil)
+            }
+        })
+    }
 
     // MARK: - Upload methods
 

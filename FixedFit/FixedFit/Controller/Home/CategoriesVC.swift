@@ -60,6 +60,16 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //Show or hidden the no category label
+        if (self.categories.count == 0){
+            self.CategoryStatusLabel.isHidden = false
+        } else {
+            self.CategoryStatusLabel.isHidden = true
+        }
+    }
+    
     //Action when the button is selected to add a new category
     @IBAction func AddCategorySelected(_ sender: UIBarButtonItem) {
         
@@ -111,8 +121,10 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
     
     //Store the current category array into firebase
     override func viewWillDisappear(_ animated: Bool) {
+        
         //Update the array of strings to firebase
-        print("store into firebase")
+        self.firebaseManager.updateCustomCategorie(categories: self.categories)
+        
     }
     
     //ChangeUserInfoVC function:

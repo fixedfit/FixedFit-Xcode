@@ -79,9 +79,9 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         } else if(validNamesInt == UserInfoCheckerKeys.username_has_whitespsace.rawValue){
             showLoginError("Username has white spaces")
         } else if(validNamesInt == UserInfoCheckerKeys.firstname_of_user_invalid_structure.rawValue){
-            showLoginError("First name should only contain alphabet letters and whitespaces")
+            showLoginError("First name should have letters and whitespaces")
         } else if(validNamesInt == UserInfoCheckerKeys.lastname_of_user_invalid_structure.rawValue){
-            showLoginError("Last name should only contain alphabet letters and whitespaces")
+            showLoginError("Last name should have letters and whitespaces")
         }
 
     }

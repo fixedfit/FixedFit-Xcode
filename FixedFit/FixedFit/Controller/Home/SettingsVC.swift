@@ -17,6 +17,7 @@ enum SettingKeys: String{
     case deletion = "delete account"
     case emailUpdate = "change email"
     case passwordUpdate = "change password"
+    case newCategory = "add category"
 }
 class SettingsVC: UIViewController, UIGestureRecognizerDelegate, ReauthenticationDelegate, UserInfoDelegate{
     

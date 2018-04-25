@@ -194,7 +194,7 @@ class FirebaseManager {
         guard let user = currentUser else {return}
         let uid = user.uid
         
-        ref.child(.users).child("\(uid)").child(.closet).child(.categories).observeSingleEvent(of: .value, with:{(snapshot) in
+        ref.child(.users).child("\(uid)").child(.closet).child(.categories).observe(.value, with:{(snapshot) in
             if let categories = snapshot.value as? [String]{
                 completion(categories)
             } else {
@@ -256,6 +256,11 @@ class FirebaseManager {
                 completion(error)
             }
         }
+    }
+    
+    func updateCustomCategorie(categories: [String]){
+        guard let user = currentUser else { return }
+        ref.child(.users).child(user.uid).child(.closet).updateChildValues([FirebaseKeys.categories.rawValue : categories])
     }
 
     func uploadClosetItems(_ itemCategoriesDict: [UIImage: CategorySubcategory], completion: @escaping (Error?) -> Void) {
@@ -669,7 +674,7 @@ class FirebaseManager {
         deleteStorageAndDatabase(user: user){
             
             ////delete user's data base account
-            self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").observe(.value, with:{(snapshot)in
+            self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").observeSingleEvent(of: .value, with:{(snapshot)in
                 if snapshot.value != nil{
                     self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").removeValue()
                 }

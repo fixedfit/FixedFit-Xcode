@@ -11,10 +11,12 @@ struct RecoveryKeys{
     static let recoverEmail = "recover email"
     static let recoverPassword = "recover password"
 }
-class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, RecoverSelectionDelegate {
 
+    static let accountRecovery = "Account Recovery"
+    
     //Initial variables for setting the tutorials
-    var tutorialList: [String] = ["Add Clothes", "Construct Outfits", "Search for Users", "Follow a User", RecoveryKeys.recoverEmail, RecoveryKeys.recoverPassword]
+    var tutorialList: [String] = ["Add Clothes", "Construct Outfits", "Search for Users", "Follow a User", TutorialVC.accountRecovery]
     
     //Reference to the Table View
     @IBOutlet weak var TableView: UITableView!
@@ -45,7 +47,7 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return self.tutorialList.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 60
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -61,13 +63,32 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //Obtain the string that corresponds to this tutorial cell
         let tutorialLabel = self.tutorialList[indexPath.row]
         
-        if(tutorialLabel == RecoveryKeys.recoverEmail || tutorialLabel == RecoveryKeys.recoverPassword){
+        if(tutorialLabel == TutorialVC.accountRecovery){
             
             //Initialize a dispatch to wait for the nib file to retrieve the
             let dispatch = DispatchGroup()
             
-            //Present a new nib file that will ask the user to recover there email or password
+            dispatch.enter()
+            //Generate the AccountRecoveryVC and present it
+            let button = ButtonData(title: "", color: UIColor()){
+                dispatch.leave()
+            }
+            let RecoverVC = AccountRecoveryVC(buttonData: button)
+            RecoverVC.delegate = self
+            self.present(RecoverVC, animated: true, completion: nil)
             
+            dispatch.notify(queue: .main){
+                
+                if(self.cancelled == false){
+                    
+                    //Determine if the user wants to recover their email or password
+                    if(self.recoverMethod == RecoveryKeys.recoverEmail){
+                        print(self.recoverMethod)
+                    } else if(self.recoverMethod == RecoveryKeys.recoverPassword){
+                        print(self.recoverMethod)
+                    }
+                }
+            }
             
         } else {
             //Transition to SupportVC with desired tutorial
@@ -80,5 +101,11 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.present(vc, animated: true, completion: nil)
             }
         }
+    }
+    
+    //Delegate functions
+    func recoverSelection(recover: String, cancel: Bool) {
+        self.recoverMethod = recover
+        self.cancelled = cancel
     }
 }

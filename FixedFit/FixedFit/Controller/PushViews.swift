@@ -73,12 +73,13 @@ class PushViews {
                     vc.viewTitle = newString
                 }
                 
-            } else if(vcName == PushViewKeys.supportVC){
+            } else if(vcName == PushViewKeys.supportVC && newMode != nil){
                 vc = storyboard.instantiateViewController(withIdentifier: "SupportVC")  as! SupportVC
                 
                 //Initialize the title of the ViewController
                 if let currentVC = vc as? SupportVC{
                     currentVC.viewTitle = newString
+                    currentVC.mode = newMode
                 }
                 
                 //For UserViewVC, the title should be the user name of the searched person

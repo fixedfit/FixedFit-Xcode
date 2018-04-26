@@ -311,7 +311,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedTutorialView(_ sender: UITapGestureRecognizer){
         
         //Transition to Help Center
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.tutorialVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.tutorial, newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.tutorialVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.tutorial) else {return}
         
         if let vc = vc as? TutorialVC{
             //Push View Controller onto Navigation Stack
@@ -325,7 +325,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedHelpCenter(_ sender: UITapGestureRecognizer){
         
         //Transition to Help Center
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.helpCenter, newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.helpCenter, newMode: FirebaseSupportTitleAndMode.helpCenter) else {return}
         
         if let vc = vc as? SupportVC{
             //Push View Controller onto Navigation Stack
@@ -337,7 +337,7 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     @objc func tappedContacts(_ sender: UITapGestureRecognizer){
         
         //Transition to Contact Us
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.contactusVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.contactUs, newMode:"") else {return}
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.contactusVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.contactUs) else {return}
         
         if let vc = vc as? ContactUsVC{
             //Push View Controller onto Navigation Stack

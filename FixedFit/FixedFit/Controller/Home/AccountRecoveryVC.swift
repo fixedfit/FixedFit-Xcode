@@ -18,6 +18,7 @@ class AccountRecoveryVC: UIViewController {
     @IBOutlet weak var RecoverEmailButton: UIButton!
     @IBOutlet weak var RecoverPasswordButton: UIButton!
     @IBOutlet weak var CancelButton: UIButton!
+    @IBOutlet weak var RecoveryLabel: UILabel!
     
     //Initial button data
     var button: ButtonData?
@@ -25,14 +26,18 @@ class AccountRecoveryVC: UIViewController {
     //Initial delegate
     var delegate: RecoverSelectionDelegate!
     
+    //Initialize title varible for users to see
+    var titleMsg: String!
+    
     //Initializers
-    init(buttonData: ButtonData){
+    init(title: String, buttonData: ButtonData){
         super.init(nibName: "AccountRecoveryVC", bundle:nil)
         self.modalTransitionStyle = .crossDissolve
         self.modalPresentationStyle = .overFullScreen
         
         //Assign the button data
         self.button = buttonData
+        self.titleMsg = title
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -55,6 +60,10 @@ class AccountRecoveryVC: UIViewController {
         self.RecoverEmailButton.titleLabel?.font = buttonFont
         self.RecoverPasswordButton.titleLabel?.font = buttonFont
         self.CancelButton.titleLabel?.font = buttonFont
+        
+        //Set label
+        self.RecoveryLabel.sizeToFit()
+        self.RecoveryLabel.text = self.titleMsg
     }
     
     //Actions by the buttons being pressed

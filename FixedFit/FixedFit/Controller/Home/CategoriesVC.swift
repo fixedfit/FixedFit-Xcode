@@ -21,6 +21,9 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
     //Initial variable to hold the categories
     var categories: [String] = []
     
+    //Hold the array of default categories to ignore changes on them
+    static let defaultCategories = ["tops", "bottoms","footwear","accessories"]
+    
     //Reference to the category view
     @IBOutlet var CategoryView: UIView!
     
@@ -55,6 +58,9 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
             } else {
                 self.categories = categoryList!
                 self.CategoryStatusLabel.isHidden = true
+                
+                //Remove the default list of categories to only reveal the custom categories
+                
             }
             self.TableView.reloadData()
         }
@@ -121,6 +127,9 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
     
     //Store the current category array into firebase
     override func viewWillDisappear(_ animated: Bool) {
+        
+        //Append the array of default categories
+        
         
         //Update the array of strings to firebase
         self.firebaseManager.updateCustomCategorie(categories: self.categories)

@@ -14,7 +14,7 @@ struct RecoveryKeys{
 class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     //Initial variables for setting the tutorials
-    var tutorialList: [String] = ["add clothes", RecoveryKeys.recoverEmail, RecoveryKeys.recoverPassword]
+    var tutorialList: [String] = ["Add Clothes", "Construct Outfits", "Search for Users", "Follow a User", RecoveryKeys.recoverEmail, RecoveryKeys.recoverPassword]
     
     //Reference to the Table View
     @IBOutlet weak var TableView: UITableView!

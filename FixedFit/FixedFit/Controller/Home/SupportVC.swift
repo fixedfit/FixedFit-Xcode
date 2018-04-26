@@ -12,11 +12,14 @@ class SupportVC: UIViewController{
     
     //Initial variable for setting the title and mode
     var viewTitle:String!
+    var mode:String!
     
     override func viewWillAppear(_ animated: Bool) {
         
+        if(mode == FirebaseSupportTitleAndMode.tutorial){
+            self.viewTitle = self.viewTitle + " tutorial"
+        }
         self.navigationItem.title = viewTitle
-        
     }
     
 }

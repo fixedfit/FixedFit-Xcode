@@ -16,7 +16,7 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     static let accountRecovery = "Account Recovery"
     
     //Initial variables for setting the tutorials
-    var tutorialList: [String] = ["Add Clothes", "Construct Outfits", "Search for Users", "Follow a User", TutorialVC.accountRecovery]
+    var tutorialList: [String] = ["Add Clothes", "Construct Outfits", "Search for Users", "Follow a User", "Block a User","Like a user's Photo", "Add an outfit to the calendar",TutorialVC.accountRecovery]
     
     //Reference to the Table View
     @IBOutlet weak var TableView: UITableView!
@@ -92,7 +92,7 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
         } else {
             //Transition to SupportVC with desired tutorial
-            guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newString: tutorialLabel + " tutorial", newMode:"") else {return}
+            guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newString: tutorialLabel, newMode: FirebaseSupportTitleAndMode.tutorial) else {return}
             
             if let vc = vc as? SupportVC{
                 //Push View Controller onto Navigation Stack

@@ -26,6 +26,8 @@
 		5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3069A2079B5A6007C55E0 /* PushViews.swift */; };
 		5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */; };
 		5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */; };
+		5CEAB189209199C30002140C /* AccountRecoveryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CEAB188209199C30002140C /* AccountRecoveryVC.xib */; };
+		5CEAB18B20919AAE0002140C /* AccountRecoveryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAB18A20919AAE0002140C /* AccountRecoveryVC.swift */; };
 		5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */; };
 		5CF8599520831E3A00B2D07D /* ChooseUserPhotoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */; };
 		721A34972078397400A98BC8 /* DatePopUpVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 721A34962078397400A98BC8 /* DatePopUpVC.storyboard */; };
@@ -119,6 +121,8 @@
 		5CC3069A2079B5A6007C55E0 /* PushViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViews.swift; sourceTree = "<group>"; };
 		5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangeUserInfoVC.xib; sourceTree = "<group>"; };
 		5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInfoVC.swift; sourceTree = "<group>"; };
+		5CEAB188209199C30002140C /* AccountRecoveryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountRecoveryVC.xib; sourceTree = "<group>"; };
+		5CEAB18A20919AAE0002140C /* AccountRecoveryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryVC.swift; sourceTree = "<group>"; };
 		5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUserPhotoVC.swift; sourceTree = "<group>"; };
 		5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChooseUserPhotoVC.xib; sourceTree = "<group>"; };
 		721A34962078397400A98BC8 /* DatePopUpVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DatePopUpVC.storyboard; sourceTree = "<group>"; };
@@ -252,6 +256,7 @@
 				5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */,
 				5CF8599420831E3A00B2D07D /* ChooseUserPhotoVC.xib */,
 				5C92B4DF208C100A00D1F246 /* OutfitSelectionVC.xib */,
+				5CEAB188209199C30002140C /* AccountRecoveryVC.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -401,6 +406,7 @@
 				727681C9207C533A00F76F29 /* AddOutfitVC.swift */,
 				5C3B8A9B208EB08800731B9C /* TutorialVC.swift */,
 				5C3B8A9D208EB13000731B9C /* ContactUsVC.swift */,
+				5CEAB18A20919AAE0002140C /* AccountRecoveryVC.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -560,6 +566,7 @@
 				5CF8599520831E3A00B2D07D /* ChooseUserPhotoVC.xib in Resources */,
 				CA2CABC7203D1B8E00C62AE1 /* Feed.storyboard in Resources */,
 				CA2CABCB203D2A1000C62AE1 /* Authentication.storyboard in Resources */,
+				5CEAB189209199C30002140C /* AccountRecoveryVC.xib in Resources */,
 				CA2CABC5203D1B7E00C62AE1 /* AddPhotos.storyboard in Resources */,
 				CA2CABC3203D1B7200C62AE1 /* Closet.storyboard in Resources */,
 				CA27BEC9207A180100C2E0AA /* GoogleService-Info.plist in Resources */,
@@ -729,6 +736,7 @@
 				CA1DA7592058D29E00DE3897 /* PhotoCell.swift in Sources */,
 				CA843C4620602CCF005672D5 /* FiltersVC.swift in Sources */,
 				72990E9F207C1F8900E1E213 /* DatePopUpVC.swift in Sources */,
+				5CEAB18B20919AAE0002140C /* AccountRecoveryVC.swift in Sources */,
 				5C92B4E2208C128100D1F246 /* OutfitSelectionVC.swift in Sources */,
 				5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */,
 				5C04D4C22091077D000ED3FD /* TutorialSettingCell.swift in Sources */,

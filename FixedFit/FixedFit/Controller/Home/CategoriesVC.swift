@@ -172,7 +172,7 @@ extension CategoriesVC: UITableViewDataSource {
 extension CategoriesVC: UITableViewDelegate {
     //Functions for table view cells height and editing style
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 60
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

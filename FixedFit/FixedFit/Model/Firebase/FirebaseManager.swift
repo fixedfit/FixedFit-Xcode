@@ -202,6 +202,19 @@ class FirebaseManager {
             }
         })
     }
+    
+    func fetchContactUsInfo()->[String]?{
+        
+        //Obtain the current user and their uid
+        guard let user = currentUser else {return nil}
+        let uid = user.uid
+        
+        //Obtain the current user's email
+        let email = user.email!
+        
+        //Return the user's uid and email
+        return[uid, email]
+    }
 
     // MARK: - Upload methods
 

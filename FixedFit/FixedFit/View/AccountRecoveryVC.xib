@@ -15,6 +15,7 @@
                 <outlet property="CancelButton" destination="pzv-6q-c9i" id="N77-fZ-VaZ"/>
                 <outlet property="RecoverEmailButton" destination="cma-tg-wRB" id="UfS-87-dgG"/>
                 <outlet property="RecoverPasswordButton" destination="KBU-3N-F5C" id="3YQ-Pz-BAO"/>
+                <outlet property="RecoveryLabel" destination="bmW-Af-daY" id="vmX-H7-MaV"/>
                 <outlet property="RecoverySelectionView" destination="aNS-kd-bGG" id="OYe-GP-Qpq"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Peh-JX-QWl"/>
             </connections>
@@ -27,8 +28,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aNS-kd-bGG">
                     <rect key="frame" x="16" y="245" width="343" height="197"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Account Recovery" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmW-Af-daY">
-                            <rect key="frame" x="103" y="8" width="139" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recover Credientals" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmW-Af-daY">
+                            <rect key="frame" x="96" y="8" width="154" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>

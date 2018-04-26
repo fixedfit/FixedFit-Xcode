@@ -73,7 +73,7 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             let button = ButtonData(title: "", color: UIColor()){
                 dispatch.leave()
             }
-            let RecoverVC = AccountRecoveryVC(buttonData: button)
+            let RecoverVC = AccountRecoveryVC(title: "Recover Credientals", buttonData: button)
             RecoverVC.delegate = self
             self.present(RecoverVC, animated: true, completion: nil)
             

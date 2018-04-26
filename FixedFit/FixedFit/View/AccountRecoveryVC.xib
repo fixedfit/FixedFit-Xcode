@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,47 +29,49 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aNS-kd-bGG">
                     <rect key="frame" x="16" y="245" width="343" height="197"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recover Credientals" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmW-Af-daY">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recover Credentials" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmW-Af-daY">
                             <rect key="frame" x="96" y="8" width="154" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H4O-YK-aYl">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H4O-YK-aYl">
                             <rect key="frame" x="0.0" y="32" width="343" height="3"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3DM-Hs-9bl">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3DM-Hs-9bl">
                             <rect key="frame" x="0.0" y="94" width="343" height="3"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="csa-CH-DJw">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="csa-CH-DJw">
                             <rect key="frame" x="0.0" y="156" width="343" height="3"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cma-tg-wRB">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cma-tg-wRB">
                             <rect key="frame" x="0.0" y="35" width="343" height="59"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="59" id="ViM-av-oEa"/>
+                            </constraints>
                             <state key="normal" title="Recover Email Address"/>
                             <connections>
                                 <action selector="RecoverEmailTapped:" destination="-1" eventType="touchUpInside" id="egh-Ji-qp9"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KBU-3N-F5C">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KBU-3N-F5C">
                             <rect key="frame" x="0.0" y="97" width="343" height="59"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="59" id="x92-Lu-cUK"/>
+                            </constraints>
                             <state key="normal" title="Recover Password"/>
                             <connections>
                                 <action selector="RecoverPasswordTapped:" destination="-1" eventType="touchUpInside" id="GUV-Wv-HDc"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pzv-6q-c9i">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pzv-6q-c9i">
                             <rect key="frame" x="0.0" y="159" width="343" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="38" id="hRc-q0-qvg"/>
+                            </constraints>
                             <state key="normal" title="Cancel">
                                 <color key="titleColor" red="1" green="0.036157399040000003" blue="0.026240353880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -79,7 +82,30 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="H4O-YK-aYl" firstAttribute="leading" secondItem="aNS-kd-bGG" secondAttribute="leading" id="3GL-SE-gsA"/>
+                        <constraint firstItem="H4O-YK-aYl" firstAttribute="leading" secondItem="cma-tg-wRB" secondAttribute="leading" id="8Jt-sA-gcm"/>
+                        <constraint firstAttribute="bottom" secondItem="pzv-6q-c9i" secondAttribute="bottom" id="9rA-d5-1Bf"/>
+                        <constraint firstItem="KBU-3N-F5C" firstAttribute="trailing" secondItem="csa-CH-DJw" secondAttribute="trailing" id="AeQ-P3-Gzh"/>
+                        <constraint firstItem="H4O-YK-aYl" firstAttribute="top" secondItem="bmW-Af-daY" secondAttribute="bottom" constant="3" id="B4r-u3-N0X"/>
+                        <constraint firstItem="bmW-Af-daY" firstAttribute="leading" secondItem="aNS-kd-bGG" secondAttribute="leading" constant="96" id="BKu-jj-Ler"/>
+                        <constraint firstItem="csa-CH-DJw" firstAttribute="leading" secondItem="pzv-6q-c9i" secondAttribute="leading" id="F3g-mL-sbc"/>
+                        <constraint firstItem="cma-tg-wRB" firstAttribute="trailing" secondItem="3DM-Hs-9bl" secondAttribute="trailing" id="IPu-Fr-VGc"/>
+                        <constraint firstItem="3DM-Hs-9bl" firstAttribute="leading" secondItem="KBU-3N-F5C" secondAttribute="leading" id="IQW-Re-xb6"/>
+                        <constraint firstItem="H4O-YK-aYl" firstAttribute="trailing" secondItem="cma-tg-wRB" secondAttribute="trailing" id="Jhe-4Z-l5F"/>
+                        <constraint firstItem="pzv-6q-c9i" firstAttribute="top" secondItem="csa-CH-DJw" secondAttribute="bottom" id="Ndi-5x-rhR"/>
+                        <constraint firstItem="cma-tg-wRB" firstAttribute="top" secondItem="aNS-kd-bGG" secondAttribute="top" constant="35" id="S4J-lB-xEY"/>
+                        <constraint firstItem="csa-CH-DJw" firstAttribute="top" secondItem="KBU-3N-F5C" secondAttribute="bottom" id="YsF-M8-5kf"/>
+                        <constraint firstItem="KBU-3N-F5C" firstAttribute="top" secondItem="aNS-kd-bGG" secondAttribute="top" constant="97" id="Ysp-Zv-pAy"/>
+                        <constraint firstItem="3DM-Hs-9bl" firstAttribute="trailing" secondItem="KBU-3N-F5C" secondAttribute="trailing" id="dmN-xg-UP9"/>
+                        <constraint firstItem="cma-tg-wRB" firstAttribute="leading" secondItem="3DM-Hs-9bl" secondAttribute="leading" id="dvL-as-Yh2"/>
+                        <constraint firstItem="bmW-Af-daY" firstAttribute="top" secondItem="aNS-kd-bGG" secondAttribute="topMargin" id="eBH-D3-YYT"/>
+                        <constraint firstItem="cma-tg-wRB" firstAttribute="top" secondItem="H4O-YK-aYl" secondAttribute="bottom" id="eOT-Qk-X7Y"/>
+                        <constraint firstItem="csa-CH-DJw" firstAttribute="trailing" secondItem="pzv-6q-c9i" secondAttribute="trailing" id="eta-q9-Idi"/>
+                        <constraint firstItem="KBU-3N-F5C" firstAttribute="leading" secondItem="csa-CH-DJw" secondAttribute="leading" id="nB9-ln-Rpf"/>
+                        <constraint firstItem="KBU-3N-F5C" firstAttribute="top" secondItem="3DM-Hs-9bl" secondAttribute="bottom" id="pWU-tc-iY8"/>
                         <constraint firstAttribute="width" constant="343" id="v9H-v6-i1O"/>
+                        <constraint firstItem="3DM-Hs-9bl" firstAttribute="top" secondItem="cma-tg-wRB" secondAttribute="bottom" id="yUr-DE-82T"/>
+                        <constraint firstAttribute="trailing" secondItem="H4O-YK-aYl" secondAttribute="trailing" id="yzB-fj-FOp"/>
                         <constraint firstAttribute="height" constant="197" id="zZt-36-Jyf"/>
                     </constraints>
                 </view>

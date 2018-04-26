@@ -13,7 +13,7 @@ struct RecoveryKeys{
 }
 class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, RecoverSelectionDelegate {
 
-    static let accountRecovery = "Account Recovery"
+    static let accountRecovery = "Recover Credentials"
     
     //Initial variables for setting the tutorials
     var tutorialList: [String] = ["Add Clothes", "Construct Outfits", "Search for Users", "Follow a User", "Block a User","Like a user's Photo", "Add an outfit to the calendar",TutorialVC.accountRecovery]
@@ -73,7 +73,7 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             let button = ButtonData(title: "", color: UIColor()){
                 dispatch.leave()
             }
-            let RecoverVC = AccountRecoveryVC(title: "Recover Credientals", buttonData: button)
+            let RecoverVC = AccountRecoveryVC(title: "Recover Credentials", buttonData: button)
             RecoverVC.delegate = self
             self.present(RecoverVC, animated: true, completion: nil)
             

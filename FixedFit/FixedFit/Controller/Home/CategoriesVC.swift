@@ -11,6 +11,7 @@ import UIKit
 class CategoriesVC: UIViewController, UserInfoDelegate{
     
     private let firebaseManager = FirebaseManager.shared
+    private let userStuffManager = UserStuffManager.shared
     
     //Initial title variable for the View Controller
     var viewTitle: String!
@@ -21,9 +22,6 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
     //Initial variable to hold the categories
     var categories: [String] = []
     
-    //Hold the array of default categories to ignore changes on them
-    static let defaultCategories = ["tops", "bottoms","footwear","accessories"]
-    
     //Reference to the category view
     @IBOutlet var CategoryView: UIView!
     
@@ -33,6 +31,9 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
     //Reference to the category button and label
     @IBOutlet weak var AddCategoryButton: UIBarButtonItem!
     @IBOutlet weak var CategoryStatusLabel: UILabel!
+    
+    //Initial variable used to hold the actual Local categories set by the user from the SubCategoryStore.alluserCreatedCategories in userStuffManager
+    var previousCreatedCategories:[String]?
     
     //Variable to determine if the operation has been cancelled
     var cancelled: Bool!
@@ -50,29 +51,37 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
         self.TableView.dataSource = self
         self.TableView.tableFooterView = UIView()
         
-        //Retrieve the categories array from firebase
-        self.firebaseManager.fetchCustomCategories(){ (categoryList) in
-            if categoryList == nil{
-                self.categories = []
-                self.CategoryStatusLabel.isHidden = false
-            } else {
-                self.categories = categoryList!
-                self.CategoryStatusLabel.isHidden = true
-                
-                //Remove the default list of categories to only reveal the custom categories
-                
-            }
-            self.TableView.reloadData()
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        //Show or hidden the no category label
-        if (self.categories.count == 0){
-            self.CategoryStatusLabel.isHidden = false
-        } else {
-            self.CategoryStatusLabel.isHidden = true
+        //Update closet
+        self.userStuffManager.fetchCloset{_ in
+            
+            //Retrieve the categories array from firebase
+            self.firebaseManager.fetchCustomCategories(){ (categoryList) in
+                
+                self.categories = self.userStuffManager.closet.categorySubcategoryStore.allUserCreatedCategories
+                
+                if categoryList == nil{
+                    
+                    self.previousCreatedCategories = []
+                    
+                } else {
+                    
+                    //Remove the default list of categories to only reveal the custom categories
+                    self.previousCreatedCategories = Array(Set<String>(categoryList!).subtracting(self.userStuffManager.closet.categorySubcategoryStore.defaultCategories))
+                }
+                
+                self.TableView.reloadData()
+            }
+        
+            //Show or hidden the no category label
+            if (self.categories.count == 0){
+                self.CategoryStatusLabel.isHidden = false
+            } else {
+                self.CategoryStatusLabel.isHidden = true
+            }
         }
     }
     
@@ -102,12 +111,13 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
                 
             //Determine if the category already exist or not
             } else if(self.categories.contains(self.newCategory)){
-                self.presentInfoVC()
+                self.presentInfoVC(msg: "Entry already in Categories list")
                 return
             }
             
             ////Append the new category to the array
             self.categories.append(self.newCategory)
+            self.userStuffManager.closet.categorySubcategoryStore.addCategory(category: self.newCategory)
             
             let indexPath = IndexPath(row: (self.categories.count - 1), section: 0)
             
@@ -118,22 +128,11 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
     }
     
     //Function used to present an information vc when the category could not be added
-    private func presentInfoVC(){
+    private func presentInfoVC(msg: String){
         let buttonDataRight = ButtonData(title: "OK", color: .fixedFitBlue, action: nil)
-        let secondInformationVC = InformationVC(message: "Entry already in Categories list", image: UIImage(named: "error diagram"), leftButtonData: nil, rightButtonData: buttonDataRight)
+        let secondInformationVC = InformationVC(message: msg, image: UIImage(named: "error diagram"), leftButtonData: nil, rightButtonData: buttonDataRight)
         
         self.present(secondInformationVC, animated: true, completion:nil)
-    }
-    
-    //Store the current category array into firebase
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        //Append the array of default categories
-        
-        
-        //Update the array of strings to firebase
-        self.firebaseManager.updateCustomCategorie(categories: self.categories)
-        
     }
     
     //ChangeUserInfoVC function:
@@ -181,8 +180,18 @@ extension CategoriesVC: UITableViewDelegate {
         let index = indexPath.row
         
         if editingStyle == .delete{
-            self.categories.remove(at: index)
-            self.TableView.reloadData()
+            
+            //Obtain the string at the location
+            let category = self.categories[index]
+            
+            //Determine if the category is being used in the closet table view cells
+            if(!(previousCreatedCategories?.contains(category))!){
+                self.userStuffManager.closet.categorySubcategoryStore.removeCategory(category: category)
+                self.categories.remove(at: index)
+                self.TableView.reloadData()
+            } else {
+                self.presentInfoVC(msg: "Entry is part of a clothing item\nRemove clothing item first, then delete category")
+            }
         }
     }
 }

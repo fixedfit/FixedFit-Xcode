@@ -14,9 +14,10 @@ class CategorySubcategoryStore {
             initializeSubcategories()
         }
     }
+
     private var subcategories: [String: Set<String>] = [:]
 
-    private var defaultCategories: [String] {
+    var defaultCategories: [String] {
         return ["tops", "bottoms", "footwear", "accessories"]
     }
 
@@ -30,7 +31,8 @@ class CategorySubcategoryStore {
     }
 
     var allUserCreatedCategories: [String] {
-        return Array(categories)
+        let createdCategories = categories.subtracting(defaultCategories)
+        return Array(createdCategories)
     }
 
     func contains(category: String) -> Bool {
@@ -39,6 +41,9 @@ class CategorySubcategoryStore {
 
     func addCategory(category: String) {
         categories.insert(category)
+    }
+    func removeCategory(category: String){
+        categories.remove(category)
     }
 
     func addSubcategory(category: String, subcategory: String) {

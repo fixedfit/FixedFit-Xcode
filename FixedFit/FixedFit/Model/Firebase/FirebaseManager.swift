@@ -194,7 +194,7 @@ class FirebaseManager {
         guard let user = currentUser else {return}
         let uid = user.uid
         
-        ref.child(.users).child("\(uid)").child(.closet).child(.categories).observe(.value, with:{(snapshot) in
+        ref.child(.users).child("\(uid)").child(.closet).child(.categories).observeSingleEvent(of: .value, with:{(snapshot) in
             if let categories = snapshot.value as? [String]{
                 completion(categories)
             } else {
@@ -269,11 +269,6 @@ class FirebaseManager {
                 completion(error)
             }
         }
-    }
-    
-    func updateCustomCategorie(categories: [String]){
-        guard let user = currentUser else { return }
-        ref.child(.users).child(user.uid).child(.closet).updateChildValues([FirebaseKeys.categories.rawValue : categories])
     }
 
     func uploadClosetItems(_ itemCategoriesDict: [UIImage: CategorySubcategory], completion: @escaping (Error?) -> Void) {
@@ -470,6 +465,31 @@ class FirebaseManager {
         }) { (error) in
             completion(error)
             print(error.localizedDescription)
+        }
+    }
+    
+    //Function needed for removal of categories when deleting clothing items
+    func removeCategories(categories: [String]?){
+        guard let user = currentUser else { return }
+        
+        if categories != nil{
+            print("see this")
+            //Remove categories
+            self.ref.child(FirebaseKeys.users.rawValue).child(user.uid).child(FirebaseKeys.closet.rawValue).child(FirebaseKeys.categories.rawValue).observeSingleEvent(of: .value, with: {(snapshot) in
+                
+                if let categories = snapshot.value! as? [String]{
+                    for category in categories{
+                        
+                        //Delete the category in firebase that corresponds to the string in the parameter
+                        if(categories.contains(category)){
+                            
+                            print("should delete the category in the removeCategories where this print statement is at")
+                            print(category)
+                            print("remove print stats")
+                        }
+                    }
+                }
+            })
         }
     }
 
@@ -748,11 +768,11 @@ class FirebaseManager {
                         self.storageRef.child(url).delete{ (error) in
                             if error == nil{
                                 //Profile photo deleted
-                                print("Successfully deleted profile photo")
+                                print("Successfully deleted clothing item")
                                 
                             } else {
                                 //An error occured
-                                print("Failed to delete profile photo")
+                                print("Failed to delete clothing item")
                             }
                         }
                     }

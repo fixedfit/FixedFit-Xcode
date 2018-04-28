@@ -14,9 +14,12 @@ class SupportVC: UIViewController{
     var viewTitle:String!
     var mode:String!
     
+    //Variable that limits the number of spaces between messages
+    static let messageSpacing = 3
+    static let faqQandASpacing = 2
+    
     //Reference to the text view
     @IBOutlet weak var MainTextView: UITextView!
-    @IBOutlet weak var TutorialChildView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +30,9 @@ class SupportVC: UIViewController{
         
         if(mode == FirebaseSupportTitleAndMode.tutorial){
             self.viewTitle = self.viewTitle + " tutorial"
-            self.TutorialChildView.isHidden = false
+
         } else if(mode == FirebaseSupportTitleAndMode.helpCenter){
-            self.TutorialChildView.isHidden = true
+
         }
         
         

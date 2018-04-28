@@ -14,6 +14,15 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
     //Initial variable for setting the title
     var viewTitle:String!
     
+    //Variable used to determine when the keyboard will or will not be presented
+    private let notificationCenter = NotificationCenter.default
+    
+    //Initialize variable to hold the original view's orgin y coordinate value
+    private var y_origin_position: CGFloat!
+    
+    //Initialize keyboard variable to determine whether the keyboard is being displayed
+    private var keyboardPresented: Bool!
+    
     //Initialize the variable to hold the target email address
     static let toRecipients = ["fixedfits@gmail.com"]
     var userUID:String!
@@ -31,9 +40,19 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
         self.navigationItem.title = self.viewTitle
         
         let buttonFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
-        self.SendEmailButton.setTitle("Send Email", for: .normal)
+        self.SendEmailButton.setTitle("Create Email", for: .normal)
         self.SendEmailButton.setTitleColor(.fixedFitBlue, for: .normal)
         self.SendEmailButton.titleLabel?.font = buttonFont
+        
+        //Set the keyboardPresented and exiting variables to false initially
+        self.keyboardPresented = false
+        
+        //Preserve the original origin
+        self.y_origin_position = self.view.frame.origin.y
+        
+        //Add observers when ever the user wishes to edit a text field
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
         
     }
     
@@ -121,6 +140,33 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
             if(!(message.isEmpty) && !(imageName.isEmpty)){
                 self.presentInfoVC(message: message, imageName: imageName)
             }
+        }
+    }
+    
+    //Functions used to show and hide the keyboard whenever the user selects the text field
+    @objc private func keyboardWillShow(_ notification: NSNotification) {
+        self.keyboardPresented = true
+        adjustTextFieldPlacement(notification: notification)
+    }
+    @objc private func keyboardWillHide(_ notification: NSNotification) {
+        self.keyboardPresented = false
+        adjustTextFieldPlacement(notification: notification)
+    }
+    private func adjustTextFieldPlacement(notification: NSNotification) {
+        
+        //Move the text fields into proper position by a fixed amount of half of the size of the view
+        if(self.keyboardPresented){
+            
+            if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                self.view.frame.origin.y += 0
+            }
+            
+        } else {
+            self.view.frame.origin.y = self.y_origin_position
+        }
+        
+        UIView.animate(withDuration: 0.0) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
     }
 }

@@ -107,7 +107,7 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
     }
     private func adjustTextFieldPlacement(notification: NSNotification) {
         
-        //Determine if the reauthenticationVC is being dismissed or if the user is choosing to dismiss the keyboard
+        //Determine if the ChangeUserInfoVC is being dismissed or if the user is choosing to dismiss the keyboard
         if(self.exiting == true){
             return
         }

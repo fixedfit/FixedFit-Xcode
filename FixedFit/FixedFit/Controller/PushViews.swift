@@ -35,7 +35,6 @@ struct PushViewKeys{
     static let supportVC = "SupportVC"
     static let userviewVC = "UserViewVC"
     static let categoriesVC = "CategoriesVC"
-    static let contactusVC = "ContactUsVC"
     static let tutorialVC = "TutorialVC"
     
     //Storyboards
@@ -96,14 +95,6 @@ class PushViews {
                 
                 //Initialize the title of the ViewController
                 if let currentVC = vc as? CategoriesVC{
-                    currentVC.viewTitle = newString
-                }
-                
-            } else if(vcName == PushViewKeys.contactusVC){
-                vc = storyboard.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
-                
-                //Initialize the title of the ViewController
-                if let currentVC = vc as? ContactUsVC{
                     currentVC.viewTitle = newString
                 }
                 

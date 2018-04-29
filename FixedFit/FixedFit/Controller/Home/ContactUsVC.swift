@@ -9,32 +9,43 @@
 import UIKit
 import MessageUI
 
-class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
-
-    //Initial variable for setting the title
-    var viewTitle:String!
+class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     //Initialize the variable to hold the target email address
     static let toRecipients = ["fixedfits@gmail.com"]
+    var senderEmail:String!
     var userUID:String!
     
     private let firebaseManager = FirebaseManager.shared
     
-    //References to the label, subject text field, and the body text view
-    @IBOutlet weak var UsersEmailLabel: UILabel!
-    @IBOutlet weak var SubjectLine: UITextField!
-    @IBOutlet weak var MessageBody: UITextView!
-    @IBOutlet weak var SendEmailButton: UIButton!
+    //References in view
+    @IBOutlet weak var CreateEmailButton: UIButton!
+    @IBOutlet weak var CancelButton: UIButton!
+    @IBOutlet weak var UserLabel: UILabel!
+    @IBOutlet weak var ContactView: UIView!
+    
+    init(){
+        super.init(nibName: "ContactUsVC", bundle:nil)
+        self.modalTransitionStyle = .crossDissolve
+        self.modalPresentationStyle = .overFullScreen
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = self.viewTitle
         
         let buttonFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
-        self.SendEmailButton.setTitle("Send Email", for: .normal)
-        self.SendEmailButton.setTitleColor(.fixedFitBlue, for: .normal)
-        self.SendEmailButton.titleLabel?.font = buttonFont
+        self.CreateEmailButton.setTitle("Create Email", for: .normal)
+        self.CreateEmailButton.setTitleColor(.fixedFitBlue, for: .normal)
+        self.CreateEmailButton.titleLabel?.font = buttonFont
         
+        self.CancelButton.setTitle("Cancel", for: .normal)
+        self.CancelButton.titleLabel?.font = buttonFont
+        
+        self.UserLabel.adjustsFontSizeToFitWidth = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,13 +58,15 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
             let emailIndex = 1
             
             self.userUID = contactInfo[uidIndex]
-            self.UsersEmailLabel.text = contactInfo[emailIndex]
+            self.senderEmail = contactInfo[emailIndex]
+            self.UserLabel.text = self.senderEmail
             
         } else {
             
             //Could not load user's email and uid
-            self.presentInfoVC(message: "Unable to load User Contact Info", imageName: "error diagram")
-            
+            self.dismiss(animated: true){
+                self.presentInfoVC(message: "Unable to load User Contact Info", imageName: "error diagram")
+            }
         }
     }
     
@@ -65,11 +78,10 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
         self.present(secondInformationVC, animated: true, completion:nil)
     }
     
-    @IBAction func SendEmailTapped(_ sender: UIButton) {
-        var Subject = "From user \(self.userUID): "
-        Subject += self.SubjectLine.text!
+    @IBAction func CreateEmailTapped(_ sender: UIButton) {
+        let Subject = "From user \(self.userUID): <subject>"
         
-        let Body = self.MessageBody.text!
+        let Body = ""
         
         //Initialize a MFMailComposeViewController
         let mailVC: MFMailComposeViewController = MFMailComposeViewController()
@@ -77,14 +89,21 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
         
         //set the subject, body, and recipients
         mailVC.setSubject(Subject)
-        mailVC.setPreferredSendingEmailAddress(self.UsersEmailLabel.text!)
+        mailVC.setPreferredSendingEmailAddress(senderEmail)
         mailVC.setMessageBody(Body, isHTML: false)
         mailVC.setToRecipients(ContactUsVC.toRecipients)
         
         if(MFMailComposeViewController.canSendMail()){
             self.present(mailVC, animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
         }
     }
+    
+    @IBAction func CancelTapped(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         
@@ -102,10 +121,6 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate {
                 NSLog("Mail Saved")
                 message = "Mail Saved"
                 imageName = "greycheckmark"
-            
-                //Clear out the text fields
-                self.SubjectLine.text = ""
-                self.MessageBody.text = ""
             case MFMailComposeResult.sent:
                 NSLog("Mail Sent")
                 message = "Mail Sent"

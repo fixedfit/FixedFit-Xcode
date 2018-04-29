@@ -1,95 +1,122 @@
-function addFollowers(firebaseEvent) {
-  let currentUserID = firebaseEvent.params.userID
-  let users = firebaseEvent.data.val()
-  let previousUsers = firebaseEvent.data.previous.val()
-  let addedUserUniqueID = users[users.length - 1]
-  let followingCount = users.length
+function onCreateAddFollowers(snap, context) {
+  const usersList = snap.val()
+  const currentUserID = context.params.userID
+  const addedUserID = usersList[0]
+  const followingCount = 1
+  const newFollowers = [currentUserID]
 
-  if (previousUsers == null || users.length > previousUsers.length) {
-    return root.child(`users/${currentUserID}/followingCount`).set(followingCount).then(function() {
-      return root.child(`users/${addedUserUniqueID}/followers`).once('value').then(snapshot => {
-        if (Array.isArray(snapshot.val())) {
-          var foundFollowers = snapshot.val()
-          foundFollowers.push(currentUserID)
-          var newCount = foundFollowers.length
+  // Update the person who just followed someone following's count
+  return root.child(`users/${currentUserID}/followingCount`).set(followingCount).then(function() {
+      // Fetch the person who was just followed, followers list
+      return root.child(`users/${addedUserID}/followers`).once('value').then((snap, context) => {
+        var usersList = new Array()
+        var newFollowersCount = 0
 
-          return root.child(`users/${addedUserUniqueID}/followers`).set(foundFollowers).then(function() {
-            return root.child(`users/${addedUserUniqueID}/followersCount`).set(newCount);
-          });
+        if (Array.isArray(snap.val())) {
+          usersList = snap.val()
+          usersList.push(currentUserID)
+          newFollowersCount = usersList.length
         } else {
-          var newFollowers = [currentUserID]
-          var newCount = newFollowers.length
-
-          return root.child(`users/${addedUserUniqueID}/followers`).set(newFollowers).then(function() {
-            return root.child(`users/${addedUserUniqueID}/followersCount`).set(newCount);
-          });
+          usersList.push(currentUserID)
+          newFollowersCount = 1
         }
+
+        // Update the person who just was followed, followers list
+        return root.child(`users/${addedUserID}/followers`).set(usersList).then(function() {
+          // Update the person who was just followed followers count
+          return root.child(`users/${addedUserID}/followersCount`).set(newFollowersCount);
+        });
       });
+  });
+}
+
+function onUpdateAddFollowers(snap, context) {
+  const beforeUpdateUsersList = snap.before.val()
+  const afterUpdatedUsersList = snap.after.val()
+  const currentUserID = context.params.userID
+  const followingCount = afterUpdatedUsersList.length
+
+  // Check if the update is an adding or deleting of following users
+  if (afterUpdatedUsersList.length > beforeUpdateUsersList.length) {
+    console.log("Just updated!")
+    // Update the person who just followed someone following's count
+    const addedUserID = afterUpdatedUsersList[afterUpdatedUsersList.length - 1]
+
+    // Update the person who just followed someone following's count
+    return root.child(`users/${currentUserID}/followingCount`).set(followingCount).then(function() {
+        // Fetch the person who was just followed, followers list
+        return root.child(`users/${addedUserID}/followers`).once('value').then((snap, context) => {
+          var usersList = new Array()
+          var newFollowersCount = 0
+
+          if (Array.isArray(snap.val())) {
+            usersList = snap.val()
+            usersList.push(currentUserID)
+            newFollowersCount = usersList.length
+          } else {
+            usersList.push(currentUserID)
+            newFollowersCount = 1
+          }
+
+          // Update the person who just was followed, followers list
+          return root.child(`users/${addedUserID}/followers`).set(usersList).then(function() {
+            // Update the person who was just followed followers count
+            return root.child(`users/${addedUserID}/followersCount`).set(newFollowersCount);
+          });
+        });
     });
-  } else if (users.length < previousUsers.length) {
-    let currentUserID = firebaseEvent.params.userID
-    let users = firebaseEvent.data.previous.val()
-    var currentlyFollowingCount = users.length - 1
-    let deletedUserUniqueID = users[users.length - 1]
+  } else if (afterUpdatedUsersList.length < beforeUpdateUsersList.length) {
+    const deletedUserID = beforeUpdateUsersList[beforeUpdateUsersList.length - 1]
 
-    return root.child(`users/${currentUserID}/followingCount`).set(currentlyFollowingCount).then(function() {
-      return root.child(`users/${deletedUserUniqueID}/followers`).once('value').then(snapshot => {
-          var foundFollowers = snapshot.val()
+    // Update the person who just followed someone following's count
+    return root.child(`users/${currentUserID}/followingCount`).set(followingCount).then(function() {
+      // Update the person who was just unfollowed, follower's list
+      return root.child(`users/${deletedUserID}/followers`).once('value').then((snap, context) => {
+          const usersList = snap.val()
 
-          var result = foundFollowers.filter(function(foundFollowerUID) {
-            if (foundFollowerUID == currentUserID) {
-              return false
-            } else {
-              return true
-            }
+          var updatedUserList = usersList.filter(function(userID) {
+            if (userID == currentUserID) { return false } else { return true }
           })
+          var newFollowersCount = updatedUserList.length
 
-          var newCount = result.length
-
-          return root.child(`users/${deletedUserUniqueID}/followers`).set(result).then(function() {
-            return root.child(`users/${deletedUserUniqueID}/followersCount`).set(newCount);
+          return root.child(`users/${deletedUserID}/followers`).set(updatedUserList).then(function() {
+            return root.child(`users/${deletedUserID}/followersCount`).set(newFollowersCount);
           })
       });
     });
   }
+}
 
+function onDeleteRemoveFollowers(snap, context) {
+  const usersList = snap.val()
+  const currentUserID = context.params.userID
+  const followingCount = 0
+  const deletedUserID = usersList[usersList.length - 1]
+
+  // Update the person who just followed someone following's count
+  return root.child(`users/${currentUserID}/followingCount`).set(followingCount).then(function() {
+    // Update the person who was just unfollowed, follower's list
+    return root.child(`users/${deletedUserID}/followers`).once('value').then((snap, context) => {
+        const usersList = snap.val()
+
+        var updatedUserList = usersList.filter(function(userID) {
+          if (userID == currentUserID) { return false } else { return true }
+        })
+        var newFollowersCount = updatedUserList.length
+
+        return root.child(`users/${deletedUserID}/followers`).set(updatedUserList).then(function() {
+          return root.child(`users/${deletedUserID}/followersCount`).set(newFollowersCount);
+        })
+    });
+  });
   return 0;
 }
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 var root = admin.database().ref()
 
-exports.createAddFollowers = functions.database.ref('/users/{userID}/following').onCreate(addFollowers);
-exports.updateAddFollowers = functions.database.ref('/users/{userID}/following').onUpdate(addFollowers);
-
-exports.deleteAddFollowers= functions.database.ref('/users/{userID}/following').onDelete(event => {
-  let currentUserID = event.params.userID
-  let users = event.data.previous.val()
-  var currentlyFollowingCount = users.length - 1
-  let deletedUserUniqueID = users[users.length - 1]
-
-  return root.child(`users/${currentUserID}/followingCount`).set(currentlyFollowingCount).then(function() {
-    return root.child(`users/${deletedUserUniqueID}/followers`).once('value').then(snapshot => {
-        var foundFollowers = snapshot.val()
-
-        var result = foundFollowers.filter(function(foundFollowerUID) {
-          if (foundFollowerUID == currentUserID) {
-            return false
-          } else {
-            return true
-          }
-        })
-
-        var newCount = result.length
-
-        return root.child(`users/${deletedUserUniqueID}/followers`).set(result).then(function() {
-          return root.child(`users/${deletedUserUniqueID}/followersCount`).set(newCount);
-        })
-    });
-  });
-
-  return 0;
-});
+exports.createAddFollowers = functions.database.ref('/users/{userID}/following').onCreate(onCreateAddFollowers);
+exports.updateAddFollowers = functions.database.ref('/users/{userID}/following').onUpdate(onUpdateAddFollowers);
+exports.deleteAddFollowers= functions.database.ref('/users/{userID}/following').onDelete(onDeleteRemoveFollowers);

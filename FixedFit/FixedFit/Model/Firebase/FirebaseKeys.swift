@@ -23,6 +23,10 @@ enum FirebaseKeys: String {
     case following = "following"
     case followersCount = "followersCount"
     case followingCount = "followingCount"
+    // Notifications
+    case notifications = "notifications"
+    // Block
+    case blocked = "blocked"
     // Closet
     case closet = "closet"
     case items = "items"

@@ -24,7 +24,27 @@ function onCreateAddFollowers(snap, context) {
         // Update the person who just was followed, followers list
         return root.child(`users/${addedUserID}/followers`).set(usersList).then(function() {
           // Update the person who was just followed followers count
-          return root.child(`users/${addedUserID}/followersCount`).set(newFollowersCount);
+          return root.child(`users/${addedUserID}/followersCount`).set(newFollowersCount).then(function() {
+            // Fetch current user username
+            return root.child(`users/${currentUserID}/username`).once(`value`).then((snap, context) => {
+              // Add to notifications array "$(username) followed you"
+              const currentUserUsername = snap.val()
+              const notification = currentUserUsername + " followed you"
+
+              return root.child(`users/${addedUserID}/notifications`).once(`value`).then((snap, context) => {
+                var foundNotifications = new Array()
+
+                if (Array.isArray(snap.val())) {
+                  foundNotifications = snap.val()
+                  foundNotifications.unshift(notification)
+                } else {
+                  foundNotifications.push(notification)
+                }
+
+                return root.child(`users/${addedUserID}/notifications`).set(foundNotifications)
+              });
+            })
+          })
         });
       });
   });
@@ -38,7 +58,6 @@ function onUpdateAddFollowers(snap, context) {
 
   // Check if the update is an adding or deleting of following users
   if (afterUpdatedUsersList.length > beforeUpdateUsersList.length) {
-    console.log("Just updated!")
     // Update the person who just followed someone following's count
     const addedUserID = afterUpdatedUsersList[afterUpdatedUsersList.length - 1]
 
@@ -61,7 +80,27 @@ function onUpdateAddFollowers(snap, context) {
           // Update the person who just was followed, followers list
           return root.child(`users/${addedUserID}/followers`).set(usersList).then(function() {
             // Update the person who was just followed followers count
-            return root.child(`users/${addedUserID}/followersCount`).set(newFollowersCount);
+            return root.child(`users/${addedUserID}/followersCount`).set(newFollowersCount).then(function() {
+              // Fetch current user username
+              return root.child(`users/${currentUserID}/username`).once(`value`).then((snap, context) => {
+                // Add to notifications array "$(username) followed you"
+                const currentUserUsername = snap.val()
+                const notification = currentUserUsername + " followed you"
+
+                return root.child(`users/${addedUserID}/notifications`).once(`value`).then((snap, context) => {
+                  var foundNotifications = new Array()
+
+                  if (Array.isArray(snap.val())) {
+                    foundNotifications = snap.val()
+                    foundNotifications.unshift(notification)
+                  } else {
+                    foundNotifications.push(notification)
+                  }
+
+                  return root.child(`users/${addedUserID}/notifications`).set(foundNotifications)
+                });
+              })
+            })
           });
         });
     });

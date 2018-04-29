@@ -13,7 +13,7 @@
         <!--Feed-->
         <scene sceneID="2PS-cd-zj0">
             <objects>
-                <viewController id="fIW-we-4B6" sceneMemberID="viewController">
+                <viewController id="fIW-we-4B6" customClass="FeedVC" customModule="FixedFit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kqh-3v-U82">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -21,12 +21,15 @@
                         <viewLayoutGuide key="safeArea" id="FyT-Cy-eKi"/>
                     </view>
                     <navigationItem key="navigationItem" title="Feed" id="lbO-y2-mn5">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="CEN-ln-KoV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="pz4-UQ-iWO">
                             <connections>
-                                <segue destination="cZb-eR-QXC" kind="show" id="nRB-I1-c21"/>
+                                <action selector="segueToUserFinderVC:" destination="fIW-we-4B6" id="1zK-iY-I1B"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="cZb-eR-QXC" kind="show" identifier="userFinderSegue" id="rmg-SO-Nei"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4yV-IN-qZf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

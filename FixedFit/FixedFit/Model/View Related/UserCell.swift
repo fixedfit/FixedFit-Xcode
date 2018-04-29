@@ -8,21 +8,34 @@
 
 import UIKit
 
+enum FollowBlockType {
+    case follow
+    case block
+}
+
 class UserCell: UITableViewCell {
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var fullName: UILabel!
     @IBOutlet weak var userPhotoImageView: UIImageView!
-    @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var button: UIButton!
     
     static let identifier = "UserCell"
 
     var following = false
+    var blocked = false
+    var cellType: FollowBlockType = .follow
 
-    func configure(_ user: UserInfo, isFollowing: Bool) {
-        following = isFollowing
+    func configure(_ user: UserInfo, followingOrBlocked: Bool) {
+        switch cellType {
+        case .follow: following = followingOrBlocked
+        case .block: blocked = followingOrBlocked
+        }
 
         setupButton()
+        setupCell(user)
+    }
 
+    func setupCell(_ user: UserInfo) {
         username.text = user.username
         fullName.text = user.firstName + " " + user.lastName
 
@@ -31,17 +44,29 @@ class UserCell: UITableViewCell {
         }
     }
 
-    func toggleFollowing() {
-        following = !following
-
-        setupButton()
+    private func setupButton() {
+        switch cellType {
+        case .follow:
+            if following {
+                button.setTitle("Unfollow", for: .normal)
+            } else {
+                button.setTitle("Follow", for: .normal)
+            }
+        case .block:
+            if blocked {
+                button.setTitle("Unblock", for: .normal)
+            } else {
+                button.setTitle("Block", for: .normal)
+            }
+        }
     }
 
-    private func setupButton() {
-        if following {
-            followButton.setTitle("Unfollow", for: .normal)
-        } else {
-            followButton.setTitle("Follow", for: .normal)
+    func toggle() {
+        switch cellType {
+        case .follow: following = !following
+        case .block: blocked = !blocked
         }
+
+        setupButton()
     }
 }

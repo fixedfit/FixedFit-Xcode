@@ -25,13 +25,13 @@ class UserFinderVC: UIViewController {
             checkEmptyUsers()
         }
     }
+    var followBlockType: FollowBlockType = .block
 
     private let firebaseManager = FirebaseManager.shared
     private let userStuffManager = UserStuffManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupViews()
     }
 
@@ -68,29 +68,38 @@ class UserFinderVC: UIViewController {
             let userInfo = users[cell.tag]
             let userUniqueID = userInfo.uid
             var currentUserInfo = userStuffManager.userInfo
+            var completion: (Error?) -> Void = { (error) in if error != nil { } }
 
             if !userUniqueID.isEmpty {
-                if cell.following {
-                    cell.toggleFollowing()
-                    firebaseManager.unfollowUser(usernameUniqueID: userUniqueID) { (error) in
-                        if error != nil {
-                            // Show the user something
-                        }
-                    }
-                    if let index = currentUserInfo.following.index(where: {$0 == userUniqueID}) {
-                        currentUserInfo.following.remove(at: index)
+                cell.toggle()
 
-                        userStuffManager.userInfo.following = currentUserInfo.following
-                    }
-                } else {
-                    cell.toggleFollowing()
-                    firebaseManager.followUser(usernameUniqueID: userUniqueID) { (error) in
-                        if error != nil {
-                            // Show the user something
+                switch cell.cellType {
+                case .follow:
+                    if cell.following {
+                        if let index = currentUserInfo.following.index(where: {$0 == userUniqueID}) {
+                            currentUserInfo.following.remove(at: index)
+                            userStuffManager.userInfo.following = currentUserInfo.following
                         }
+
+                        firebaseManager.followUser(usernameUniqueID: userUniqueID, completion: completion)
+                    } else {
+                        currentUserInfo.following.append(userUniqueID)
+                        userStuffManager.userInfo.following = currentUserInfo.following
+                        firebaseManager.unfollowUser(usernameUniqueID: userUniqueID, completion: completion)
                     }
-                    currentUserInfo.following.append(userUniqueID)
-                    userStuffManager.userInfo.following = currentUserInfo.following
+                case .block:
+                    if cell.blocked{
+                        currentUserInfo.blocked.append(userUniqueID)
+                        userStuffManager.userInfo.blocked = currentUserInfo.blocked
+                        firebaseManager.blockUser(usernameUniqueID: userUniqueID, completion: completion)
+                    } else {
+                        if let index = currentUserInfo.blocked.index(where: {$0 == userUniqueID}) {
+                            currentUserInfo.blocked.remove(at: index)
+                            userStuffManager.userInfo.blocked = currentUserInfo.blocked
+                        }
+
+                        firebaseManager.unblockUser(usernameUniqueID: userUniqueID, completion: completion)
+                    }
                 }
             }
         }
@@ -110,15 +119,18 @@ extension UserFinderVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier, for: indexPath) as! UserCell
         let userInfo = users[indexPath.row]
         let currentUserInfo = userStuffManager.userInfo
-
-        if currentUserInfo.following.contains(userInfo.uid) {
-            cell.configure(userInfo, isFollowing: true)
-        } else {
-            cell.configure(userInfo, isFollowing: false)
-        }
+        var followingOrBlocked: Bool = false
 
         cell.tag = indexPath.row
-        cell.followButton.addTarget(self, action: #selector(tappedFollow(_:)), for: .touchUpInside)
+        cell.cellType = followBlockType
+        cell.button.addTarget(self, action: #selector(tappedFollow(_:)), for: .touchUpInside)
+
+        switch cell.cellType {
+        case .follow: followingOrBlocked = currentUserInfo.following.contains(userInfo.uid)
+        case .block: followingOrBlocked = currentUserInfo.blocked.contains(userInfo.uid)
+        }
+
+        cell.configure(userInfo, followingOrBlocked: followingOrBlocked)
 
         if !userInfo.previousPhotoURL.isEmpty {
             firebaseManager.fetchImage(storageURL: userInfo.previousPhotoURL) { (image, error) in

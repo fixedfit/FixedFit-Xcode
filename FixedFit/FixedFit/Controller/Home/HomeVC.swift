@@ -18,7 +18,8 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
-    @IBOutlet weak var eventView: UITableView!
+    @IBOutlet weak var notificationsTableView: UITableView!
+    @IBOutlet weak var noNotificationsLabel: UILabel!
 
     var locationManager = CLLocationManager()
     let formatter = DateFormatter()
@@ -27,6 +28,13 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
     let weatherService = WeatherService()
     let currentDate = Date()
     var events: [Event] = []
+    var notifications: [String] = [] {
+        didSet {
+            setupNoNotificationsLabel()
+        }
+    }
+
+    var refreshControl = UIRefreshControl()
 
     //mock dictionary of events
     var firebaseEvents: [String:String] = [:]
@@ -42,9 +50,28 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
 
         setupCalendarView()
 
+        notificationsTableView.dataSource = self
+
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
 
-        eventView.dataSource = self
+        setupNoNotificationsLabel()
+
+        refreshControl.addTarget(self, action: #selector(fetchNotifications), for: .valueChanged)
+        notificationsTableView.refreshControl = refreshControl
+
+        notificationsTableView.tableFooterView = UIView()
+    }
+
+    @objc private func fetchNotifications() {
+        firebaseManager.fetchNotifications { [weak self] (notifications, error) in
+            if error != nil {
+
+            } else if let notifications = notifications {
+                self?.notifications = notifications
+                self?.notificationsTableView.reloadData()
+                self?.notificationsTableView.refreshControl?.endRefreshing()
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +85,8 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
                 strongSelf.calendarView.reloadData()
             }
         }
+
+        fetchNotifications()
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -95,6 +124,14 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         } else if let outfitItemsVC = segue.destination as? OutfitItemsVC,
             let outfit = sender as? Outfit {
             outfitItemsVC.outfit =  outfit
+        }
+    }
+
+    private func setupNoNotificationsLabel() {
+        if notifications.isEmpty {
+            noNotificationsLabel.isHidden = false
+        } else {
+            noNotificationsLabel.isHidden = true
         }
     }
 
@@ -170,17 +207,16 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
 extension HomeVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return firebaseEventsKeys.count
+        return notifications.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = eventView.dequeueReusableCell(withIdentifier: "eventCell")
-        formatter.dateFormat = "yyyyMMdd"
-        let eventDate = formatter.date(from: firebaseEventsKeys[indexPath.row])
-        formatter.dateFormat = "EEEE MMMM dd, yyyy"
-        cell?.textLabel?.text = formatter.string(from: eventDate!) + " " + firebaseEvents[firebaseEventsKeys[indexPath.row]]!
+        let cell = tableView.dequeueReusableCell(withIdentifier: NotificationCell.identifier, for: indexPath) as! NotificationCell
+        let notification = notifications[indexPath.row]
 
-        return cell!
+        cell.nameLabel.text = notification
+
+        return cell
     }
 
 }

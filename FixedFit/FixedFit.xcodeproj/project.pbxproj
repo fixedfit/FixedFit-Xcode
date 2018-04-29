@@ -64,6 +64,7 @@
 		CA4BD4342049E494002405D8 /* InformationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA4BD4332049E494002405D8 /* InformationVC.xib */; };
 		CA4BD4362049E813002405D8 /* AddCategory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA4BD4352049E813002405D8 /* AddCategory.storyboard */; };
 		CA4BD43A2049EBD7002405D8 /* AddCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD4392049EBD7002405D8 /* AddCategoryVC.swift */; };
+		CA513FBC20958AC9000519BD /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA513FBB20958AC9000519BD /* FeedVC.swift */; };
 		CA5CA5522085C529007E3943 /* OutfitItemsVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA5CA5512085C529007E3943 /* OutfitItemsVC.storyboard */; };
 		CA669282203D0B0C000069B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA669281203D0B0C000069B5 /* AppDelegate.swift */; };
 		CA669287203D0B0C000069B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA669285203D0B0C000069B5 /* Main.storyboard */; };
@@ -164,6 +165,7 @@
 		CA4BD4332049E494002405D8 /* InformationVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InformationVC.xib; sourceTree = "<group>"; };
 		CA4BD4352049E813002405D8 /* AddCategory.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddCategory.storyboard; sourceTree = "<group>"; };
 		CA4BD4392049EBD7002405D8 /* AddCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryVC.swift; sourceTree = "<group>"; };
+		CA513FBB20958AC9000519BD /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		CA5CA5512085C529007E3943 /* OutfitItemsVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OutfitItemsVC.storyboard; sourceTree = "<group>"; };
 		CA66927E203D0B0C000069B5 /* FixedFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FixedFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA669281203D0B0C000069B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -300,6 +302,14 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		CA513FBD20959A9D000519BD /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				CA513FBB20958AC9000519BD /* FeedVC.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
 		CA669275203D0B0C000069B5 = {
 			isa = PBXGroup;
 			children = (
@@ -414,6 +424,7 @@
 		CAB5AAD4207AEE8600FCC305 /* Add */ = {
 			isa = PBXGroup;
 			children = (
+				CA513FBD20959A9D000519BD /* Feed */,
 				CA4BD42D2049349F002405D8 /* AddPhotosVC.swift */,
 				CA4BD4392049EBD7002405D8 /* AddCategoryVC.swift */,
 			);
@@ -715,6 +726,7 @@
 				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
 				CA121E0020781A03006C5C54 /* OutfitsVC.swift in Sources */,
 				5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */,
+				CA513FBC20958AC9000519BD /* FeedVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
 				5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,

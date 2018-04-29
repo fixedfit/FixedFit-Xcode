@@ -81,7 +81,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="followButton" destination="PPa-Iw-BlL" id="kaK-i3-v29"/>
+                                            <outlet property="button" destination="PPa-Iw-BlL" id="kv5-jo-Hej"/>
                                             <outlet property="fullName" destination="a2G-aH-uYT" id="lnR-o9-zgR"/>
                                             <outlet property="userPhotoImageView" destination="5Vq-tV-Oxp" id="kRE-qc-ZlN"/>
                                             <outlet property="username" destination="c6p-uf-rMp" id="LgF-ca-wOS"/>

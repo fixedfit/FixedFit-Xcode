@@ -23,6 +23,7 @@ struct UserInfo {
     var photo: UIImage?
     var following: [String] = []
     var followers: [String] = []
+    var blocked: [String] = []
 
     init() {}
 
@@ -59,6 +60,10 @@ struct UserInfo {
 
             if let following = json[FirebaseKeys.following.rawValue] as? [String] {
                 self.following = following
+            }
+
+            if let blocked = json[FirebaseKeys.blocked.rawValue] as? [String] {
+                self.blocked = blocked
             }
         } else {
             return nil
@@ -152,6 +157,12 @@ class UserStuffManager {
                     self?.userInfo.following = following
                 } else {
                     self?.userInfo.following.removeAll()
+                }
+
+                if let blocked = userInfo[FirebaseKeys.blocked.rawValue] as? [String] {
+                    self?.userInfo.blocked = blocked
+                } else {
+                    self?.userInfo.blocked.removeAll()
                 }
 
                 completion(nil)

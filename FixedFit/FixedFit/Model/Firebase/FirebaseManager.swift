@@ -616,6 +616,55 @@ class FirebaseManager {
         }
     }
 
+    func blockUser(usernameUniqueID: String, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.blocked).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if var userBlocked = snapshot.value as? [String] {
+                if !userBlocked.contains(usernameUniqueID) {
+                    userBlocked.append(usernameUniqueID)
+
+                    self?.ref.child(.users).child(user.uid).updateChildValues([FirebaseKeys.blocked.rawValue: userBlocked], withCompletionBlock: { (error, _) in
+                        completion(error)
+                    })
+                }
+            } else {
+                self?.ref.child(.users).child(user.uid).updateChildValues([FirebaseKeys.blocked.rawValue: [usernameUniqueID]], withCompletionBlock: { (error, _) in
+                    completion(error)
+                })
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(error)
+        }
+    }
+
+    func unblockUser(usernameUniqueID: String, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.blocked).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if let userBlocked = snapshot.value as? [String] {
+                let updatedBlocked = userBlocked.filter({ (foundUsernameUniqueID) -> Bool in
+                    if foundUsernameUniqueID != usernameUniqueID {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+
+                self?.ref.child(.users).child(user.uid).child(.blocked).setValue(updatedBlocked, withCompletionBlock: { (error, _) in
+                    completion(error)
+                })
+            } else {
+                print("No one to block")
+                completion(nil)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(error)
+        }
+    }
+
     func updateOutfitFavorite(outfitUID: String, favorite: Bool, completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
 

@@ -767,12 +767,18 @@ class FirebaseManager {
         ////delete user's storage
         deleteStorageAndDatabase(user: user){
             
+            let userStuffManager = UserStuffManager.shared
+            
             ////delete user's data base account
             self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").observeSingleEvent(of: .value, with:{(snapshot)in
                 if snapshot.value != nil{
                     self.ref.child(FirebaseKeys.users.rawValue).child("\(uid)").removeValue()
                 }
             })
+            
+            //Initialize a new closet
+            userStuffManager.closet = Closet()
+            
             dispatch.leave()
         }
         

@@ -336,15 +336,9 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
     }
     @objc func tappedContacts(_ sender: UITapGestureRecognizer){
         
-        //Transition to Contact Us
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.contactusVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.contactUs) else {return}
-        
-        if let vc = vc as? ContactUsVC{
-            //Push View Controller onto Navigation Stack
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else if let vc = vc as? InformationVC{
-            self.present(vc, animated: true, completion: nil)
-        }
+        let contactUsVC = ContactUsVC()
+        self.present(contactUsVC, animated: true, completion: nil)
+    
     }
     
     //MARK: log out of user account

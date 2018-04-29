@@ -29,9 +29,9 @@
                     <rect key="frame" x="36" y="239" width="302" height="210"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact us by sending us an email" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r27-SI-8UG">
-                            <rect key="frame" x="8" y="0.0" width="286" height="54"/>
+                            <rect key="frame" x="8" y="0.0" width="286" height="50"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="54" id="Hav-dR-NH6"/>
+                                <constraint firstAttribute="height" constant="50" id="Hav-dR-NH6"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
@@ -57,6 +57,11 @@
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oHV-Vu-CI2">
                             <rect key="frame" x="0.0" y="104" width="302" height="6"/>
+                            <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7rF-vz-fDH">
+                            <rect key="frame" x="0.0" y="50" width="302" height="6"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5CL-Lx-Jhv">
@@ -121,7 +126,7 @@
                         <constraint firstItem="WCi-Bg-nng" firstAttribute="top" secondItem="5CL-Lx-Jhv" secondAttribute="bottom" id="nzY-2b-GNK"/>
                         <constraint firstItem="Nej-Da-jh8" firstAttribute="baseline" secondItem="qvk-hP-HQf" secondAttribute="baseline" id="qvz-2Y-El8"/>
                         <constraint firstItem="oHV-Vu-CI2" firstAttribute="top" secondItem="Nej-Da-jh8" secondAttribute="bottom" id="rSD-RZ-uvo"/>
-                        <constraint firstItem="3JH-iV-EQK" firstAttribute="top" secondItem="r27-SI-8UG" secondAttribute="bottom" constant="2" id="rWR-Ze-fqv"/>
+                        <constraint firstItem="3JH-iV-EQK" firstAttribute="top" secondItem="r27-SI-8UG" secondAttribute="bottom" constant="6" id="rWR-Ze-fqv"/>
                         <constraint firstItem="TLm-vm-Qae" firstAttribute="top" secondItem="oHV-Vu-CI2" secondAttribute="bottom" id="tgR-xL-8bL"/>
                         <constraint firstAttribute="width" constant="302" id="vaO-pA-pWo"/>
                         <constraint firstItem="5CL-Lx-Jhv" firstAttribute="top" secondItem="TLm-vm-Qae" secondAttribute="bottom" id="vxh-pa-xVK"/>

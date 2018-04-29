@@ -59,7 +59,7 @@ class ContactUsVC: UIViewController, MFMailComposeViewControllerDelegate, UIText
             
             self.userUID = contactInfo[uidIndex]
             self.senderEmail = contactInfo[emailIndex]
-            
+            self.UserLabel.text = self.senderEmail
             
         } else {
             

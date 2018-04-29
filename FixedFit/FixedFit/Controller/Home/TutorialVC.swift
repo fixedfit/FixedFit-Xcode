@@ -16,7 +16,7 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     static let accountRecovery = "Recover Credentials"
     
     //Initial variables for setting the tutorials
-    var tutorialList: [String] = ["Add Clothes", "Construct Outfits", "Search for Users", "Follow a User", "Block a User","Like a user's Photo", "Add an outfit to the calendar",TutorialVC.accountRecovery]
+    var tutorialList: [String] = ["Add Clothes", "Construct Outfits","Delete Clothes", "Delete Outfits", "Search for Users", "Follow a User", "Block a User","Like a user's Photo", "Add an outfit to the calendar",TutorialVC.accountRecovery]
     
     //Reference to the Table View
     @IBOutlet weak var TableView: UITableView!

@@ -66,6 +66,7 @@
 		CA4BD4362049E813002405D8 /* AddCategory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA4BD4352049E813002405D8 /* AddCategory.storyboard */; };
 		CA4BD43A2049EBD7002405D8 /* AddCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4BD4392049EBD7002405D8 /* AddCategoryVC.swift */; };
 		CA513FBC20958AC9000519BD /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA513FBB20958AC9000519BD /* FeedVC.swift */; };
+		CA513FBF2095B128000519BD /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA513FBE2095B128000519BD /* NotificationCell.swift */; };
 		CA5CA5522085C529007E3943 /* OutfitItemsVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA5CA5512085C529007E3943 /* OutfitItemsVC.storyboard */; };
 		CA669282203D0B0C000069B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA669281203D0B0C000069B5 /* AppDelegate.swift */; };
 		CA669287203D0B0C000069B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA669285203D0B0C000069B5 /* Main.storyboard */; };
@@ -168,6 +169,7 @@
 		CA4BD4352049E813002405D8 /* AddCategory.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddCategory.storyboard; sourceTree = "<group>"; };
 		CA4BD4392049EBD7002405D8 /* AddCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryVC.swift; sourceTree = "<group>"; };
 		CA513FBB20958AC9000519BD /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
+		CA513FBE2095B128000519BD /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		CA5CA5512085C529007E3943 /* OutfitItemsVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OutfitItemsVC.storyboard; sourceTree = "<group>"; };
 		CA66927E203D0B0C000069B5 /* FixedFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FixedFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA669281203D0B0C000069B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				727681C7207C511E00F76F29 /* SelectableOutfitCell.swift */,
 				5C8A7B44208FA6290054D639 /* CategorySettingCell.swift */,
 				5C04D4C12091077D000ED3FD /* TutorialSettingCell.swift */,
+				CA513FBE2095B128000519BD /* NotificationCell.swift */,
 			);
 			path = "View Related";
 			sourceTree = "<group>";
@@ -712,6 +715,7 @@
 				CA121E0220781CD0006C5C54 /* OutfitCell.swift in Sources */,
 				CA8C48E8205BA67D007A74F5 /* SectionTitleCell.swift in Sources */,
 				CA2CABD5203D351600C62AE1 /* ProfileVC.swift in Sources */,
+				CA513FBF2095B128000519BD /* NotificationCell.swift in Sources */,
 				CAED629E20533EE200181975 /* ItemsVC.swift in Sources */,
 				CA2CABD9203D390200C62AE1 /* UIView+Extension.swift in Sources */,
 				CA2CABCF203D2B8F00C62AE1 /* FirebaseManager.swift in Sources */,

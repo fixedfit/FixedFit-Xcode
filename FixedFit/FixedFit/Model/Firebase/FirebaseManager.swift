@@ -216,6 +216,18 @@ class FirebaseManager {
         return[uid, email]
     }
 
+    func fetchNotifications(completion: @escaping ([String]?, Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.notifications).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let notifications = snapshot.value as? [String] {
+                completion(notifications, nil)
+            }
+        }) { (error) in
+            completion(nil, error)
+        }
+    }
+
     // MARK: - Upload methods
 
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {

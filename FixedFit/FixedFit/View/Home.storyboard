@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -185,16 +186,37 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="eventCell" id="hkV-Nn-tOX">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotificationCell" id="hkV-Nn-tOX" customClass="NotificationCell" customModule="FixedFit" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hkV-Nn-tOX" id="yQJ-mZ-f5e">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nIj-im-jgm">
+                                                    <rect key="frame" x="15" y="12" width="135" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nIj-im-jgm" firstAttribute="leading" secondItem="yQJ-mZ-f5e" secondAttribute="leadingMargin" id="Fvw-XX-l3T"/>
+                                                <constraint firstItem="nIj-im-jgm" firstAttribute="centerY" secondItem="yQJ-mZ-f5e" secondAttribute="centerY" id="m6l-Bf-wgC"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="nIj-im-jgm" id="3hh-It-4CM"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QWL-00-cde">
+                                <rect key="frame" x="123" y="550.5" width="129.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgy-hu-S4l">
                                 <rect key="frame" x="0.0" y="471" width="375" height="30"/>
                                 <constraints>
@@ -209,6 +231,7 @@
                         <constraints>
                             <constraint firstItem="cgy-hu-S4l" firstAttribute="leading" secondItem="eD5-vq-5Jd" secondAttribute="leading" id="0hZ-vl-68T"/>
                             <constraint firstItem="Qac-nE-TAk" firstAttribute="top" secondItem="eD5-vq-5Jd" secondAttribute="top" constant="18" id="5pK-Lc-h1b"/>
+                            <constraint firstItem="YdA-rR-hDI" firstAttribute="top" secondItem="QWL-00-cde" secondAttribute="bottom" constant="-70" id="B9W-YQ-AS7"/>
                             <constraint firstItem="YdA-rR-hDI" firstAttribute="top" secondItem="cgy-hu-S4l" secondAttribute="bottom" id="IZo-tq-O4B"/>
                             <constraint firstItem="eD5-vq-5Jd" firstAttribute="trailing" secondItem="Qac-nE-TAk" secondAttribute="trailing" constant="160" id="Kbu-3r-L4h"/>
                             <constraint firstItem="YdA-rR-hDI" firstAttribute="top" secondItem="cgy-hu-S4l" secondAttribute="bottom" id="Q1D-4C-3lz"/>
@@ -219,6 +242,7 @@
                             <constraint firstItem="eD5-vq-5Jd" firstAttribute="trailing" secondItem="Yr1-Eb-Dqs" secondAttribute="trailing" id="nFL-fz-zAu"/>
                             <constraint firstItem="Yr1-Eb-Dqs" firstAttribute="leading" secondItem="RbT-Rw-w8o" secondAttribute="leading" id="ohL-og-s3N"/>
                             <constraint firstItem="Yr1-Eb-Dqs" firstAttribute="top" secondItem="eD5-vq-5Jd" secondAttribute="top" constant="56" id="s78-YF-rfv"/>
+                            <constraint firstItem="QWL-00-cde" firstAttribute="centerX" secondItem="RbT-Rw-w8o" secondAttribute="centerX" id="sVA-Uk-F3A"/>
                             <constraint firstItem="eD5-vq-5Jd" firstAttribute="bottom" secondItem="YdA-rR-hDI" secondAttribute="bottom" id="wf0-jE-KcF"/>
                             <constraint firstItem="Qac-nE-TAk" firstAttribute="leading" secondItem="eD5-vq-5Jd" secondAttribute="leading" constant="160" id="xzo-d1-Pj3"/>
                         </constraints>
@@ -234,10 +258,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="uvH-WT-Tez" id="Bg2-I1-HBA"/>
-                        <outlet property="eventView" destination="YdA-rR-hDI" id="eUU-XR-EP1"/>
                         <outlet property="hiLabel" destination="2Cp-kg-YS0" id="xFW-7w-gA2"/>
                         <outlet property="loLabel" destination="RpD-UX-71z" id="sje-HH-JLL"/>
                         <outlet property="month" destination="KEX-pG-pux" id="ZRP-jh-CNq"/>
+                        <outlet property="noNotificationsLabel" destination="QWL-00-cde" id="ZjF-NP-mYB"/>
+                        <outlet property="notificationsTableView" destination="YdA-rR-hDI" id="3iy-bA-1wf"/>
                         <outlet property="weatherLabel" destination="9dh-bF-FBk" id="PFc-aO-bE2"/>
                         <outlet property="year" destination="Frb-1z-35o" id="NTi-wR-qHE"/>
                         <segue destination="NmQ-ya-563" kind="show" identifier="showOutfits" id="rAE-1a-8vD"/>

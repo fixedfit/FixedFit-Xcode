@@ -51,6 +51,7 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
         self.TableView.dataSource = self
         self.TableView.tableFooterView = UIView()
         
+        self.view.bringSubview(toFront: self.CategoryStatusLabel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,11 +78,7 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
             }
         
             //Show or hidden the no category label
-            if (self.categories.count == 0){
-                self.CategoryStatusLabel.isHidden = false
-            } else {
-                self.CategoryStatusLabel.isHidden = true
-            }
+            self.hideStatusLabel()
         }
     }
     
@@ -118,6 +115,7 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
             ////Append the new category to the array
             self.categories.append(self.newCategory)
             self.userStuffManager.closet.categorySubcategoryStore.addCategory(category: self.newCategory)
+            self.hideStatusLabel()
             
             let indexPath = IndexPath(row: (self.categories.count - 1), section: 0)
             
@@ -133,6 +131,16 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
         let secondInformationVC = InformationVC(message: msg, image: UIImage(named: "error diagram"), leftButtonData: nil, rightButtonData: buttonDataRight)
         
         self.present(secondInformationVC, animated: true, completion:nil)
+    }
+    
+    //Function to hide StatusLabel
+    func hideStatusLabel(){
+        //Show or hidden the no category label
+        if (self.categories.count == 0){
+            self.CategoryStatusLabel.isHidden = false
+        } else {
+            self.CategoryStatusLabel.isHidden = true
+        }
     }
     
     //ChangeUserInfoVC function:
@@ -189,6 +197,7 @@ extension CategoriesVC: UITableViewDelegate {
                 self.userStuffManager.closet.categorySubcategoryStore.removeCategory(category: category)
                 self.categories.remove(at: index)
                 self.TableView.reloadData()
+                hideStatusLabel()
             } else {
                 self.presentInfoVC(msg: "Entry is part of a clothing item\nRemove clothing item first, then delete category")
             }

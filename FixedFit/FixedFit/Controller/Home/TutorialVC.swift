@@ -95,6 +95,32 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newString: tutorialLabel, newMode: FirebaseSupportTitleAndMode.tutorial) else {return}
             
             if let vc = vc as? SupportVC{
+                
+                //Instantiate the subclass of the MainSupportFramework that correspondes to the section
+                //Determine which label has been selected by checking the elements of the tutorialList
+                switch tutorialLabel {
+                case tutorialList[0]:
+                    vc.selectedClass = AddClothes()
+                case tutorialList[1]:
+                    vc.selectedClass = ConstructOutfits()
+                case tutorialList[2]:
+                    vc.selectedClass = DeleteClothes()
+                case tutorialList[3]:
+                    vc.selectedClass = DeleteOutfits()
+                case tutorialList[4]:
+                    vc.selectedClass = Search_For_Users()
+                case tutorialList[5]:
+                    vc.selectedClass = Follow_A_User()
+                case tutorialList[6]:
+                    vc.selectedClass = Block_A_User()
+                case tutorialList[7]:
+                    vc.selectedClass = Like_A_Users_Photo()
+                case tutorialList[8]:
+                    vc.selectedClass = Add_Outfit_To_Calendar()
+                default:
+                    vc.selectedClass = nil
+                }
+                
                 //Push View Controller onto Navigation Stack
                 self.navigationController?.pushViewController(vc, animated: true)
             } else if let vc = vc as? InformationVC{

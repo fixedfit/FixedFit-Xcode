@@ -29,6 +29,15 @@
 		5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */; };
 		5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */; };
 		5CE9237920951E380007FB52 /* ContactUsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CE9237820951E370007FB52 /* ContactUsVC.xib */; };
+		5CEAAE892096435F00E47B7E /* AddClothes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE882096435F00E47B7E /* AddClothes.swift */; };
+		5CEAAE8B2096463700E47B7E /* ConstructOutfits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE8A2096463700E47B7E /* ConstructOutfits.swift */; };
+		5CEAAE8D209646F300E47B7E /* DeleteClothes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE8C209646F300E47B7E /* DeleteClothes.swift */; };
+		5CEAAE8F2096472600E47B7E /* Search_For_Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE8E2096472600E47B7E /* Search_For_Users.swift */; };
+		5CEAAE912096474A00E47B7E /* Follow_A_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE902096474A00E47B7E /* Follow_A_User.swift */; };
+		5CEAAE932096476600E47B7E /* Block_A_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE922096476600E47B7E /* Block_A_User.swift */; };
+		5CEAAE952096478B00E47B7E /* Like_A_Users_Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE942096478B00E47B7E /* Like_A_Users_Photo.swift */; };
+		5CEAAE972096484300E47B7E /* Add_Outfit_To_Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE962096484300E47B7E /* Add_Outfit_To_Calendar.swift */; };
+		5CEAAE992096549E00E47B7E /* DeleteOutfits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAAE982096549E00E47B7E /* DeleteOutfits.swift */; };
 		5CEAB189209199C30002140C /* AccountRecoveryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CEAB188209199C30002140C /* AccountRecoveryVC.xib */; };
 		5CEAB18B20919AAE0002140C /* AccountRecoveryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAB18A20919AAE0002140C /* AccountRecoveryVC.swift */; };
 		5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */; };
@@ -129,6 +138,15 @@
 		5CDB3F07207C8B71007E91BB /* ChangeUserInfoVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangeUserInfoVC.xib; sourceTree = "<group>"; };
 		5CDB3F09207C8BB3007E91BB /* ChangeUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInfoVC.swift; sourceTree = "<group>"; };
 		5CE9237820951E370007FB52 /* ContactUsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactUsVC.xib; sourceTree = "<group>"; };
+		5CEAAE882096435F00E47B7E /* AddClothes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClothes.swift; sourceTree = "<group>"; };
+		5CEAAE8A2096463700E47B7E /* ConstructOutfits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructOutfits.swift; sourceTree = "<group>"; };
+		5CEAAE8C209646F300E47B7E /* DeleteClothes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteClothes.swift; sourceTree = "<group>"; };
+		5CEAAE8E2096472600E47B7E /* Search_For_Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search_For_Users.swift; sourceTree = "<group>"; };
+		5CEAAE902096474A00E47B7E /* Follow_A_User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow_A_User.swift; sourceTree = "<group>"; };
+		5CEAAE922096476600E47B7E /* Block_A_User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block_A_User.swift; sourceTree = "<group>"; };
+		5CEAAE942096478B00E47B7E /* Like_A_Users_Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like_A_Users_Photo.swift; sourceTree = "<group>"; };
+		5CEAAE962096484300E47B7E /* Add_Outfit_To_Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add_Outfit_To_Calendar.swift; sourceTree = "<group>"; };
+		5CEAAE982096549E00E47B7E /* DeleteOutfits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteOutfits.swift; sourceTree = "<group>"; };
 		5CEAB188209199C30002140C /* AccountRecoveryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountRecoveryVC.xib; sourceTree = "<group>"; };
 		5CEAB18A20919AAE0002140C /* AccountRecoveryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryVC.swift; sourceTree = "<group>"; };
 		5CF8599220831DC900B2D07D /* ChooseUserPhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUserPhotoVC.swift; sourceTree = "<group>"; };
@@ -241,6 +259,15 @@
 		5C2A84B520958D35008A68BF /* TutorialSectionRelatedClasses */ = {
 			isa = PBXGroup;
 			children = (
+				5CEAAE882096435F00E47B7E /* AddClothes.swift */,
+				5CEAAE8A2096463700E47B7E /* ConstructOutfits.swift */,
+				5CEAAE8C209646F300E47B7E /* DeleteClothes.swift */,
+				5CEAAE982096549E00E47B7E /* DeleteOutfits.swift */,
+				5CEAAE8E2096472600E47B7E /* Search_For_Users.swift */,
+				5CEAAE902096474A00E47B7E /* Follow_A_User.swift */,
+				5CEAAE922096476600E47B7E /* Block_A_User.swift */,
+				5CEAAE942096478B00E47B7E /* Like_A_Users_Photo.swift */,
+				5CEAAE962096484300E47B7E /* Add_Outfit_To_Calendar.swift */,
 			);
 			path = TutorialSectionRelatedClasses;
 			sourceTree = "<group>";
@@ -729,6 +756,7 @@
 				CAD3C55F204B5D1600DE2911 /* AddCategoryCell.swift in Sources */,
 				CAFEE17820528B4500701ED2 /* UIImage+Extension.swift in Sources */,
 				5C2F1DAC20789FA500ADF58E /* SupportVC.swift in Sources */,
+				5CEAAE892096435F00E47B7E /* AddClothes.swift in Sources */,
 				CA8C48E6205B734F007A74F5 /* CategorySubcategoryStore.swift in Sources */,
 				CA18467D204BE5340091B568 /* WeatherService.swift in Sources */,
 				CAD3C55D204B4EE600DE2911 /* ClosetCategoryCell.swift in Sources */,
@@ -752,6 +780,7 @@
 				CAFBF10D20572B9C007D425A /* Closet.swift in Sources */,
 				CA66928A203D0B0C000069B5 /* FixedFit.xcdatamodeld in Sources */,
 				727681C8207C511E00F76F29 /* SelectableOutfitCell.swift in Sources */,
+				5CEAAE912096474A00E47B7E /* Follow_A_User.swift in Sources */,
 				CA1970622077369C006D7B89 /* Reference+Extension.swift in Sources */,
 				CACA4D1D2088142E00D5E2D2 /* UserCell.swift in Sources */,
 				CAFCDBDE2074BD3D00E87E9B /* PhotosVC.swift in Sources */,
@@ -759,19 +788,23 @@
 				5CF8599320831DCA00B2D07D /* ChooseUserPhotoVC.swift in Sources */,
 				CA513FBC20958AC9000519BD /* FeedVC.swift in Sources */,
 				5C91E59C2073EC1200D9D0F3 /* UserFinderVC.swift in Sources */,
+				5CEAAE8D209646F300E47B7E /* DeleteClothes.swift in Sources */,
 				5CDB3F0A207C8BB3007E91BB /* ChangeUserInfoVC.swift in Sources */,
 				CA14A14C205C61EE00A8F6AD /* Bundle+Extension.swift in Sources */,
 				CA972EF0207B0275006AB842 /* FirebaseKeys.swift in Sources */,
 				CA4BD4302049E13B002405D8 /* ClosetVC.swift in Sources */,
 				CAB5AAD7207AEF4700FCC305 /* CategoriesVC.swift in Sources */,
+				5CEAAE8B2096463700E47B7E /* ConstructOutfits.swift in Sources */,
 				CA2CABDD203D393C00C62AE1 /* NotificationName+Extension.swift in Sources */,
 				CA2CABD1203D2C0100C62AE1 /* AuthErrorCode+Extension.swift in Sources */,
 				CA4BD43A2049EBD7002405D8 /* AddCategoryVC.swift in Sources */,
 				5C257424207AA70E0003F8C5 /* ReauthenticateVC.swift in Sources */,
 				CA1EAC8D204A0F0D00CBEB9F /* UserStuffManager.swift in Sources */,
+				5CEAAE952096478B00E47B7E /* Like_A_Users_Photo.swift in Sources */,
 				CA2CABDB203D392700C62AE1 /* UIStoryboard+Extension.swift in Sources */,
 				5C8A7B45208FA6290054D639 /* CategorySettingCell.swift in Sources */,
 				727681CA207C533A00F76F29 /* AddOutfitVC.swift in Sources */,
+				5CEAAE8F2096472600E47B7E /* Search_For_Users.swift in Sources */,
 				CA469C9820746AAC0098F684 /* CreateOutfitVC.swift in Sources */,
 				CA1EAC8F204A140B00CBEB9F /* CategoryCell.swift in Sources */,
 				CABA7927203F988600EABAA1 /* SignUpVC.swift in Sources */,
@@ -783,7 +816,10 @@
 				5CEAB18B20919AAE0002140C /* AccountRecoveryVC.swift in Sources */,
 				5C92B4E2208C128100D1F246 /* OutfitSelectionVC.swift in Sources */,
 				5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */,
+				5CEAAE992096549E00E47B7E /* DeleteOutfits.swift in Sources */,
 				5C04D4C22091077D000ED3FD /* TutorialSettingCell.swift in Sources */,
+				5CEAAE972096484300E47B7E /* Add_Outfit_To_Calendar.swift in Sources */,
+				5CEAAE932096476600E47B7E /* Block_A_User.swift in Sources */,
 				CA2CABCD203D2AA800C62AE1 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

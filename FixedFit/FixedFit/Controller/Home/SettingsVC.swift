@@ -328,6 +328,10 @@ class SettingsVC: UIViewController, UIGestureRecognizerDelegate, Reauthenticatio
         guard let vc = PushViews.executeTransition(vcName: PushViewKeys.supportVC, storyboardName: PushViewKeys.home, newString:FirebaseSupportTitleAndMode.helpCenter, newMode: FirebaseSupportTitleAndMode.helpCenter) else {return}
         
         if let vc = vc as? SupportVC{
+            
+            //Before push the view controller onto the stack, assign the SupportVC's selectedClass variable to the corresponding help center class
+            vc.selectedClass = HelpCenter_FAQ()
+            
             //Push View Controller onto Navigation Stack
             self.navigationController?.pushViewController(vc, animated: true)
         } else if let vc = vc as? InformationVC{

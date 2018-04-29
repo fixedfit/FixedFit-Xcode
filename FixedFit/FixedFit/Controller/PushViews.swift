@@ -19,6 +19,10 @@ import UIKit
  //Check if the View Controller is of a certain View Controller type that you need to downcast to.
  if let vc = vc as? VC_ClassType{
  
+ //if VC_ClassType is SupportVC
+    then vc.selectedClass = subclass of MainSupportFramework //(Notes are in the button section of the comments)
+ //
+ 
  //Push View Controller onto Navigation Stack
  self.navigationController?.pushViewController(vc, animated: true)
  
@@ -27,6 +31,12 @@ import UIKit
  self.present(vc, animated: true, completion: nil)
  }
  
+ */
+
+/*
+ Note, for instantiating SupportVC, the selectedClass variable of type MainSupportFramework must be assigned before view controller is push onto the stack with the correct class corresponding to the topic that the SupportVC is being generated for.
+ 
+ Each topic of the tutorial must have a corresponding class that inherits from the MainSupportFramework class that contains a images and messages array that will contain the information relative to the topic. So each subclass must initialize both of those variables with the correct information for the topic.
  */
 struct PushViewKeys{
     

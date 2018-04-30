@@ -37,10 +37,12 @@ struct Outfit {
     var uniqueID: String
     var items: [ClosetItem]
     var isFavorited = false
+    var isPublic = true
 
-    init(uniqueID: String, items: [ClosetItem]) {
+    init(uniqueID: String, items: [ClosetItem], isPublic: Bool) {
         self.uniqueID = uniqueID
         self.items = items
+        self.isPublic = isPublic
     }
 }
 
@@ -80,6 +82,14 @@ class Closet {
 
     func favoriteOutfits() -> [Outfit] {
         return outfits.filter({$0.isFavorited == true})
+    }
+
+    func publicOutfits() -> [Outfit] {
+        return outfits.filter({$0.isPublic == true})
+    }
+
+    func privateOutfits() -> [Outfit] {
+        return outfits.filter({$0.isPublic == false})
     }
 }
 

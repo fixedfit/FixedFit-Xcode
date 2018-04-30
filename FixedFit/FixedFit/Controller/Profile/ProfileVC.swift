@@ -24,7 +24,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
     let firebaseManager = FirebaseManager.shared
     let userStuffManager = UserStuffManager.shared
-    
+
     //MARK: varible used to determine if the outfit selection was already being presented or if it is not being presented
     var outfitDisplayed: Bool!
     var outfitdisplayingStatus: String!
@@ -37,7 +37,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
     @IBOutlet weak var childVCView: UIView!
     @IBOutlet weak var UserChildVCView: UIView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,20 +62,24 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
         self.addChildViewController(favoritedOutfitsVC)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
 
-        ////Fetch the selected user's information from firebase by using the observers
-        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.userStuffManager.userInfo.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
-            
-            //retrieve the User's username
+        likedOutfitsVC.view.isHidden = true
+        favoritedOutfitsVC.view.isHidden = true
+
+
+        ////Update Followers and Following Counters from firebase
+        //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
+        //Observer used to observe when a user is added or delete from the following lists of the current user
+        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+
             if let username = snapshot.value as? String {
-                
                 //set the User's username
                 self.navigationItem.title = username
             }
         })
-        
+
     }
 
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {
@@ -83,35 +87,35 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     }
 
     @IBAction func tappedOutfits(_ sender: UITapGestureRecognizer) {
-        
+
         //Initialize outfit displaying status
         self.outfitdisplayingStatus = ""
-        
+
         //Initialize a DispatchGroup to notify main to execute the viewing of the specific outfits
         let dispatch = DispatchGroup()
-        
+
         //Determine if the button for the outfit Displaying is already selected
         if(outfitDisplayed == true){
-            
+
             dispatch.enter()
             //Generate the button and the outfitSelecitonVC to show the nibfile's view to the user
             let button = ButtonData(title: "", color: UIColor()){
                 dispatch.leave()
             }
-            
+
             let outfitSelectorVC = OutfitSelectionVC(button: button)
             outfitSelectorVC.delegate = self
             self.present(outfitSelectorVC, animated: true, completion: nil)
         }
-        
+
         //Make main execute this section strictly after the OutfitSelectionVC has been dismissed
         //This section will perform the displaying of certain outfits, either all outfits, public outfits, or private outfits
         dispatch.notify(queue: .main){
-            
+
             //Detemine which set of outfits where chosen to be displayed
             //Call function to fetch correct outfits in userStuffManager.closet.outfits
-            
-            
+
+
             //If the outfit button is was tapped, then make the boolean value of the outfitDisplayed variable to true
             self.outfitsVC.outfits = self.userStuffManager.closet.outfits
             self.outfitDisplayed = true
@@ -121,10 +125,10 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     }
 
     @IBAction func tappedLiked(_ sender: UITapGestureRecognizer) {
-        
+
         //If the liked button is was tapped, then make the boolean value of the outfitDisplayed variable to false
         self.outfitDisplayed = false
-        
+
         //Display only the outfits of other user's that the current user liked
         likedOutfitsVC.outfits = []
         likedOutfitsVC.view.isHidden = false
@@ -135,7 +139,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
 
         //If the liked button is was tapped, then make the boolean value of the outfitDisplayed variable to false
         self.outfitDisplayed = false
-        
+
         //Display only the outfits that belongs to the current user that they liked
         favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
         favoritedOutfitsVC.view.isHidden = false
@@ -153,5 +157,13 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     //Implement the function of the OutfitSelectionVC
     func displaySelection(selection:String){
         self.outfitdisplayingStatus = selection
+
+        if selection == ProfileOutfitKeys.all.rawValue {
+            outfitsVC.outfits = userStuffManager.closet.outfits
+        } else if selection == ProfileOutfitKeys.publicOutfits.rawValue {
+            outfitsVC.outfits = userStuffManager.closet.publicOutfits()
+        } else if selection == ProfileOutfitKeys.privateOutfits.rawValue {
+            outfitsVC.outfits = userStuffManager.closet.privateOutfits()
+        }
     }
 }

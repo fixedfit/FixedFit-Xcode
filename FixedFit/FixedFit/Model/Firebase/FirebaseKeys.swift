@@ -45,4 +45,5 @@ enum FirebaseKeys: String {
     // Outfits
     case outfits = "outfits"
     case isFavorited = "isFavorited"
+    case isPublic = "isPublic"
 }

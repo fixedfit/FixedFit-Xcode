@@ -132,7 +132,7 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                     
                                 } // resetPassword ending brace
                                 
-                            } else {
+                            } else if(self.cancelled == false){
                                 
                                 //Determine which error it is
                                 if(self.userEmail!.isEmpty){

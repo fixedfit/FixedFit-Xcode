@@ -36,6 +36,11 @@ struct UserInfo {
         self.previousPhotoURL = previousPhotoURL
         self.photo = photo
         self.uid = uniqueID
+        
+        //Set the display name with the first and last name of the user
+        let firebaseManager = FirebaseManager.shared
+        firebaseManager.displayNameModification(name: (self.firstName + " " + self.lastName))
+        
     }
 
     init?(json: [String: Any]) {
@@ -65,6 +70,12 @@ struct UserInfo {
             if let blocked = json[FirebaseKeys.blocked.rawValue] as? [String] {
                 self.blocked = blocked
             }
+            
+            //Set the display name with the first and last name of the user
+            let firebaseManager = FirebaseManager.shared
+            firebaseManager.displayNameModification(name: (firstName + " " + lastName))
+            
+            
         } else {
             return nil
         }

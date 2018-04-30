@@ -233,6 +233,12 @@ class FirebaseManager {
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
         
+        ////Update the user's display name with the first and last name of the UserInfo fields
+        let displayName = userInfo.firstName + " " + userInfo.lastName
+        
+        //Make changes to the Profile by making a profile change request
+        displayNameModification(name: displayName)
+
         ////upload photo's url onto firebase storage by first checking if one already exists
         //Generate path for new image
         let imageUniqueID = uniqueID()
@@ -866,5 +872,19 @@ class FirebaseManager {
     func retrieveEmail()->String{
         guard let user = currentUser else {return ""}
         return user.email!
+    }
+    
+    func displayNameModification(name: String){
+        guard let user = currentUser else {return}
+        
+        let changeRequest = user.createProfileChangeRequest()
+        changeRequest.displayName = name
+        changeRequest.commitChanges{ (error) in
+            
+            if error != nil{
+                print("Internal error has occured during the commiting of the display name changes.")
+            }
+            
+        }
     }
 }

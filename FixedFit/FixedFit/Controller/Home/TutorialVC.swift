@@ -86,9 +86,15 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 
                 if(self.cancelled == false){
                     
+                    //Obtain the current user's email for validation
+                    let currentUserEmail = self.firebaseManager.retrieveEmail()
+                    
                     //Determine if the user wants to recover their email or password
                     if(self.recoverMethod == RecoveryKeys.recoverEmail){
-                        print(self.recoverMethod)
+                        
+                        let vc = RecoverEmailVC(email: currentUserEmail)
+                        self.present(vc, animated: true, completion: nil)
+                        
                     } else if(self.recoverMethod == RecoveryKeys.recoverPassword){
                         
                         dispatch.enter()
@@ -101,9 +107,6 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                         self.present(vc, animated: true, completion: nil)
                         
                         dispatch.notify(queue: .main){
-                            
-                            //Obtain the current user's email for validation
-                            let currentUserEmail = self.firebaseManager.retrieveEmail()
                             
                             //Initialize a ButtonData object to present information to the user
                             let button = ButtonData(title: "Ok", color: .fixedFitBlue, action: nil)

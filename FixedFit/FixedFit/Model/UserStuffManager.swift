@@ -176,7 +176,7 @@ class UserStuffManager {
                     self?.userInfo.blocked.removeAll()
                 }
                 
-                //Determine if bio is emtpy, if so then just make it say "No Bio Set"
+                //Determine if bio is empty, if so then just make it say "No Bio Set"
                 if bio.isEmpty {
                     self?.userInfo.bio = "No Bio Set"
                 } else {

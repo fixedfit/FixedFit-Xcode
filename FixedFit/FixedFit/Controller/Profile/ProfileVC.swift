@@ -35,46 +35,14 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     let likedOutfitsVC = UIStoryboard.outfitsVC as! OutfitsVC
     let favoritedOutfitsVC = UIStoryboard.outfitsVC as! OutfitsVC
 
-    //label for the user's first and last name, user's bio, and viewing status
-    @IBOutlet weak var UserFirstName: UILabel!
-    @IBOutlet weak var UserLastName: UILabel!
-    @IBOutlet weak var UserBio: UILabel!
-
-
-    //References to the buttons followers and following for updating the text field
-    @IBOutlet weak var FollowingCount: UILabel!
-    @IBOutlet weak var FollowersCount: UILabel!
-    @IBOutlet weak var FollowingButton: UIView!
-    @IBOutlet weak var FollowersButton: UIView!
-
-    //Reference to the UIImageVIew
-    @IBOutlet weak var UserProfileImage: UIImageView!
     @IBOutlet weak var childVCView: UIView!
-
+    @IBOutlet weak var UserChildVCView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //Set Initial state of outfitDisplayed when the profile view is loaded
         self.outfitDisplayed = false
-        
-        //Adjust texts in labels to fit the width of the label
-        self.UserBio.numberOfLines = 0
-        self.UserBio.adjustsFontSizeToFitWidth = true
-        self.UserFirstName.adjustsFontSizeToFitWidth = true
-        self.UserLastName.adjustsFontSizeToFitWidth = true
-        self.FollowingCount.adjustsFontSizeToFitWidth = true
-        self.FollowersCount.adjustsFontSizeToFitWidth = true
-        
-        //Give UITapGesture to the Following and Follower views
-        let followingTap = UITapGestureRecognizer(target:self, action: #selector(ProfileVC.tappedFollowing))
-        followingTap.delegate = self
-        let followersTap = UITapGestureRecognizer(target:self, action: #selector(ProfileVC.tappedFollowers))
-        followersTap.delegate = self
-
-        FollowingButton.isUserInteractionEnabled = true
-        FollowersButton.isUserInteractionEnabled = true
-        FollowingButton.addGestureRecognizer(followingTap)
-        FollowersButton.addGestureRecognizer(followersTap)
 
         childVCView.addSubview(outfitsVC.view)
         outfitsVC.view.fillSuperView()
@@ -93,90 +61,25 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         favoritedOutfitsVC.outfitsType = .favorited
         favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
         self.addChildViewController(favoritedOutfitsVC)
-
-        
-        ////Update Followers and Following Counters from firebase
-        //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
-        //Observer used to observe when a user is added or delete from the following lists of the current user
-    self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
-        
-            //Assign variable with the snapshot value
-            if let followingCounter = snapshot.value as? Int{
-        
-                //Update button titles/view counters for following Counter
-                self.FollowingCount.text = "\(followingCounter)"
-            }
-        })
-        
-        //Observer used to observe when a user is added or delete from the followers lists of the current user
-    self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
-        
-            //Assign variable with the snapshot value
-            if let followersCounter = snapshot.value as? Int{
-        
-                //Update button titles/view counters for follower's Counter
-                self.FollowersCount.text = "\(followersCounter)"
-            }
-        })
     }
-
-    //MARK: Update profile page once view appears.
+    
     override func viewWillAppear(_ animated: Bool) {
-        //Fetch the user's Information from the UserStuffManager
-        userStuffManager.fetchUserInfo { _ in }
 
-        //Initial UIImage variable used to select the image to output to the screen
-        weak var Image: UIImage!
-
-        //Update the title of the navigation bar with the user name of the user
-        self.navigationItem.title = userStuffManager.userInfo.username
-
-        //Update labels of profile if user has edited them
-        self.UserFirstName.text = userStuffManager.userInfo.firstName
-        self.UserLastName.text = userStuffManager.userInfo.lastName
-        self.UserBio.text = userStuffManager.userInfo.bio
-
-        ////Load the User's profile photo into the UIImageView
-        //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
-
-        Image = userStuffManager.userInfo.photo
-        //Generate a UIImage from the user's photo
-        //ContentMode is used to scale images
-        UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
-        let image = Image
-        UserProfileImage.image = image
+        ////Fetch the selected user's information from firebase by using the observers
+        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.userStuffManager.userInfo.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
+            
+            //retrieve the User's username
+            if let username = snapshot.value as? String {
+                
+                //set the User's username
+                self.navigationItem.title = username
+            }
+        })
+        
     }
 
     @IBAction func EditTransition(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "EditTransition", sender: self)
-    }
-
-    //Functions to the buttons involved in the profile section
-    //Execute with transitional view animations
-    //perform action when following and followers button are clicked
-    @objc func tappedFollowing(sender: UITapGestureRecognizer){
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userfinderVC, storyboardName: PushViewKeys.userfinder, newString:FirebaseUserFinderTitle.following, newMode:FirebaseUserFinderMode.following) else {return}
-
-        //Check if the View Controller is of a certain View Controller type
-        if let vc = vc as? UserFinderVC{
-
-            //Push View Controller onto Navigation Stack
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else if let vc = vc as? InformationVC{
-            self.present(vc, animated: true, completion: nil)
-        }
-    }
-    @objc func tappedFollowers(sender: UITapGestureRecognizer){
-        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userfinderVC, storyboardName: PushViewKeys.userfinder, newString:FirebaseUserFinderTitle.follower, newMode:FirebaseUserFinderMode.follower) else {return}
-
-        //Check if the View Controller is of a certain View Controller type
-        if let vc = vc as? UserFinderVC{
-
-            //Push View Controller onto Navigation Stack
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else if let vc = vc as? InformationVC{
-            self.present(vc, animated: true, completion: nil)
-        }
     }
 
     @IBAction func tappedOutfits(_ sender: UITapGestureRecognizer) {
@@ -241,6 +144,9 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let outfitItemsVC = segue.destination as? OutfitItemsVC {
             outfitItemsVC.outfit = selectedOutfit
+        } else if let vc = segue.destination as? UserProfileInfoVC {
+            vc.uid = userStuffManager.userInfo.uid
+            vc.currentUserCheck = true
         }
     }
 

@@ -856,4 +856,15 @@ class FirebaseManager {
             completion()
         }
     }
+    
+    func resetPassword(email: String, completion: @escaping (Error?)->Void){
+        Auth.auth().sendPasswordReset(withEmail: email, completion: { (error) in
+            completion(error)
+        })
+    }
+    
+    func retrieveEmail()->String{
+        guard let user = currentUser else {return ""}
+        return user.email!
+    }
 }

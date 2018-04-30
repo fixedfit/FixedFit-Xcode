@@ -11,7 +11,9 @@ struct RecoveryKeys{
     static let recoverEmail = "recover email"
     static let recoverPassword = "recover password"
 }
-class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, RecoverSelectionDelegate {
+class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, RecoverSelectionDelegate, UserInfoDelegate {
+    
+    private let firebaseManager = FirebaseManager.shared
 
     static let accountRecovery = "Recover Credentials"
     
@@ -27,6 +29,9 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //Initialize variables for the user's selection of recovery or cancellation of the operation
     var cancelled: Bool!
     var recoverMethod: String!
+    
+    //Assign email to this variable when reseting password or recovering email
+    var userEmail: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +90,62 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     if(self.recoverMethod == RecoveryKeys.recoverEmail){
                         print(self.recoverMethod)
                     } else if(self.recoverMethod == RecoveryKeys.recoverPassword){
-                        print(self.recoverMethod)
+                        
+                        dispatch.enter()
+                        let button = ButtonData(title: "", color: UIColor()){
+                            dispatch.leave()
+                        }
+                        
+                        let vc = ChangeUserInfoVC(buttonAction: button, changingInfoMode: RecoveryKeys.recoverPassword)
+                        vc.delegate = self
+                        self.present(vc, animated: true, completion: nil)
+                        
+                        dispatch.notify(queue: .main){
+                            
+                            //Obtain the current user's email for validation
+                            let currentUserEmail = self.firebaseManager.retrieveEmail()
+                            
+                            //Initialize a ButtonData object to present information to the user
+                            let button = ButtonData(title: "Ok", color: .fixedFitBlue, action: nil)
+                            
+                            //Initialize variable to present a message to the user
+                            var message:String!
+
+                            if(self.cancelled == false && currentUserEmail == self.userEmail!){
+                                
+                                //Call firebase function to reset password
+                                self.firebaseManager.resetPassword(email: self.userEmail!){(error) in
+                                    
+                                    //Present information to the user on what the resetPassword function did
+                                    var imageName = ""
+                                    
+                                    if error == nil {
+                                        message = "An email was sent to allow you to reset your password."
+                                        imageName = "bluecheckmark"
+                                    } else {
+                                        message = "An error has occured and a reset password email was not sent."
+                                        imageName = "error diagram"
+                                    }
+                                    
+                                    let vc = InformationVC(message: message, image: UIImage(named: imageName), leftButtonData: button, rightButtonData: nil)
+                                    self.present(vc, animated: true, completion: nil)
+                                    
+                                } // resetPassword ending brace
+                                
+                            } else {
+                                
+                                //Determine which error it is
+                                if(self.userEmail!.isEmpty){
+                                    message = "Error: Email Entry is Empty"
+                                } else {
+                                    message = "Error: Incorrect Email"
+                                }
+                                
+                                let vc = InformationVC(message: message, image: UIImage(named: "error diagram"), leftButtonData: button, rightButtonData: nil)
+                                self.present(vc, animated: true, completion: nil)
+                                
+                            }//If-Else statement
+                        }
                     }
                 }
             }
@@ -132,6 +192,11 @@ class TutorialVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //Delegate functions
     func recoverSelection(recover: String, cancel: Bool) {
         self.recoverMethod = recover
+        self.cancelled = cancel
+    }
+    
+    func saveUserInfo(userInfo:String, cancel: Bool){
+        self.userEmail = userInfo
         self.cancelled = cancel
     }
 }

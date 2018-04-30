@@ -48,7 +48,7 @@ class AccountRecoveryVC: UIViewController {
 
         //Fix color titles and colors
         self.RecoverEmailButton.setTitle("Recover Email Address", for: .normal)
-        self.RecoverPasswordButton.setTitle("Recover Password", for: .normal)
+        self.RecoverPasswordButton.setTitle("Reset Password", for: .normal)
         self.CancelButton.setTitle("Cancel", for: .normal)
         
         self.RecoverEmailButton.setTitleColor(.fixedFitPurple, for: .normal)

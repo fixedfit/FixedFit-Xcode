@@ -87,7 +87,8 @@ extension Event {
     init?(json: [String: Any]) {
         if let dateFrom1970 = json[FirebaseKeys.date.rawValue] as? Int,
             let outfitInfo = json[FirebaseKeys.outfit.rawValue] as? [String: Any],
-            let outfitUniqueID = outfitInfo[FirebaseKeys.uniqueID.rawValue] as? String {
+            let outfitUniqueID = outfitInfo[FirebaseKeys.uniqueID.rawValue] as? String,
+            let isPublic = outfitInfo[FirebaseKeys.isPublic.rawValue] as? Bool {
             self.date = Date(timeIntervalSince1970: Double(dateFrom1970))
 
             if let eventName = json[FirebaseKeys.eventName.rawValue] as? String {
@@ -111,7 +112,7 @@ extension Event {
                 }
             }
 
-            let outfit = Outfit(uniqueID: outfitUniqueID, items: outfitClosetItems)
+            let outfit = Outfit(uniqueID: outfitUniqueID, items: outfitClosetItems, isPublic: isPublic)
             self.outfit = outfit
         } else  {
             return nil
@@ -295,11 +296,13 @@ class UserStuffManager {
 
         if let outfits = foundCloset[FirebaseKeys.outfits.rawValue] as? [String: [String: Any]] {
             for key in outfits.keys {
-                var outfit = Outfit(uniqueID: key, items: [])
+                var outfit = Outfit(uniqueID: key, items: [], isPublic: false)
                 var outfitInfo = outfits[key]
 
-                if let isFavorited = outfitInfo?[FirebaseKeys.isFavorited.rawValue] as? Bool {
+                if let isFavorited = outfitInfo?[FirebaseKeys.isFavorited.rawValue] as? Bool,
+                    let isPublic = outfitInfo?[FirebaseKeys.isPublic.rawValue] as? Bool {
                     outfit.isFavorited = isFavorited
+                    outfit.isPublic = isPublic
                 }
 
                 if let items = outfitInfo?[FirebaseKeys.items.rawValue] as? [[String: String]] {

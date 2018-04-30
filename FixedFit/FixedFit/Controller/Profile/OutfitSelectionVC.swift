@@ -65,19 +65,19 @@ class OutfitSelectionVC: UIViewController {
     //Actions that will pass back the value of the view controller
     @IBAction func AllOutfitsTapped(_ sender: UIButton) {
         delegate?.displaySelection(selection: ProfileOutfitKeys.all.rawValue)
-        self.dismiss(animated: true, completion: button?.action)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBAction func PublicOutfitsTapped(_ sender: UIButton) {
         delegate?.displaySelection(selection: ProfileOutfitKeys.publicOutfits.rawValue)
-        self.dismiss(animated: true, completion: button?.action)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBAction func PrivateOutfitsTapped(_ sender: UIButton) {
         delegate?.displaySelection(selection: ProfileOutfitKeys.privateOutfits.rawValue)
-        self.dismiss(animated: true, completion: button?.action)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBAction func CancelTapped(_ sender: UIButton) {
         delegate?.displaySelection(selection: ProfileOutfitKeys.cancel.rawValue)
-        self.dismiss(animated: true, completion: button?.action)
+        self.dismiss(animated: true, completion: nil)
     } 
 
 }

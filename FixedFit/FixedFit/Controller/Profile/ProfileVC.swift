@@ -94,6 +94,9 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         favoritedOutfitsVC.outfits = userStuffManager.closet.favoriteOutfits()
         self.addChildViewController(favoritedOutfitsVC)
 
+        likedOutfitsVC.view.isHidden = true
+        favoritedOutfitsVC.view.isHidden = true
+
         
         ////Update Followers and Following Counters from firebase
         //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
@@ -247,5 +250,13 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
     //Implement the function of the OutfitSelectionVC
     func displaySelection(selection:String){
         self.outfitdisplayingStatus = selection
+
+        if selection == ProfileOutfitKeys.all.rawValue {
+            outfitsVC.outfits = userStuffManager.closet.outfits
+        } else if selection == ProfileOutfitKeys.publicOutfits.rawValue {
+            outfitsVC.outfits = userStuffManager.closet.publicOutfits()
+        } else if selection == ProfileOutfitKeys.privateOutfits.rawValue {
+            outfitsVC.outfits = userStuffManager.closet.privateOutfits()
+        }
     }
 }

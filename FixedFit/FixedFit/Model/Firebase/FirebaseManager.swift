@@ -390,7 +390,7 @@ class FirebaseManager {
         }
     }
 
-    func saveOutfit(outfitItems: [ClosetItem], completion: @escaping (_ uniqueID: String?, _ error: Error?) -> Void) {
+    func saveOutfit(outfitItems: [ClosetItem], isPublic: Bool, completion: @escaping (_ uniqueID: String?, _ error: Error?) -> Void) {
         guard let user = currentUser else { return }
 
         var newOutfit: [String: Any] = [:]
@@ -416,6 +416,7 @@ class FirebaseManager {
         newOutfit[FirebaseKeys.items.rawValue] = outfitItemsInfos
         newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
         newOutfit[FirebaseKeys.isFavorited.rawValue] = false
+        newOutfit[FirebaseKeys.isPublic.rawValue] = isPublic
         ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
             if let error = error {
                 print(error.localizedDescription)
@@ -452,6 +453,8 @@ class FirebaseManager {
             }
 
             outfitDict[FirebaseKeys.items.rawValue] = outfitItemsInfos
+            outfitDict[FirebaseKeys.isPublic.rawValue] = outfit.isPublic
+            outfitDict[FirebaseKeys.isFavorited.rawValue] = outfit.isFavorited
             eventDict[FirebaseKeys.outfit.rawValue] = outfitDict
             eventDict[FirebaseKeys.eventName.rawValue] = eventName
 

@@ -56,18 +56,42 @@ class CreateOutfitVC: PhotosVC {
     }
 
     @IBAction func touchedDone(_ sender: UIBarButtonItem) {
-        let message = "Uploading..."
-        let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addCategory"), leftButtonData: nil, rightButtonData: nil)
-
-        present(informationVC, animated: true, completion: nil)
-        firebaseManager.saveOutfit(outfitItems: pickedOutfitItems) { [weak self] (uniqueID, error) in
+        let message = "Would you like this outfit to be public?"
+        let publicCompletion = { [weak self] in
             guard let strongSelf = self else { return }
-            let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems)
-            strongSelf.userStuffManager.closet.outfits.insert(outfit, at: 0)
-            informationVC.dismiss(animated: true) { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
+            let message = "Uploading..."
+            let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addCategory"), leftButtonData: nil, rightButtonData: nil)
+
+            strongSelf.present(informationVC, animated: true, completion: nil)
+            strongSelf.firebaseManager.saveOutfit(outfitItems: strongSelf.pickedOutfitItems, isPublic: true) { [weak self] (uniqueID, error) in
+                guard let strongSelf = self else { return }
+                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems, isPublic: true)
+                strongSelf.userStuffManager.closet.outfits.insert(outfit, at: 0)
+                informationVC.dismiss(animated: true) { [weak self] in
+                    self?.dismiss(animated: true, completion: nil)
+                }
             }
         }
+        let notPublicCompletion = { [weak self] in
+            guard let strongSelf = self else { return }
+            let message = "Uploading..."
+            let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "addCategory"), leftButtonData: nil, rightButtonData: nil)
+
+            strongSelf.present(informationVC, animated: true, completion: nil)
+            strongSelf.firebaseManager.saveOutfit(outfitItems: strongSelf.pickedOutfitItems, isPublic: false) { [weak self] (uniqueID, error) in
+                guard let strongSelf = self else { return }
+                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems, isPublic: false)
+                strongSelf.userStuffManager.closet.outfits.insert(outfit, at: 0)
+                informationVC.dismiss(animated: true) { [weak self] in
+                    self?.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+        let leftButtonData = ButtonData(title: "No", color: .red, action: notPublicCompletion)
+        let rightButtonData = ButtonData(title: "Yes", color: .fixedFitBlue, action: publicCompletion)
+        let informationVC = InformationVC(message: message, image: #imageLiteral(resourceName: "public"), leftButtonData: leftButtonData, rightButtonData: rightButtonData)
+
+        present(informationVC, animated: true, completion: nil)
     }
 
     private func addToPickedOutfitItems(closetItem: ClosetItem) {

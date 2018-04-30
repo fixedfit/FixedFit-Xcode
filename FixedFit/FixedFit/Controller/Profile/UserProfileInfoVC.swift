@@ -121,7 +121,7 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
         ////Update Followers and Following Counters from firebase
         //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
         //Observer used to observe when a user is added or delete from the following lists of the current user
-        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+        self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
             
             //Assign variable with the snapshot value
             if let followingCounter = snapshot.value as? Int{
@@ -132,7 +132,7 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
         })
         
         //Observer used to observe when a user is added or delete from the followers lists of the current user
-        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
+        self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
             
             //Assign variable with the snapshot value
             if let followersCounter = snapshot.value as? Int{
@@ -199,12 +199,12 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
         if(!currentUserCheck){
             
             //Remove the observers for this view
-             firebaseManager.ref.removeObserver(withHandle: self.firstNameHandle)
-             firebaseManager.ref.removeObserver(withHandle: self.lastNameHandle)
-             firebaseManager.ref.removeObserver(withHandle: self.bioHandle)
-             firebaseManager.ref.removeObserver(withHandle: self.followersHandle)
-             firebaseManager.ref.removeObserver(withHandle: self.followingHandle)
-             firebaseManager.ref.removeObserver(withHandle: self.profileImageHandle)
+            firebaseManager.ref.removeObserver(withHandle: self.firstNameHandle)
+            firebaseManager.ref.removeObserver(withHandle: self.lastNameHandle)
+            firebaseManager.ref.removeObserver(withHandle: self.bioHandle)
+            firebaseManager.ref.removeObserver(withHandle: self.followersHandle)
+            firebaseManager.ref.removeObserver(withHandle: self.followingHandle)
+            firebaseManager.ref.removeObserver(withHandle: self.profileImageHandle)
         }
     }
 }

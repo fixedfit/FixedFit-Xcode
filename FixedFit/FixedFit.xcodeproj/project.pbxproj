@@ -19,6 +19,8 @@
 		5C3B8A9C208EB08900731B9C /* TutorialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B8A9B208EB08800731B9C /* TutorialVC.swift */; };
 		5C3B8A9E208EB13000731B9C /* ContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B8A9D208EB13000731B9C /* ContactUsVC.swift */; };
 		5C633467205858CC0035F00A /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C633466205858CC0035F00A /* SettingsVC.swift */; };
+		5C7882712097B85E00616207 /* RecoverEmailVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C7882702097B85E00616207 /* RecoverEmailVC.xib */; };
+		5C7882732097B8C800616207 /* RecoverEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7882722097B8C800616207 /* RecoverEmailVC.swift */; };
 		5C86F2EE207996FA00E102C5 /* UserViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86F2ED207996F900E102C5 /* UserViewVC.swift */; };
 		5C8A7B45208FA6290054D639 /* CategorySettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8A7B44208FA6290054D639 /* CategorySettingCell.swift */; };
 		5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */; };
@@ -129,6 +131,8 @@
 		5C3B8A9B208EB08800731B9C /* TutorialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialVC.swift; sourceTree = "<group>"; };
 		5C3B8A9D208EB13000731B9C /* ContactUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsVC.swift; sourceTree = "<group>"; };
 		5C633466205858CC0035F00A /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		5C7882702097B85E00616207 /* RecoverEmailVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecoverEmailVC.xib; sourceTree = "<group>"; };
+		5C7882722097B8C800616207 /* RecoverEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoverEmailVC.swift; sourceTree = "<group>"; };
 		5C86F2ED207996F900E102C5 /* UserViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewVC.swift; sourceTree = "<group>"; };
 		5C8A7B44208FA6290054D639 /* CategorySettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingCell.swift; sourceTree = "<group>"; };
 		5C91E5992073EBC800D9D0F3 /* UserFinder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserFinder.storyboard; sourceTree = "<group>"; };
@@ -314,6 +318,7 @@
 				5C92B4DF208C100A00D1F246 /* OutfitSelectionVC.xib */,
 				5CEAB188209199C30002140C /* AccountRecoveryVC.xib */,
 				5CE9237820951E370007FB52 /* ContactUsVC.xib */,
+				5C7882702097B85E00616207 /* RecoverEmailVC.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -473,6 +478,7 @@
 				5C3B8A9B208EB08800731B9C /* TutorialVC.swift */,
 				5C3B8A9D208EB13000731B9C /* ContactUsVC.swift */,
 				5CEAB18A20919AAE0002140C /* AccountRecoveryVC.swift */,
+				5C7882722097B8C800616207 /* RecoverEmailVC.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -623,6 +629,7 @@
 				CA4BD4362049E813002405D8 /* AddCategory.storyboard in Resources */,
 				CA66928C203D0B0C000069B5 /* Assets.xcassets in Resources */,
 				5C257422207AA6DC0003F8C5 /* ReauthenticateVC.xib in Resources */,
+				5C7882712097B85E00616207 /* RecoverEmailVC.xib in Resources */,
 				CA121DFE2078195E006C5C54 /* Outfits.storyboard in Resources */,
 				CA2CABC9203D1B9D00C62AE1 /* Profile.storyboard in Resources */,
 				5C91E59A2073EBC800D9D0F3 /* UserFinder.storyboard in Resources */,
@@ -752,6 +759,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C3B8A9C208EB08900731B9C /* TutorialVC.swift in Sources */,
+				5C7882732097B8C800616207 /* RecoverEmailVC.swift in Sources */,
 				CAFEE176205258D100701ED2 /* CalendarCell.swift in Sources */,
 				5C3B8A9E208EB13000731B9C /* ContactUsVC.swift in Sources */,
 				5CC3069B2079B5A6007C55E0 /* PushViews.swift in Sources */,

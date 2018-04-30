@@ -36,6 +36,11 @@ struct UserInfo {
         self.previousPhotoURL = previousPhotoURL
         self.photo = photo
         self.uid = uniqueID
+        
+        //Set the display name with the first and last name of the user
+        let firebaseManager = FirebaseManager.shared
+        firebaseManager.displayNameModification(name: (self.firstName + " " + self.lastName))
+        
     }
 
     init?(json: [String: Any]) {
@@ -65,6 +70,12 @@ struct UserInfo {
             if let blocked = json[FirebaseKeys.blocked.rawValue] as? [String] {
                 self.blocked = blocked
             }
+            
+            //Set the display name with the first and last name of the user
+            let firebaseManager = FirebaseManager.shared
+            firebaseManager.displayNameModification(name: (firstName + " " + lastName))
+            
+            
         } else {
             return nil
         }
@@ -144,7 +155,6 @@ class UserStuffManager {
                 self?.userInfo.firstName = firstName
                 self?.userInfo.lastName = lastName
                 self?.userInfo.username = username
-                self?.userInfo.bio = bio
                 self?.userInfo.publicProfile = publicProfile
                 self?.userInfo.uid = uniqueID
 
@@ -165,8 +175,13 @@ class UserStuffManager {
                 } else {
                     self?.userInfo.blocked.removeAll()
                 }
-
-                completion(nil)
+                
+                //Determine if bio is empty, if so then just make it say "No Bio Set"
+                if bio.isEmpty {
+                    self?.userInfo.bio = "No Bio Set"
+                } else {
+                    self?.userInfo.bio = bio
+                }
             }
             
             //Fetch user photo

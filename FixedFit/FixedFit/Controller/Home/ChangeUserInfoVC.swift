@@ -81,6 +81,10 @@ class ChangeUserInfoVC: UIViewController, UITextFieldDelegate {
             titleMessage.text = "Adding new Category\n"
             presentChangingInfo.text = "New Category:"
             textField.isSecureTextEntry = false
+        } else if(userInfoUpdateMode == RecoveryKeys.recoverPassword){
+            titleMessage.text = "Reset Password\n"
+            presentChangingInfo.text = "Email:"
+            textField.isSecureTextEntry = false
         }
         
         //Set the keyboardPresented and exiting variables to false initially

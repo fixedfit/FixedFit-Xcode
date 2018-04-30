@@ -687,9 +687,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gkd-k7-mGZ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gkd-k7-mGZ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -722,7 +721,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ZhP-uP-pBN" firstAttribute="centerX" secondItem="Crv-qO-Il2" secondAttribute="centerX" id="10T-4V-Ydi"/>
+                            <constraint firstItem="Crv-qO-Il2" firstAttribute="trailing" secondItem="gkd-k7-mGZ" secondAttribute="trailing" id="41g-QO-2Nh"/>
+                            <constraint firstItem="Crv-qO-Il2" firstAttribute="bottom" secondItem="gkd-k7-mGZ" secondAttribute="bottom" id="GHR-Yp-2tf"/>
+                            <constraint firstItem="gkd-k7-mGZ" firstAttribute="leading" secondItem="Crv-qO-Il2" secondAttribute="leading" id="RYL-ot-RNk"/>
                             <constraint firstItem="ZhP-uP-pBN" firstAttribute="centerY" secondItem="Crv-qO-Il2" secondAttribute="centerY" id="Tmw-HK-I93"/>
+                            <constraint firstItem="Crv-qO-Il2" firstAttribute="top" secondItem="gkd-k7-mGZ" secondAttribute="top" constant="64" id="dGt-xl-X2d"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Crv-qO-Il2"/>
                     </view>
@@ -752,9 +755,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jCE-RP-7ek">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jCE-RP-7ek">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -785,6 +787,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jCE-RP-7ek" firstAttribute="leading" secondItem="1ZW-mM-Gcn" secondAttribute="leading" id="L64-jL-FMr"/>
+                            <constraint firstItem="1ZW-mM-Gcn" firstAttribute="trailing" secondItem="jCE-RP-7ek" secondAttribute="trailing" id="LRo-Pc-ISS"/>
+                            <constraint firstItem="1ZW-mM-Gcn" firstAttribute="bottom" secondItem="jCE-RP-7ek" secondAttribute="bottom" id="OoU-W3-TZt"/>
+                            <constraint firstItem="1ZW-mM-Gcn" firstAttribute="top" secondItem="jCE-RP-7ek" secondAttribute="top" constant="64" id="uNm-or-O4z"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="1ZW-mM-Gcn"/>
                     </view>
                     <navigationItem key="navigationItem" id="4rG-0w-KFu"/>

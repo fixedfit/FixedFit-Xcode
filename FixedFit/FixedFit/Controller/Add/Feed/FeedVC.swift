@@ -21,6 +21,8 @@ class FeedVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let userFinderVC = segue.destination as? UserFinderVC {
             userFinderVC.followBlockType = .follow
+            userFinderVC.viewTitle = FirebaseUserFinderTitle.search
+            userFinderVC.mode = FirebaseUserFinderMode.search
         }
     }
 }

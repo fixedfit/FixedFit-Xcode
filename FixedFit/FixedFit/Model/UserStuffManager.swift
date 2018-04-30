@@ -143,7 +143,6 @@ class UserStuffManager {
                 self?.userInfo.firstName = firstName
                 self?.userInfo.lastName = lastName
                 self?.userInfo.username = username
-                self?.userInfo.bio = bio
                 self?.userInfo.publicProfile = publicProfile
                 self?.userInfo.uid = uniqueID
 
@@ -164,8 +163,13 @@ class UserStuffManager {
                 } else {
                     self?.userInfo.blocked.removeAll()
                 }
-
-                completion(nil)
+                
+                //Determine if bio is emtpy, if so then just make it say "No Bio Set"
+                if bio.isEmpty {
+                    self?.userInfo.bio = "No Bio Set"
+                } else {
+                    self?.userInfo.bio = bio
+                }
             }
             
             //Fetch user photo

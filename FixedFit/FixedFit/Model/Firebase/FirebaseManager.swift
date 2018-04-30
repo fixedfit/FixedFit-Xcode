@@ -863,6 +863,17 @@ class FirebaseManager {
         }
     }
     
+    func sendEmailVerification(completion: @escaping (Error?)->Void){
+        guard let user = currentUser else {return}
+        user.sendEmailVerification(completion: { (error) in
+            if error != nil{
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+    
     func resetPassword(email: String, completion: @escaping (Error?)->Void){
         Auth.auth().sendPasswordReset(withEmail: email, completion: { (error) in
             completion(error)

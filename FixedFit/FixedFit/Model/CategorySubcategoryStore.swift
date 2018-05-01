@@ -35,6 +35,10 @@ class CategorySubcategoryStore {
         return Array(createdCategories)
     }
 
+    var closetCategories: [String] {
+        return Array(categories)
+    }
+
     func contains(category: String) -> Bool {
         return categories.contains(category)
     }

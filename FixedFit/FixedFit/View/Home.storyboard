@@ -112,8 +112,8 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmu-o4-Sze" userLabel="Date Label">
-                                                            <rect key="frame" x="2" y="2" width="29" height="14"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                            <rect key="frame" x="2" y="2" width="31.5" height="13.5"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="black" pointSize="11"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -125,7 +125,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" image="generic_outfit" translatesAutoresizingMaskIntoConstraints="NO" id="JqX-Xy-QcO" userLabel="OutfitView">
-                                                            <rect key="frame" x="31" y="0.0" width="40" height="62.5"/>
+                                                            <rect key="frame" x="33.5" y="0.0" width="37.5" height="62.5"/>
                                                         </imageView>
                                                     </subviews>
                                                 </view>
@@ -298,19 +298,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HM4-D5-sBh">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e0h-kP-VO4">
                                                     <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
-                                                </stackView>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="HM4-D5-sBh" firstAttribute="leading" secondItem="5Ma-Io-EGd" secondAttribute="leading" id="Dby-cq-yaI"/>
-                                            <constraint firstAttribute="trailing" secondItem="HM4-D5-sBh" secondAttribute="trailing" id="jac-ip-ZOd"/>
-                                            <constraint firstAttribute="bottom" secondItem="HM4-D5-sBh" secondAttribute="bottom" id="pIU-dG-swl"/>
-                                            <constraint firstItem="HM4-D5-sBh" firstAttribute="top" secondItem="5Ma-Io-EGd" secondAttribute="top" id="qfF-A1-2sn"/>
+                                            <constraint firstItem="e0h-kP-VO4" firstAttribute="leading" secondItem="5Ma-Io-EGd" secondAttribute="leading" id="I5R-dA-XuN"/>
+                                            <constraint firstItem="e0h-kP-VO4" firstAttribute="top" secondItem="5Ma-Io-EGd" secondAttribute="top" id="Xbm-ww-j7S"/>
+                                            <constraint firstAttribute="trailing" secondItem="e0h-kP-VO4" secondAttribute="trailing" id="lhJ-I2-qmz"/>
+                                            <constraint firstAttribute="bottom" secondItem="e0h-kP-VO4" secondAttribute="bottom" id="qku-s1-uQy"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="verticalStackView" destination="HM4-D5-sBh" id="5qS-X6-jUB"/>
+                                            <outlet property="imageView" destination="e0h-kP-VO4" id="7qz-9t-KhQ"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

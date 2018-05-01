@@ -9,7 +9,7 @@
 import UIKit
 
 class SelectableOutfitCell: UICollectionViewCell {
-    @IBOutlet weak var verticalStackView: UIStackView!
+    @IBOutlet weak var imageView: UIImageView!
 
     var checkmarkView: UIView!
     var isPicked: Bool {
@@ -19,10 +19,6 @@ class SelectableOutfitCell: UICollectionViewCell {
     static let identifier = "selectableOutfitCell"
 
     override func awakeFromNib() {
-        verticalStackView.spacing = 2
-        verticalStackView.alignment = .fill
-        verticalStackView.axis = .vertical
-        verticalStackView.distribution = .fillEqually
         layer.borderWidth = 5
         layer.borderColor = UIColor.black.cgColor
 

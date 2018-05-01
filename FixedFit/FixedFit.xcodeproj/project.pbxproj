@@ -58,7 +58,6 @@
 		CA1DA7592058D29E00DE3897 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1DA7582058D29E00DE3897 /* PhotoCell.swift */; };
 		CA1EAC8D204A0F0D00CBEB9F /* UserStuffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */; };
 		CA1EAC8F204A140B00CBEB9F /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1EAC8E204A140B00CBEB9F /* CategoryCell.swift */; };
-		CA27BEC9207A180100C2E0AA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA27BEC8207A180100C2E0AA /* GoogleService-Info.plist */; };
 		CA2CABC1203D1B6400C62AE1 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA2CABC0203D1B6400C62AE1 /* Home.storyboard */; };
 		CA2CABC3203D1B7200C62AE1 /* Closet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA2CABC2203D1B7200C62AE1 /* Closet.storyboard */; };
 		CA2CABC5203D1B7E00C62AE1 /* AddPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA2CABC4203D1B7E00C62AE1 /* AddPhotos.storyboard */; };
@@ -88,6 +87,8 @@
 		CA66928C203D0B0C000069B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA66928B203D0B0C000069B5 /* Assets.xcassets */; };
 		CA66928F203D0B0C000069B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA66928D203D0B0C000069B5 /* LaunchScreen.storyboard */; };
 		CA66929A203D0B0C000069B5 /* FixedFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA669299203D0B0C000069B5 /* FixedFitTests.swift */; };
+		CA76CCC12097E67C0009AE58 /* FeedOutfitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA76CCC02097E67C0009AE58 /* FeedOutfitCell.swift */; };
+		CA76CCC5209885590009AE58 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA76CCC4209885590009AE58 /* GoogleService-Info.plist */; };
 		CA843C4620602CCF005672D5 /* FiltersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA843C4520602CCF005672D5 /* FiltersVC.swift */; };
 		CA843C4820602FE4005672D5 /* SubcategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA843C4720602FE4005672D5 /* SubcategoryCell.swift */; };
 		CA8C48E6205B734F007A74F5 /* CategorySubcategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8C48E5205B734F007A74F5 /* CategorySubcategoryStore.swift */; };
@@ -175,7 +176,6 @@
 		CA1DA7582058D29E00DE3897 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		CA1EAC8C204A0F0D00CBEB9F /* UserStuffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStuffManager.swift; sourceTree = "<group>"; };
 		CA1EAC8E204A140B00CBEB9F /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
-		CA27BEC8207A180100C2E0AA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA2CABC0203D1B6400C62AE1 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		CA2CABC2203D1B7200C62AE1 /* Closet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Closet.storyboard; sourceTree = "<group>"; };
 		CA2CABC4203D1B7E00C62AE1 /* AddPhotos.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddPhotos.storyboard; sourceTree = "<group>"; };
@@ -209,6 +209,8 @@
 		CA669295203D0B0C000069B5 /* FixedFitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FixedFitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA669299203D0B0C000069B5 /* FixedFitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedFitTests.swift; sourceTree = "<group>"; };
 		CA66929B203D0B0C000069B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA76CCC02097E67C0009AE58 /* FeedOutfitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedOutfitCell.swift; path = "FixedFit/Model/View Related/FeedOutfitCell.swift"; sourceTree = SOURCE_ROOT; };
+		CA76CCC4209885590009AE58 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA843C4520602CCF005672D5 /* FiltersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersVC.swift; sourceTree = "<group>"; };
 		CA843C4720602FE4005672D5 /* SubcategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubcategoryCell.swift; sourceTree = "<group>"; };
 		CA8C48E5205B734F007A74F5 /* CategorySubcategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySubcategoryStore.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				CA513FBB20958AC9000519BD /* FeedVC.swift */,
+				CA76CCC02097E67C0009AE58 /* FeedOutfitCell.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -420,7 +423,7 @@
 			children = (
 				CA66928B203D0B0C000069B5 /* Assets.xcassets */,
 				CA669290203D0B0C000069B5 /* Info.plist */,
-				CA27BEC8207A180100C2E0AA /* GoogleService-Info.plist */,
+				CA76CCC4209885590009AE58 /* GoogleService-Info.plist */,
 				CA669288203D0B0C000069B5 /* FixedFit.xcdatamodeld */,
 			);
 			path = "Supporting Files";
@@ -433,6 +436,7 @@
 				CAB5AAD3207AEDAE00FCC305 /* Home */,
 				CAB5AAD2207AEDA100FCC305 /* Closet */,
 				CAB5AAD4207AEE8600FCC305 /* Add */,
+				CA513FBD20959A9D000519BD /* Feed */,
 				CAB5AAD5207AEEB800FCC305 /* Profile */,
 				CAFCDBDF2074BE1A00E87E9B /* Parents */,
 				5C86F2ED207996F900E102C5 /* UserViewVC.swift */,
@@ -486,7 +490,6 @@
 		CAB5AAD4207AEE8600FCC305 /* Add */ = {
 			isa = PBXGroup;
 			children = (
-				CA513FBD20959A9D000519BD /* Feed */,
 				CA4BD42D2049349F002405D8 /* AddPhotosVC.swift */,
 				CA4BD4392049EBD7002405D8 /* AddCategoryVC.swift */,
 			);
@@ -644,9 +647,9 @@
 				CA2CABC7203D1B8E00C62AE1 /* Feed.storyboard in Resources */,
 				CA2CABCB203D2A1000C62AE1 /* Authentication.storyboard in Resources */,
 				5CEAB189209199C30002140C /* AccountRecoveryVC.xib in Resources */,
+				CA76CCC5209885590009AE58 /* GoogleService-Info.plist in Resources */,
 				CA2CABC5203D1B7E00C62AE1 /* AddPhotos.storyboard in Resources */,
 				CA2CABC3203D1B7200C62AE1 /* Closet.storyboard in Resources */,
-				CA27BEC9207A180100C2E0AA /* GoogleService-Info.plist in Resources */,
 				5CDB3F08207C8B71007E91BB /* ChangeUserInfoVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -772,6 +775,7 @@
 				CA18467D204BE5340091B568 /* WeatherService.swift in Sources */,
 				CAD3C55D204B4EE600DE2911 /* ClosetCategoryCell.swift in Sources */,
 				CA972EEC207B01DA006AB842 /* FirebaseError.swift in Sources */,
+				CA76CCC12097E67C0009AE58 /* FeedOutfitCell.swift in Sources */,
 				CA4BD42E2049349F002405D8 /* AddPhotosVC.swift in Sources */,
 				CA121E0220781CD0006C5C54 /* OutfitCell.swift in Sources */,
 				CA8C48E8205BA67D007A74F5 /* SectionTitleCell.swift in Sources */,
@@ -993,7 +997,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DBQ79ZC7TW;
+				DEVELOPMENT_TEAM = WYET37TU46;
 				INFOPLIST_FILE = "FixedFit/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1015,7 +1019,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DBQ79ZC7TW;
+				DEVELOPMENT_TEAM = WYET37TU46;
 				INFOPLIST_FILE = "FixedFit/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

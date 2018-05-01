@@ -258,8 +258,6 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             default: return ""
             }
         }
-        
-        return ""
     }
     
     

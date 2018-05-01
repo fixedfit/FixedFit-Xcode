@@ -85,7 +85,6 @@
                                             <outlet property="fullName" destination="a2G-aH-uYT" id="lnR-o9-zgR"/>
                                             <outlet property="userPhotoImageView" destination="5Vq-tV-Oxp" id="kRE-qc-ZlN"/>
                                             <outlet property="username" destination="c6p-uf-rMp" id="LgF-ca-wOS"/>
-                                            <segue destination="clW-Sj-HvC" kind="show" id="sJc-eH-xyw"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -219,7 +218,7 @@
                                 </connections>
                             </containerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User's status is on private" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s9O-ae-dUw">
-                                <rect key="frame" x="89.5" y="451" width="197.5" height="36"/>
+                                <rect key="frame" x="89" y="451" width="197.5" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="w2I-qe-yMz"/>
                                 </constraints>

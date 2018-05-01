@@ -9,16 +9,12 @@
 import UIKit
 
 class OutfitCell: UICollectionViewCell {
-    @IBOutlet weak var verticalStackView: UIStackView!
-
+    @IBOutlet weak var imageView: UIImageView!
+    
     static let identifier = "outfitCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        verticalStackView.spacing = 2
-        verticalStackView.alignment = .fill
-        verticalStackView.axis = .vertical
-        verticalStackView.distribution = .fillEqually
 
         layer.borderWidth = 5
         layer.borderColor = UIColor.black.cgColor

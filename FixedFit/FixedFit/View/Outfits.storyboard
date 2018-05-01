@@ -46,19 +46,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="50J-1J-IkS">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cta-M6-ems">
                                                     <rect key="frame" x="0.0" y="0.0" width="152" height="163"/>
-                                                </stackView>
+                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="50J-1J-IkS" firstAttribute="top" secondItem="jj6-gd-Pfw" secondAttribute="top" id="H56-M1-CMo"/>
-                                            <constraint firstAttribute="trailing" secondItem="50J-1J-IkS" secondAttribute="trailing" id="SvJ-cI-NdG"/>
-                                            <constraint firstAttribute="bottom" secondItem="50J-1J-IkS" secondAttribute="bottom" id="Y1q-Ji-FRG"/>
-                                            <constraint firstItem="50J-1J-IkS" firstAttribute="leading" secondItem="jj6-gd-Pfw" secondAttribute="leading" id="nZR-FD-msR"/>
+                                            <constraint firstItem="cta-M6-ems" firstAttribute="top" secondItem="jj6-gd-Pfw" secondAttribute="top" id="7Ko-2Y-c0n"/>
+                                            <constraint firstAttribute="bottom" secondItem="cta-M6-ems" secondAttribute="bottom" id="RVP-wI-u4k"/>
+                                            <constraint firstItem="cta-M6-ems" firstAttribute="leading" secondItem="jj6-gd-Pfw" secondAttribute="leading" id="SdM-wc-qGh"/>
+                                            <constraint firstAttribute="trailing" secondItem="cta-M6-ems" secondAttribute="trailing" id="VqG-Ks-uA5"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="verticalStackView" destination="50J-1J-IkS" id="doo-9y-Z1G"/>
+                                            <outlet property="imageView" destination="cta-M6-ems" id="6Qu-nX-b8b"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

@@ -13,7 +13,7 @@ class ClosetVC: UIViewController {
 
     var categories: [String] {
         get {
-            return userStuffManager.closet.categorySubcategoryStore.allUserCreatedCategories
+            return userStuffManager.closet.categorySubcategoryStore.closetCategories
         }
 
         set {
@@ -100,7 +100,7 @@ class ClosetVC: UIViewController {
             if let _ = error {
                 // Show some error to the user
             } else {
-                self?.categories = strongSelf.userStuffManager.closet.categorySubcategoryStore.allUserCreatedCategories
+                self?.categories = strongSelf.userStuffManager.closet.categorySubcategoryStore.closetCategories
                 self?.tableView.reloadData()
                 self?.activityIndicator.stopAnimating()
                 self?.tableView.refreshControl?.endRefreshing()

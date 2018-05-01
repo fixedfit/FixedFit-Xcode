@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct CategorySubcategory {
     var category: String?
@@ -25,6 +26,7 @@ struct ClosetItem {
     var categorySubcategory: CategorySubcategory
     var storagePath: String
     var uniqueID: String
+    var image: UIImage?
 
     init(categorySubcategory: CategorySubcategory, storagePath: String, uniqueID: String) {
         self.storagePath = storagePath

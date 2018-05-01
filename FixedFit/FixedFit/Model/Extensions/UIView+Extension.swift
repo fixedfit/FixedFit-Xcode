@@ -43,4 +43,14 @@ extension UIView {
             self.alpha = 0
         }
     }
+
+    var screenshot: UIImage {
+        UIGraphicsBeginImageContext(self.bounds.size);
+        let context = UIGraphicsGetCurrentContext();
+        self.layer.render(in: context!)
+        let screenShot = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+
+        return screenShot!
+    }
 }

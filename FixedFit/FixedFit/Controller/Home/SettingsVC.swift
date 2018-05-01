@@ -12,6 +12,13 @@ import UIKit
 enum SettingErrors: Error{
     case invalidStoryboardName
     case invalidVCName
+    
+    var localizedDescription: String{
+        switch self {
+        case .invalidStoryboardName: return "Invalid Storyboard Name"
+        case .invalidVCName: return "Invalid View Controller Name"
+        }
+    }
 }
 enum SettingKeys: String{
     case deletion = "delete account"

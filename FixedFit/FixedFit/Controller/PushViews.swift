@@ -92,12 +92,13 @@ class PushViews {
                 }
                 
                 //For UserViewVC, the title should be the user name of the searched person
-            } else if(vcName == PushViewKeys.userviewVC){
+            } else if(vcName == PushViewKeys.userviewVC && newMode != nil){
                 vc = storyboard.instantiateViewController(withIdentifier: "UserViewVC") as! UserViewVC
                 
                 //Initialize the selecte user's uid for the ViewController
                 if let currentVC = vc as? UserViewVC{
                     currentVC.uid = newString
+                    currentVC.mode = newMode
                 }
                 
             } else if(vcName == PushViewKeys.categoriesVC){

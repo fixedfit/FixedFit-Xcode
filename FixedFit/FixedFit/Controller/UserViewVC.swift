@@ -157,6 +157,10 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     //Function used to make changes to the button's title and colors based on the action that the buttons performed
     func changeButtonStatus(changeStatus: String){
         
+        let buttonFont = UIFont.systemFont(ofSize: 18, weight: .bold)
+        self.LeftButton.titleLabel?.font = buttonFont
+        self.RightButton.titleLabel?.font = buttonFont
+        
         //Following button scheme
         if(changeStatus == FirebaseUserFinderMode.following){
             

@@ -114,7 +114,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         calendarView.scrollToDate(Date(), animateScroll: false)
         calendarView.minimumLineSpacing = 1
         calendarView.minimumInteritemSpacing = 1
-        calendarView.backgroundColor = UIColor.fixedFitPurple
+        calendarView.backgroundColor = UIColor.fixedFitRed
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -165,8 +165,10 @@ extension HomeVC: JTAppleCalendarViewDelegate, JTAppleCalendarViewDataSource {
         let currentDateString = formatter.string(from: currentDate)
         let calendarDateString = formatter.string(from: cellState.date)
 
+        cell.backgroundColor = .white
+
         if currentDateString == calendarDateString {
-            cell.dateLabel.textColor = UIColor.fixedFitBlue
+            cell.backgroundColor = UIColor.fixedFitPink
         } else if cellState.dateBelongsTo == .thisMonth {
             cell.dateLabel.textColor = UIColor.black
         } else {

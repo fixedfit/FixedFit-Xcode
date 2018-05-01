@@ -28,10 +28,6 @@ class CreateOutfitVC: PhotosVC {
         setupAllItems()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        collectionView.reloadData()
-    }
-
     private func setupViews() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -39,7 +35,7 @@ class CreateOutfitVC: PhotosVC {
     }
 
     private func setupAllItems() {
-        userStuffManager.closet.categorySubcategoryStore.allUserCreatedCategories.forEach { (category) in
+        userStuffManager.closet.categorySubcategoryStore.closetCategories.forEach { (category) in
             let categoryItems = userStuffManager.closet.closetItems(matching: category)
 
             allClosetItems.append(categoryItems)
@@ -133,12 +129,13 @@ extension CreateOutfitVC: UICollectionViewDataSource {
 
         cell.tag = indexPath.row
 
-        firebaseManager.fetchImage(storageURL: url) { (image, error) in
+        firebaseManager.fetchImage(storageURL: url) { [weak self] (image, error) in
             if let _ = error {
                 print("Error fetching image")
             } else if let image = image {
                 if cell.tag == indexPath.row {
                     cell.imageView.image = image
+                    self?.allClosetItems[indexPath.section][indexPath.row].image = image
                 }
             }
         }

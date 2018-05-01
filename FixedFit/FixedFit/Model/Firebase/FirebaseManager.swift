@@ -228,6 +228,20 @@ class FirebaseManager {
         }
     }
 
+    func fetchOutfitImage(uniqueID: String, completion: @escaping (UIImage?, Error?) -> Void) {
+        guard let user = currentUser else { return }
+        
+        storageRef.child(user.uid).child(.outfits).child(uniqueID).getData(maxSize: 3 * 1024 * 1024) { (data, error) in
+            if let data = data,
+                let image = UIImage(data: data) {
+                completion(image, nil)
+            } else {
+                print(error?.localizedDescription ?? "")
+                completion(nil, error)
+            }
+        }
+    }
+
     // MARK: - Upload methods
 
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
@@ -402,6 +416,7 @@ class FirebaseManager {
         var newOutfit: [String: Any] = [:]
         var outfitItemsInfos: [[String: String]] = []
         let outfitUniqueID = uniqueID()
+        var createPhotoOutfitItems = outfitItems
 
         outfitItems.forEach { (closetItem) in
             var closetItemInfo = [FirebaseKeys.uniqueID.rawValue: closetItem.uniqueID,
@@ -423,12 +438,64 @@ class FirebaseManager {
         newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
         newOutfit[FirebaseKeys.isFavorited.rawValue] = false
         newOutfit[FirebaseKeys.isPublic.rawValue] = isPublic
-        ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil, error)
-            } else {
-                completion(outfitUniqueID, nil)
+
+        // Create a uiview with those pictures
+        let outfitView = UIView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+        outfitView.backgroundColor = .white
+        let verticalStackView = UIStackView(frame: CGRect(x: 0, y: 0, width: outfitView.bounds.width, height: outfitView.bounds.height))
+
+        verticalStackView.axis = .vertical
+        verticalStackView.distribution = .fillEqually
+        verticalStackView.alignment = .fill
+        verticalStackView.spacing = 5
+        outfitView.addSubview(verticalStackView)
+
+        let numberOfStackViews = Int(ceil(Double(outfitItems.count) / 2))
+
+        for _ in 0..<numberOfStackViews {
+            let horizontalStackView = UIStackView()
+            horizontalStackView.axis = .horizontal
+            horizontalStackView.distribution = .fillEqually
+            horizontalStackView.alignment = .fill
+            horizontalStackView.spacing = 5
+
+
+            var closetItemsToPlaceInRow: [ClosetItem] = []
+
+            for _ in 0..<2 {
+                if let closetItem = createPhotoOutfitItems.first {
+                    closetItemsToPlaceInRow.append(closetItem)
+                    createPhotoOutfitItems.remove(at: 0)
+                }
+            }
+
+            for closetItem in closetItemsToPlaceInRow {
+                let imageView = UIImageView()
+                imageView.backgroundColor = .lightGray
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+                imageView.image = closetItem.image
+                horizontalStackView.addArrangedSubview(imageView)
+            }
+
+            verticalStackView.addArrangedSubview(horizontalStackView)
+        }
+
+        let image = outfitView.screenshot
+        if let resizedImage = image.resized(toWidth: 400) {
+            storageRef.child(user.uid).child(.outfits).child(outfitUniqueID).putData(UIImagePNGRepresentation(resizedImage)!, metadata: nil) { [weak self] (_, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    self?.ref.child(.users).child(user.uid).child(.closet).child(.outfits).child(outfitUniqueID).setValue(newOutfit) { (error, _) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                            completion(nil, error)
+                        } else {
+                            completion(outfitUniqueID, nil)
+                        }
+                    }
+                }
             }
         }
     }

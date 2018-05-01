@@ -34,9 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
         navigationbar.barStyle = .black
         navigationbar.tintColor = .white
-        navigationbar.barTintColor = .fixedFitBlue
+        navigationbar.barTintColor = .fixedFitRed
 
-        tabbar.tintColor = .fixedFitBlue
+        tabbar.tintColor = .fixedFitRed
     }
 
     @objc private func setupRootVC() {

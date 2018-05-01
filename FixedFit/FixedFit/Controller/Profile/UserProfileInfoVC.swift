@@ -70,6 +70,55 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
         //ContentMode is used to scale images
         self.UserProfileImage.contentMode = UIViewContentMode.scaleAspectFit
         
+        if(currentUserCheck){
+            
+            //Fetch the user's Information from the UserStuffManager
+            userStuffManager.fetchUserInfo { _ in
+                //Initial UIImage variable used to select the image to output to the screen
+                weak var Image: UIImage!
+                
+                //Update labels of profile if user has edited them
+                self.UserFirstName.text = self.userStuffManager.userInfo.firstName
+                self.UserLastName.text = self.userStuffManager.userInfo.lastName
+                self.UserBio.text = self.userStuffManager.userInfo.bio
+                
+                ////Load the User's profile photo into the UIImageView
+                //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
+                Image = self.userStuffManager.userInfo.photo
+                //Generate a UIImage from the user's photo
+                
+                let image = Image
+                self.UserProfileImage.image = image
+            }
+        }
+        
+        ////Update Followers and Following Counters from firebase
+        //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
+        //Observer used to observe when a user is added or delete from the following lists of the current user
+        self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+            
+            //Assign variable with the snapshot value
+            if let followingCounter = snapshot.value as? Int{
+                
+                //Update button titles/view counters for following Counter
+                self.FollowingCount.text = "\(followingCounter)"
+            }
+        })
+        
+        //Observer used to observe when a user is added or delete from the followers lists of the current user
+        self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
+            
+            //Assign variable with the snapshot value
+            if let followersCounter = snapshot.value as? Int{
+                
+                //Update button titles/view counters for follower's Counter
+                self.FollowersCount.text = "\(followersCounter)"
+            }
+        })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
         //Determine which methodology to perform for retrival of user information
         if(!currentUserCheck){
             
@@ -115,56 +164,6 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
                     self.UserProfileImage.image = UIImage(named: "defaultProfile")
                 }
             })
-            
-        }
-        
-        ////Update Followers and Following Counters from firebase
-        //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
-        //Observer used to observe when a user is added or delete from the following lists of the current user
-        self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
-            
-            //Assign variable with the snapshot value
-            if let followingCounter = snapshot.value as? Int{
-                
-                //Update button titles/view counters for following Counter
-                self.FollowingCount.text = "\(followingCounter)"
-            }
-        })
-        
-        //Observer used to observe when a user is added or delete from the followers lists of the current user
-        self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
-            
-            //Assign variable with the snapshot value
-            if let followersCounter = snapshot.value as? Int{
-                
-                //Update button titles/view counters for follower's Counter
-                self.FollowersCount.text = "\(followersCounter)"
-            }
-        })
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-
-        if(currentUserCheck){
-            
-            //Fetch the user's Information from the UserStuffManager
-            userStuffManager.fetchUserInfo { _ in}
-            
-            //Initial UIImage variable used to select the image to output to the screen
-            weak var Image: UIImage!
-            
-            //Update labels of profile if user has edited them
-            self.UserFirstName.text = self.userStuffManager.userInfo.firstName
-            self.UserLastName.text = self.userStuffManager.userInfo.lastName
-            self.UserBio.text = self.userStuffManager.userInfo.bio
-            
-            ////Load the User's profile photo into the UIImageView
-            //if there is picture already set for the user's profile, then retrieve the photo from firebase, otherwise it will place the default image for the user
-            Image = self.userStuffManager.userInfo.photo
-            //Generate a UIImage from the user's photo
-            
-            let image = Image
-            self.UserProfileImage.image = image
         }
     }
     

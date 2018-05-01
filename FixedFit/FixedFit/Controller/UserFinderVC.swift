@@ -158,16 +158,20 @@ extension UserFinderVC: UITableViewDelegate {
         let userInfo = users[indexPath.row]
         let uid = userInfo.uid
         
-         //Transition to the UserViewVC
-         guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userviewVC, storyboardName: PushViewKeys.userfinder, newString: uid, newMode: self.mode) else {return}
+        //Transition to the UserViewVC
+        guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userviewVC, storyboardName: PushViewKeys.userfinder, newString: uid, newMode: self.mode) else {return}
          
-         if let vc = vc as? UserViewVC{
-             //Push View Controller onto Navigation Stack
-             self.navigationController?.pushViewController(vc, animated: true)
-         } else if let vc = vc as? InformationVC{
-             self.present(vc, animated: true, completion: nil)
-         }
- 
+        if let vc = vc as? UserViewVC{
+            
+            //Due to delays in firebase retrieval by the time the UserViewVC is displayed, the profile information of the current user is recorded later in time after the view appears
+            //So, initialize the profileStatus variable with the selected user's status boolean
+            vc.profileStatus = userInfo.publicProfile
+            
+            //Push View Controller onto Navigation Stack
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if let vc = vc as? InformationVC{
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
 

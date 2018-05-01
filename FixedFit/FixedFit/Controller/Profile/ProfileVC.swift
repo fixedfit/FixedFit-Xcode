@@ -68,11 +68,8 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         likedOutfitsVC.view.isHidden = true
         favoritedOutfitsVC.view.isHidden = true
 
-
-        ////Update Followers and Following Counters from firebase
         //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
-        //Observer used to observe when a user is added or delete from the following lists of the current user
-        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
 
             if let username = snapshot.value as? String {
                 //set the User's username

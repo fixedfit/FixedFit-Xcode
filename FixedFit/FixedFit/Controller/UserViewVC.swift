@@ -17,6 +17,17 @@
 
 import UIKit
 
+struct LeftButtonLabels{
+    static let following = "Following"
+    static let blocked = "Blocked"
+    static let search = "Follow"
+}
+struct RightButtonLabels{
+    static let following = "Unfollow"
+    static let blocked = "Unblock"
+    static let search = "Block"
+}
+
 class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     
     //Variable used to present the title, which is the username, the mode and the other user's profile status
@@ -65,10 +76,12 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         if(self.mode == FirebaseUserFinderMode.following){
             
             self.selectionStatus = true
+            self.LeftButton.isUserInteractionEnabled = false
             
         } else if(self.mode == FirebaseUserFinderMode.blocked){
             
             self.selectionStatus = true
+            self.LeftButton.isUserInteractionEnabled = false
             
         //If other cases returned false then there is a need to find out the relationship the selected user and the current user has
         //to set the buttons correctly
@@ -100,6 +113,11 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     //Note, when user selected a button, the current mode of the user before it was pressed is passed into the function
     func changeStatus(mode: String, selectionStatus: Bool){
         
+        if(mode == ""){
+            print("Internal error: Mode has not been defined with the button layout, status representation, and scheme")
+            return
+        }
+        
         //If user selected to follow user or is already currently following when loading UserViewVC
         if(mode == FirebaseUserFinderMode.following && selectionStatus == true){
             
@@ -110,7 +128,7 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             
             //Check to see if this selected user in the following list of the current user
             //If they are not in there then add the user, otherwise just ignore it since this moment in time is when the UserViewVC is loaded into memory
-            if(followingArray.contains(self.uid)){
+            if(!followingArray.contains(self.uid)){
                 self.addUserToList(modeList: mode, uid: self.uid)
             }
             
@@ -124,7 +142,7 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             
             //Check to see if this selected user in the following list of the current user
             //If they are not in there then add them
-            if(blockedArray.contains(self.uid)){
+            if(!blockedArray.contains(self.uid)){
                 self.addUserToList(modeList: mode, uid: self.uid)
             }
             
@@ -143,12 +161,14 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
                 //If they are in there then update the buttons
                 if(followingArray.contains(self.uid)){
                     changeButtonStatus(changeStatus: FirebaseUserFinderMode.following)
+                    self.LeftButton.isUserInteractionEnabled = false
                 } else {
                     changeButtonStatus(changeStatus: FirebaseUserFinderMode.search)
                 }
                 
             //If an option has been deselected, then remove user from the corresponding mode's list
             } else if(!selectionStatus){
+                changeButtonStatus(changeStatus: FirebaseUserFinderMode.search)
                 self.removeUserFromList(modeList: mode, uid: self.uid)
             }
         }
@@ -164,20 +184,20 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         //Following button scheme
         if(changeStatus == FirebaseUserFinderMode.following){
             
-            self.LeftButton.setTitle("Following", for: .normal)
-            self.RightButton.setTitle("Unfollow", for: .normal)
+            self.LeftButton.setTitle(LeftButtonLabels.following, for: .normal)
+            self.RightButton.setTitle(RightButtonLabels.following, for: .normal)
             
         //Blocked button scheme
         } else if(changeStatus == FirebaseUserFinderMode.blocked){
             
-            self.LeftButton.setTitle("Blocked", for: .normal)
-            self.RightButton.setTitle("Unblock", for: .normal)
+            self.LeftButton.setTitle(LeftButtonLabels.blocked, for: .normal)
+            self.RightButton.setTitle(RightButtonLabels.blocked, for: .normal)
             
         //Search button scheme
         } else if(changeStatus == FirebaseUserFinderMode.search){
             
-            self.LeftButton.setTitle("Follow", for: .normal)
-            self.RightButton.setTitle("Block", for: .normal)
+            self.LeftButton.setTitle(LeftButtonLabels.search, for: .normal)
+            self.RightButton.setTitle(RightButtonLabels.search, for: .normal)
             
         }
     }
@@ -194,10 +214,52 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     
     //Actions from the buttons on what each should do when they are pressed
     @IBAction func LeftButtonTapped(_ sender: UIButton) {
-        print("tapped Left button")//debug
+        
+        //If selectionStatus condition is true, then it means that the user is selecting to follow someone
+        if !self.selectionStatus {
+            self.LeftButton.isUserInteractionEnabled = false
+            self.selectionStatus = true
+        }
+        
+        if(self.LeftButton.isUserInteractionEnabled == false){
+            //Determine which mode should be passed to changeStatus function by tapping the right button
+            changeStatus(mode:retrieveModeFromButtonTapped(buttonSwitch: true), selectionStatus: selectionStatus)
+        }
     }
     @IBAction func RightButtonTapped(_ sender: UIButton) {
-        print("tapped Right button")//debug
+        
+        if self.selectionStatus {
+            self.selectionStatus = false
+            self.LeftButton.isUserInteractionEnabled = true
+        } else {
+            self.selectionStatus = true
+            self.LeftButton.isUserInteractionEnabled = false
+        }
+        
+        //Determine which mode should be passed to changeStatus function by tapping the right button
+        changeStatus(mode: retrieveModeFromButtonTapped(buttonSwitch: false), selectionStatus: selectionStatus)
+    }
+    
+    func retrieveModeFromButtonTapped(buttonSwitch: Bool)->String{
+        
+        //If button swift is true, the the user clicked on the left button. Otherwise, the user clicked on the right button
+        if(buttonSwitch){
+            switch self.LeftButton.titleLabel?.text!{
+            case LeftButtonLabels.search: return FirebaseUserFinderMode.following
+            case LeftButtonLabels.following: return FirebaseUserFinderMode.following
+            case LeftButtonLabels.blocked: return FirebaseUserFinderMode.blocked
+            default: return ""
+            }
+        } else {
+            switch self.RightButton.titleLabel?.text!{
+            case RightButtonLabels.search: return FirebaseUserFinderMode.blocked
+            case RightButtonLabels.following: return FirebaseUserFinderMode.following
+            case RightButtonLabels.blocked: return FirebaseUserFinderMode.blocked
+            default: return ""
+            }
+        }
+        
+        return ""
     }
     
     

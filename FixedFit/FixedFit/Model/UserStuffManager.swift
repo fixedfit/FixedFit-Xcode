@@ -265,14 +265,25 @@ class UserStuffManager {
         //Then add the currentUser's uid to the other user's followers list
         //And add the other user's uid to your following list
         if(listMode == FirebaseUserFinderMode.following){
-            print("add user to following list")
+            
+            self.userInfo.following.append(uid)
+            firebaseManager.followUser(usernameUniqueID: uid){ (error) in
+                
+                if error != nil{
+                    print("Internal error: Users has not been added as a followers")
+                }
+            }
             
         //Add user to Blocked Users list
         } else if(listMode == FirebaseUserFinderMode.blocked){
-            print("add user to blocked list")
             
+            self.userInfo.blocked.append(uid)
+            firebaseManager.blockUser(usernameUniqueID: uid){ (error) in
+                if error != nil{
+                    print("Internal error: this user has not been added to the blocked user's list")
+                }
+            }
         }
-        
     }
     
     //Function to remove user both locally and on firebase
@@ -282,13 +293,30 @@ class UserStuffManager {
         //Then remove the currentUser's uid from the other user's followers list
         //And remove the other user's uid from your following list
         if(listMode == FirebaseUserFinderMode.following){
-            print("remove user from following list")
+
+            if let index = self.userInfo.following.index(where: {$0 == uid}){
+                self.userInfo.following.remove(at: index)
+            }
+            
+            firebaseManager.unfollowUser(usernameUniqueID: uid){ (error) in
+                if error != nil{
+                    print("Internal error: this user has not been removed from the user's followers list")
+                }
+            }
             
         //Remove user from Blocked Users list
         } else if(listMode == FirebaseUserFinderMode.blocked){
-            print("remove user from blocked list")
+            
+            if let index = self.userInfo.blocked.index(where: {$0 == uid}){
+                self.userInfo.blocked.remove(at: index)
+            }
+            
+            firebaseManager.unblockUser(usernameUniqueID: uid){ (error) in
+                if error != nil{
+                    print("Internal error: this user has not been removed from the blocked user's list")
+                }
+            }
         }
-        
     }
 
     func checkUsername(username: String, completion: @escaping (Bool?)->Void){

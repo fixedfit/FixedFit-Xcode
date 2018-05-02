@@ -678,10 +678,19 @@ class FirebaseManager {
         }
     }
 
-    func unfollowUser(usernameUniqueID: String, completion: @escaping (Error?) -> Void) {
+    func unfollowUser(usernameUniqueID: String, currentUniqueID: String = "", completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
+        var uid: String!
+        var usernameUniqueID = usernameUniqueID
+        
+        if !currentUniqueID.isEmpty{
+            uid = usernameUniqueID
+            usernameUniqueID = user.uid
+        } else {
+            uid = user.uid
+        }
 
-        ref.child(.users).child(user.uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+        ref.child(.users).child(uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             if let userFollowing = snapshot.value as? [String] {
                 let updatedFollowing = userFollowing.filter({ (foundUsernameUniqueID) -> Bool in
                     if foundUsernameUniqueID != usernameUniqueID {
@@ -691,7 +700,7 @@ class FirebaseManager {
                     }
                 })
 
-                self?.ref.child(.users).child(user.uid).child(.following).setValue(updatedFollowing, withCompletionBlock: { (error, _) in
+                self?.ref.child(.users).child(uid).child(.following).setValue(updatedFollowing, withCompletionBlock: { (error, _) in
                     completion(error)
                 })
             } else {
@@ -924,6 +933,11 @@ class FirebaseManager {
             dispatch.leave()
         })
         
+        dispatch.enter()
+        removeCurrentUserFromUserLists(user: user){
+            dispatch.leave()
+        }
+        
         //Call completion handler to finish deleting the data base
         dispatch.notify(queue: .main){
             completion()
@@ -962,7 +976,52 @@ class FirebaseManager {
             if error != nil{
                 print("Internal error has occured during the commiting of the display name changes.")
             }
+        }
+    }
+    
+    func removeCurrentUserFromUserLists(user: User, completion: @escaping ()->Void){
+        
+        let userStuffManager = UserStuffManager.shared
+        let dispatchGroup = DispatchGroup()
+        let followersList = userStuffManager.userInfo.followers
+        let followingList = userStuffManager.userInfo.following
+        
+        //Unfollow the users that your are currently following
+        /*if !followingList.isEmpty{
+
+            dispatchGroup.enter()
+            for uid in followingList{
+                
+                self.unfollowUser(usernameUniqueID: uid){ (_) in
+                    print(uid)
+                    if uid == followingList.last{
+                        userStuffManager.userInfo.following.removeAll()
+                        dispatchGroup.leave()
+                    }
+                }
+            }
+        }
+        
+        //Remove the current users from the other user's blocked list
+        
+        
+        //Remove the current user from the other user's following lists
+        if !followersList.isEmpty{
             
+            dispatchGroup.enter()
+            for uid in followersList{
+                
+                self.unfollowUser(usernameUniqueID: uid, currentUniqueID: user.uid){ (_) in
+                    if uid == followingList.last{
+                        userStuffManager.userInfo.followers.removeAll()
+                        dispatchGroup.leave()
+                    }
+                }
+            }
+        }*/
+        
+        dispatchGroup.notify(queue: .main){
+            completion()
         }
     }
 }

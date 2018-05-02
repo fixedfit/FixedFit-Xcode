@@ -139,6 +139,7 @@ extension UserFinderVC: UITableViewDataSource {
                     cell.userPhotoImageView.image = UIImage(named: "defaultProfile")
                 } else {
                     cell.userPhotoImageView.image = image
+                    self.users[indexPath.row].photo = image
                 }
             }
         }
@@ -166,7 +167,11 @@ extension UserFinderVC: UITableViewDelegate {
             //Due to delays in firebase retrieval by the time the UserViewVC is displayed, the profile information of the current user is recorded later in time after the view appears
             //So, initialize the profileStatus variable with the selected user's status boolean
             vc.profileStatus = userInfo.publicProfile
-            
+
+            //Obtain the selected users profile photo from the userInfo Object at the current index
+            let image = self.users[indexPath.row].photo
+            vc.initialProfileImage = image
+
             //Push View Controller onto Navigation Stack
             self.navigationController?.pushViewController(vc, animated: true)
         } else if let vc = vc as? InformationVC{

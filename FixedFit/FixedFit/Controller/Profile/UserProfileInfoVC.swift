@@ -45,6 +45,9 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
     //Variable that will contain the user's uid that we are viewing
     var uid: String!
     
+    //Varialbe for initial image of the currently selected user
+    var initialProfileImage:UIImage?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -90,6 +93,12 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
                 let image = Image
                 self.UserProfileImage.image = image
             }
+        } else {
+            
+            //Assign image for faster presentation to user if firebase take awhile
+            if self.initialProfileImage != nil{
+                self.UserProfileImage.image = self.initialProfileImage
+            }
         }
         
         ////Update Followers and Following Counters from firebase
@@ -127,7 +136,6 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
                 
                 //retrieve the User's profile photo
                 if let photoURL = snapshot.value as? String {
-                    print(photoURL)
                     self.firebaseManager.fetchImage(storageURL: photoURL, completion: { (image, error) in
                         if let error = error{
                             print(error.localizedDescription)

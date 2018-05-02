@@ -51,6 +51,9 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     //      when selectionStatus = false - current user is either searching for general users, looking at followers, or has deselected a button to not be a follower or unblock another user
     var selectionStatus:Bool!
     
+    //Varialbe for initial image of the currently selected user
+    var initialProfileImage:UIImage?
+    
     let firebaseManager = FirebaseManager.shared
     let userStuffManager = UserStuffManager.shared
     
@@ -265,6 +268,7 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         if let vc = segue.destination as? UserProfileInfoVC {
             vc.uid = self.uid
             vc.currentUserCheck = false
+            vc.initialProfileImage = self.initialProfileImage
         }
     }
     

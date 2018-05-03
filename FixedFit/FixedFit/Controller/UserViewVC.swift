@@ -76,12 +76,12 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         
         ////Set titles for buttons initially
         //Note, UserFinder must display users of the table view cells corresponding to what mode it is in and whether they have performed an action once they go back and changed the state of the user(either blocked, following, etc.)
-        if(self.mode == FirebaseUserFinderMode.following){
+        if(userStuffManager.userInfo.following.contains(self.uid)){
             
             self.selectionStatus = true
             self.LeftButton.isUserInteractionEnabled = false
             
-        } else if(self.mode == FirebaseUserFinderMode.blocked){
+        } else if(userStuffManager.userInfo.blocked.contains(self.uid)){
             
             self.selectionStatus = true
             self.LeftButton.isUserInteractionEnabled = false

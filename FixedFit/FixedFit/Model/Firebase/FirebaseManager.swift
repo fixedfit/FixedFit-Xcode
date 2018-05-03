@@ -985,8 +985,7 @@ class FirebaseManager {
         let dispatchGroup = DispatchGroup()
         let followersList = userStuffManager.userInfo.followers
         let followingList = userStuffManager.userInfo.following
-        print("following" + "\(followingList)")
-        print("followers" + "\(followersList)")
+        
         //Unfollow the users that your are currently following
         /*if !followingList.isEmpty{
 

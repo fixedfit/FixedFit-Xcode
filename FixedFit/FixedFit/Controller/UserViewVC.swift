@@ -190,7 +190,8 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             self.RightButton.setTitle(RightButtonLabels.following, for: .normal)
             
             //Set button colors
-            
+            self.LeftButton.applyFollowingDesign(buttonSwitch: true)
+            self.RightButton.applyFollowingDesign(buttonSwitch: false)
             
         //Blocked button scheme
         } else if(changeStatus == FirebaseUserFinderMode.blocked){
@@ -199,6 +200,8 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             self.RightButton.setTitle(RightButtonLabels.blocked, for: .normal)
             
             //Set button colors
+            self.LeftButton.applyBlockedDesign(buttonSwitch: true)
+            self.RightButton.applyBlockedDesign(buttonSwitch: false)
             
         //Search button scheme
         } else if(changeStatus == FirebaseUserFinderMode.search){
@@ -207,6 +210,8 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             self.RightButton.setTitle(RightButtonLabels.search, for: .normal)
             
             //Set button colors
+            self.LeftButton.applySearchDesign(buttonSwitch: true)
+            self.RightButton.applySearchDesign(buttonSwitch: false)
             
         }
     }
@@ -318,5 +323,48 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
                 }
             }
         })
+    }
+}
+extension UIButton{
+    func applyFollowingDesign(buttonSwitch: Bool){
+        
+        //Determine if the button is the left or right button
+        //if true, it is the left button. Otherwise, it is the right button
+        if(buttonSwitch){
+            self.backgroundColor = .fixedFitOffWhite
+            self.setTitleColor(.fixedFitBlue, for: .normal)
+            self.layer.borderWidth = 1/(UIScreen.main.nativeScale)
+            self.layer.borderColor = UIColor.fixedFitBlue.cgColor
+        } else {
+            self.backgroundColor = .fixedFitBlue
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+        }
+    }
+    func applyBlockedDesign(buttonSwitch: Bool){
+        
+        //Determine if the button is the left or right button
+        //if true, it is the left button. Otherwise, it is the right button
+        if(buttonSwitch){
+            self.backgroundColor = .fixedFitOffWhite
+            self.setTitleColor(.fixedFitRed, for: .normal)
+            self.layer.borderWidth = 1/(UIScreen.main.nativeScale)
+            self.layer.borderColor = UIColor.red.cgColor
+        } else {
+            self.backgroundColor = UIColor.red
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+        }
+    }
+    func applySearchDesign(buttonSwitch: Bool){
+        
+        //Determine if the button is the left or right button
+        //if true, it is the left button. Otherwise, it is the right button
+        if(buttonSwitch){
+            self.backgroundColor = .fixedFitBlue
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+            self.layer.borderWidth = 0
+        } else {
+            self.backgroundColor = UIColor.red
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+        }
     }
 }

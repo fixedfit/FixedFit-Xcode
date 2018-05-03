@@ -331,12 +331,14 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
                 //Hide or display the PrivateStatusMessage label and vice versa on the outfits of this user if the current user is not a follower of the other user
                 //If true, then user's profile is public
                 //If false, then user's profile is private
-                if userStatus{
-                    self.PrivateStatusMessage.isHidden = true
-                    self.UserChildVCView.isHidden = false
-                } else {
+                if !userStatus && !self.uidContainedInList{
                     self.PrivateStatusMessage.isHidden = false
-                    self.UserChildVCView.isHidden = true
+                    self.OutfitChildVC.isHidden = true
+                    self.OutfitStackView.isHidden = true
+                } else {
+                    self.PrivateStatusMessage.isHidden = true
+                    self.OutfitChildVC.isHidden = false
+                    self.OutfitStackView.isHidden = false
                 }
             }
         })

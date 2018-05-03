@@ -34,6 +34,7 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     var uid: String!
     var mode: String!
     var profileStatus:Bool!
+    var uidContainedInList:Bool!
     
     //Varible for handler
     var userNameHandle: UInt = 0
@@ -61,12 +62,12 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         super.viewDidLoad()
         
         //Hide or show the UserChildVC and the PrivateStatusMessage
-        if profileStatus{
-            self.PrivateStatusMessage.isHidden = true
-            self.UserChildVCView.isHidden = false
-        } else {
+        if !profileStatus && !uidContainedInList{
             self.PrivateStatusMessage.isHidden = false
             self.UserChildVCView.isHidden = true
+        } else {
+            self.PrivateStatusMessage.isHidden = true
+            self.UserChildVCView.isHidden = false
         }
         
         //set up font for the buttons

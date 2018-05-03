@@ -45,7 +45,8 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     @IBOutlet weak var RightButton: UIButton!
     @IBOutlet weak var PrivateStatusMessage: UILabel!
     @IBOutlet weak var UserViewChildVCView: UIView!
-    
+    @IBOutlet weak var OutfitChildVC: UIView!
+    @IBOutlet weak var OutfitStackView: UIStackView!
     
     //Initialize boolean variable to control what mode is being active
     //Note, when selectionStatus = true - current user has either followed or blocked the user
@@ -64,10 +65,12 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         //Hide or show the UserChildVC and the PrivateStatusMessage
         if !profileStatus && !uidContainedInList{
             self.PrivateStatusMessage.isHidden = false
-            self.UserChildVCView.isHidden = true
+            self.OutfitChildVC.isHidden = true
+            self.OutfitStackView.isHidden = true
         } else {
             self.PrivateStatusMessage.isHidden = true
-            self.UserChildVCView.isHidden = false
+            self.OutfitChildVC.isHidden = false
+            self.OutfitStackView.isHidden = false
         }
         
         //set up font for the buttons and corner radius
@@ -84,10 +87,16 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             self.selectionStatus = true
             self.LeftButton.isUserInteractionEnabled = false
             
+            //Determine mode to display button layout
+            self.changeStatus(mode: FirebaseUserFinderMode.following, selectionStatus: self.selectionStatus)
+            
         } else if(userStuffManager.userInfo.blocked.contains(self.uid)){
             
             self.selectionStatus = true
             self.LeftButton.isUserInteractionEnabled = false
+            
+            //Determine mode to display button layout
+            self.changeStatus(mode: FirebaseUserFinderMode.blocked, selectionStatus: self.selectionStatus)
             
         //If other cases returned false then there is a need to find out the relationship the selected user and the current user has
         //to set the buttons correctly
@@ -95,10 +104,18 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             
             self.selectionStatus = false
             
+            var currentMode:String = ""
+            
+            if(self.mode == FirebaseUserFinderMode.search){
+                currentMode = FirebaseUserFinderMode.search
+            } else if(self.mode == FirebaseUserFinderMode.follower){
+                 currentMode = FirebaseUserFinderMode.follower
+            }
+            
+            //Determine mode to display button layout
+            self.changeStatus(mode: currentMode, selectionStatus: self.selectionStatus)
+            
         }
-        
-        //Determine mode to display button layout
-        self.changeStatus(mode: self.mode, selectionStatus: self.selectionStatus)
         
         //Set message and properties of PrivateMessageStatus label
         self.PrivateStatusMessage.text = "User's profile is private"

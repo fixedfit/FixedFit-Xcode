@@ -150,12 +150,14 @@ class UserStuffManager {
                 let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String,
                 let username = userInfo[FirebaseKeys.username.rawValue] as? String,
                 let bio = userInfo[FirebaseKeys.bio.rawValue] as? String,
-                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool {
+                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool,
+                let uid = userInfo[FirebaseKeys.uniqueID.rawValue] as? String{
 
                 self?.userInfo.firstName = firstName
                 self?.userInfo.lastName = lastName
                 self?.userInfo.username = username
                 self?.userInfo.publicProfile = publicProfile
+                self?.userInfo.uid = uid
 
                 if let followers = userInfo[FirebaseKeys.followers.rawValue] as? [String] {
                     self?.userInfo.followers = followers

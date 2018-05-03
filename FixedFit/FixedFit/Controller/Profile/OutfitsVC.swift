@@ -73,12 +73,26 @@ extension OutfitsVC: UICollectionViewDataSource {
 
         cell.tag = indexPath.row
 
-        firebaseManager.fetchOutfitImage(uniqueID: outfit.uniqueID) { (image, error) in
-            if let _ = error {
-                print("Error fetching image")
-            } else if let image = image {
-                if cell.tag == indexPath.row {
-                    cell.imageView.image = image
+        if outfitsType == .liked {
+            print(outfit.userID)
+            print("Im fetcching it like this bruh!!!")
+            firebaseManager.fetchLikedOutfitImage(userUniqueID: outfit.userID, outfitUniqueID: outfit.uniqueID) { (image, error) in
+                if let _ = error {
+                    print("Error fetching image")
+                } else if let image = image {
+                    if cell.tag == indexPath.row {
+                        cell.imageView.image = image
+                    }
+                }
+            }
+        } else {
+            firebaseManager.fetchOutfitImage(uniqueID: outfit.uniqueID) { (image, error) in
+                if let _ = error {
+                    print("Error fetching image")
+                } else if let image = image {
+                    if cell.tag == indexPath.row {
+                        cell.imageView.image = image
+                    }
                 }
             }
         }

@@ -61,7 +61,7 @@ class CreateOutfitVC: PhotosVC {
             strongSelf.present(informationVC, animated: true, completion: nil)
             strongSelf.firebaseManager.saveOutfit(outfitItems: strongSelf.pickedOutfitItems, isPublic: true) { [weak self] (uniqueID, error) in
                 guard let strongSelf = self else { return }
-                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems, isPublic: true)
+                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems, isPublic: true, userID: "", username: "")
                 strongSelf.userStuffManager.closet.outfits.insert(outfit, at: 0)
                 informationVC.dismiss(animated: true) { [weak self] in
                     self?.dismiss(animated: true, completion: nil)
@@ -76,7 +76,7 @@ class CreateOutfitVC: PhotosVC {
             strongSelf.present(informationVC, animated: true, completion: nil)
             strongSelf.firebaseManager.saveOutfit(outfitItems: strongSelf.pickedOutfitItems, isPublic: false) { [weak self] (uniqueID, error) in
                 guard let strongSelf = self else { return }
-                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems, isPublic: false)
+                let outfit = Outfit(uniqueID: uniqueID!, items: strongSelf.pickedOutfitItems, isPublic: false, userID: "", username: "")
                 strongSelf.userStuffManager.closet.outfits.insert(outfit, at: 0)
                 informationVC.dismiss(animated: true) { [weak self] in
                     self?.dismiss(animated: true, completion: nil)
@@ -103,6 +103,35 @@ class CreateOutfitVC: PhotosVC {
             pickedOutfitItems.remove(at: index)
         }
     }
+
+    private func setCellTag(indexPath: IndexPath, cell: UICollectionViewCell) {
+        let rowNumberLength = String(indexPath.row).count
+        let sectionNumberLength = String(indexPath.section).count
+
+        cell.tag = Int("\(rowNumberLength)\(sectionNumberLength)\(indexPath.row)\(indexPath.section)")!
+    }
+
+    private func parse(cellTag: Int) -> IndexPath {
+        let cellTagString = String(cellTag)
+        let rowNumberLength = Int(String(cellTagString[cellTagString.startIndex]))!
+        // let sectionNumberLength = Int(String(cellTagString[cellTagString.index(after: cellTagString.startIndex)]))!
+        // get substring after the first two positions
+        let thirdIndex = cellTagString.index(cellTagString.startIndex, offsetBy: 2)
+        let rowSectionSubstring = cellTagString[thirdIndex..<cellTagString.endIndex]
+
+        var rowNumberString = ""
+        var sectionNumberString = ""
+
+        for (index, char) in rowSectionSubstring.enumerated() {
+            if index < rowNumberLength {
+                rowNumberString.append(char)
+            } else {
+                sectionNumberString.append(char)
+            }
+        }
+
+        return IndexPath(row: Int(rowNumberString)!, section: Int(sectionNumberString)!)
+    }
 }
 
 extension CreateOutfitVC: UICollectionViewDataSource {
@@ -127,13 +156,18 @@ extension CreateOutfitVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as! PhotoCell
         let url = allClosetItems[indexPath.section][indexPath.row].storagePath
 
-        cell.tag = indexPath.row
+        setCellTag(indexPath: indexPath, cell: cell)
+        cell.imageView.image = nil
 
         firebaseManager.fetchImage(storageURL: url) { [weak self] (image, error) in
+            guard let strongSelf = self else { return }
+
             if let _ = error {
                 print("Error fetching image")
             } else if let image = image {
-                if cell.tag == indexPath.row {
+                let parsedIndexPath = strongSelf.parse(cellTag: cell.tag)
+
+                if parsedIndexPath == indexPath {
                     cell.imageView.image = image
                     self?.allClosetItems[indexPath.section][indexPath.row].image = image
                 }

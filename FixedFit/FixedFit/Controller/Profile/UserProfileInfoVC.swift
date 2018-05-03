@@ -95,26 +95,49 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
         ////Update Followers and Following Counters from firebase
         //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
         //Observer used to observe when a user is added or delete from the following lists of the current user
-        self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
-            
-            //Assign variable with the snapshot value
-            if let followingCounter = snapshot.value as? Int{
-                
-                //Update button titles/view counters for following Counter
-                self.FollowingCount.text = "\(followingCounter)"
-            }
-        })
-        
-        //Observer used to observe when a user is added or delete from the followers lists of the current user
-        self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
-            
-            //Assign variable with the snapshot value
-            if let followersCounter = snapshot.value as? Int{
-                
-                //Update button titles/view counters for follower's Counter
-                self.FollowersCount.text = "\(followersCounter)"
-            }
-        })
+        if self.uid.isEmpty {
+            self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(firebaseManager.currentUser!.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+
+                //Assign variable with the snapshot value
+                if let followingCounter = snapshot.value as? Int{
+
+                    //Update button titles/view counters for following Counter
+                    self.FollowingCount.text = "\(followingCounter)"
+                }
+            })
+        } else {
+            self.followingHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followingCount.rawValue).observe(.value, with: {(snapshot) in
+
+                //Assign variable with the snapshot value
+                if let followingCounter = snapshot.value as? Int{
+
+                    //Update button titles/view counters for following Counter
+                    self.FollowingCount.text = "\(followingCounter)"
+                }
+            })
+        }
+
+        if self.uid.isEmpty {
+            self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(firebaseManager.currentUser!.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
+
+                //Assign variable with the snapshot value
+                if let followersCounter = snapshot.value as? Int{
+
+                    //Update button titles/view counters for follower's Counter
+                    self.FollowersCount.text = "\(followersCounter)"
+                }
+            })
+        } else {
+            self.followersHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.followersCount.rawValue).observe(.value, with: {(snapshot) in
+
+                //Assign variable with the snapshot value
+                if let followersCounter = snapshot.value as? Int{
+
+                    //Update button titles/view counters for follower's Counter
+                    self.FollowersCount.text = "\(followersCounter)"
+                }
+            })
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

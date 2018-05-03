@@ -51,6 +51,7 @@ class HomeVC: UIViewController, CLLocationManagerDelegate {
         setupCalendarView()
 
         notificationsTableView.dataSource = self
+        notificationsTableView.allowsSelection = false
 
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
 

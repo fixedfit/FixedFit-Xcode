@@ -69,7 +69,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         favoritedOutfitsVC.view.isHidden = true
 
         //MARK: When other Users are modifiying data in the firebase realtime database that impacts the profile page, it must update the profile page to reflect that change. Including fields like number of followers and number of following. along with there lists, etc. When the current users are in this view controller. RealTime Interactions can be tracked when other users are in feed and follow the current user.
-        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(userStuffManager.userInfo.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
+        self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(firebaseManager.currentUser!.uid).child(FirebaseKeys.username.rawValue).observe(.value, with: {(snapshot) in
 
             if let username = snapshot.value as? String {
                 //set the User's username
@@ -127,7 +127,7 @@ class ProfileVC: UIViewController, UIGestureRecognizerDelegate, OutfitSelectorDe
         self.outfitDisplayed = false
 
         //Display only the outfits of other user's that the current user liked
-        likedOutfitsVC.outfits = []
+        likedOutfitsVC.outfits = self.userStuffManager.userInfo.likes
         likedOutfitsVC.view.isHidden = false
         favoritedOutfitsVC.view.isHidden = true
     }

@@ -143,6 +143,7 @@ extension ClosetVC: UITableViewDataSource {
         cell.categoryNameLabel.text = category
         cell.tag = indexPath.row
         cell.imageView?.contentMode = .scaleAspectFill
+        cell.selectedItemImageView.image = nil
 
         if let imageStoragePath = imageStoragePath {
             firebaseManager.fetchImage(storageURL: imageStoragePath, completion: { (image, error) in

@@ -72,4 +72,9 @@ class CategorySubcategoryStore {
             }
         }
     }
+
+    func resetEverything() {
+        subcategories.removeAll()
+        categories.removeAll()
+    }
 }

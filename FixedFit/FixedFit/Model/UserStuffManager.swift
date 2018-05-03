@@ -24,6 +24,7 @@ struct UserInfo {
     var following: [String] = []
     var followers: [String] = []
     var blocked: [String] = []
+    var likes: [Outfit] = []
 
     init() {}
 
@@ -123,7 +124,7 @@ extension Event {
                 }
             }
 
-            let outfit = Outfit(uniqueID: outfitUniqueID, items: outfitClosetItems, isPublic: isPublic)
+            let outfit = Outfit(uniqueID: outfitUniqueID, items: outfitClosetItems, isPublic: isPublic, userID: "", username: "")
             self.outfit = outfit
         } else  {
             return nil
@@ -149,14 +150,12 @@ class UserStuffManager {
                 let lastName = userInfo[FirebaseKeys.lastName.rawValue] as? String,
                 let username = userInfo[FirebaseKeys.username.rawValue] as? String,
                 let bio = userInfo[FirebaseKeys.bio.rawValue] as? String,
-                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool,
-                let uniqueID = userInfo[FirebaseKeys.uniqueID.rawValue] as? String {
+                let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool {
                 
                 self?.userInfo.firstName = firstName
                 self?.userInfo.lastName = lastName
                 self?.userInfo.username = username
                 self?.userInfo.publicProfile = publicProfile
-                self?.userInfo.uid = uniqueID
 
                 if let followers = userInfo[FirebaseKeys.followers.rawValue] as? [String] {
                     self?.userInfo.followers = followers
@@ -175,6 +174,48 @@ class UserStuffManager {
                 } else {
                     self?.userInfo.blocked.removeAll()
                 }
+
+                if let likes = userInfo[FirebaseKeys.likes.rawValue] as? [[String:Any]] {
+                    var foundOutfits: [Outfit] = []
+
+                    for outfit in likes {
+                        var createOutfit = Outfit(uniqueID: "", items: [], isPublic: false, userID: "", username: "")
+
+                        if let isFavorited = outfit[FirebaseKeys.isFavorited.rawValue] as? Bool,
+                            let isPublic = outfit[FirebaseKeys.isPublic.rawValue] as? Bool,
+                            let userID = outfit[FirebaseKeys.userID.rawValue] as? String,
+                            let uniqueID = outfit[FirebaseKeys.uniqueID.rawValue] as? String,
+                            let username = outfit[FirebaseKeys.username.rawValue] as? String {
+                            createOutfit.isFavorited = isFavorited
+                            createOutfit.isPublic = isPublic
+                            createOutfit.userID = userID
+                            createOutfit.uniqueID = uniqueID
+                            createOutfit.username = username
+                        }
+
+                        if let items = outfit[FirebaseKeys.items.rawValue] as? [[String: String]] {
+                            for closetItem in items {
+                                if let url = closetItem[FirebaseKeys.url.rawValue],
+                                    let category = closetItem[FirebaseKeys.category.rawValue],
+                                    let uniqueID = closetItem[FirebaseKeys.uniqueID.rawValue] {
+                                    let categorySubcategory = CategorySubcategory(category: category, subcategory: closetItem[FirebaseKeys.subcategory.rawValue])
+                                    let closetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url, uniqueID: uniqueID)
+
+                                    createOutfit.items.append(closetItem)
+                                }
+                            }
+
+                        }
+
+                        foundOutfits.append(createOutfit)
+                    }
+
+                    self?.userInfo.likes = foundOutfits
+
+                } else {
+                    self?.userInfo.likes.removeAll()
+                }
+
                 
                 //Determine if bio is empty, if so then just make it say "No Bio Set"
                 if bio.isEmpty {
@@ -214,9 +255,17 @@ class UserStuffManager {
             if let error = error {
                 completion(error)
             } else if let closet = closet {
+                print("So it is a closet then")
                 strongSelf.closet.items = strongSelf.parseClosetItems(foundCloset: closet)
                 strongSelf.closet.filters = strongSelf.parseFilters(foundCloset: closet)
                 strongSelf.closet.outfits = strongSelf.parseOutfits(foundCloset: closet)
+                completion(nil)
+            } else {
+                print("Bro this should delete everything!")
+                strongSelf.closet.items.removeAll()
+                strongSelf.closet.filters.removeAll()
+                strongSelf.closet.outfits.removeAll()
+                strongSelf.closet.categorySubcategoryStore.resetEverything()
                 completion(nil)
             }
         }
@@ -270,7 +319,6 @@ class UserStuffManager {
         //Add user to Blocked Users list
         } else if(listMode == FirebaseUserFinderMode.blocked){
             print("add user to blocked list")
-            
         }
         
     }
@@ -344,13 +392,17 @@ class UserStuffManager {
 
         if let outfits = foundCloset[FirebaseKeys.outfits.rawValue] as? [String: [String: Any]] {
             for key in outfits.keys {
-                var outfit = Outfit(uniqueID: key, items: [], isPublic: false)
+                var outfit = Outfit(uniqueID: key, items: [], isPublic: false, userID: "", username: "")
                 var outfitInfo = outfits[key]
 
                 if let isFavorited = outfitInfo?[FirebaseKeys.isFavorited.rawValue] as? Bool,
-                    let isPublic = outfitInfo?[FirebaseKeys.isPublic.rawValue] as? Bool {
+                    let isPublic = outfitInfo?[FirebaseKeys.isPublic.rawValue] as? Bool,
+                    let userID = outfitInfo?[FirebaseKeys.userID.rawValue] as? String,
+                    let username = outfitInfo?[FirebaseKeys.username.rawValue] as? String {
                     outfit.isFavorited = isFavorited
                     outfit.isPublic = isPublic
+                    outfit.userID = userID
+                    outfit.username = username
                 }
 
                 if let items = outfitInfo?[FirebaseKeys.items.rawValue] as? [[String: String]] {

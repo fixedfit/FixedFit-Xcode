@@ -10,6 +10,8 @@ import UIKit
 
 class FeedOutfitCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var likeImageView: UIImageView!
     
     static let identifier = "FeedOutfitCell"
 }

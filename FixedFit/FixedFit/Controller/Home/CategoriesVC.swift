@@ -20,7 +20,11 @@ class CategoriesVC: UIViewController, UserInfoDelegate{
     var newCategory: String!
     
     //Initial variable to hold the categories
-    var categories: [String] = []
+    var categories: [String] = [] {
+        didSet {
+            hideStatusLabel()
+        }
+    }
     
     //Reference to the category view
     @IBOutlet var CategoryView: UIView!

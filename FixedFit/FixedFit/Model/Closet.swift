@@ -40,11 +40,15 @@ struct Outfit {
     var items: [ClosetItem]
     var isFavorited = false
     var isPublic = true
+    var userID = ""
+    var username = ""
 
-    init(uniqueID: String, items: [ClosetItem], isPublic: Bool) {
+    init(uniqueID: String, items: [ClosetItem], isPublic: Bool, userID: String, username: String) {
         self.uniqueID = uniqueID
         self.items = items
         self.isPublic = isPublic
+        self.userID = userID
+        self.username = username
     }
 }
 

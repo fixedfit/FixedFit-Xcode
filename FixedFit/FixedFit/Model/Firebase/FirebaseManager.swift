@@ -42,7 +42,7 @@ class FirebaseManager {
     var storageRef: StorageReference {
         return Storage.storage().reference()
     }
-    private var currentUser: User? {
+    var currentUser: User? {
         return Auth.auth().currentUser
     }
     var databaseURL = "https://testfixedfit3.firebaseio.com/"
@@ -129,7 +129,7 @@ class FirebaseManager {
             if let closetItems = snapshot.value as? [String: Any] {
                 completion(closetItems, nil)
             } else {
-                completion([:], nil)
+                completion(nil, nil)
             }
         }) { (error) in
             print(error.localizedDescription)
@@ -240,6 +240,90 @@ class FirebaseManager {
                 completion(nil, error)
             }
         }
+    }
+
+    func fetchLikedOutfitImage(userUniqueID: String, outfitUniqueID: String, completion: @escaping (UIImage?, Error?) -> Void) {
+        guard let _ = currentUser else { return }
+
+        storageRef.child(userUniqueID).child(.outfits).child(outfitUniqueID).getData(maxSize: 3 * 1024 * 1024) { (data, error) in
+            if let data = data,
+                let image = UIImage(data: data) {
+                completion(image, nil)
+            } else {
+                print(error?.localizedDescription ?? "")
+                completion(nil, error)
+            }
+        }
+    }
+
+    func fetchFeedOutfitImage(userID: String, outfitUniqueID: String, completion: @escaping (UIImage?, Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        storageRef.child(userID).child(.outfits).child(outfitUniqueID).getData(maxSize: 3 * 1024 * 1024) { (data, error) in
+            if let data = data,
+                let image = UIImage(data: data) {
+                completion(image, nil)
+            } else {
+                print(error?.localizedDescription ?? "")
+                completion(nil, error)
+            }
+        }
+    }
+
+    func fetchFeed(following: [String], completion: @escaping ([Outfit]?, Error?) -> Void) {
+        var outfitsFetched: [Outfit] = []
+
+        for (index, follow) in following.enumerated() {
+            ref.child(.users).child(follow).child(.closet).child(.outfits).observeSingleEvent(of: .value) { [weak self] (snapshot) in
+                guard let strongSelf = self else { return }
+
+                if let outfits = snapshot.value as? [String: Any] {
+                    let parsedOutfits = strongSelf.parseOutfits(foundCloset: outfits)
+                    outfitsFetched.append(contentsOf: parsedOutfits)
+                }
+
+                if index + 1 == following.count {
+                    completion(outfitsFetched, nil)
+                }
+            }
+        }
+    }
+
+    func parseOutfits(foundCloset: [String: Any]) -> [Outfit] {
+        var foundOutfits: [Outfit] = []
+
+        for key in foundCloset.keys {
+            var outfit = Outfit(uniqueID: key, items: [], isPublic: false, userID: "", username: "")
+            var outfitInfo = foundCloset[key] as? [String: Any]
+
+            if let isFavorited = outfitInfo?[FirebaseKeys.isFavorited.rawValue] as? Bool,
+                let isPublic = outfitInfo?[FirebaseKeys.isPublic.rawValue] as? Bool,
+                let userID = outfitInfo?[FirebaseKeys.userID.rawValue] as? String,
+                let username = outfitInfo?[FirebaseKeys.username.rawValue] as? String {
+                outfit.isFavorited = isFavorited
+                outfit.isPublic = isPublic
+                outfit.userID = userID
+                outfit.username = username
+            }
+
+            if let items = outfitInfo?[FirebaseKeys.items.rawValue] as? [[String: String]] {
+                for closetItem in items {
+                    if let url = closetItem[FirebaseKeys.url.rawValue],
+                        let category = closetItem[FirebaseKeys.category.rawValue],
+                        let uniqueID = closetItem[FirebaseKeys.uniqueID.rawValue] {
+                        let categorySubcategory = CategorySubcategory(category: category, subcategory: closetItem[FirebaseKeys.subcategory.rawValue])
+                        let closetItem = ClosetItem(categorySubcategory: categorySubcategory, storagePath: url, uniqueID: uniqueID)
+
+                        outfit.items.append(closetItem)
+                    }
+                }
+
+            }
+
+            foundOutfits.append(outfit)
+        }
+
+        return foundOutfits
     }
 
     // MARK: - Upload methods
@@ -438,6 +522,7 @@ class FirebaseManager {
         newOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
         newOutfit[FirebaseKeys.isFavorited.rawValue] = false
         newOutfit[FirebaseKeys.isPublic.rawValue] = isPublic
+        newOutfit[FirebaseKeys.userID.rawValue] = user.uid
 
         // Create a uiview with those pictures
         let outfitView = UIView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
@@ -761,6 +846,99 @@ class FirebaseManager {
                 print(error!.localizedDescription)
             }
 
+            completion(error)
+        }
+    }
+
+    func favorite(outfit: Outfit, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        var likedOutfit: [String: Any] = [:]
+        var outfitItemsInfos: [[String: String]] = []
+        let outfitUniqueID = outfit.uniqueID
+
+        outfit.items.forEach { (closetItem) in
+            var closetItemInfo = [FirebaseKeys.uniqueID.rawValue: closetItem.uniqueID,
+                                  FirebaseKeys.url.rawValue: closetItem.storagePath]
+
+            if let category = closetItem.categorySubcategory.category {
+                closetItemInfo[FirebaseKeys.category.rawValue] = category
+            }
+
+            if let subcategory = closetItem.categorySubcategory.subcategory {
+                closetItemInfo[FirebaseKeys.subcategory.rawValue] = subcategory
+            }
+
+
+            outfitItemsInfos.append(closetItemInfo)
+        }
+
+        likedOutfit[FirebaseKeys.items.rawValue] = outfitItemsInfos
+        likedOutfit[FirebaseKeys.uniqueID.rawValue] = outfitUniqueID
+        likedOutfit[FirebaseKeys.isFavorited.rawValue] = false
+        likedOutfit[FirebaseKeys.isPublic.rawValue] = true
+        likedOutfit[FirebaseKeys.userID.rawValue] = outfit.userID
+        likedOutfit[FirebaseKeys.username.rawValue] = outfit.username
+
+        ref.child(.users).child(user.uid).child(.likes).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if var likes = snapshot.value as? [[String: Any]] {
+                likes.append(likedOutfit)
+
+                self?.ref.child(.users).child(user.uid).child(.likes).setValue(likes, withCompletionBlock: { (error, _) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                        completion(error)
+                    } else {
+                        completion(nil)
+                    }
+                })
+            } else {
+                self?.ref.child(.users).child(user.uid).child(.likes).setValue([likedOutfit], withCompletionBlock: { (error, _) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                        completion(error)
+                    } else {
+                        completion(nil)
+                    }
+                })
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(error)
+        }
+    }
+
+    func unfavorite(outfitUID: String, completion: @escaping (Error?) -> Void) {
+        guard let user = currentUser else { return }
+
+        ref.child(.users).child(user.uid).child(.likes).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            if var likedOutfits = snapshot.value as? [[String:Any]] {
+                print("yeah im herer bro!")
+                let filteredOutfits = likedOutfits.filter({ (dict) -> Bool in
+                    if let uniqueID = dict[FirebaseKeys.uniqueID.rawValue] as? String {
+                        if uniqueID == outfitUID {
+                            print("Im taking it out")
+                            return false
+                        } else {
+                            return true
+                        }
+                    } else {
+                        print("Damn i shouldn't ever be here!")
+                        return true
+                    }
+                })
+
+                self?.ref.child(.users).child(user.uid).child(.likes).setValue(filteredOutfits, withCompletionBlock: { (error, _) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                        completion(error)
+                    } else {
+                        completion(nil)
+                    }
+                })
+            }
+        }) { (error) in
+            print(error.localizedDescription)
             completion(error)
         }
     }

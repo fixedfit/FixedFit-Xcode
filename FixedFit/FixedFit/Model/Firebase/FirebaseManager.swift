@@ -979,46 +979,67 @@ class FirebaseManager {
         }
     }
     
-    func removeCurrentUserFromUserLists(user: User, completion: @escaping ()->Void){
+    private func removeCurrentUserFromUserLists(user: User, completion: @escaping ()->Void){
         
-        let userStuffManager = UserStuffManager.shared
         let dispatchGroup = DispatchGroup()
-        let followersList = userStuffManager.userInfo.followers
-        let followingList = userStuffManager.userInfo.following
-        
-        //Unfollow the users that your are currently following
-        /*if !followingList.isEmpty{
 
-            dispatchGroup.enter()
-            for uid in followingList{
-                
-                self.unfollowUser(usernameUniqueID: uid){ (_) in
-                    print(uid)
-                    if uid == followingList.last{
-                        userStuffManager.userInfo.following.removeAll()
-                        dispatchGroup.leave()
-                    }
-                }
-            }
+        //Unfollow the users that your are currently following
+        dispatchGroup.enter()
+        deleteUserFromFollowingLists(mode: FirebaseUserFinderMode.following){
+            dispatchGroup.leave()
         }
         
         //Remove the current users from the other user's blocked list
         
         
         //Remove the current user from the other user's following lists
-        if !followersList.isEmpty{
-            
+        dispatchGroup.enter()
+        deleteUserFromFollowingLists(mode: FirebaseUserFinderMode.follower){
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main){
+            completion()
+        }
+    }
+    
+    private func deleteUserFromFollowingLists(mode: String ,completion: @escaping ()->Void){
+        
+        //Initialize varible to perform removal of users from specific lists
+        let userStuffManager = UserStuffManager.shared
+        let dispatchGroup = DispatchGroup()
+        var userList: [String] = []
+        var currentUserUid = userStuffManager.userInfo.uid
+        
+        //Determine which mode it is to delete users from
+        if(mode == FirebaseUserFinderMode.following){
+            userList = userStuffManager.userInfo.following
+            currentUserUid = ""
+        } else if(mode == FirebaseUserFinderMode.follower){
+            userList = userStuffManager.userInfo.followers
+        }
+
+        //Determine if list is not empty to continue removing users
+        if(!userList.isEmpty){
             dispatchGroup.enter()
-            for uid in followersList{
+            for uid in userList{
                 
-                self.unfollowUser(usernameUniqueID: uid, currentUniqueID: user.uid){ (_) in
-                    if uid == followingList.last{
-                        userStuffManager.userInfo.followers.removeAll()
+                self.unfollowUser(usernameUniqueID: uid, currentUniqueID: currentUserUid){ (_) in
+                    
+                    if uid == userList.last{
+                        
+                        //remove all users from list
+                        if(mode == FirebaseUserFinderMode.following){
+                            userStuffManager.userInfo.following.removeAll()
+                        } else if(mode == FirebaseUserFinderMode.follower){
+                            userStuffManager.userInfo.followers.removeAll()
+                        }
+
                         dispatchGroup.leave()
                     }
                 }
             }
-        }*/
+        }
         
         dispatchGroup.notify(queue: .main){
             completion()

@@ -159,7 +159,7 @@ extension UserFinderVC: UITableViewDelegate {
         let userInfo = users[indexPath.row]
         let uid = userInfo.uid
         let currentUid = userStuffManager.userInfo.uid
-        
+
         //Transition to the UserViewVC
         guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userviewVC, storyboardName: PushViewKeys.userfinder, newString: uid, newMode: self.mode) else {return}
          
@@ -171,6 +171,7 @@ extension UserFinderVC: UITableViewDelegate {
             
             //Determine if the currentUser is not inside either the following or followers list of the selected user
             if(vc.profileStatus == false){
+
                 if(!userInfo.following.contains(currentUid) && !userInfo.followers.contains(currentUid)){
                     vc.uidContainedInList = false
                 } else {

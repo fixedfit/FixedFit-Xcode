@@ -255,6 +255,8 @@
                     <navigationItem key="navigationItem" id="DMG-AU-JqY"/>
                     <connections>
                         <outlet property="LeftButton" destination="E7h-u8-euz" id="Yw2-eS-6gy"/>
+                        <outlet property="OutfitChildVC" destination="40U-hQ-Muh" id="ru6-0L-FwG"/>
+                        <outlet property="OutfitStackView" destination="KwI-bL-gXQ" id="Y3h-gC-2Av"/>
                         <outlet property="PrivateStatusMessage" destination="s9O-ae-dUw" id="XQI-sA-0hZ"/>
                         <outlet property="RightButton" destination="rwH-Xg-suM" id="uNf-Tt-RIT"/>
                         <outlet property="UserChildVCView" destination="ryL-bO-jck" id="si6-Rv-EJJ"/>

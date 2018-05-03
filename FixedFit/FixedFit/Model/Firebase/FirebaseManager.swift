@@ -1008,6 +1008,7 @@ class FirebaseManager {
         //Initialize varible to perform removal of users from specific lists
         let userStuffManager = UserStuffManager.shared
         let dispatchGroup = DispatchGroup()
+        let dispatchLooping = DispatchGroup()
         var userList: [String] = []
         var currentUserUid = userStuffManager.userInfo.uid
         
@@ -1021,24 +1022,32 @@ class FirebaseManager {
 
         //Determine if list is not empty to continue removing users
         if(!userList.isEmpty){
+            
             dispatchGroup.enter()
-            for uid in userList{
-                
-                self.unfollowUser(usernameUniqueID: uid, currentUniqueID: currentUserUid){ (_) in
+            DispatchQueue.global(qos: .default).async {
+                for uid in userList{
                     
-                    if uid == userList.last{
-                        
-                        //remove all users from list
-                        if(mode == FirebaseUserFinderMode.following){
-                            userStuffManager.userInfo.following.removeAll()
-                        } else if(mode == FirebaseUserFinderMode.follower){
-                            userStuffManager.userInfo.followers.removeAll()
-                        }
+                    dispatchLooping.enter()
+                    DispatchQueue.main.async {
+                        self.unfollowUser(usernameUniqueID: uid, currentUniqueID: currentUserUid){ (_) in
+                            
+                            if uid == userList.last{
+                                
+                                //remove all users from list
+                                if(mode == FirebaseUserFinderMode.following){
+                                    userStuffManager.userInfo.following.removeAll()
+                                } else if(mode == FirebaseUserFinderMode.follower){
+                                    userStuffManager.userInfo.followers.removeAll()
+                                }
 
-                        dispatchGroup.leave()
-                    }
-                }
-            }
+                                dispatchGroup.leave()
+                            }
+                            dispatchLooping.leave()
+                        }//unfollowUser function
+                    }//DisptachQueue for main
+                    dispatchLooping.wait()
+                }//For loop
+            }//DispatchQueue for thread
         }
         
         dispatchGroup.notify(queue: .main){

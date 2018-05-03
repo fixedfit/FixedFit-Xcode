@@ -70,10 +70,12 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             self.UserChildVCView.isHidden = false
         }
         
-        //set up font for the buttons
+        //set up font for the buttons and corner radius
         let buttonFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
         self.LeftButton.titleLabel?.font = buttonFont
+        self.LeftButton.layer.cornerRadius = 7
         self.RightButton.titleLabel?.font = buttonFont
+        self.RightButton.layer.cornerRadius = 7
         
         ////Set titles for buttons initially
         //Note, UserFinder must display users of the table view cells corresponding to what mode it is in and whether they have performed an action once they go back and changed the state of the user(either blocked, following, etc.)
@@ -181,15 +183,14 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     //Function used to make changes to the button's title and colors based on the action that the buttons performed
     func changeButtonStatus(changeStatus: String){
         
-        let buttonFont = UIFont.systemFont(ofSize: 18, weight: .bold)
-        self.LeftButton.titleLabel?.font = buttonFont
-        self.RightButton.titleLabel?.font = buttonFont
-        
         //Following button scheme
         if(changeStatus == FirebaseUserFinderMode.following){
             
             self.LeftButton.setTitle(LeftButtonLabels.following, for: .normal)
             self.RightButton.setTitle(RightButtonLabels.following, for: .normal)
+            
+            //Set button colors
+            
             
         //Blocked button scheme
         } else if(changeStatus == FirebaseUserFinderMode.blocked){
@@ -197,11 +198,15 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             self.LeftButton.setTitle(LeftButtonLabels.blocked, for: .normal)
             self.RightButton.setTitle(RightButtonLabels.blocked, for: .normal)
             
+            //Set button colors
+            
         //Search button scheme
         } else if(changeStatus == FirebaseUserFinderMode.search){
             
             self.LeftButton.setTitle(LeftButtonLabels.search, for: .normal)
             self.RightButton.setTitle(RightButtonLabels.search, for: .normal)
+            
+            //Set button colors
             
         }
     }

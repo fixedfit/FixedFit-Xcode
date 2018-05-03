@@ -763,10 +763,19 @@ class FirebaseManager {
         }
     }
 
-    func unfollowUser(usernameUniqueID: String, completion: @escaping (Error?) -> Void) {
+    func unfollowUser(usernameUniqueID: String, currentUniqueID: String = "", completion: @escaping (Error?) -> Void) {
         guard let user = currentUser else { return }
+        var uid: String!
+        var usernameUniqueID = usernameUniqueID
+        
+        if !currentUniqueID.isEmpty{
+            uid = usernameUniqueID
+            usernameUniqueID = user.uid
+        } else {
+            uid = user.uid
+        }
 
-        ref.child(.users).child(user.uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+        ref.child(.users).child(uid).child(.following).observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
             if let userFollowing = snapshot.value as? [String] {
                 let updatedFollowing = userFollowing.filter({ (foundUsernameUniqueID) -> Bool in
                     if foundUsernameUniqueID != usernameUniqueID {
@@ -776,7 +785,7 @@ class FirebaseManager {
                     }
                 })
 
-                self?.ref.child(.users).child(user.uid).child(.following).setValue(updatedFollowing, withCompletionBlock: { (error, _) in
+                self?.ref.child(.users).child(uid).child(.following).setValue(updatedFollowing, withCompletionBlock: { (error, _) in
                     completion(error)
                 })
             } else {
@@ -1102,6 +1111,11 @@ class FirebaseManager {
             dispatch.leave()
         })
         
+        dispatch.enter()
+        removeCurrentUserFromUserLists(user: user){
+            dispatch.leave()
+        }
+        
         //Call completion handler to finish deleting the data base
         dispatch.notify(queue: .main){
             completion()
@@ -1140,7 +1154,82 @@ class FirebaseManager {
             if error != nil{
                 print("Internal error has occured during the commiting of the display name changes.")
             }
+        }
+    }
+    
+    private func removeCurrentUserFromUserLists(user: User, completion: @escaping ()->Void){
+        
+        let dispatchGroup = DispatchGroup()
+
+        //Unfollow the users that your are currently following
+        dispatchGroup.enter()
+        deleteUserFromFollowingLists(mode: FirebaseUserFinderMode.following){
+            dispatchGroup.leave()
+        }
+        
+        //Remove the current users from the other user's blocked list
+        
+        
+        //Remove the current user from the other user's following lists
+        dispatchGroup.enter()
+        deleteUserFromFollowingLists(mode: FirebaseUserFinderMode.follower){
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main){
+            completion()
+        }
+    }
+    
+    private func deleteUserFromFollowingLists(mode: String ,completion: @escaping ()->Void){
+        
+        //Initialize varible to perform removal of users from specific lists
+        let userStuffManager = UserStuffManager.shared
+        let dispatchGroup = DispatchGroup()
+        let dispatchLooping = DispatchGroup()
+        var userList: [String] = []
+        var currentUserUid = userStuffManager.userInfo.uid
+        
+        //Determine which mode it is to delete users from
+        if(mode == FirebaseUserFinderMode.following){
+            userList = userStuffManager.userInfo.following
+            currentUserUid = ""
+        } else if(mode == FirebaseUserFinderMode.follower){
+            userList = userStuffManager.userInfo.followers
+        }
+
+        //Determine if list is not empty to continue removing users
+        if(!userList.isEmpty){
             
+            dispatchGroup.enter()
+            DispatchQueue.global(qos: .default).async {
+                for uid in userList{
+                    
+                    dispatchLooping.enter()
+                    DispatchQueue.main.async {
+                        self.unfollowUser(usernameUniqueID: uid, currentUniqueID: currentUserUid){ (_) in
+                            
+                            if uid == userList.last{
+                                
+                                //remove all users from list
+                                if(mode == FirebaseUserFinderMode.following){
+                                    userStuffManager.userInfo.following.removeAll()
+                                } else if(mode == FirebaseUserFinderMode.follower){
+                                    userStuffManager.userInfo.followers.removeAll()
+                                }
+
+                                dispatchGroup.leave()
+                            }
+                            dispatchLooping.leave()
+                        }//unfollowUser function
+                    }//DisptachQueue for main
+                    dispatchLooping.wait()
+                }//For loop
+            }//DispatchQueue for thread
+        }
+        
+        dispatchGroup.notify(queue: .main){
+            completion()
         }
     }
 }

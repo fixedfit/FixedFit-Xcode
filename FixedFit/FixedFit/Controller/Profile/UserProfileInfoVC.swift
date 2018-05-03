@@ -45,6 +45,9 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
     //Variable that will contain the user's uid that we are viewing
     var uid: String!
     
+    //Varialbe for initial image of the currently selected user
+    var initialProfileImage:UIImage?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -89,6 +92,12 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
                 
                 let image = Image
                 self.UserProfileImage.image = image
+            }
+        } else {
+            
+            //Assign image for faster presentation to user if firebase take awhile
+            if self.initialProfileImage != nil{
+                self.UserProfileImage.image = self.initialProfileImage
             }
         }
         
@@ -145,6 +154,25 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
         //Determine which methodology to perform for retrival of user information
         if(!currentUserCheck){
             
+            //Observer used to observe when a user has modified their profile image
+            self.profileImageHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.profileImageURL.rawValue).observe(.value, with: {(snapshot) in
+                
+                //retrieve the User's profile photo
+                if let photoURL = snapshot.value as? String {
+                    self.firebaseManager.fetchImage(storageURL: photoURL, completion: { (image, error) in
+                        if let error = error{
+                            print(error.localizedDescription)
+                            self.UserProfileImage.image = UIImage(named: "defaultProfile")
+                        } else {
+                            self.UserProfileImage.image = image
+                        }
+                    })//Fetch parenthesis closure
+                    
+                } else {
+                    self.UserProfileImage.image = UIImage(named: "defaultProfile")
+                }
+            })
+            
             self.firstNameHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.firstName.rawValue).observe(.value, with: {(snapshot) in
                 
                 //retrieve the User's first name
@@ -172,19 +200,6 @@ class UserProfileInfoVC: UIViewController, UIGestureRecognizerDelegate {
                     
                     //set the User's bio
                     self.UserBio.text = bio
-                }
-            })
-            
-            //Observer used to observe when a user has modified their profile image
-            self.profileImageHandle = self.firebaseManager.ref.child(FirebaseKeys.users.rawValue).child(self.uid).child(FirebaseKeys.profilePhoto.rawValue).observe(.value, with: {(snapshot) in
-                
-                //retrieve the User's profile photo
-                if let photoURL = snapshot.value as? String {
-                    
-                    print(photoURL)
-                    
-                } else {
-                    self.UserProfileImage.image = UIImage(named: "defaultProfile")
                 }
             })
         }

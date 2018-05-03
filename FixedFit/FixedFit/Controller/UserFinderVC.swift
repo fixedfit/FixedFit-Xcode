@@ -139,6 +139,7 @@ extension UserFinderVC: UITableViewDataSource {
                     cell.userPhotoImageView.image = UIImage(named: "defaultProfile")
                 } else {
                     cell.userPhotoImageView.image = image
+                    self.users[indexPath.row].photo = image
                 }
             }
         }
@@ -157,6 +158,7 @@ extension UserFinderVC: UITableViewDelegate {
         //Obtain the user's information
         let userInfo = users[indexPath.row]
         let uid = userInfo.uid
+        let currentUid = userStuffManager.userInfo.uid
         
         //Transition to the UserViewVC
         guard let vc = PushViews.executeTransition(vcName: PushViewKeys.userviewVC, storyboardName: PushViewKeys.userfinder, newString: uid, newMode: self.mode) else {return}
@@ -167,6 +169,21 @@ extension UserFinderVC: UITableViewDelegate {
             //So, initialize the profileStatus variable with the selected user's status boolean
             vc.profileStatus = userInfo.publicProfile
             
+            //Determine if the currentUser is not inside either the following or followers list of the selected user
+            if(vc.profileStatus == false){
+                if(!userInfo.following.contains(currentUid) && !userInfo.followers.contains(currentUid)){
+                    vc.uidContainedInList = false
+                } else {
+                    vc.uidContainedInList = true
+                }
+            } else {
+                vc.uidContainedInList = true
+            }
+                
+            //Obtain the selected users profile photo from the userInfo Object at the current index
+            let image = self.users[indexPath.row].photo
+            vc.initialProfileImage = image
+
             //Push View Controller onto Navigation Stack
             self.navigationController?.pushViewController(vc, animated: true)
         } else if let vc = vc as? InformationVC{

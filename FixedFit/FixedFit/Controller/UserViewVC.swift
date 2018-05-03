@@ -34,6 +34,7 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     var uid: String!
     var mode: String!
     var profileStatus:Bool!
+    var uidContainedInList:Bool!
     
     //Varible for handler
     var userNameHandle: UInt = 0
@@ -51,6 +52,9 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     //      when selectionStatus = false - current user is either searching for general users, looking at followers, or has deselected a button to not be a follower or unblock another user
     var selectionStatus:Bool!
     
+    //Varialbe for initial image of the currently selected user
+    var initialProfileImage:UIImage?
+    
     let firebaseManager = FirebaseManager.shared
     let userStuffManager = UserStuffManager.shared
     
@@ -58,27 +62,29 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         super.viewDidLoad()
         
         //Hide or show the UserChildVC and the PrivateStatusMessage
-        if profileStatus{
-            self.PrivateStatusMessage.isHidden = true
-            self.UserChildVCView.isHidden = false
-        } else {
+        if !profileStatus && !uidContainedInList{
             self.PrivateStatusMessage.isHidden = false
             self.UserChildVCView.isHidden = true
+        } else {
+            self.PrivateStatusMessage.isHidden = true
+            self.UserChildVCView.isHidden = false
         }
         
-        //set up font for the buttons
+        //set up font for the buttons and corner radius
         let buttonFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
         self.LeftButton.titleLabel?.font = buttonFont
+        self.LeftButton.layer.cornerRadius = 7
         self.RightButton.titleLabel?.font = buttonFont
+        self.RightButton.layer.cornerRadius = 7
         
         ////Set titles for buttons initially
         //Note, UserFinder must display users of the table view cells corresponding to what mode it is in and whether they have performed an action once they go back and changed the state of the user(either blocked, following, etc.)
-        if(self.mode == FirebaseUserFinderMode.following){
+        if(userStuffManager.userInfo.following.contains(self.uid)){
             
             self.selectionStatus = true
             self.LeftButton.isUserInteractionEnabled = false
             
-        } else if(self.mode == FirebaseUserFinderMode.blocked){
+        } else if(userStuffManager.userInfo.blocked.contains(self.uid)){
             
             self.selectionStatus = true
             self.LeftButton.isUserInteractionEnabled = false
@@ -177,15 +183,15 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
     //Function used to make changes to the button's title and colors based on the action that the buttons performed
     func changeButtonStatus(changeStatus: String){
         
-        let buttonFont = UIFont.systemFont(ofSize: 18, weight: .bold)
-        self.LeftButton.titleLabel?.font = buttonFont
-        self.RightButton.titleLabel?.font = buttonFont
-        
         //Following button scheme
         if(changeStatus == FirebaseUserFinderMode.following){
             
             self.LeftButton.setTitle(LeftButtonLabels.following, for: .normal)
             self.RightButton.setTitle(RightButtonLabels.following, for: .normal)
+            
+            //Set button colors
+            self.LeftButton.applyFollowingDesign(buttonSwitch: true)
+            self.RightButton.applyFollowingDesign(buttonSwitch: false)
             
         //Blocked button scheme
         } else if(changeStatus == FirebaseUserFinderMode.blocked){
@@ -193,11 +199,19 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
             self.LeftButton.setTitle(LeftButtonLabels.blocked, for: .normal)
             self.RightButton.setTitle(RightButtonLabels.blocked, for: .normal)
             
+            //Set button colors
+            self.LeftButton.applyBlockedDesign(buttonSwitch: true)
+            self.RightButton.applyBlockedDesign(buttonSwitch: false)
+            
         //Search button scheme
         } else if(changeStatus == FirebaseUserFinderMode.search){
             
             self.LeftButton.setTitle(LeftButtonLabels.search, for: .normal)
             self.RightButton.setTitle(RightButtonLabels.search, for: .normal)
+            
+            //Set button colors
+            self.LeftButton.applySearchDesign(buttonSwitch: true)
+            self.RightButton.applySearchDesign(buttonSwitch: false)
             
         }
     }
@@ -265,6 +279,7 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
         if let vc = segue.destination as? UserProfileInfoVC {
             vc.uid = self.uid
             vc.currentUserCheck = false
+            vc.initialProfileImage = self.initialProfileImage
         }
     }
     
@@ -308,5 +323,48 @@ class UserViewVC: UIViewController, UIGestureRecognizerDelegate{
                 }
             }
         })
+    }
+}
+extension UIButton{
+    func applyFollowingDesign(buttonSwitch: Bool){
+        
+        //Determine if the button is the left or right button
+        //if true, it is the left button. Otherwise, it is the right button
+        if(buttonSwitch){
+            self.backgroundColor = .fixedFitOffWhite
+            self.setTitleColor(.fixedFitBlue, for: .normal)
+            self.layer.borderWidth = 1/(UIScreen.main.nativeScale)
+            self.layer.borderColor = UIColor.fixedFitBlue.cgColor
+        } else {
+            self.backgroundColor = .fixedFitBlue
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+        }
+    }
+    func applyBlockedDesign(buttonSwitch: Bool){
+        
+        //Determine if the button is the left or right button
+        //if true, it is the left button. Otherwise, it is the right button
+        if(buttonSwitch){
+            self.backgroundColor = .fixedFitOffWhite
+            self.setTitleColor(.fixedFitRed, for: .normal)
+            self.layer.borderWidth = 1/(UIScreen.main.nativeScale)
+            self.layer.borderColor = UIColor.red.cgColor
+        } else {
+            self.backgroundColor = UIColor.red
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+        }
+    }
+    func applySearchDesign(buttonSwitch: Bool){
+        
+        //Determine if the button is the left or right button
+        //if true, it is the left button. Otherwise, it is the right button
+        if(buttonSwitch){
+            self.backgroundColor = .fixedFitBlue
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+            self.layer.borderWidth = 0
+        } else {
+            self.backgroundColor = UIColor.red
+            self.setTitleColor(.fixedFitOffWhite, for: .normal)
+        }
     }
 }

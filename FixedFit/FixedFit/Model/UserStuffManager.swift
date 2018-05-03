@@ -37,11 +37,11 @@ struct UserInfo {
         self.previousPhotoURL = previousPhotoURL
         self.photo = photo
         self.uid = uniqueID
-        
+
         //Set the display name with the first and last name of the user
         let firebaseManager = FirebaseManager.shared
         firebaseManager.displayNameModification(name: (self.firstName + " " + self.lastName))
-        
+
     }
 
     init?(json: [String: Any]) {
@@ -71,12 +71,12 @@ struct UserInfo {
             if let blocked = json[FirebaseKeys.blocked.rawValue] as? [String] {
                 self.blocked = blocked
             }
-            
+
             //Set the display name with the first and last name of the user
             let firebaseManager = FirebaseManager.shared
             firebaseManager.displayNameModification(name: (firstName + " " + lastName))
-            
-            
+
+
         } else {
             return nil
         }
@@ -151,7 +151,7 @@ class UserStuffManager {
                 let username = userInfo[FirebaseKeys.username.rawValue] as? String,
                 let bio = userInfo[FirebaseKeys.bio.rawValue] as? String,
                 let publicProfile = userInfo[FirebaseKeys.publicProfile.rawValue] as? Bool {
-                
+
                 self?.userInfo.firstName = firstName
                 self?.userInfo.lastName = lastName
                 self?.userInfo.username = username
@@ -216,7 +216,7 @@ class UserStuffManager {
                     self?.userInfo.likes.removeAll()
                 }
 
-                
+
                 //Determine if bio is empty, if so then just make it say "No Bio Set"
                 if bio.isEmpty {
                     self?.userInfo.bio = "No Bio Set"
@@ -224,7 +224,7 @@ class UserStuffManager {
                     self?.userInfo.bio = bio
                 }
             }
-            
+
             //Fetch user photo
             if let userInfo = userInfo, let userphotoURL = userInfo[FirebaseKeys.profileImageURL.rawValue] as? String, !(userphotoURL.isEmpty){
 
@@ -289,10 +289,10 @@ class UserStuffManager {
             }
         }
     }
-    
+
     func updateUserInfo(_ userInfo: UserInfo, completion: @escaping (Error?) -> Void) {
         self.userInfo = userInfo
-        
+
         firebaseManager.updateUserInfo(userInfo) { (error) in
             if let error = error {
                 // Show the user something
@@ -306,37 +306,66 @@ class UserStuffManager {
     func togglePublicProfile() {
         userInfo.publicProfile = !userInfo.publicProfile
     }
-    
+
     //Function to add user both locally and on firebase
     func addUserToList(listMode: String, uid: String){
-        
+
         //If the current user chooses to follow another user
         //Then add the currentUser's uid to the other user's followers list
         //And add the other user's uid to your following list
         if(listMode == FirebaseUserFinderMode.following){
-            print("add user to following list")
-            
+
+            self.userInfo.following.append(uid)
+            firebaseManager.followUser(usernameUniqueID: uid){ (error) in
+
+                if error != nil{
+                    print("Internal error: Users has not been added as a followers")
+                }
+            }
+
         //Add user to Blocked Users list
         } else if(listMode == FirebaseUserFinderMode.blocked){
-            print("add user to blocked list")
+
+            self.userInfo.blocked.append(uid)
+            firebaseManager.blockUser(usernameUniqueID: uid){ (error) in
+                if error != nil{
+                    print("Internal error: this user has not been added to the blocked user's list")
+                }
+            }
         }
-        
     }
-    
+
     //Function to remove user both locally and on firebase
     func removeUserFromList(listMode: String, uid: String){
-        
+
         //If the current user chooses to unfollow another user
         //Then remove the currentUser's uid from the other user's followers list
         //And remove the other user's uid from your following list
         if(listMode == FirebaseUserFinderMode.following){
-            print("remove user from following list")
-            
+
+            if let index = self.userInfo.following.index(where: {$0 == uid}){
+                self.userInfo.following.remove(at: index)
+            }
+
+            firebaseManager.unfollowUser(usernameUniqueID: uid){ (error) in
+                if error != nil{
+                    print("Internal error: this user has not been removed from the user's followers list")
+                }
+            }
+
         //Remove user from Blocked Users list
         } else if(listMode == FirebaseUserFinderMode.blocked){
-            print("remove user from blocked list")
+
+            if let index = self.userInfo.blocked.index(where: {$0 == uid}){
+                self.userInfo.blocked.remove(at: index)
+            }
+
+            firebaseManager.unblockUser(usernameUniqueID: uid){ (error) in
+                if error != nil{
+                    print("Internal error: this user has not been removed from the blocked user's list")
+                }
+            }
         }
-        
     }
 
     func checkUsername(username: String, completion: @escaping (Bool?)->Void){
